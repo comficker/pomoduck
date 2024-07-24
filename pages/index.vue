@@ -47,9 +47,9 @@ onMounted(() => {
         <img class="w-5 h-5" src="/icon/thunder.png" alt="">
       </div>
     </div>
-    <div class="sticky bottom-0 left-0 right-0 px-4 py-3 bg-white" @click="store.claim()">
-      <div class="flex gap-2">
-        <Button variant="secondary" size="lg" class="rounded-lg h-12 w-full relative overflow-hidden">
+    <div class="sticky bottom-0 left-0 right-0 px-4 py-8 bg-white flex justify-center" @click="store.claim()">
+      <div class="inline-flex">
+        <Button variant="secondary" size="lg" class="rounded-2xl h-12 w-full relative overflow-hidden">
           <div class="absolute top-0 bottom-0 left-0 bg-primary" :style="{width: `${store.percent}%`}"/>
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-lg">
             <span>Claim</span>
