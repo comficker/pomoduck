@@ -9,9 +9,26 @@ useHead({
   ]
 })
 
+const animated = {
+  'call': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_010.tgs',
+  'rest1': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_016.tgs',
+  'rest2': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_014.tgs',
+  'rest3': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_002.tgs',
+  'lose': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_008.tgs',
+  'done': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_018.tgs',
+  'running': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_003.tgs'
+}
+
 onMounted(() => {
 
 })
+
+const randomAnimate = () => {
+  const elm = document.querySelector('tgs-player')
+  if (elm) {
+    elm.load(animated.done)
+  }
+}
 </script>
 
 <template>
@@ -29,6 +46,7 @@ onMounted(() => {
       </div>
     </div>
     <div class="flex-1 p-4 gap-4 text-center flex items-center justify-center flex-col">
+      <div class="border shadow-inner py-2 p-4 rounded-xl">Stay focus</div>
       <tgs-player
           autoplay
           loop
@@ -37,14 +55,14 @@ onMounted(() => {
           style="width: 180px; height: 180px;"
           src="https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_003.tgs"
       />
-      <div class="text-7xl font-bold flex gap-1 items-center">
+      <div class="text-7xl font-bold flex gap-1 items-center" @click="randomAnimate">
         <div>05</div>
         <div>:</div>
         <div>12</div>
       </div>
-      <div class="flex gap-1 items-center bg-gray-100 rounded-xl py-0.5 px-2">
-        <span>x1</span>
+      <div class="w-8 h-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
         <img class="w-5 h-5" src="/icon/thunder.png" alt="">
+        <span class="absolute -bottom-2 -right-2">x1</span>
       </div>
     </div>
     <div class="sticky bottom-0 left-0 right-0 px-4 py-8 bg-white flex justify-center" @click="store.claim()">

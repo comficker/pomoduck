@@ -6,10 +6,14 @@
       </div>
     </div>
     <div class="w-full relative z-10 bg-white">
-      <div class="menu md:pb-0 md:border-t-0 border-t text-sm bg-white bg-gray-50 grid grid-cols-2 font-semibold uppercase">
+      <div class="menu md:pb-0 md:border-t-0 border-t text-sm bg-white bg-gray-50 grid grid-cols-3 font-semibold uppercase">
         <nuxt-link to="/" class="block p-4 flex justify-center items-center gap-1">
           <NuxtIcon name="home" class="w-5 h-5"/>
           <span>Home</span>
+        </nuxt-link>
+        <nuxt-link to="/task" class="block p-4 flex justify-center items-center gap-1">
+          <NuxtIcon name="task" class="w-5 h-5"/>
+          <span>Mission</span>
         </nuxt-link>
         <nuxt-link to="/invite" class="block p-4 flex justify-center items-center gap-1">
           <NuxtIcon name="hunter" class="w-5 h-5"/>
@@ -25,7 +29,7 @@ import WebApp from '@twa-dev/sdk'
 import Toaster from '~/components/ui/toast/Toaster.vue'
 
 useHead({
-  title: "Delegram",
+  title: "Pomoduck",
   link: [{
     href: "https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap",
     rel: "stylesheet"
