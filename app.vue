@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="w-full relative z-10 bg-white">
-      <div class="menu md:pb-0 md:border-t-0 border-t text-sm bg-white bg-gray-50 grid grid-cols-3 font-semibold uppercase">
+      <div class="menu md:pb-0 md:border-t-0 border-t text-xs bg-white bg-gray-50 grid grid-cols-3 font-semibold uppercase">
         <nuxt-link to="/" class="block p-4 flex justify-center items-center gap-1">
           <NuxtIcon name="home" class="w-5 h-5"/>
           <span>Home</span>
@@ -31,7 +31,7 @@ import Toaster from '~/components/ui/toast/Toaster.vue'
 useHead({
   title: "Pomoduck",
   link: [{
-    href: "https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap",
     rel: "stylesheet"
   }],
   meta: [
