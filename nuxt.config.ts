@@ -19,8 +19,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      appURL: "https://www.delegram.app",
-      api: 'https://josh.delegram.app',
+      appURL: "http://127.0.0.1:3333",
+      api: 'http://127.0.0.1:8000',
       apiVersion: '2024',
       botName: 'Delegram_super_bot',
       chain: "mainnet",

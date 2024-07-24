@@ -29,19 +29,35 @@ const randomAnimate = () => {
     elm.load(animated.done)
   }
 }
+
+const changeBoost = (amount: number) => {
+  useNativeFetch<{
+    "level": number,
+    "balance": number
+  }>('/2024/boost', {
+    method: 'POST',
+    query: {
+      amount: amount
+    }
+  }).then((res) => {
+    store.updateBoost(res)
+  })
+}
 </script>
 
 <template>
   <div class="h-full flex flex-col">
     <div class="flex gap-4 p-4">
       <div class="flex justify-between items-center gap-4">
-        <div class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
+        <div
+            class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
           <img src="/icon/star.png" class="w-4 h-4" alt="">
           <span class="">{{ formatFloat(store.info.balance) }}</span>
         </div>
-        <div class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
+        <div
+            class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
           <img src="/icon/thunder.png" class="w-4 h-4" alt="">
-          <span class="">1</span>
+          <span class="">{{ store.info.boost_balance }}</span>
         </div>
       </div>
     </div>
@@ -56,23 +72,39 @@ const randomAnimate = () => {
           src="https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_003.tgs"
       />
       <div class="text-7xl font-bold flex gap-1 items-center" @click="randomAnimate">
-        <div>05</div>
+        <div>00</div>
         <div>:</div>
-        <div>12</div>
+        <div>00</div>
       </div>
-      <div class="w-8 h-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
-        <img class="w-5 h-5" src="/icon/thunder.png" alt="">
-        <span class="absolute text-xs -bottom-1 -right-1">x1</span>
+      <div class="flex justify-center items-center gap-2 text-xs uppercase">
+        <div>Timer</div>
+        <div v-for="item in store.activeLevels" :key="item" class="underline cursor-pointer">{{ item * 5 }}</div>
+        <div>Minutes</div>
+      </div>
+      <div class="flex justify-center items-center gap-2 text-yellow-600">
+        <NuxtIcon v-if="!store.info.is_running" class="w-5 h-5" name="minus" @click="changeBoost(-1)"/>
+        <div class="w-8 h-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
+          <img class="w-5 h-5" src="/icon/thunder.png" alt="">
+          <span class="absolute text-xs -bottom-1 -right-1">x{{ store.info.boost_level }}</span>
+        </div>
+        <NuxtIcon v-if="!store.info.is_running" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
       </div>
     </div>
     <div class="sticky bottom-0 left-0 right-0 px-4 py-8 bg-white flex justify-center" @click="store.claim()">
       <div class="inline-flex">
-        <Button variant="secondary" size="lg" class="rounded-2xl h-12 w-full relative overflow-hidden">
-          <div class="absolute top-0 bottom-0 left-0 bg-primary" :style="{width: `${store.percent}%`}"/>
+        <Button
+            :variant="store.info.is_running ? 'secondary': 'default'" size="lg"
+            class="rounded-2xl h-12 w-full relative overflow-hidden"
+        >
+          <div v-if="store.info.is_running" class="absolute top-0 bottom-0 left-0 bg-primary"
+               :style="{width: `${store.percent}%`}"/>
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-lg">
-            <span>Claim</span>
-            <img class="w-4 h-4" src="/icon/star.png" alt="">
-            <span>2</span>
+            <template v-if="store.info.is_running">
+              <span>Claim</span>
+              <img class="w-4 h-4" src="/icon/star.png" alt="">
+              <span>2</span>
+            </template>
+            <span v-else>Start</span>
           </div>
         </Button>
       </div>

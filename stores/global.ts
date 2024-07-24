@@ -28,6 +28,8 @@ function urlParseQueryString(queryString: string) {
     return params;
 }
 
+const LEVELS = [1, 3, 6, 12, 24, 36, 48]
+
 export const useGlobalStore = defineStore('global', () => {
     const route = useRoute()
     const telegramID = useStatefulCookie('telegram.id')
@@ -44,7 +46,10 @@ export const useGlobalStore = defineStore('global', () => {
         level: 0,
         username: "Anonymous",
         last_claim: "",
-        meta: {}
+        meta: {},
+        boost_level: 0,
+        boost_balance: 0,
+        is_running: false
     })
     const loading = ref(true)
     const fetched = ref(false)
@@ -56,6 +61,8 @@ export const useGlobalStore = defineStore('global', () => {
     const balances = ref<{ token: string, balance: number }[]>()
     const showModal = ref<boolean>(false)
     const claimable = ref(0)
+
+    const activeLevels = computed(() => LEVELS.filter(x => x <= info.value.level))
 
     async function loadInfo(showLoading = true) {
         loading.value = showLoading
@@ -84,7 +91,7 @@ export const useGlobalStore = defineStore('global', () => {
             clearInterval(window.itv)
         }
         window.itv = setInterval(() => {
-            const seconds1 = ( new Date().getTime() - new Date(info.value.last_claim).getTime()) / 1000
+            const seconds1 = (new Date().getTime() - new Date(info.value.last_claim).getTime()) / 1000
             const maxTime = info.value.level * 2 * 60 * 60
             claimable.value = 8.33333333e-5 * (seconds1 < maxTime ? seconds1 : maxTime)
             percent.value = seconds1 < maxTime ? 100 * seconds1 / maxTime : 100
@@ -97,7 +104,7 @@ export const useGlobalStore = defineStore('global', () => {
 
     function isUserOnTelegram() {
         const ua = navigator.userAgent.toLowerCase()
-        return ua.includes('iphone') || ua.includes('android')|| ua.includes('ipad');
+        return ua.includes('iphone') || ua.includes('android') || ua.includes('ipad');
     }
 
     function updateBalance(point: number) {
@@ -113,12 +120,20 @@ export const useGlobalStore = defineStore('global', () => {
     }
 
     async function claim() {
-        if (percent.value === 100) {
-            const amount = await useNativeFetch<number>('/claim', {
+        if (percent.value === 100 || !info.value.is_running) {
+            const {amount, last_claim, boost_balance, boost_level} = await useNativeFetch<{
+                amount: number,
+                last_claim: string,
+                boost_balance: number,
+                boost_level: number
+            }>('/claim', {
                 method: 'POST',
             })
             info.value.balance += amount
-            info.value.last_claim = new Date().toISOString()
+            info.value.last_claim = new Date(last_claim).toISOString()
+            info.value.is_running = amount == 0
+            info.value.boost_balance = boost_balance
+            info.value.boost_level = boost_level
         }
     }
 
@@ -129,6 +144,11 @@ export const useGlobalStore = defineStore('global', () => {
             })
             info.value.balance += amount
         }
+    }
+
+    function updateBoost(boost: { balance: number, level: number }) {
+        info.value.boost_level = boost.level
+        info.value.boost_balance = boost.balance
     }
 
     return {
@@ -151,7 +171,9 @@ export const useGlobalStore = defineStore('global', () => {
         drawer,
         claimable,
         claim,
-        claimCommission
+        claimCommission,
+        updateBoost,
+        activeLevels
     }
 })
 

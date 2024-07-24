@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type {APIResponse, Project, ITask} from "~/types";
-import {ArrowDown, FlameIcon, NewspaperIcon} from "lucide-vue-next";
+import type {APIResponse, ITask} from "~/types";
 
 const route = useRoute()
 const [taskRes] = await Promise.all([
@@ -10,18 +9,39 @@ const [taskRes] = await Promise.all([
     }
   })
 ])
-const rewards = computed(() => 0)
+const rewards = computed(() => {
+  return {
+    boost: 1,
+    point: 1
+  }
+})
 </script>
 
 <template>
-  <div>
+  <div class="sticky bg-white top-0 w-full">
+    <div class="p-4 border-b pb-3">
+      <div class="flex gap-4 items-center">
+        <div class="w-16 h-16">
+          <img class="w-full h-full" src="/icon/task.png" alt="">
+        </div>
+        <div>
+          <div class="text-3xl font-bold">Tasks</div>
+          <div class="mt-4 text-xs flex gap-4 items-center">
+            <div class="text-xs uppercase font-semibold text-gray-500">Rewards:</div>
+            <div class="flex gap-4">
+              <div class="flex items-center gap-1"><span class="font-bold">{{rewards.boost}}</span><img class="w-4 h-4" src="/icon/thunder.png" alt=""></div>
+              <div class="flex items-center gap-1"><span class="font-bold">{{rewards.point}}</span><img class="w-4 h-4" src="/icon/star.png" alt=""></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-4">
     <div v-if="taskRes.results.length === 0" class="mx-4 my-3 p-3 py-1.5 text-sm bg-yellow-50 border border-yellow-100 rounded">
       <div>Don't have any task now!</div>
     </div>
     <Task v-for="item in taskRes.results" :key="item.id" :task="item"/>
-    <div class="bg-white px-4 py-2 absolute bottom-0 right-0 left-0">
-      <Button size="lg" class="h-12 w-full gap-2">Claim {{ rewards }} <span class="major-mono">DG</span></Button>
-    </div>
   </div>
 </template>
 

@@ -31,20 +31,10 @@ export interface Info {
     checkin_last_time: string
     last_claim: string
     balance: number
-    meta: any
-}
-
-export interface Project {
-    id: number
-    name: string
-    description: string
-    "is_verified": boolean
-    "has_rewards": boolean
-    "is_active": boolean
-    media: null | string
-    tags: Tag[]
-    meta: any
-    tg_username: string
+    meta: any,
+    boost_level: number
+    boost_balance: number
+    is_running: boolean
 }
 
 export interface ITask {
@@ -58,7 +48,8 @@ export interface ITask {
         "action": string
         "url": string
     }
-    reward: number
+    reward_amount: number
+    reward_type: string
 }
 
 export interface AccountTask {
