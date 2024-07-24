@@ -1,0 +1,42 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --host 0.0.0.0 --port 3333",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@lottiefiles/lottie-player": "^2.0.4",
+    "@lottiefiles/vue-lottie-player": "^1.1.0",
+    "@orbs-network/ton-access": "^2.3.3",
+    "@pinia/nuxt": "^0.5.1",
+    "@radix-icons/vue": "^1.0.0",
+    "@tanstack/vue-table": "^8.17.3",
+    "@ton/core": "^0.56.3",
+    "@tonconnect/ui": "^2.0.5",
+    "@twa-dev/sdk": "^7.0.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-vue-next": "^0.408.0",
+    "nuxt": "^3.11.2",
+    "nuxt-icons": "^3.2.1",
+    "pinia": "^2.1.7",
+    "radix-vue": "^1.8.3",
+    "shadcn-nuxt": "^0.10.4",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "ton": "^13.9.0",
+    "vaul-vue": "^0.1.2",
+    "vite-plugin-node-polyfills": "^0.22.0",
+    "vue": "^3.4.27",
+    "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "typescript": "^5.4.5"
+  }
+}
