@@ -18,14 +18,13 @@ const animated: {[key: string]: string} = {
   'running': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_008.tgs'
 }
 
-const max = computed(() => store.info.timer_running * 5 * 60 * 8.33333333e-5)
-
-const setAnimate = (key: string) => {
-  const elm = document.querySelector('tgs-player')
-  if (elm) {
-    elm.load(animated[key])
-  }
+const getRandomRest = () => {
+  const items = ['rest1', 'rest2', 'rest3']
+  return items[Math.floor(Math.random()*items.length)]
 }
+
+const animationKey = ref<string>(getRandomRest())
+const max = computed(() => store.info.timer_running * 5 * 60 * 8.33333333e-5)
 
 const changeBoost = (amount: number) => {
   useNativeFetch<{
@@ -51,27 +50,29 @@ const display2Digit = (num: number) => {
 const claim = () => {
   store.claim().then(() => {
     if (!store.info.is_running) {
-      setAnimate('done')
+      animationKey.value = 'done'
     }
   })
-}
-
-const getRandomRest = () => {
-  const items = ['rest1', 'rest2', 'rest3']
-  return items[Math.floor(Math.random()*items.length)]
 }
 
 watch(() => store.percent, () => {
   if (store.info.is_running) {
     if (store.percent === 0) {
-      setAnimate(getRandomRest())
+      animationKey.value = getRandomRest()
     } else if (store.percent < 100) {
-      setAnimate('running')
+      animationKey.value = 'running'
     } else {
-      setAnimate('call')
+      animationKey.value = 'call'
     }
   } else {
-    setAnimate(getRandomRest())
+    animationKey.value = getRandomRest()
+  }
+})
+
+watch(animationKey, () => {
+  const elm = document.querySelector('tgs-player')
+  if (elm) {
+    elm.load(animated[animationKey.value])
   }
 })
 </script>
