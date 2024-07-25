@@ -65,8 +65,8 @@ const share = () => {
     <div class="sticky bottom-0 -left-0 -right-0 pt-3 px-0">
       <div class="border p-3 flex items-center gap-2">
         <input
-            :value="url" type="text"
-            class="text-sm text-gray-600 flex-1 outline-none"
+          :value="url" type="text"
+          class="text-sm text-gray-600 flex-1 outline-none"
         >
         <div class="cursor-pointer" @click="copy" :class="{'text-green-600': isCopied}">
           <CopyIcon class="w-4 h-4"/>

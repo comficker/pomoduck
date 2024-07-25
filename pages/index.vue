@@ -96,6 +96,7 @@ watch(() => store.percent, () => {
       <div v-if="store.percent < 100" class="border shadow-inner py-1 p-4 rounded-xl font-semibold">Stay focus</div>
       <tgs-player
           autoplay
+          loop
           style="width: 180px; height: 180px;"
           :src="animated[getRandomRest()]"
       />
