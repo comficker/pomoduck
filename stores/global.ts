@@ -2,6 +2,7 @@ import {ref} from "vue"
 import {defineStore} from 'pinia'
 import type {Info} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
+import {timeSinceObject} from "~/lib/utils";
 
 function urlSafeDecode(urlencoded: string) {
     try {
@@ -43,7 +44,8 @@ export const useGlobalStore = defineStore('global', () => {
         checkin_last_time: "",
         first_name: "",
         last_name: "",
-        level: 0,
+        timer_level: 0,
+        timer_running: 0,
         username: "Anonymous",
         last_claim: "",
         meta: {},
@@ -61,8 +63,13 @@ export const useGlobalStore = defineStore('global', () => {
     const balances = ref<{ token: string, balance: number }[]>()
     const showModal = ref<boolean>(false)
     const claimable = ref(0)
-
-    const activeLevels = computed(() => LEVELS.filter(x => x <= info.value.level))
+    const timer = ref({
+        d: 0,
+        hh: 0,
+        mm: 0,
+        ss: 0
+    })
+    const activeLevels = computed(() => LEVELS.filter(x => x <= info.value.timer_level))
 
     async function loadInfo(showLoading = true) {
         loading.value = showLoading
@@ -91,11 +98,20 @@ export const useGlobalStore = defineStore('global', () => {
             clearInterval(window.itv)
         }
         window.itv = setInterval(() => {
-            const seconds1 = (new Date().getTime() - new Date(info.value.last_claim).getTime()) / 1000
-            const maxTime = info.value.level * 2 * 60 * 60
-            claimable.value = 8.33333333e-5 * (seconds1 < maxTime ? seconds1 : maxTime)
-            percent.value = seconds1 < maxTime ? 100 * seconds1 / maxTime : 100
-        }, 1000 / 3)
+            if (info.value.is_running) {
+                const currentTimer = info.value.timer_running * 5 * 60 * 1000
+                const now = new Date().getTime()
+                const last = new Date(info.value.last_claim).getTime()
+                const deadline = last + currentTimer
+                const timeRan = now - last
+                info.value.is_running = timeRan < currentTimer
+                claimable.value = 8.33333333e-5 * (info.value.is_running ? timeRan : currentTimer) / 1000
+                percent.value = info.value.is_running ? (100 * timeRan / currentTimer) : 100
+                timer.value = timeSinceObject(deadline, true)
+            } else {
+                timer.value = {d: 0, hh: 0, mm: 0, ss: 0}
+            }
+        }, 1000)
     }
 
     function toggleModal() {
@@ -121,17 +137,18 @@ export const useGlobalStore = defineStore('global', () => {
 
     async function claim() {
         if (percent.value === 100 || !info.value.is_running) {
-            const {amount, last_claim, boost_balance, boost_level} = await useNativeFetch<{
+            const {amount, last_claim, boost_balance, boost_level, is_running} = await useNativeFetch<{
                 amount: number,
                 last_claim: string,
                 boost_balance: number,
                 boost_level: number
+                is_running: boolean
             }>('/claim', {
                 method: 'POST',
             })
             info.value.balance += amount
             info.value.last_claim = new Date(last_claim).toISOString()
-            info.value.is_running = amount == 0
+            info.value.is_running = is_running
             info.value.boost_balance = boost_balance
             info.value.boost_level = boost_level
         }
@@ -173,7 +190,8 @@ export const useGlobalStore = defineStore('global', () => {
         claim,
         claimCommission,
         updateBoost,
-        activeLevels
+        activeLevels,
+        timer
     }
 })
 

@@ -26,7 +26,8 @@ export interface Info {
     username: string
     first_name: string
     last_name: string
-    level: number
+    timer_level: number
+    timer_running: number
     checkin_day: number
     checkin_last_time: string
     last_claim: string

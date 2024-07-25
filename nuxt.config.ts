@@ -19,10 +19,10 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      appURL: "http://127.0.0.1:3333",
-      api: 'http://127.0.0.1:8000',
+      appURL: "https://www.pomoduck.com",
+      api: 'https://welcome.pomoduck.com',
       apiVersion: '2024',
-      botName: 'Delegram_super_bot',
+      botName: 'Pomoduck_bot',
       chain: "mainnet",
       receiver: ""
     }

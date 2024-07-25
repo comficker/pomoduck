@@ -19,6 +19,8 @@ const animated = {
   'running': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_003.tgs'
 }
 
+const max = computed(() => store.info.timer_level * 5 * 60 * 8.33333333e-5)
+
 onMounted(() => {
 
 })
@@ -42,6 +44,13 @@ const changeBoost = (amount: number) => {
   }).then((res) => {
     store.updateBoost(res)
   })
+}
+
+const display2Digit = (num: number) => {
+  if (num <= 9) {
+    return `0${num}`
+  }
+  return num
 }
 </script>
 
@@ -71,10 +80,10 @@ const changeBoost = (amount: number) => {
           style="width: 180px; height: 180px;"
           src="https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_003.tgs"
       />
-      <div class="text-7xl font-bold flex gap-1 items-center" @click="randomAnimate">
-        <div>00</div>
+      <div class="text-6xl font-bold flex gap-1 items-center" @click="randomAnimate">
+        <div>{{ display2Digit(store.timer.mm) }}</div>
         <div>:</div>
-        <div>00</div>
+        <div>{{ display2Digit(store.timer.ss) }}</div>
       </div>
       <div class="flex justify-center items-center gap-2 text-xs uppercase">
         <div>Timer</div>
@@ -102,7 +111,7 @@ const changeBoost = (amount: number) => {
             <template v-if="store.info.is_running">
               <span>Claim</span>
               <img class="w-4 h-4" src="/icon/star.png" alt="">
-              <span>2</span>
+              <span>{{formatFloat(max)}}</span>
             </template>
             <span v-else>Start</span>
           </div>
@@ -111,7 +120,3 @@ const changeBoost = (amount: number) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>
