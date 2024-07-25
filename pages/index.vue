@@ -15,7 +15,7 @@ const animated: {[key: string]: string} = {
   'rest2': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_014.tgs',
   'rest3': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_002.tgs',
   'done': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_018.tgs',
-  'running': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_003.tgs'
+  'running': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_008.tgs'
 }
 
 const max = computed(() => store.info.timer_running * 5 * 60 * 8.33333333e-5)
@@ -51,7 +51,7 @@ const display2Digit = (num: number) => {
 const claim = () => {
   store.claim().then(() => {
     if (!store.info.is_running) {
-      setAnimate('win')
+      setAnimate('done')
     }
   })
 }
@@ -96,9 +96,6 @@ watch(() => store.percent, () => {
       <div v-if="store.percent < 100" class="border shadow-inner py-1 p-4 rounded-xl font-semibold">Stay focus</div>
       <tgs-player
           autoplay
-          loop
-          speed="0.68"
-          mode="bounce"
           style="width: 180px; height: 180px;"
           :src="animated[getRandomRest()]"
       />
