@@ -6,7 +6,7 @@ import WebApp from "@twa-dev/sdk";
 
 const store = useGlobalStore()
 const isCopied = ref(false)
-const url = computed(() => `t.me/Delegram_super_bot?start=${store.info.tg_id}`)
+const url = computed(() => `t.me/Pomoduck_bot?start=${store.info.tg_id}`)
 
 const claim = () => {
   if (store.info.meta?.commission) {
@@ -26,7 +26,7 @@ const copy = () => {
 }
 
 const share = () => {
-  WebApp.openTelegramLink(`https://t.me/share/url?url=${url.value}&text=Lucrative rewards are waiting for you 🚀`)
+  WebApp.openTelegramLink(`https://t.me/share/url?url=https://${url.value}&text=Focus to earn with me!`)
 }
 </script>
 
