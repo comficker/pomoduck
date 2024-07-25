@@ -32,5 +32,10 @@ export default defineNuxtConfig({
     server: {
       strictPort: true
     }
+  },
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => ['tgs-player'].includes(tag),
+    },
   }
 })

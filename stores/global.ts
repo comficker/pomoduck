@@ -153,7 +153,9 @@ export const useGlobalStore = defineStore('global', () => {
             info.value.is_running = is_running
             info.value.boost_balance = boost_balance
             info.value.boost_level = boost_level
+            return true
         }
+        return false
     }
 
     async function claimCommission() {

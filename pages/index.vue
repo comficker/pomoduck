@@ -9,26 +9,21 @@ useHead({
   ]
 })
 
-const animated = {
+const animated: {[key: string]: string} = {
   'call': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_010.tgs',
   'rest1': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_016.tgs',
   'rest2': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_014.tgs',
   'rest3': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_002.tgs',
-  'lose': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_008.tgs',
   'done': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_018.tgs',
   'running': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_003.tgs'
 }
 
 const max = computed(() => store.info.timer_running * 5 * 60 * 8.33333333e-5)
 
-onMounted(() => {
-
-})
-
-const randomAnimate = () => {
+const setAnimate = (key: string) => {
   const elm = document.querySelector('tgs-player')
   if (elm) {
-    elm.load(animated.done)
+    elm.load(animated[key])
   }
 }
 
@@ -52,6 +47,33 @@ const display2Digit = (num: number) => {
   }
   return num
 }
+
+const claim = () => {
+  store.claim().then(() => {
+    if (!store.info.is_running) {
+      setAnimate('win')
+    }
+  })
+}
+
+const getRandomRest = () => {
+  const items = ['rest1', 'rest2', 'rest3']
+  return items[Math.floor(Math.random()*items.length)]
+}
+
+watch(() => store.percent, () => {
+  if (store.info.is_running) {
+    if (store.percent === 0) {
+      setAnimate(getRandomRest())
+    } else if (store.percent < 100) {
+      setAnimate('running')
+    } else {
+      setAnimate('call')
+    }
+  } else {
+    setAnimate(getRandomRest())
+  }
+})
 </script>
 
 <template>
@@ -71,14 +93,14 @@ const display2Digit = (num: number) => {
       </div>
     </div>
     <div class="flex-1 p-4 gap-4 text-center flex items-center justify-center flex-col">
-      <div class="border shadow-inner py-2 p-4 rounded-xl font-semibold">Stay focus</div>
+      <div v-if="store.percent < 100" class="border shadow-inner py-2 p-4 rounded-xl font-semibold">Stay focus</div>
       <tgs-player
           autoplay
           loop
           mode="normal"
-          speed="0.7"
+          speed="0.8"
           style="width: 180px; height: 180px;"
-          src="https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_003.tgs"
+          :src="animated[getRandomRest()]"
       />
       <div class="text-6xl font-bold flex gap-1 items-center" @click="randomAnimate">
         <div>{{ display2Digit(store.timer.mm) }}</div>
@@ -99,7 +121,7 @@ const display2Digit = (num: number) => {
         <NuxtIcon v-if="!store.info.is_running" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
       </div>
     </div>
-    <div class="sticky bottom-0 left-0 right-0 px-4 py-8 bg-white flex justify-center" @click="store.claim()">
+    <div class="sticky bottom-0 left-0 right-0 px-4 py-8 bg-white flex justify-center" @click="claim()">
       <div class="inline-flex">
         <Button
             :variant="store.info.is_running ? 'secondary': 'default'" size="lg"
