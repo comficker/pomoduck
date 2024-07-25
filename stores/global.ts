@@ -104,12 +104,14 @@ export const useGlobalStore = defineStore('global', () => {
                 const last = new Date(info.value.last_claim).getTime()
                 const deadline = last + currentTimer
                 const timeRan = now - last
-                info.value.is_running = timeRan < currentTimer
-                claimable.value = 8.33333333e-5 * (info.value.is_running ? timeRan : currentTimer) / 1000
-                percent.value = info.value.is_running ? (100 * timeRan / currentTimer) : 100
-                timer.value = timeSinceObject(deadline, true)
-            } else {
-                timer.value = {d: 0, hh: 0, mm: 0, ss: 0}
+                const is_running = timeRan < currentTimer
+                claimable.value = 8.33333333e-5 * (is_running ? timeRan : currentTimer) / 1000
+                percent.value = is_running ? (100 * timeRan / currentTimer) : 100
+                if (percent.value < 1) {
+                    timer.value = timeSinceObject(deadline, true)
+                } else {
+                    timer.value = {d: 0, hh: 0, mm: 0, ss: 0}
+                }
             }
         }, 1000)
     }

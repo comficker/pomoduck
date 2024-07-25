@@ -19,7 +19,7 @@ const animated = {
   'running': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_003.tgs'
 }
 
-const max = computed(() => store.info.timer_level * 5 * 60 * 8.33333333e-5)
+const max = computed(() => store.info.timer_running * 5 * 60 * 8.33333333e-5)
 
 onMounted(() => {
 
