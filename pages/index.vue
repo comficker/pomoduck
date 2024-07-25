@@ -93,12 +93,12 @@ watch(() => store.percent, () => {
       </div>
     </div>
     <div class="flex-1 p-4 gap-4 text-center flex items-center justify-center flex-col">
-      <div v-if="store.percent < 100" class="border shadow-inner py-2 p-4 rounded-xl font-semibold">Stay focus</div>
+      <div v-if="store.percent < 100" class="border shadow-inner py-1 p-4 rounded-xl font-semibold">Stay focus</div>
       <tgs-player
           autoplay
           loop
-          mode="normal"
-          speed="0.8"
+          speed="0.68"
+          mode="bounce"
           style="width: 180px; height: 180px;"
           :src="animated[getRandomRest()]"
       />
@@ -106,11 +106,6 @@ watch(() => store.percent, () => {
         <div>{{ display2Digit(store.timer.mm) }}</div>
         <div>:</div>
         <div>{{ display2Digit(store.timer.ss) }}</div>
-      </div>
-      <div class="flex justify-center items-center gap-2 text-xs uppercase">
-        <div>Timer</div>
-        <div v-for="item in store.activeLevels" :key="item" class="underline cursor-pointer">{{ item * 5 }}</div>
-        <div>Minutes</div>
       </div>
       <div class="flex justify-center items-center gap-2 text-yellow-600">
         <NuxtIcon v-if="!store.info.is_running" class="w-5 h-5" name="minus" @click="changeBoost(-1)"/>

@@ -38,7 +38,7 @@ const rewards = computed(() => {
     </div>
   </div>
   <div class="p-4">
-    <div v-if="taskRes.results.length === 0" class="mx-4 my-3 p-3 py-1.5 text-sm bg-yellow-50 border border-yellow-100 rounded">
+    <div v-if="taskRes.results.length === 0" class="p-3 py-1.5 text-sm bg-yellow-50 border border-yellow-100 rounded">
       <div>Don't have any task now!</div>
     </div>
     <Task v-for="item in taskRes.results" :key="item.id" :task="item"/>
