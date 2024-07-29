@@ -125,6 +125,11 @@ export const useGlobalStore = defineStore('global', () => {
         return ua.includes('iphone') || ua.includes('android') || ua.includes('ipad');
     }
 
+    function isIphone() {
+        const ua = navigator.userAgent.toLowerCase()
+        return ua.includes('iphone') || ua.includes('ipad');
+    }
+
     function updateBalance(point: number) {
 
     }
@@ -184,6 +189,7 @@ export const useGlobalStore = defineStore('global', () => {
         showModal,
         toggleModal,
         isUserOnTelegram,
+        isIphone,
         authData,
         timeLeft,
         updateBalance,

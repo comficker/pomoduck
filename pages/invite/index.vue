@@ -33,7 +33,7 @@ const share = () => {
 <template>
   <div class="w-full h-full space-y-4 p-4 flex flex-col relative">
     <div class="flex justify-between items-center text-xl">
-      <div class="font-semibold uppercase flex gap-4">
+      <div class="font-semibold uppercase flex gap-2">
         <span>Friends</span>
         <span class="text-gray-400">{{ mate.count}}/1000</span>
       </div>
@@ -58,11 +58,14 @@ const share = () => {
     </div>
     <div v-else class="flex-1 pb-16 divide-y divide-dashed">
       <div v-for="item in mate.results" :key="item.id" class="py-2 flex justify-between">
-        <div>{{item.username || `${item.first_name} ${item.last_name}`}}</div>
-        <div>{{ (item.balance || 0) * 0.1 }} <span class="major-mono">DG</span></div>
+        <div class="font-bold">{{item.username || `${item.first_name} ${item.last_name}`}}</div>
+        <div class="flex items-center gap-1">
+          <img class="w-4 h-4" src="/icon/star.png" alt="">
+          <span>{{ (item.balance || 0) * 0.1 }}</span>
+        </div>
       </div>
     </div>
-    <div class="sticky bottom-0 -left-0 -right-0 pt-3 px-0">
+    <div class="sticky bottom-0 -left-0 -right-0 py-3 px-0 bg-white">
       <div class="border p-3 flex items-center gap-2">
         <input
           :value="url" type="text"
