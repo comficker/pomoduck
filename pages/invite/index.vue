@@ -35,7 +35,7 @@ const share = () => {
     <div class="flex justify-between items-center text-xl">
       <div class="font-semibold uppercase flex gap-2">
         <span>Friends</span>
-        <span class="text-gray-400">{{ mate.count}}/1000</span>
+        <span class="text-gray-400">{{ mate.results.length }}</span>
       </div>
       <Button
           :variant="store.info.meta?.commission ? 'default': 'secondary'" size="xs"
