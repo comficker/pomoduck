@@ -11,8 +11,8 @@ const [taskRes] = await Promise.all([
 ])
 const rewards = computed(() => {
   return {
-    boost: 1,
-    point: 1
+    boost: 0,
+    point: 0
   }
 })
 </script>
