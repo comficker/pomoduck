@@ -1,6 +1,6 @@
 import {ref} from "vue"
 import {defineStore} from 'pinia'
-import type {Info} from "~/types";
+import type {AccountTaskDetail, Info, ITask} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {timeSinceObject} from "~/lib/utils";
 
@@ -29,8 +29,6 @@ function urlParseQueryString(queryString: string) {
     return params;
 }
 
-const LEVELS = [1, 3, 6, 12, 24, 36, 48]
-
 export const useGlobalStore = defineStore('global', () => {
     const route = useRoute()
 
@@ -38,41 +36,31 @@ export const useGlobalStore = defineStore('global', () => {
     const telegramID = useStatefulCookie('telegram.id')
     const authData = useStatefulCookie('auth_data')
 
-    const drawer = ref<string | null>(null)
     const info = ref<Info>({
         id: 0,
         tg_id: 0,
+        username: "Anonymous",
+        first_name: "",
+        last_name: "",
         balance: 0,
         checkin_day: 0,
         checkin_last_time: "",
-        first_name: "",
-        last_name: "",
-        timer_level: 0,
-        timer_running: 0,
-        username: "Anonymous",
-        last_claim: "",
         meta: {},
         boost_level: 0,
         boost_balance: 0,
-        is_running: false
     })
     const loading = ref(true)
     const fetched = ref(false)
-    const speed = computed(() => {
-        return 0
-    })
+    const isRunning = ref(false)
+    const openDrawer = ref(false)
     const percent = ref(0)
-    const timeLeft = ref(0)
-    const balances = ref<{ token: string, balance: number }[]>()
-    const showModal = ref<boolean>(false)
-    const claimable = ref(0)
     const timer = ref({
         d: 0,
         hh: 0,
         mm: 0,
         ss: 0
     })
-    const activeLevels = computed(() => LEVELS.filter(x => x <= info.value.timer_level))
+    const taskFilter = ref('public')
 
     async function authTelegram(showLoading = true) {
         loading.value = showLoading
@@ -105,6 +93,25 @@ export const useGlobalStore = defineStore('global', () => {
         loading.value = false
     }
 
+    function computeTimer() {
+        if (info.value.doing && info.value.doing.start_at) {
+            const startAt = new Date(info.value.doing.start_at).getTime()
+            const timeUnit = info.value.doing?.task.duration_est * 1000
+            const now = new Date().getTime()
+            const deadline = startAt + timeUnit
+            const timeRan = now - startAt
+
+            isRunning.value = timeRan <= timeUnit
+            percent.value = isRunning.value ? (100 * timeRan / timeUnit) : 100
+
+            if (isRunning.value) {
+                timer.value = timeSinceObject(deadline, true)
+                return
+            }
+        }
+        resetTimer()
+    }
+
     function handleInfo(inf: Info) {
         info.value = {
             ...info.value,
@@ -114,27 +121,12 @@ export const useGlobalStore = defineStore('global', () => {
         if (window.itv) {
             clearInterval(window.itv)
         }
-        window.itv = setInterval(() => {
-            if (info.value.is_running) {
-                const currentTimer = info.value.timer_running * 5 * 60 * 1000
-                const now = new Date().getTime()
-                const last = new Date(info.value.last_claim).getTime()
-                const deadline = last + currentTimer
-                const timeRan = now - last
-                const is_running = timeRan < currentTimer
-                claimable.value = 8.33333333e-5 * (is_running ? timeRan : currentTimer) / 1000
-                percent.value = is_running ? (100 * timeRan / currentTimer) : 100
-                if (percent.value < 100) {
-                    timer.value = timeSinceObject(deadline, true)
-                } else {
-                    timer.value = {d: 0, hh: 0, mm: 0, ss: 0}
-                }
-            }
-        }, 1000)
+        window.itv = setInterval(() => computeTimer(), 500)
     }
 
-    function toggleModal() {
-        showModal.value = !showModal.value
+    function resetTimer() {
+        isRunning.value = false
+        timer.value = {d: 0, hh: 0, mm: 0, ss: 0}
     }
 
     function isUserOnTelegram() {
@@ -147,79 +139,48 @@ export const useGlobalStore = defineStore('global', () => {
         return ua.includes('iphone') || ua.includes('ipad');
     }
 
-    function updateBalance(point: number) {
-
-    }
-
-    function updateEnergy(e: number) {
-
-    }
-
-    function setDrawer(d: string | null) {
-        drawer.value = d
-    }
-
-    async function claim() {
-        if (percent.value === 100 || !info.value.is_running) {
-            const {amount, last_claim, boost_balance, boost_level, is_running} = await useNativeFetch<{
-                amount: number,
-                last_claim: string,
-                boost_balance: number,
-                boost_level: number
-                is_running: boolean
-            }>('/claim', {
-                method: 'POST',
-            })
-            info.value.balance += amount
-            info.value.last_claim = new Date(last_claim).toISOString()
-            info.value.is_running = is_running
-            info.value.boost_balance = boost_balance
-            info.value.boost_level = boost_level
-            return true
-        }
-        return false
-    }
-
-    async function claimCommission() {
-        if (percent.value === 100) {
-            const amount = await useNativeFetch<number>('/commission/claim', {
-                method: 'POST',
-            })
-            info.value.balance += amount
-        }
-    }
-
     function updateBoost(boost: { balance: number, level: number }) {
         info.value.boost_level = boost.level
         info.value.boost_balance = boost.balance
     }
 
+    async function work(task_id: number | undefined = undefined) {
+        if (!task_id) task_id = info.value.doing?.task.id
+        else openDrawer.value = false;
+
+        if (task_id) {
+            const newData = await useNativeFetch<AccountTaskDetail>(`/tasks/${task_id}/do`, {
+                method: "POST",
+            })
+            if (info.value.doing && newData.id !== info.value.doing.id && !newData.start_at) {
+                percent.value = 0
+                info.value.balance += info.value.doing.task.reward_amount
+            }
+            info.value.doing = newData
+        } else {
+
+        }
+        computeTimer()
+    }
+
     return {
-        authTelegram,
+        isRunning,
         loading,
         info,
-        speed,
         fetched,
-        loadInfo,
-        percent,
-        telegramID,
-        balances,
-        showModal,
-        toggleModal,
-        isUserOnTelegram,
         isIphone,
         authData,
-        timeLeft,
-        updateBalance,
-        updateEnergy,
-        setDrawer,
-        drawer,
-        claimable,
-        claim,
-        claimCommission,
+        timer,
+        taskFilter,
+        openDrawer,
+        percent,
+        telegramID,
+        isUserOnTelegram,
+        authTelegram,
+        loadInfo,
         updateBoost,
-        activeLevels,
-        timer
+        work,
+
     }
 })
 

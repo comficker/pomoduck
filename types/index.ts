@@ -26,16 +26,13 @@ export interface Info {
     username: string
     first_name: string
     last_name: string
-    timer_level: number
-    timer_running: number
     checkin_day: number
     checkin_last_time: string
-    last_claim: string
     balance: number
     meta: any,
     boost_level: number
     boost_balance: number
-    is_running: boolean
+    doing?: AccountTaskDetail
 }
 
 export interface ITask {
@@ -44,17 +41,27 @@ export interface ITask {
     description: null
     type: string
     is_active: boolean
-    account_task: AccountTask
+    account_task: AccountTask[]
     meta: {
         "action": string
         "url": string
     }
     reward_amount: number
     reward_type: string
+    duration_est: number
+    unit: number
 }
 
 export interface AccountTask {
-    is_complete: boolean;
+    status: number;
+}
+
+export interface AccountTaskDetail {
+    id: number
+    task: ITask
+    start_at: string
+    finished_at: string
+    status: number;
 }
 
 export interface Tag {

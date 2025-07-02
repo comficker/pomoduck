@@ -24,7 +24,6 @@ const getRandomRest = () => {
 }
 
 const animationKey = ref<string>(getRandomRest())
-const max = computed(() => store.info.timer_running * 5 * 60 * 8.33333333e-5)
 
 const changeBoost = (amount: number) => {
   useNativeFetch<{
@@ -51,16 +50,15 @@ const randomAnimate = () => {
   animationKey.value = getRandomRest()
 }
 
-const claim = () => {
-  store.claim().then(() => {
-    if (!store.info.is_running) {
-      animationKey.value = 'done'
-    }
-  })
+const runTimer = async () => {
+  await store.work()
+  if (store.info.doing?.status == 1) {
+    animationKey.value = 'done'
+  }
 }
 
 watch(() => store.percent, () => {
-  if (store.info.is_running) {
+  if (store.isRunning) {
     if (store.percent === 0) {
       animationKey.value = getRandomRest()
     } else if (store.percent < 100) {
@@ -84,46 +82,51 @@ watch(animationKey, () => {
 <template>
   <div class="h-full flex flex-col">
     <div class="flex-1 px-4 gap-4 text-center flex items-center justify-center flex-col">
-      <div v-if="store.percent < 100" class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm">Stay focus, Quack!</div>
+      <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
+        <span v-if="store.info.doing">"{{ store.info.doing.task.name }}"</span>
+        <span v-else-if="store.percent < 100">Stay focus, QuackQuack!</span>
+        <span v-else>QuackQuack!</span>
+      </div>
       <tgs-player
           autoplay
           loop
           style="width: 180px; height: 180px;"
           :src="animated[getRandomRest()]"
+          @click="randomAnimate"
       />
-      <div class="text-7xl font-extrabold flex gap-1 items-center major-mono" @click="randomAnimate">
+      <div class="text-7xl font-extrabold flex gap-1 items-center major-mono">
         <div>{{ display2Digit(store.timer.mm) }}</div>
         <div>:</div>
         <div>{{ display2Digit(store.timer.ss) }}</div>
       </div>
       <div class="flex justify-center items-center gap-2 text-yellow-600">
-        <NuxtIcon v-if="!store.info.is_running" class="w-5 h-5" name="minus" @click="changeBoost(-1)"/>
+        <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="minus" @click="changeBoost(-1)"/>
         <div class="w-8 h-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
           <img class="w-5 h-5" src="/icon/thunder.png" alt="">
-          <span class="absolute text-xs -bottom-1 -right-1">x{{ store.info.boost_level }}</span>
+          <span class="absolute text-xs -bottom-1 -right-1">x{{ Math.min(store.info.boost_balance, store.info.boost_level) }}</span>
         </div>
-        <NuxtIcon v-if="!store.info.is_running" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
+        <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
       </div>
     </div>
-    <div class="sticky bottom-0 left-0 right-0 px-4 py-8 bg-white flex justify-center" @click="claim()">
+    <div class="sticky bottom-0 left-0 right-0 px-4 py-8 bg-white flex justify-center" @click="runTimer()">
       <div class="inline-flex w-2/3">
         <Button
-            :variant="store.info.is_running ? 'secondary': 'default'" size="lg"
+            :variant="store.isRunning ? 'secondary': 'default'" size="lg"
             class="rounded-2xl h-12 w-full relative overflow-hidden "
         >
-          <div v-if="store.info.is_running" class="absolute inset-0 overflow-hidden">
+          <div v-if="store.isRunning" class="absolute inset-0 overflow-hidden">
             <div class="h-full w-full flex flex-nowrap">
               <div class="h-full bg-black/80" :style="{width: `${store.percent}%`}"/>
               <div class="wave"/>
             </div>
           </div>
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-lg">
-            <template v-if="store.info.is_running && store.percent === 100">
+            <template v-if="store.percent === 100">
               <span>Claim</span>
               <img class="w-4 h-4" src="/icon/star.png" alt="">
-              <span>{{ formatFloat(max) }}</span>
+              <span>{{ formatFloat(store.info.doing?.task.reward_amount) }}</span>
             </template>
-            <span v-else-if="store.info.is_running">Quacking!</span>
+            <span v-else-if="store.isRunning">Quacking!</span>
             <span v-else>Start</span>
           </div>
         </Button>

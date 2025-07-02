@@ -6,8 +6,8 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-export function formatFloat(num: any, digits: number = 4) {
-    return num?.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: digits}) || 0
+export function formatFloat(num: any, min: number = 0, max: number = 4) {
+    return num?.toLocaleString('en-US', {minimumFractionDigits: min, maximumFractionDigits: max}) || 0
 }
 
 export function truncateAddress(address: string): string {

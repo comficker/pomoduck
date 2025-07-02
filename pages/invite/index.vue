@@ -8,16 +8,8 @@ const store = useGlobalStore()
 const isCopied = ref(false)
 const url = computed(() => `t.me/Pomoduck_bot?start=${store.info.tg_id}`)
 
-const claim = () => {
-  if (store.info.meta?.commission) {
-    store.claimCommission()
-  }
-}
-
 const mate = await useNativeFetch<APIResponse<Account>>('/accounts/', {
-  query: {
-    inviter_id: store.info.id
-  }
+  query: {inviter_id: store.info.id}
 })
 
 const copy = () => {
@@ -51,7 +43,7 @@ const share = () => {
     </div>
     <div v-else class="flex-1 pb-16 divide-y divide-dashed">
       <div v-for="item in mate.results" :key="item.id" class="py-2 flex justify-between">
-        <div class="font-bold">{{item.username || `${item.first_name} ${item.last_name}`}}</div>
+        <div class="font-bold">{{ item.username || `${item.first_name} ${item.last_name}` }}</div>
         <div class="flex items-center gap-1">
           <img class="w-4 h-4" src="/icon/star.png" alt="">
           <span>{{ formatFloat((item.balance || 0) * 0.1) }}</span>
@@ -61,8 +53,8 @@ const share = () => {
     <div class="sticky bottom-0 -left-0 -right-0 px-0 bg-white">
       <div class="border rounded-xl p-3 flex items-center gap-2">
         <input
-          :value="url" type="text"
-          class="text-sm text-gray-600 flex-1 outline-none"
+            :value="url" type="text"
+            class="text-sm text-gray-600 flex-1 outline-none"
         >
         <div class="cursor-pointer" @click="copy" :class="{'text-green-600': isCopied}">
           <CopyIcon class="w-4 h-4"/>

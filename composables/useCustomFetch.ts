@@ -27,5 +27,5 @@ export function useNativeFetch<T>(url: string, options: any = undefined): Promis
 }
 
 export function useAuthFetch<T>(url: string, options: UseFetchOptions<T> = {}) {
-    return useFetch(url, getParams(url, options))
+    return useFetch<T>(url, getParams(url, options))
 }
