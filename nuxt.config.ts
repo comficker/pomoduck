@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     public: {
       appURL: "https://www.pomoduck.com",
       api: 'https://welcome.pomoduck.com',
-      apiVersion: '2024',
+      apiVersion: 'v2',
       botName: 'Pomoduck_bot',
       chain: "mainnet",
       receiver: ""

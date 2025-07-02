@@ -45,26 +45,28 @@ const act = async () => {
   setTimeout(async () => {
     await updateTask()
     doing.value = false
-    store.loadInfo()
+    await store.loadInfo()
   }, 7000)
 }
 </script>
 
 <template>
-  <div class="task px-4 py-3 flex items-center gap-4">
+  <div class="task py-1.5 px-2 rounded-xl flex items-center gap-4">
     <div class="flex-1 flex gap-4 justify-between items-center">
       <div class="">
         <div class="font-semibold">{{ task.name }}</div>
         <div class="flex gap-1 items-center">
-          <div class="text-xs">+{{ task.reward_amount }}</div>
           <img class="w-4 h-4" v-if="task.reward_type === 'boost'" src="/icon/thunder.png" alt="">
           <img class="w-4 h-4" v-else src="/icon/star.png" alt="">
+          <div class="text-xs">{{ task.reward_amount }}</div>
         </div>
       </div>
       <div class="space-y-1">
         <nuxt-icon v-if="doing" name="load" class="animate-spin w-5 h-5 text-green-500"/>
         <nuxt-icon v-else-if="is_completed" name="check" class="w-5 h-5 text-gray-500"/>
-        <div v-else class="cursor-pointer text-sm font-bold text-green-500" @click="act">GO!</div>
+        <div v-else class="cursor-pointer" @click="act">
+          <img class="w-5 h-5" src="/icon.png" alt="">
+        </div>
       </div>
     </div>
   </div>

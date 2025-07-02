@@ -21,9 +21,11 @@ const reset = () => {
   form.value.photo = ""
 }
 
+// DELE: -1002194309255
+// POMO: -1002193780462
 const botToken = '7054965058:AAEgJ63FL5S086KYmD37PF9LL-sS4cklaHA'
 
-const channelID = computed(() => form.value.is_test ? "-1002157260678" : "-1002157260678")
+const channelID = computed(() => "-1002194309255")
 
 const send = async () => {
   if (isSending.value) {

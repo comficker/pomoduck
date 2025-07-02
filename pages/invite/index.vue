@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {Share1Icon, CopyIcon} from "@radix-icons/vue";
 import type {Account, APIResponse} from "~/types";
-import {copyContent} from "~/lib/utils";
+import {copyContent, formatFloat} from "~/lib/utils";
 import WebApp from "@twa-dev/sdk";
 
 const store = useGlobalStore()
@@ -31,24 +31,17 @@ const share = () => {
 </script>
 
 <template>
-  <div class="w-full h-full space-y-4 p-4 flex flex-col relative">
-    <div class="flex justify-between items-center text-xl">
-      <div class="font-semibold uppercase flex gap-2">
-        <span>Friends</span>
-        <span class="text-gray-400">{{ mate.results.length }}</span>
+  <div class="w-full h-full p-4 py-0 md:py-4 md:pt-8 flex flex-col relative">
+    <div class="space-y-1">
+      <div class="flex justify-between items-center text-3xl">
+        <div class="font-bold flex gap-2">
+          <span>Friends</span>
+          <span class="text-gray-400">{{ mate.results.length }}</span>
+        </div>
       </div>
-      <Button
-          :variant="store.info.meta?.commission ? 'default': 'secondary'" size="xs"
-          class="text-base rounded-xl px-3 gap-2"
-          @click="claim"
-      >
-        <span>Claim</span>
-        <span class="text-green-500">{{ store.info.meta?.commission || 0 }}</span>
-        <img class="w-4 h-4" src="/icon/star.png" alt="">
-      </Button>
-    </div>
-    <div class="text-sm">
-      Earn 10% from your mates and 2% from their referrals
+      <div class="text-sm">
+        Earn 10% from your mates and 2% from their referrals
+      </div>
     </div>
     <div v-if="!mate || mate.count === 0" class="flex-1 flex items-center justify-center">
       <Button size="lg" variant="secondary" class="h-12 gap-2 text-xl" @click="share">
@@ -61,12 +54,12 @@ const share = () => {
         <div class="font-bold">{{item.username || `${item.first_name} ${item.last_name}`}}</div>
         <div class="flex items-center gap-1">
           <img class="w-4 h-4" src="/icon/star.png" alt="">
-          <span>{{ (item.balance || 0) * 0.1 }}</span>
+          <span>{{ formatFloat((item.balance || 0) * 0.1) }}</span>
         </div>
       </div>
     </div>
-    <div class="sticky bottom-0 -left-0 -right-0 py-3 px-0 bg-white">
-      <div class="border p-3 flex items-center gap-2">
+    <div class="sticky bottom-0 -left-0 -right-0 px-0 bg-white">
+      <div class="border rounded-xl p-3 flex items-center gap-2">
         <input
           :value="url" type="text"
           class="text-sm text-gray-600 flex-1 outline-none"

@@ -74,7 +74,8 @@
     }
 
     body {
-        font-family: "IBM Plex Mono", monospace;
+        font-family: "Figtree", sans-serif;
+        font-optical-sizing: auto;
         font-weight: 400;
         font-style: normal;
         position: fixed;
@@ -122,4 +123,18 @@
 .task:nth-child(odd),
 .app:nth-child(odd) {
     background: #FAFAFA;
+}
+
+.border-doodle {
+    border-style: solid;
+    border-width: 10px 10px 10px 10px;
+    border-image: url("/border.svg") 10 10 10 10 stretch stretch;
+}
+
+a {
+    cursor: pointer;
+}
+
+.major-mono {
+    font-family: "IBM Plex Mono", monospace;
 }

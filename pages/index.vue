@@ -9,18 +9,18 @@ useHead({
   ]
 })
 
-const animated: {[key: string]: string} = {
-  'call': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_010.tgs',
-  'rest1': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_016.tgs',
-  'rest2': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_014.tgs',
-  'rest3': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_002.tgs',
-  'done': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_018.tgs',
-  'running': 'https://data.chpic.su/stickers/b/blackduckanim/blackduckanim_008.tgs'
+const animated: { [key: string]: string } = {
+  'call': '/animate/461405.tgs',
+  'rest1': '/animate/461404.tgs',
+  'rest2': '/animate/461401.tgs',
+  'rest3': '/animate/461397.tgs',
+  'done': '/animate/461413.tgs',
+  'running': '/animate/461406.tgs'
 }
 
 const getRandomRest = () => {
   const items = ['rest1', 'rest2', 'rest3']
-  return items[Math.floor(Math.random()*items.length)]
+  return items[Math.floor(Math.random() * items.length)]
 }
 
 const animationKey = ref<string>(getRandomRest())
@@ -45,6 +45,10 @@ const display2Digit = (num: number) => {
     return `0${num}`
   }
   return num
+}
+
+const randomAnimate = () => {
+  animationKey.value = getRandomRest()
 }
 
 const claim = () => {
@@ -79,29 +83,15 @@ watch(animationKey, () => {
 
 <template>
   <div class="h-full flex flex-col">
-    <div class="flex gap-4 p-4">
-      <div class="flex justify-between items-center gap-4">
-        <div
-            class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
-          <img src="/icon/star.png" class="w-4 h-4" alt="">
-          <span class="">{{ formatFloat(store.info.balance) }}</span>
-        </div>
-        <div
-            class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
-          <img src="/icon/thunder.png" class="w-4 h-4" alt="">
-          <span class="">{{ store.info.boost_balance }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="flex-1 p-4 gap-4 text-center flex items-center justify-center flex-col">
-      <div v-if="store.percent < 100" class="border shadow-inner py-1 p-4 rounded-xl font-semibold">Stay focus</div>
+    <div class="flex-1 px-4 gap-4 text-center flex items-center justify-center flex-col">
+      <div v-if="store.percent < 100" class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm">Stay focus, Quack!</div>
       <tgs-player
           autoplay
           loop
           style="width: 180px; height: 180px;"
           :src="animated[getRandomRest()]"
       />
-      <div class="text-6xl font-bold flex gap-1 items-center" @click="randomAnimate">
+      <div class="text-7xl font-extrabold flex gap-1 items-center major-mono" @click="randomAnimate">
         <div>{{ display2Digit(store.timer.mm) }}</div>
         <div>:</div>
         <div>{{ display2Digit(store.timer.ss) }}</div>
@@ -116,19 +106,24 @@ watch(animationKey, () => {
       </div>
     </div>
     <div class="sticky bottom-0 left-0 right-0 px-4 py-8 bg-white flex justify-center" @click="claim()">
-      <div class="inline-flex">
+      <div class="inline-flex w-2/3">
         <Button
             :variant="store.info.is_running ? 'secondary': 'default'" size="lg"
-            class="rounded-2xl h-12 w-full relative overflow-hidden"
+            class="rounded-2xl h-12 w-full relative overflow-hidden "
         >
-          <div v-if="store.info.is_running" class="absolute top-0 bottom-0 left-0 bg-primary"
-               :style="{width: `${store.percent}%`}"/>
+          <div v-if="store.info.is_running" class="absolute inset-0 overflow-hidden">
+            <div class="h-full w-full flex flex-nowrap">
+              <div class="h-full bg-black/80" :style="{width: `${store.percent}%`}"/>
+              <div class="wave"/>
+            </div>
+          </div>
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-lg">
-            <template v-if="store.info.is_running">
+            <template v-if="store.info.is_running && store.percent === 100">
               <span>Claim</span>
               <img class="w-4 h-4" src="/icon/star.png" alt="">
-              <span>{{formatFloat(max)}}</span>
+              <span>{{ formatFloat(max) }}</span>
             </template>
+            <span v-else-if="store.info.is_running">Quacking!</span>
             <span v-else>Start</span>
           </div>
         </Button>
@@ -136,3 +131,31 @@ watch(animationKey, () => {
     </div>
   </div>
 </template>
+
+<style>
+@keyframes filling {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.wave {
+  @apply h-full w-4 relative overflow-hidden;
+}
+
+.wave:before {
+  @apply rotate-90;
+
+  content: "";
+  position: absolute;
+  width: 400%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background-image: url("/wave.svg");
+  background-size: contain;
+}
+</style>

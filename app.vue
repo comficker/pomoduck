@@ -1,40 +1,13 @@
-<template>
-  <div class="h-screen w-full max-w-md mx-auto flex flex-col">
-    <div class="flex-1 w-full relative">
-      <div class="absolute inset-0 overflow-auto">
-        <nuxt-page/>
-      </div>
-    </div>
-    <div class="w-full relative z-10 bg-white">
-      <div
-        class="menu md:border-t-0 border-t text-xs bg-white bg-gray-50 grid grid-cols-3 font-semibold uppercase"
-        :class="{'py-3': store.isIphone()}"
-      >
-        <nuxt-link to="/" class="block p-4 flex justify-center items-center gap-1">
-          <NuxtIcon name="home" class="w-5 h-5"/>
-          <span>Home</span>
-        </nuxt-link>
-        <nuxt-link to="/task" class="block p-4 flex justify-center items-center gap-1">
-          <NuxtIcon name="task" class="w-5 h-5"/>
-          <span>Mission</span>
-        </nuxt-link>
-        <nuxt-link to="/invite" class="block p-4 flex justify-center items-center gap-1">
-          <NuxtIcon name="hunter" class="w-5 h-5"/>
-          <span>Friend</span>
-        </nuxt-link>
-      </div>
-    </div>
-  </div>
-  <Toaster/>
-</template>
 <script setup lang="ts">
 import WebApp from '@twa-dev/sdk'
 import Toaster from '~/components/ui/toast/Toaster.vue'
+import {formatFloat} from "~/lib/utils";
+import TaskList from "~/components/TaskList.vue";
 
 useHead({
-  title: "Pomoduck",
+  title: "PomoDuck - Quack! Quack Quack Quack!",
   link: [{
-    href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=IBM+Plex+Mono:wght@400;700&display=swap",
     rel: "stylesheet"
   }],
   meta: [
@@ -43,11 +16,16 @@ useHead({
   ],
   script: []
 })
+
 const router = useRouter()
 const route = useRoute()
 const store = useGlobalStore()
 const openDrawer = ref(false)
-const openDrawerDelay = ref(false)
+const taskFilter = ref('all')
+
+const menuTitle = computed(() => {
+  return `${openDrawer.value ? 'Hide' : 'Show'} Task Manager`
+})
 
 onMounted(() => {
   const body = document.querySelector('body')
@@ -62,7 +40,7 @@ onMounted(() => {
   if (WebApp.enableClosingConfirmation) {
     WebApp.enableClosingConfirmation()
   }
-  store.loadInfo()
+  store.authTelegram()
 })
 
 watch(() => route.path, () => {
@@ -72,33 +50,101 @@ watch(() => route.path, () => {
     WebApp.BackButton.hide();
   }
 })
-
-watch(() => store.drawer, () => {
-  openDrawer.value = !!store.drawer;
-})
-
-watch(openDrawer, () => {
-  setTimeout(() => {
-    openDrawerDelay.value = openDrawer.value
-    if (!openDrawer.value) {
-      store.setDrawer(null)
-    }
-  }, 100)
-  const body = document.querySelector('body')
-  if (body) {
-    if (openDrawer.value) {
-      body.style.overflow = "hidden"
-    } else {
-      body.style.overflow = "auto"
-    }
-  }
-})
-
-openDrawer.value = !!store.drawer;
 </script>
 
+<template>
+  <div class="h-screen w-full flex flex-col">
+    <div class="flex gap-4 p-4 justify-between">
+      <nuxt-link class="flex items-center gap-1" to="/">
+        <img class="h-8" :src="`/logo.png`" alt="">
+      </nuxt-link>
+      <div class="flex items-center gap-2">
+        <div
+            class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
+          <img src="/icon/star.png" class="w-4 h-4" alt="">
+          <span class="">{{ formatFloat(store.info.balance) }}</span>
+        </div>
+        <div
+            class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
+          <img src="/icon/thunder.png" class="w-4 h-4" alt="">
+          <span class="">{{ store.info.boost_balance }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-md mx-auto flex-1 w-full relative">
+      <div class="absolute inset-0 overflow-auto">
+        <nuxt-page/>
+      </div>
+    </div>
+    <div class="md:fixed top-0 inset-x-0 max-w-md mx-auto w-full relative z-10 bg-white p-4">
+      <div class="relative">
+        <div v-if="route.path == '/'" class="-z-10 absolute bottom-1 md:bottom-auto md:top-1 -inset-x-2">
+          <div class="md:hidden flex justify-center" @click="openDrawer = !openDrawer">
+            <div class="task-control dropbox">
+              <NuxtIcon name="task" class="w-4 h-4"/>
+              <span class="">{{ menuTitle }}</span>
+              <NuxtIcon :name="`chevron-double-${!openDrawer ? 'up': 'down'}`" class="w-4 h-4"/>
+            </div>
+          </div>
+          <TaskList :class="{'active': openDrawer}"/>
+          <div class="hidden md:flex justify-center" @click="openDrawer = !openDrawer">
+            <div class="task-control dropbox">
+              <NuxtIcon name="task" class="w-4 h-4"/>
+              <span class="">{{ menuTitle }}</span>
+              <NuxtIcon :name="`chevron-double-${openDrawer ? 'up': 'down'}`" class="w-4 h-4"/>
+            </div>
+          </div>
+        </div>
+        <div class="menu">
+          <template v-if="openDrawer">
+            <div
+                v-for="item in ['all', 'my']" class="item" :class="{'active': taskFilter === item}"
+                @click="taskFilter = item"
+            >
+              <NuxtIcon :name="`${item}_task`" class="w-5 h-5"/>
+              <span class="capitalize">{{ item }} task</span>
+            </div>
+          </template>
+          <template v-else>
+            <nuxt-link to="/" class="">
+              <NuxtIcon name="home" class="w-5 h-5"/>
+              <span>Home</span>
+            </nuxt-link>
+            <nuxt-link to="/invite" class="">
+              <NuxtIcon name="mate" class="w-5 h-5"/>
+              <span>Referral</span>
+            </nuxt-link>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <Toaster/>
+</template>
+
 <style>
-.menu a.router-link-active {
-  @apply text-blue-500;
+.menu {
+  @apply px-1 bg-black/70 rounded-2xl p-1 text-sm grid grid-cols-2 gap-2 font-semibold uppercase text-white;
+}
+
+
+.menu a.router-link-active,
+.menu .item.active {
+  @apply bg-yellow-500;
+}
+
+.menu a,
+.menu .item {
+  @apply block p-2 flex justify-center items-center gap-1 rounded-xl duration-200;
+}
+
+.dropbox {
+  @apply overflow-hidden shadow border rounded-xl rounded-b-none md:rounded-b-xl md:rounded-t-none border-b-0 md:border-t-0
+}
+
+.task-control {
+  @apply text-xs bg-white cursor-pointer flex items-center gap-1 p-1 px-4;
+
+  z-index: -20;
 }
 </style>

@@ -33,8 +33,11 @@ const LEVELS = [1, 3, 6, 12, 24, 36, 48]
 
 export const useGlobalStore = defineStore('global', () => {
     const route = useRoute()
+
+    const authToken = useStatefulCookie('auth_token')
     const telegramID = useStatefulCookie('telegram.id')
     const authData = useStatefulCookie('auth_data')
+
     const drawer = ref<string | null>(null)
     const info = ref<Info>({
         id: 0,
@@ -71,15 +74,29 @@ export const useGlobalStore = defineStore('global', () => {
     })
     const activeLevels = computed(() => LEVELS.filter(x => x <= info.value.timer_level))
 
-    async function loadInfo(showLoading = true) {
+    async function authTelegram(showLoading = true) {
         loading.value = showLoading
         if (route.hash) {
             const h = decodeURIComponent(route.hash)
             const matches = h.matchAll(/#tgWebAppData=(.*?)&tgWebAppVersion/g);
             const initData = urlParseQueryString(Array.from(matches, x => x[1])[0])
-            authData.value = JSON.stringify(initData)
+            const response = await useNativeFetch<{ refresh: string, access: string }>(`/auth-telegram`, {
+                method: 'GET',
+                query: {
+                    auth_data: initData
+                }
+            })
+            if (response) {
+                authToken.value = response.access
+            }
         }
-        if (authData.value) {
+        loading.value = false
+        await loadInfo()
+    }
+
+    async function loadInfo(showLoading = true) {
+        loading.value = showLoading
+        if (authToken.value) {
             const response = await useNativeFetch<Info>(`/hi`, {})
             if (response) {
                 handleInfo(response)
@@ -178,6 +195,7 @@ export const useGlobalStore = defineStore('global', () => {
     }
 
     return {
+        authTelegram,
         loading,
         info,
         speed,
