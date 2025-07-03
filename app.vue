@@ -69,10 +69,18 @@ watch(() => route.path, () => {
         </div>
       </div>
     </div>
-    <div class="max-w-md mx-auto flex-1 w-full relative" style="padding-bottom: 180px">
+    <div
+        class="max-w-md mx-auto flex-1 w-full relative"
+        :class="{'pb-[200px]': store.isIphone()}"
+    >
       <nuxt-page/>
     </div>
-    <div class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-3">
+    <div
+        class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
+        :class="{
+          'py-6': store.isTelegram
+        }"
+    >
       <div class="relative">
         <div v-if="route.path == '/'" class="-z-10 absolute bottom-1 md:bottom-auto md:top-1 -inset-x-2">
           <div class="md:hidden flex justify-center" @click="store.openDrawer = !store.openDrawer">

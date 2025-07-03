@@ -34,7 +34,7 @@ export const useGlobalStore = defineStore('global', () => {
 
     const authToken = useStatefulCookie('auth_token')
     const telegramID = useStatefulCookie('telegram.id')
-    const authData = useStatefulCookie('auth_data')
+    const isTelegram = ref(false)
 
     const info = ref<Info>({
         id: 0,
@@ -77,6 +77,7 @@ export const useGlobalStore = defineStore('global', () => {
             if (response) {
                 authToken.value = response.access
             }
+            isTelegram.value = true
         }
         loading.value = false
         await loadInfo()
@@ -129,7 +130,7 @@ export const useGlobalStore = defineStore('global', () => {
         timer.value = {d: 0, hh: 0, mm: 0, ss: 0}
     }
 
-    function isUserOnTelegram() {
+    function isMobile() {
         const ua = navigator.userAgent.toLowerCase()
         return ua.includes('iphone') || ua.includes('android') || ua.includes('ipad');
     }
@@ -169,13 +170,13 @@ export const useGlobalStore = defineStore('global', () => {
         info,
         fetched,
         isIphone,
-        authData,
+        isTelegram,
         timer,
         taskFilter,
         openDrawer,
         percent,
         telegramID,
-        isUserOnTelegram,
+        isMobile,
         authTelegram,
         loadInfo,
         updateBoost,
