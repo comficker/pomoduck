@@ -14,12 +14,11 @@ const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
 </script>
 
 <template>
-  <div v-if="taskRes" class="task-list">
-    <div class="h-full p-3 pt-0 pb-12 md:pb-3 md:pt-12">
-      <div class="w-full h-full relative">
+  <div class="task-list">
+    <div class="h-full p-3 pt-0 pb-14 md:pb-3 md:pt-14">
+      <div v-if="taskRes" class="w-full h-full relative">
         <div class="absolute inset-0 overflow-auto no-scroll">
-          <div v-if="taskRes.results.length === 0"
-               class="p-3 py-1.5 text-sm bg-yellow-50 border border-yellow-100 rounded">
+          <div v-if="taskRes.results.length === 0" class="p-3 py-1.5 text-sm">
             <div class="text-center">Don't have any task now!</div>
           </div>
           <Task v-for="item in taskRes.results" :key="item.id" :task="item"/>
@@ -34,7 +33,7 @@ const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
   @apply bg-white duration-300 opacity-0 overflow-hidden shadow border;
 
   border-radius: 24px;
-  padding: 1.15rem 0;
+  padding: 1.45rem 0;
   height: 0;
 }
 

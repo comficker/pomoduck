@@ -74,7 +74,7 @@ watch(() => route.path, () => {
         <nuxt-page/>
       </div>
     </div>
-    <div class="md:fixed top-0 inset-x-0 max-w-md mx-auto w-full relative z-10 bg-white p-4">
+    <div class="md:fixed sticky bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full relative z-10 bg-white p-4">
       <div class="relative">
         <div v-if="route.path == '/'" class="-z-10 absolute bottom-1 md:bottom-auto md:top-1 -inset-x-2">
           <div class="md:hidden flex justify-center" @click="store.openDrawer = !store.openDrawer">
@@ -108,9 +108,9 @@ watch(() => route.path, () => {
               <NuxtIcon name="home" class="w-5 h-5"/>
               <span>Home</span>
             </nuxt-link>
-            <nuxt-link to="/invite" class="">
-              <NuxtIcon name="mate" class="w-5 h-5"/>
-              <span>Referral</span>
+            <nuxt-link to="/leaderboard" class="">
+              <NuxtIcon name="rank" class="w-5 h-5"/>
+              <span>Leaderboard</span>
             </nuxt-link>
           </template>
         </div>
@@ -125,7 +125,6 @@ watch(() => route.path, () => {
   @apply px-1 bg-black/70 rounded-2xl p-1 text-sm grid grid-cols-2 gap-2 font-semibold uppercase text-white;
 }
 
-
 .menu a.router-link-active,
 .menu .item.active {
   @apply bg-yellow-500;
@@ -133,7 +132,7 @@ watch(() => route.path, () => {
 
 .menu a,
 .menu .item {
-  @apply block p-2 flex justify-center items-center gap-1 rounded-xl duration-100;
+  @apply block p-3 flex justify-center items-center gap-1 rounded-xl duration-100;
 }
 
 .dropbox {
@@ -143,6 +142,6 @@ watch(() => route.path, () => {
 .task-control {
   @apply text-xs bg-white cursor-pointer flex items-center gap-1 p-1 px-4;
 
-  z-index: -20;
+  z-index: 0;
 }
 </style>
