@@ -132,6 +132,7 @@ watch(animationKey, () => {
         </Button>
       </div>
     </div>
+    <div v-if="!store.isTelegram && store.isIphone()" class="h-[100px]"></div>
   </div>
 </template>
 

@@ -72,9 +72,8 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div class="max-w-md mx-auto flex-1 w-full relative">
+    <div class="max-w-md mx-auto flex-1 w-full relative overflow-auto">
       <nuxt-page/>
-      <div v-if="!store.isTelegram && store.isIphone()" class="h-[100px]"></div>
     </div>
     <div
       class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"

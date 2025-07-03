@@ -6,10 +6,15 @@ import WebApp from "@twa-dev/sdk";
 
 const store = useGlobalStore()
 const isCopied = ref(false)
+const modes = ["Leaderboard", "Friends"]
+const mode = ref('Leaderboard')
 const url = computed(() => `t.me/Pomoduck_bot?start=${store.info.tg_id}`)
 
-const mate = await useNativeFetch<APIResponse<Account>>('/accounts/', {
-  query: {inviter_id: store.info.id}
+const query = computed(() => ({inviter: mode.value === 'Friends' ? store.info.id : undefined}))
+
+const {data: mate} = useAuthFetch<APIResponse<Account>>('/accounts/', {
+  query: query,
+  watch: [query]
 })
 
 const copy = () => {
@@ -23,35 +28,21 @@ const share = () => {
 </script>
 
 <template>
-  <div class="w-full h-full p-4 py-0 md:py-4 md:pt-8 flex flex-col relative">
+  <div class="w-full h-full p-4 py-0 md:py-4 md:pt-8 flex flex-col relative gap-4">
     <div class="space-y-1">
-      <div class="flex justify-between items-center text-3xl">
-        <div class="font-bold flex gap-2">
-          <span>Leaderboard</span>
-        </div>
-      </div>
-    </div>
-    <div v-if="!mate || mate.count === 0" class="flex-1 flex items-center justify-center">
-      <Button size="lg" variant="secondary" class="h-12 gap-2 text-xl" @click="share">
-        <NuxtIcon name="mate" class="w-6 h-6"/>
-        <span>Invite</span>
-      </Button>
-    </div>
-    <div v-else class="flex-1 pb-16 divide-y divide-dashed">
-      <div v-for="item in mate.results" :key="item.id" class="py-2 flex justify-between">
-        <div class="font-bold">{{ item.username || `${item.first_name} ${item.last_name}` }}</div>
-        <div class="flex items-center gap-1">
-          <img class="w-4 h-4" src="/icon/star.png" alt="">
-          <span>{{ formatFloat((item.balance || 0) * 0.1) }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="sticky bottom-0 -left-0 -right-0 px-0 bg-white space-y-2">
-      <div class="border rounded-xl p-3 flex items-center gap-2">
-        <input
-            :value="url" type="text"
-            class="text-sm text-gray-600 flex-1 outline-none"
+      <div class="flex gap-2 text-3xl text-gray-400">
+        <div
+            v-for="item in modes"
+            class="font-bold flex gap-2 duration-200" :class="{'text-black': item == mode}"
+            @click="mode=item"
         >
+          <span>{{ item }}</span>
+        </div>
+      </div>
+    </div>
+    <div v-if="mode === 'Friends'" class="space-y-3">
+      <div class="border rounded-xl p-3 flex items-center gap-2">
+        <input disabled :value="url" type="text" class="text-sm text-gray-600 flex-1 outline-none">
         <div class="cursor-pointer" @click="copy" :class="{'text-green-600': isCopied}">
           <CopyIcon class="w-4 h-4"/>
         </div>
@@ -59,8 +50,23 @@ const share = () => {
           <Share1Icon class="w-4 h-4"/>
         </div>
       </div>
+      <div class="flex-1 flex items-center justify-center">
+        <Button class="gap-2 h-12 rounded-xl w-full" @click="share">
+          <NuxtIcon name="mate" class="w-6 h-6"/>
+          <span>Invite</span>
+        </Button>
+      </div>
       <div class="text-sm">
         Earn 10% from your mates and 2% from their referrals
+      </div>
+    </div>
+    <div v-if="mate" class="flex-1 pb-20 divide-y divide-dashed">
+      <div v-for="item in mate.results" :key="item.id" class="py-2 flex justify-between">
+        <div class="font-bold">{{ item.username || `${item.first_name} ${item.last_name}` }}</div>
+        <div class="flex items-center gap-1">
+          <span>{{ formatFloat(item.balance, 2, 2) }}</span>
+          <img class="w-4 h-4" src="/icon/star.png" alt="">
+        </div>
       </div>
     </div>
   </div>
