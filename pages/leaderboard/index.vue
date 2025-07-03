@@ -5,6 +5,7 @@ import {copyContent, formatFloat} from "~/lib/utils";
 import WebApp from "@twa-dev/sdk";
 
 const store = useGlobalStore()
+
 const isCopied = ref(false)
 const modes = ["Leaderboard", "Friends"]
 const mode = ref('Leaderboard')
@@ -29,15 +30,13 @@ const share = () => {
 
 <template>
   <div class="w-full h-full p-4 py-0 md:py-4 md:pt-8 flex flex-col relative gap-4">
-    <div class="space-y-1">
-      <div class="flex gap-2 text-3xl text-gray-400">
-        <div
-            v-for="item in modes"
-            class="font-bold flex gap-2 duration-200" :class="{'text-black': item == mode}"
-            @click="mode=item"
-        >
-          <span>{{ item }}</span>
-        </div>
+    <div class="tabs">
+      <div
+          v-for="item in modes"
+          class="tab" :class="{'text-black': item == mode}"
+          @click="mode=item"
+      >
+        <span>{{ item }}</span>
       </div>
     </div>
     <div v-if="mode === 'Friends'" class="space-y-3">
@@ -56,9 +55,7 @@ const share = () => {
           <span>Invite</span>
         </Button>
       </div>
-      <div class="text-sm">
-        Earn 10% from your mates and 2% from their referrals
-      </div>
+      <div class="text-sm">Earn 10% from your mates and 2% from their referrals</div>
     </div>
     <div v-if="mate" class="flex-1 pb-20 divide-y divide-dashed">
       <div v-for="item in mate.results" :key="item.id" class="py-2 flex justify-between">
@@ -73,5 +70,11 @@ const share = () => {
 </template>
 
 <style scoped>
+.tabs {
+  @apply flex gap-2 text-3xl text-gray-400;
+}
 
+.tab {
+  @apply font-bold flex gap-2 duration-200 cursor-pointer;
+}
 </style>

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import {formatFloat} from "~/lib/utils";
+import {useAuthStore} from "~/stores/auth.store";
 
 const store = useGlobalStore()
+const authStore = useAuthStore()
 
 useHead({
   script: [
@@ -81,10 +83,12 @@ watch(animationKey, () => {
 
 <template>
   <div
-    class="h-full flex flex-col justify-center"
-    :class="{'pb-[100px]': store.isIphone() && store.isTelegram, 'pb-[200px]': store.isIphone() && !store.isTelegram}"
+      class="h-full flex flex-col justify-center"
+      :class="{'pb-[100px]': store.isIphone() && store.isTelegram, 'pb-[200px]': store.isIphone() && !store.isTelegram}"
   >
     <div class="flex-1 px-4 gap-4 text-center flex items-center justify-center flex-col">
+      <Button @click="authStore.authWithWorldCoin()">Test</Button>
+      <div>{{authStore.worldUser}}</div>
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
         <span v-if="store.info.doing">"{{ store.info.doing.task.name }}"</span>
         <span v-else-if="store.percent < 100">Stay focus, QuackQuack!</span>
