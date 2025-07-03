@@ -69,7 +69,7 @@ watch(() => route.path, () => {
         </div>
       </div>
     </div>
-    <div class="max-w-md mx-auto flex-1 w-full relative" style="padding-bottom: 90px">
+    <div class="max-w-md mx-auto flex-1 w-full relative" style="padding-bottom: 180px">
       <nuxt-page/>
     </div>
     <div class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-3">
