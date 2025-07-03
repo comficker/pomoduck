@@ -79,7 +79,7 @@
         font-weight: 400;
         font-style: normal;
         position: fixed;
-        overflow: hidden;
+        overflow: auto;
         top: 0;
         left: 0;
         right: 0;
