@@ -124,6 +124,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <div v-if="!store.isTelegram && store.isIphone()" class="h-[100px]"></div>
   </div>
   <Toaster/>
 </template>
