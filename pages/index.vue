@@ -80,7 +80,10 @@ watch(animationKey, () => {
 </script>
 
 <template>
-  <div class="h-full flex flex-col justify-center" :class="{'pb-[100px]': store.isIphone()}">
+  <div
+    class="h-full flex flex-col justify-center"
+    :class="{'pb-[100px]': store.isIphone() && store.isTelegram, 'pb-[200px]': store.isIphone() && !store.isTelegram}"
+  >
     <div class="flex-1 px-4 gap-4 text-center flex items-center justify-center flex-col">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
         <span v-if="store.info.doing">"{{ store.info.doing.task.name }}"</span>
@@ -103,7 +106,9 @@ watch(animationKey, () => {
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="minus" @click="changeBoost(-1)"/>
         <div class="w-8 h-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
           <img class="w-5 h-5" src="/icon/thunder.png" alt="">
-          <span class="absolute text-xs -bottom-1 -right-1">x{{ Math.min(store.info.boost_balance, store.info.boost_level) }}</span>
+          <span class="absolute text-xs -bottom-1 -right-1">x{{
+              Math.min(store.info.boost_balance, store.info.boost_level)
+            }}</span>
         </div>
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
       </div>
