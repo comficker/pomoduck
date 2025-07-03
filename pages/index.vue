@@ -80,7 +80,7 @@ watch(animationKey, () => {
 </script>
 
 <template>
-  <div class="h-full flex flex-col justify-center">
+  <div class="h-full flex flex-col justify-center" :class="{'pb-[100px]': !store.isTelegram && store.isIphone()}">
     <div class="flex-1 px-4 gap-4 text-center flex items-center justify-center flex-col">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
         <span v-if="store.info.doing">"{{ store.info.doing.task.name }}"</span>
@@ -132,7 +132,6 @@ watch(animationKey, () => {
         </Button>
       </div>
     </div>
-    <div v-if="!store.isTelegram && store.isIphone()" class="h-[100px]"></div>
   </div>
 </template>
 
