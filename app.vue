@@ -74,7 +74,7 @@ watch(() => route.path, () => {
         <nuxt-page/>
       </div>
     </div>
-    <div class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4">
+    <div class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-3">
       <div class="relative">
         <div v-if="route.path == '/'" class="-z-10 absolute bottom-1 md:bottom-auto md:top-1 -inset-x-2">
           <div class="md:hidden flex justify-center" @click="store.openDrawer = !store.openDrawer">

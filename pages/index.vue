@@ -90,7 +90,7 @@ watch(animationKey, () => {
       <tgs-player
           autoplay
           loop
-          style="width: 180px; height: 180px;"
+          style="width: 150px; height: 150px;"
           :src="animated[getRandomRest()]"
           @click="randomAnimate"
       />
@@ -108,7 +108,7 @@ watch(animationKey, () => {
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
       </div>
     </div>
-    <div class="sticky bottom-0 left-0 right-0 px-4 py-8 bg-white flex justify-center" @click="runTimer()">
+    <div class="p-4 bg-white flex justify-center" @click="runTimer()">
       <div class="inline-flex w-2/3">
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"
