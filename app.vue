@@ -73,15 +73,12 @@ onMounted(() => {
       </div>
     </div>
     <div class="max-w-md mx-auto flex-1 w-full relative">
-      <div class="absolute inset-0 overflow-auto">
-        <nuxt-page/>
-      </div>
+      <nuxt-page/>
+      <div v-if="!store.isTelegram && store.isIphone()" class="h-[100px]"></div>
     </div>
     <div
-        class="md:fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
-        :class="{
-          'py-6': store.isTelegram
-        }"
+      class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
+      :class="{'py-6': store.isTelegram}"
     >
       <div class="relative">
         <div v-if="route.path == '/'" class="-z-10 absolute bottom-1 md:bottom-auto md:top-1 -inset-x-2">
@@ -124,7 +121,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <div v-if="!store.isTelegram && store.isIphone()" class="h-[100px]"></div>
+
   </div>
   <Toaster/>
 </template>
