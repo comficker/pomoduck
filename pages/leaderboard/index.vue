@@ -27,12 +27,8 @@ const share = () => {
     <div class="space-y-1">
       <div class="flex justify-between items-center text-3xl">
         <div class="font-bold flex gap-2">
-          <span>Friends</span>
-          <span class="text-gray-400">{{ mate.results.length }}</span>
+          <span>Leaderboard</span>
         </div>
-      </div>
-      <div class="text-sm">
-        Earn 10% from your mates and 2% from their referrals
       </div>
     </div>
     <div v-if="!mate || mate.count === 0" class="flex-1 flex items-center justify-center">
@@ -50,7 +46,7 @@ const share = () => {
         </div>
       </div>
     </div>
-    <div class="sticky bottom-0 -left-0 -right-0 px-0 bg-white">
+    <div class="sticky bottom-0 -left-0 -right-0 px-0 bg-white space-y-2">
       <div class="border rounded-xl p-3 flex items-center gap-2">
         <input
             :value="url" type="text"
@@ -62,6 +58,9 @@ const share = () => {
         <div class="cursor-pointer" @click="share">
           <Share1Icon class="w-4 h-4"/>
         </div>
+      </div>
+      <div class="text-sm">
+        Earn 10% from your mates and 2% from their referrals
       </div>
     </div>
   </div>

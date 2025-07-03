@@ -25,6 +25,14 @@ const menuTitle = computed(() => {
   return `${store.openDrawer ? 'Hide' : 'Show'} Task Manager`
 })
 
+watch(() => route.path, () => {
+  if (route.name !== 'index') {
+    WebApp.BackButton.show();
+  } else {
+    WebApp.BackButton.hide();
+  }
+})
+
 onMounted(() => {
   const body = document.querySelector('body')
   if (body) {
@@ -39,14 +47,9 @@ onMounted(() => {
     WebApp.enableClosingConfirmation()
   }
   store.authTelegram()
-})
-
-watch(() => route.path, () => {
-  if (route.name !== 'index') {
-    WebApp.BackButton.show();
-  } else {
-    WebApp.BackButton.hide();
-  }
+  console.log("isTelegram", store.isTelegram);
+  console.log("isMobile", store.isMobile());
+  console.log("isIphone", store.isIphone());
 })
 </script>
 
@@ -69,14 +72,13 @@ watch(() => route.path, () => {
         </div>
       </div>
     </div>
-    <div
-        class="max-w-md mx-auto flex-1 w-full relative"
-        :class="{'pb-[200px]': store.isIphone()}"
-    >
-      <nuxt-page/>
+    <div class="max-w-md mx-auto flex-1 w-full relative">
+      <div class="absolute inset-0 overflow-auto">
+        <nuxt-page/>
+      </div>
     </div>
     <div
-        class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
+        class="md:fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
         :class="{
           'py-6': store.isTelegram
         }"
