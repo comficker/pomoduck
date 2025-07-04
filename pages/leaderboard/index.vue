@@ -29,7 +29,7 @@ const share = () => {
 </script>
 
 <template>
-  <div class="w-full h-full p-4 py-0 md:py-4 md:pt-8 flex flex-col relative gap-4">
+  <div class="w-full h-full p-4 flex flex-col relative gap-2">
     <div class="tabs">
       <div
           v-for="item in modes"

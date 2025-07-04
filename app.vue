@@ -147,7 +147,7 @@ const showCooking = computed(() => {
 
 <style>
 .menu {
-  @apply px-1 bg-black/70 rounded-2xl p-1 text-sm grid grid-cols-2 gap-2 font-semibold uppercase text-white;
+  @apply px-1 bg-black/70 rounded-full p-1 text-sm grid grid-cols-2 gap-2 font-semibold uppercase text-white;
 }
 
 .menu a.router-link-active,
@@ -157,7 +157,7 @@ const showCooking = computed(() => {
 
 .menu a,
 .menu .item {
-  @apply block p-3 flex justify-center items-center gap-1 rounded-xl duration-100 cursor-pointer;
+  @apply block p-3 flex justify-center items-center gap-1 rounded-full duration-100 cursor-pointer;
 }
 
 .dropbox {
