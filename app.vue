@@ -55,7 +55,7 @@ onMounted(async () => {
 
 const showCooking = computed(() => {
   if (store.info) return false;
-  if (['wld', 'telegram'].includes(authStore.activeAuth)) return true;
+  if (['wld', 'telegram'].includes(authStore.activeAuth)) return store.loading;
   return authStore.loading
 })
 </script>
