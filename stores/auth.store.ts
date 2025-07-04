@@ -28,6 +28,7 @@ function urlParseQueryString(queryString: string) {
 }
 
 export const useAuthStore = defineStore('auth', () => {
+    const loading = ref<boolean>(false);
     const route = useRoute()
     const authToken = useStatefulCookie('auth_token')
 
@@ -58,6 +59,7 @@ export const useAuthStore = defineStore('auth', () => {
                 logs.value.push('Tried to invoke "walletAuth", but MiniKit is not installed.')
                 return;
             }
+            activeAuth.value = 'wld'
             const nonceRes = await useNativeFetch<{ nonce: string }>('/auth-wld')
             if (!nonceRes) return;
             logs.value.push(nonceRes)
@@ -94,6 +96,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const auth = async () => {
+        loading.value = true
         if (!authToken.value) {
             await authTelegram()
             await authWithWorldCoin()
@@ -103,9 +106,11 @@ export const useAuthStore = defineStore('auth', () => {
             authToken.value = ''
             await auth()
         }
+        loading.value = false
     }
 
     return {
+        loading,
         logs,
         activeAuth,
         auth,

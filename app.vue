@@ -52,6 +52,12 @@ onMounted(async () => {
     }
   }
 })
+
+const showCooking = computed(() => {
+  if (store.info) return false;
+  if (['wld', 'telegram'].includes(authStore.activeAuth)) return true;
+  return authStore.loading
+})
 </script>
 
 <template>
@@ -79,7 +85,7 @@ onMounted(async () => {
     </div>
     <div
         class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
-        :class="{'py-6': store.isTelegram}"
+        :class="{'py-6': authStore.activeAuth === 'telegram'}"
     >
       <div class="relative">
         <div v-if="route.path == '/'" class="-z-10 absolute bottom-1 md:bottom-auto md:top-1 -inset-x-2">
@@ -122,7 +128,11 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-
+  </div>
+  <div v-if="showCooking" class="fixed bg-white inset-0 flex flex-col justify-center gap-6 items-center z-10">
+    <img class="w-16 h-16" src="/icon.png" alt="">
+    <span class="text-center text-xl font-bold">Cooking...</span>
+    <Button class="h-12 text-xl w-48 rounded-2xl" size="lg" @click="authStore.auth()">Retry</Button>
   </div>
   <Toaster/>
 </template>

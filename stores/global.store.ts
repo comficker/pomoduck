@@ -110,8 +110,6 @@ export const useGlobalStore = defineStore('global', () => {
                 info.value.balance += info.value.doing.task.reward_amount
             }
             info.value.doing = newData
-        } else {
-
         }
         computeTimer()
     }
