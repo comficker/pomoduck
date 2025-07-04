@@ -43,6 +43,7 @@ export const useGlobalStore = defineStore('global', () => {
             }
         }
         loading.value = false
+        return !!info.value
     }
 
     function computeTimer() {

@@ -94,9 +94,15 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const auth = async () => {
-        await authTelegram()
-        await authWithWorldCoin()
-        await useGlobalStore().loadInfo().then(r => console.log(r))
+        if (!authToken.value) {
+            await authTelegram()
+            await authWithWorldCoin()
+        }
+        const isSuccess = await useGlobalStore().loadInfo()
+        if (authToken.value && !isSuccess) {
+            authToken.value = ''
+            await auth()
+        }
     }
 
     return {
