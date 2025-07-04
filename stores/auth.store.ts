@@ -31,9 +31,10 @@ export const useAuthStore = defineStore('auth', () => {
     const loading = ref<boolean>(false);
     const route = useRoute()
     const authToken = useStatefulCookie('auth_token')
-
+    const store = useGlobalStore()
     const logs = ref<any[]>([])
     const activeAuth = ref('local')
+    const loggedIn = ref(false)
 
     async function authTelegram(showLoading = true) {
         if (route.hash) {
@@ -101,11 +102,12 @@ export const useAuthStore = defineStore('auth', () => {
             await authTelegram()
             await authWithWorldCoin()
         }
-        const isSuccess = await useGlobalStore().loadInfo(true)
+        const isSuccess = await store.loadInfo(true)
         if (authToken.value && !isSuccess) {
             authToken.value = ''
             await auth()
         }
+        loggedIn.value = !!store.info && !!store.info.id
         loading.value = false
     }
 
@@ -113,6 +115,7 @@ export const useAuthStore = defineStore('auth', () => {
         loading,
         logs,
         activeAuth,
+        loggedIn,
         auth,
     }
 })

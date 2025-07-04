@@ -53,12 +53,12 @@ const randomAnimate = () => {
 }
 
 const runTimer = async () => {
+  if (authStore.activeAuth === 'telegram') {
+    WebApp.HapticFeedback.impactOccurred('medium')
+  }
   await store.work()
   if (store.info.doing?.status == 1) {
     animationKey.value = 'done'
-  }
-  if (authStore.activeAuth === 'telegram') {
-    WebApp.HapticFeedback.impactOccurred('light')
   }
 }
 
@@ -88,10 +88,10 @@ const isTelegram = computed(() => authStore.activeAuth === 'telegram')
 
 <template>
   <div
-    class="h-full flex flex-col justify-center"
+    class="h-full flex flex-col justify-center gap-4"
     :class="{'pb-[100px]': store.isIphone() && isTelegram, 'pb-[200px]': store.isIphone() && !isTelegram}"
   >
-    <div class="flex-1 px-4 gap-4 text-center flex items-center justify-center flex-col">
+    <div class="flex-1 px-4 text-center flex items-center justify-center flex-col">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
         <span v-if="store.info.doing">"{{ store.info.doing.task.name }}"</span>
         <span v-else-if="store.percent < 100">Stay focus, QuackQuack!</span>
@@ -118,11 +118,12 @@ const isTelegram = computed(() => authStore.activeAuth === 'telegram')
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
       </div>
     </div>
-    <div class="p-4 bg-white flex justify-center" @click="runTimer()">
-      <div class="inline-flex w-2/3">
+    <div class="p-4 bg-white flex justify-center">
+      <div v-if="authStore.loggedIn" class="inline-flex w-2/3">
         <Button
-            :variant="store.isRunning ? 'secondary': 'default'" size="lg"
-            class="rounded-2xl h-12 w-full relative overflow-hidden "
+          :variant="store.isRunning ? 'secondary': 'default'" size="lg"
+          class="rounded-2xl h-12 w-full relative overflow-hidden"
+          @click="runTimer()"
         >
           <div v-if="store.isRunning" class="absolute inset-0 overflow-hidden">
             <div class="h-full w-full flex flex-nowrap">
@@ -141,6 +142,26 @@ const isTelegram = computed(() => authStore.activeAuth === 'telegram')
           </div>
         </Button>
       </div>
+      <Drawer v-if="authStore.activeAuth === 'local' && !authStore.loggedIn">
+        <DrawerTrigger>
+          <Button class="w-48 rounded-2xl h-12 text-xl relative overflow-hidden">Start</Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <div class="max-w-md w-full mx-auto pb-24">
+            <DrawerHeader>
+              <DrawerTitle class="text-3xl font-bold">One step to start!</DrawerTitle>
+              <DrawerDescription class="">PomoDuck is free but you need an account to tracking your work and earn crypto!</DrawerDescription>
+            </DrawerHeader>
+            <div class="px-4 space-y-3">
+              <input type="email" class="border rounded px-4 py-2 w-full" placeholder="Email"/>
+              <input type="password" class="border rounded px-4 py-2 w-full" placeholder="Password"/>
+            </div>
+            <DrawerFooter class="">
+              <Button class="w-full h-10">Login</Button>
+            </DrawerFooter>
+          </div>
+        </DrawerContent>
+      </Drawer>
     </div>
   </div>
 </template>
