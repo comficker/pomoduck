@@ -63,10 +63,18 @@ const showCooking = computed(() => {
 <template>
   <textarea v-if="false" class="w-full p-3 rounded border" :value="JSON.stringify(authStore.logs)"/>
   <div class="h-screen w-full flex flex-col">
-    <div class="flex gap-4 p-4 justify-between">
-      <nuxt-link class="flex items-center gap-1" to="/">
-        <img class="h-8" :src="`/logo.png`" alt="">
-      </nuxt-link>
+    <div class="w-full flex gap-4 p-4 py-2 justify-between">
+      <div class="flex-1 space-y-1">
+        <nuxt-link class="block" to="/">
+          <img class="h-5 md:h-8" :src="`/logo.png`" alt="">
+        </nuxt-link>
+        <div class="uppercase font-bold text-2xs flex items-center gap-1 text-gray-500">
+          <span>Powered by</span>
+          <NuxtIcon name="wld" class="w-3 h-3" filled/>
+          <NuxtIcon name="ton" class="w-3 h-3" filled/>
+          <a href="/about" target="_blank"><NuxtIcon name="open" class="w-4 h-4"/></a>
+        </div>
+      </div>
       <div class="flex items-center gap-2">
         <div
             class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
@@ -149,7 +157,7 @@ const showCooking = computed(() => {
 
 .menu a,
 .menu .item {
-  @apply block p-3 flex justify-center items-center gap-1 rounded-xl duration-100;
+  @apply block p-3 flex justify-center items-center gap-1 rounded-xl duration-100 cursor-pointer;
 }
 
 .dropbox {

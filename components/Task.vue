@@ -67,6 +67,7 @@ const act = async () => {
       <div class="space-y-1">
         <div
             @click="act"
+            class="cursor-pointer rounded-none hover:rounded-2xl hover:bg-yellow-100 duration-300 p-2"
             :class="{
               'animate-pulse': doing,
                'grayscale': is_completed
@@ -77,7 +78,3 @@ const act = async () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

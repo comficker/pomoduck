@@ -3,7 +3,7 @@ import {defineStore} from 'pinia'
 import type {AccountTaskDetail, Info} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {timeSinceObject} from "~/lib/utils";
-
+import {toast} from "~/components/ui/toast";
 
 export const useGlobalStore = defineStore('global', () => {
     const authToken = useStatefulCookie('auth_token')
@@ -108,6 +108,10 @@ export const useGlobalStore = defineStore('global', () => {
             if (info.value.doing && newData.id !== info.value.doing.id && !newData.start_at) {
                 percent.value = 0
                 info.value.balance += info.value.doing.task.reward_amount
+                toast({
+                    title: "Congratulations!",
+                    description: `You got ${info.value.doing.task.reward_amount} ${info.value.doing.task.reward_type}!`,
+                })
             }
             info.value.doing = newData
         }

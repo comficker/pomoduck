@@ -38,6 +38,7 @@ export interface Info {
 export interface ITask {
     id: number
     name: string
+    creator: number
     description: null
     type: string
     is_active: boolean

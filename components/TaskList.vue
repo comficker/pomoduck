@@ -3,13 +3,11 @@ import type {APIResponse, ITask} from "~/types";
 
 const store = useGlobalStore()
 
-const query = computed(() => ({
-  private: store.taskFilter === 'my' ? true : undefined
-}))
-
 const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
-  query: query,
-  watch: [query]
+  method: "GET",
+  query: {
+    page_size: 50
+  }
 })
 </script>
 
@@ -21,7 +19,10 @@ const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
           <div v-if="taskRes.results.length === 0" class="p-3 py-1.5 text-sm">
             <div class="text-center">Don't have any task now!</div>
           </div>
-          <Task v-for="item in taskRes.results" :key="item.id" :task="item"/>
+          <Task
+              v-for="item in taskRes.results.filter(x => store.taskFilter === 'my' ? !!x.creator : !x.creator)"
+              :key="item.id" :task="item"
+          />
         </div>
       </div>
     </div>
