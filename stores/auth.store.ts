@@ -101,7 +101,7 @@ export const useAuthStore = defineStore('auth', () => {
             await authTelegram()
             await authWithWorldCoin()
         }
-        const isSuccess = await useGlobalStore().loadInfo()
+        const isSuccess = await useGlobalStore().loadInfo(true)
         if (authToken.value && !isSuccess) {
             authToken.value = ''
             await auth()
