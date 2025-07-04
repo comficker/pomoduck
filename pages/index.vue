@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {formatFloat} from "~/lib/utils";
 import WebApp from "@twa-dev/sdk";
+import Login from "~/components/ui/Login.vue";
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
@@ -142,26 +143,7 @@ const isTelegram = computed(() => authStore.activeAuth === 'telegram')
           </div>
         </Button>
       </div>
-      <Drawer v-if="authStore.activeAuth === 'local' && !authStore.loggedIn">
-        <DrawerTrigger>
-          <Button class="w-48 rounded-2xl h-12 text-xl relative overflow-hidden">Start</Button>
-        </DrawerTrigger>
-        <DrawerContent>
-          <div class="max-w-md w-full mx-auto pb-24">
-            <DrawerHeader>
-              <DrawerTitle class="text-3xl font-bold">One step to start!</DrawerTitle>
-              <DrawerDescription class="">PomoDuck is free but you need an account to tracking your work and earn crypto!</DrawerDescription>
-            </DrawerHeader>
-            <div class="px-4 space-y-3">
-              <input type="email" class="border rounded px-4 py-2 w-full" placeholder="Email"/>
-              <input type="password" class="border rounded px-4 py-2 w-full" placeholder="Password"/>
-            </div>
-            <DrawerFooter class="">
-              <Button class="w-full h-10">Login</Button>
-            </DrawerFooter>
-          </div>
-        </DrawerContent>
-      </Drawer>
+      <Login v-if="authStore.activeAuth === 'local' && !authStore.loggedIn"/>
     </div>
   </div>
 </template>

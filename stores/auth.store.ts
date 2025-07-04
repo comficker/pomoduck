@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia'
 import {MiniKit} from '@worldcoin/minikit-js'
 import useStatefulCookie from "~/composables/useStatefulCookie";
+import {toast} from "~/components/ui/toast";
 
 function urlSafeDecode(urlencoded: string) {
     try {
@@ -57,13 +58,11 @@ export const useAuthStore = defineStore('auth', () => {
     const authWithWorldCoin = async () => {
         try {
             if (!MiniKit.isInstalled()) {
-                logs.value.push('Tried to invoke "walletAuth", but MiniKit is not installed.')
                 return;
             }
             activeAuth.value = 'wld'
             const nonceRes = await useNativeFetch<{ nonce: string }>('/auth-wld')
             if (!nonceRes) return;
-            logs.value.push(nonceRes)
             const {finalPayload} = await MiniKit.commandsAsync.walletAuth({
                 nonce: nonceRes.nonce,
                 statement: 'Login to PomoDuck',
@@ -71,7 +70,6 @@ export const useAuthStore = defineStore('auth', () => {
                 expirationTime: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
                 notBefore: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
             })
-            logs.value.push(finalPayload)
             const response = await useNativeFetch<{ refresh: string, access: string }>('/auth-wld', {
                 method: 'POST',
                 body: {
@@ -80,19 +78,38 @@ export const useAuthStore = defineStore('auth', () => {
                     payload: finalPayload
                 }
             }).catch(e => {
-                logs.value.push(e.response.data)
                 return null
-            })
-            logs.value.push({
-                info: MiniKit.user,
-                nonce: nonceRes.nonce,
-                payload: finalPayload
             })
             if (response) {
                 authToken.value = response.access
             }
         } catch (e) {
             logs.value.push(e?.toString())
+        }
+    }
+
+    const authLocal = async (isRegister: boolean, form: {
+        email: string,
+        username: string,
+        password: string,
+        password2: string
+    })=> {
+        const path = isRegister ? '/auth-register': '/auth-login'
+        const res = await useNativeFetch<{ refresh: string, access: string }>(path, {
+            method: 'POST',
+            body: form
+        }).catch(() => {
+            return null
+        })
+        if (res) {
+            authToken.value = res.access
+            await auth()
+        } else {
+            toast({
+                variant: 'destructive',
+                title: 'Something went wrong!',
+                description: 'Please recheck your input!',
+            })
         }
     }
 
@@ -116,6 +133,7 @@ export const useAuthStore = defineStore('auth', () => {
         logs,
         activeAuth,
         loggedIn,
+        authLocal,
         auth,
     }
 })
