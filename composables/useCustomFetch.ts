@@ -3,7 +3,7 @@ import {defu} from 'defu'
 import useStatefulCookie from "~/composables/useStatefulCookie";
 
 
-function getParams<T>(url: string, options: any) {
+function getParams<T>(url: string, options: any = {}) {
     const config = useRuntimeConfig()
     const authToken = useStatefulCookie('auth_token')
     const headers: any = {
@@ -17,7 +17,7 @@ function getParams<T>(url: string, options: any) {
         baseURL: <string>config.public.api + "/" + <string>config.public.apiVersion,
         key: url,
         headers: headers,
-        query: options.query
+        query: options?.query
     }
     return defu(options, defaults)
 }

@@ -1,40 +1,12 @@
 import {ref} from "vue"
 import {defineStore} from 'pinia'
-import type {AccountTaskDetail, Info, ITask} from "~/types";
+import type {AccountTaskDetail, Info} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {timeSinceObject} from "~/lib/utils";
 
-function urlSafeDecode(urlencoded: string) {
-    try {
-        urlencoded = urlencoded.replace(/\+/g, '%20');
-        return decodeURIComponent(urlencoded);
-    } catch (e) {
-        return urlencoded;
-    }
-}
-
-function urlParseQueryString(queryString: string) {
-    const params: any = {};
-    if (!queryString.length) {
-        return params;
-    }
-    const queryStringParams = queryString.split('&');
-    let i, param, paramName, paramValue;
-    for (i = 0; i < queryStringParams.length; i++) {
-        param = queryStringParams[i].split('=');
-        paramName = urlSafeDecode(param[0]);
-        paramValue = param[1] == null ? null : urlSafeDecode(param[1]);
-        params[paramName] = paramValue;
-    }
-    return params;
-}
 
 export const useGlobalStore = defineStore('global', () => {
-    const route = useRoute()
-
     const authToken = useStatefulCookie('auth_token')
-    const telegramID = useStatefulCookie('telegram.id')
-    const isTelegram = ref(false)
 
     const info = ref<Info>({
         id: 0,
@@ -61,27 +33,6 @@ export const useGlobalStore = defineStore('global', () => {
         ss: 0
     })
     const taskFilter = ref('public')
-
-    async function authTelegram(showLoading = true) {
-        loading.value = showLoading
-        if (route.hash) {
-            const h = decodeURIComponent(route.hash)
-            const matches = h.matchAll(/#tgWebAppData=(.*?)&tgWebAppVersion/g);
-            const initData = urlParseQueryString(Array.from(matches, x => x[1])[0])
-            const response = await useNativeFetch<{ refresh: string, access: string }>(`/auth-telegram`, {
-                method: 'GET',
-                query: {
-                    auth_data: initData
-                }
-            })
-            if (response) {
-                authToken.value = response.access
-            }
-            isTelegram.value = true
-        }
-        loading.value = false
-        await loadInfo()
-    }
 
     async function loadInfo(showLoading = true) {
         loading.value = showLoading
@@ -169,19 +120,15 @@ export const useGlobalStore = defineStore('global', () => {
         loading,
         info,
         fetched,
-        isIphone,
-        isTelegram,
         timer,
         taskFilter,
         openDrawer,
         percent,
-        telegramID,
         isMobile,
-        authTelegram,
+        isIphone,
         loadInfo,
         updateBoost,
         work,
-
     }
 })
 

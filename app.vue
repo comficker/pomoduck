@@ -20,6 +20,7 @@ useHead({
 const router = useRouter()
 const route = useRoute()
 const store = useGlobalStore()
+const authStore = useAuthStore()
 
 const menuTitle = computed(() => {
   return `${store.openDrawer ? 'Hide' : 'Show'} Task Manager`
@@ -33,27 +34,28 @@ watch(() => route.path, () => {
   }
 })
 
-onMounted(() => {
+onMounted(async () => {
   const body = document.querySelector('body')
   if (body) {
     body.style.backgroundColor = "#fff"
   }
 
-  WebApp.expand()
-  WebApp.setHeaderColor("#fff")
-  WebApp.setBackgroundColor("#fff")
-  WebApp.BackButton.onClick(() => router.back());
-  if (WebApp.enableClosingConfirmation) {
-    WebApp.enableClosingConfirmation()
+  await authStore.auth()
+
+  if (authStore.activeAuth == 'telegram') {
+    WebApp.expand()
+    WebApp.setHeaderColor("#fff")
+    WebApp.setBackgroundColor("#fff")
+    WebApp.BackButton.onClick(() => router.back());
+    if (WebApp.enableClosingConfirmation) {
+      WebApp.enableClosingConfirmation()
+    }
   }
-  store.authTelegram()
-  console.log("isTelegram", store.isTelegram);
-  console.log("isMobile", store.isMobile());
-  console.log("isIphone", store.isIphone());
 })
 </script>
 
 <template>
+  <textarea v-if="false" class="w-full p-3 rounded border" :value="JSON.stringify(authStore.logs)"/>
   <div class="h-screen w-full flex flex-col">
     <div class="flex gap-4 p-4 justify-between">
       <nuxt-link class="flex items-center gap-1" to="/">
@@ -76,8 +78,8 @@ onMounted(() => {
       <nuxt-page/>
     </div>
     <div
-      class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
-      :class="{'py-6': store.isTelegram}"
+        class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
+        :class="{'py-6': store.isTelegram}"
     >
       <div class="relative">
         <div v-if="route.path == '/'" class="-z-10 absolute bottom-1 md:bottom-auto md:top-1 -inset-x-2">
