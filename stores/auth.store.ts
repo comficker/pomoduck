@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
     const activeAuth = ref('local')
     const loggedIn = ref(false)
 
-    async function authTelegram(showLoading = true) {
+    async function authTelegram() {
         if (route.hash) {
             const h = decodeURIComponent(route.hash)
             const matches = h.matchAll(/#tgWebAppData=(.*?)&tgWebAppVersion/g);
@@ -78,6 +78,7 @@ export const useAuthStore = defineStore('auth', () => {
                     payload: finalPayload
                 }
             }).catch(e => {
+                console.log(e);
                 return null
             })
             if (response) {
@@ -93,8 +94,8 @@ export const useAuthStore = defineStore('auth', () => {
         username: string,
         password: string,
         password2: string
-    })=> {
-        const path = isRegister ? '/auth-register': '/auth-login'
+    }) => {
+        const path = isRegister ? '/auth-register' : '/auth-login'
         const res = await useNativeFetch<{ refresh: string, access: string }>(path, {
             method: 'POST',
             body: form

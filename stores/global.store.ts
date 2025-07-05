@@ -74,6 +74,7 @@ export const useGlobalStore = defineStore('global', () => {
         if (window.itv) {
             clearInterval(window.itv)
         }
+        computeTimer()
         window.itv = setInterval(() => computeTimer(), 500)
     }
 

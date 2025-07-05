@@ -54,7 +54,7 @@ onMounted(async () => {
 })
 
 const showCooking = computed(() => {
-  if (store.info) return false;
+  if (store.info && store.info.id) return false;
   if (['wld', 'telegram'].includes(authStore.activeAuth)) return store.loading;
   return authStore.loading
 })
@@ -77,7 +77,8 @@ const showCooking = computed(() => {
       </div>
       <div class="flex items-center gap-2">
         <div
-            class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
+            class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2"
+        >
           <img src="/icon/star.png" class="w-4 h-4" alt="">
           <span class="major-mono">{{ formatFloat(store.info.balance, 2, 2) }}</span>
         </div>

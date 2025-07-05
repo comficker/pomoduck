@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {formatFloat} from "~/lib/utils";
 import WebApp from "@twa-dev/sdk";
-import Login from "~/components/ui/Login.vue";
+import Login from "~/components/Login.vue";
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
