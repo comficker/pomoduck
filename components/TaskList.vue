@@ -25,11 +25,7 @@ const createTask = () => {
 }
 
 const checkSticky = () => {
-  const parent = document.querySelector('.parent')
-  const child = document.querySelector('.child')
-  if (parent && child) {
-    isActiveSticky.value = parent.scrollHeight != child.scrollHeight
-  }
+  isActiveSticky.value = false
 }
 
 watch(() => [taskRes, store.taskFilter, store.loggedIn], () => checkSticky(), {
