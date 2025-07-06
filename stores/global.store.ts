@@ -33,6 +33,7 @@ export const useGlobalStore = defineStore('global', () => {
         ss: 0
     })
     const taskFilter = ref('my')
+    const refreshTask = ref(0)
 
     const loggedIn = computed(() => info.value && info.value.id)
 
@@ -117,6 +118,7 @@ export const useGlobalStore = defineStore('global', () => {
                 })
             }
             info.value.doing = newData
+            refreshTask.value ++
         }
         computeTimer()
     }
@@ -131,6 +133,7 @@ export const useGlobalStore = defineStore('global', () => {
         openDrawer,
         percent,
         isMobile,
+        refreshTask,
         loggedIn,
         isIphone,
         loadInfo,

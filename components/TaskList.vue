@@ -3,7 +3,7 @@ import type {APIResponse, ITask} from "~/types";
 
 const store = useGlobalStore()
 
-const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
+const {data: taskRes, refresh} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
   method: "GET",
   query: {
     page_size: 50
@@ -35,6 +35,8 @@ const checkSticky = () => {
 watch(() => [taskRes, store.taskFilter, store.loggedIn], () => checkSticky(), {
   deep: true,
 })
+
+watch(() => store.refreshTask, refresh)
 
 onMounted(() => {
   checkSticky()
