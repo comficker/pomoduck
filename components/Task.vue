@@ -26,6 +26,8 @@ const status = computed(() => {
     return TASK_STATUS.DOING
   } else if (task.account_task.filter(x => x.status === 1).length == task.unit) {
     return TASK_STATUS.COMPLETED
+  } else if (task.account_task.filter(x => x.status === 0).length == 0) {
+    return TASK_STATUS.ACTIVE
   }
   return task.status
 })
