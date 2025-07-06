@@ -55,7 +55,7 @@ onMounted(() => {
             />
             <div
               v-show="store.loggedIn && store.taskFilter == 'my'"
-              class="sticky shadow-lg bottom-0 bg-white flex justify-center"
+              class="sticky bottom-0 bg-white flex justify-center"
               :class="{active: isActiveSticky}"
             >
               <Button variant="link" class="gap-2" @click="createTask">
