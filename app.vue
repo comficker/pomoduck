@@ -72,7 +72,9 @@ const showCooking = computed(() => {
           <span>Powered by</span>
           <NuxtIcon name="wld" class="w-3 h-3" filled/>
           <NuxtIcon name="ton" class="w-3 h-3" filled/>
-          <a href="/about" target="_blank"><NuxtIcon name="open" class="w-4 h-4"/></a>
+          <a href="/about" target="_blank">
+            <NuxtIcon name="open" class="w-4 h-4"/>
+          </a>
         </div>
       </div>
       <div class="flex items-center gap-2">
@@ -93,8 +95,8 @@ const showCooking = computed(() => {
       <nuxt-page/>
     </div>
     <div
-      class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
-      :class="{'py-6': authStore.activeAuth === 'telegram'}"
+        class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
+        :class="{'py-6': authStore.activeAuth === 'telegram'}"
     >
       <div class="relative">
         <div v-if="route.path == '/'" class="-z-10 absolute bottom-1 md:bottom-auto md:top-1 -inset-x-2">
@@ -105,7 +107,7 @@ const showCooking = computed(() => {
               <NuxtIcon :name="`chevron-double-${!store.openDrawer ? 'up': 'down'}`" class="w-4 h-4"/>
             </div>
           </div>
-          <TaskList :class="{'active': store.openDrawer}"/>
+          <TaskList :key="store.refreshTask" :class="{'active': store.openDrawer}"/>
           <div class="hidden md:flex justify-center" @click="store.openDrawer = !store.openDrawer">
             <div class="task-control dropbox">
               <NuxtIcon name="task" class="w-4 h-4"/>

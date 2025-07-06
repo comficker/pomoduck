@@ -3,7 +3,7 @@ import type {APIResponse, ITask} from "~/types";
 
 const store = useGlobalStore()
 
-const {data: taskRes, refresh} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
+const {data: taskRes, refresh, pending} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
   method: "GET",
   query: {
     page_size: 50
@@ -36,7 +36,7 @@ watch(() => [taskRes, store.taskFilter, store.loggedIn], () => checkSticky(), {
   deep: true,
 })
 
-watch(() => store.refreshTask, refresh)
+watch(() => store.refreshTask, () => refresh())
 
 onMounted(() => {
   checkSticky()
@@ -46,7 +46,7 @@ onMounted(() => {
 <template>
   <div class="task-list">
     <div class="h-full p-3 pt-0 pb-14 md:pb-0 md:pt-14">
-      <div v-if="taskRes" class="w-full h-full relative">
+      <div v-if="!pending && taskRes" class="w-full h-full relative">
         <div class="parent absolute inset-0 overflow-auto no-scroll">
           <div class="child space-y-1">
             <div v-if="taskRes.results.length === 0" class="p-3 py-1.5 text-sm">
@@ -54,7 +54,7 @@ onMounted(() => {
             </div>
             <Task
                 v-for="(item, i) in taskRes.results.filter(x => store.taskFilter === 'my' ? !!x.creator : !x.creator)"
-                :key="item.id" :task="item"
+                :key="`${store.refreshTask}_${item.id}`" :task="item"
                 @update:task="taskRes.results[i] = $event"
             />
             <div

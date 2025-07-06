@@ -94,7 +94,7 @@ const isTelegram = computed(() => authStore.activeAuth === 'telegram')
   >
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
-        <span v-if="store.info.doing">"{{ store.info.doing.task.name }}"</span>
+        <span v-if="store.info.doing">Doing "{{ store.info.doing.task.name || 'Untitled' }}"</span>
         <span v-else-if="store.percent < 100">Stay focus, QuackQuack!</span>
         <span v-else>QuackQuack!</span>
       </div>

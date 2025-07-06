@@ -11,6 +11,8 @@ const emits = defineEmits(['update:task'])
 
 const doing = ref(false)
 const store = useGlobalStore()
+const authStore = useAuthStore()
+
 const updating = ref(false)
 const form = ref({
   name: task.name,
@@ -19,7 +21,8 @@ const form = ref({
 })
 
 const status = computed(() => {
-  if (task.account_task.filter(x => x.status === 0).length) {
+  if (!task.creator && task.unit == 0 && task.account_task.length === 0) return TASK_STATUS.ACTIVE
+  else if (task.account_task.filter(x => x.status === 0).length) {
     return TASK_STATUS.DOING
   } else if (task.account_task.filter(x => x.status === 1).length == task.unit) {
     return TASK_STATUS.COMPLETED
@@ -59,7 +62,7 @@ const act = async () => {
   } else if (task.type === 'one_time' && task.meta) {
     switch (task.meta.action) {
       case "open_link":
-        if (task.meta.url.includes("t.me") && store.isUserOnTelegram()) {
+        if (task.meta.url.includes("t.me") && authStore.activeAuth === 'telegram') {
           WebApp.openTelegramLink(task.meta.url)
         } else {
           WebApp.openLink(task.meta.url)
@@ -110,7 +113,10 @@ watch(() => form.value.unit, () => {
 </script>
 
 <template>
-  <div class="task p-2 rounded-xl flex items-center gap-4 text-xs" :class="{'!bg-yellow-50 border': updating}">
+  <div
+    class="task p-2 rounded-xl flex items-center gap-4 text-xs"
+    :class="{'!bg-yellow-50 border': updating, 'border border-yellow-500': status === TASK_STATUS.DOING}"
+  >
     <div class="flex-1 flex gap-4 items-center">
       <div class="flex-1 font-semibold" :class="{'space-y-2': updating}">
         <input
@@ -157,7 +163,7 @@ watch(() => form.value.unit, () => {
             class="act"
             :class="{'animate-pulse': doing || status === TASK_STATUS.DOING,'grayscale': status === TASK_STATUS.COMPLETED}"
         >
-          <span v-if="task.account_task.length === 0">Start</span>
+          <span v-if="status == TASK_STATUS.ACTIVE">Start</span>
           <img v-else class="w-5 h-5" src="/icon.png" alt="">
         </div>
       </div>
