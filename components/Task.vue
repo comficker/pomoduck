@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {ITask} from "~/types";
+import type {AccountTaskDetail, ITask} from "~/types";
 import WebApp from '@twa-dev/sdk'
 import {formatFloat} from "~/lib/utils";
 import {TASK_STATUS, BASE_MINING_SPEED} from "~/lib/constants";
@@ -35,14 +35,16 @@ const reward = computed(() => {
 })
 
 const updateTask = async () => {
-  const data = await useNativeFetch<{ status: number }>(`/tasks/${task.id}/do`, {
+  await useNativeFetch<AccountTaskDetail>(`/tasks/${task.id}/do`, {
     method: "POST",
   })
-  is_completed.value = data.status == 1
+  if (task.type == 'one_time') {
+    task.status = TASK_STATUS.COMPLETED
+  }
 }
 
 const act = async () => {
-  if (is_completed.value) return;
+  if ([TASK_STATUS.DOING, TASK_STATUS.COMPLETED].includes(status.value)) return;
 
   if (task.type === 'default') {
     await store.work(task.id);
