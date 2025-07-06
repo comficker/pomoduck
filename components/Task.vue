@@ -21,7 +21,7 @@ const form = ref({
 })
 
 const status = computed(() => {
-  if (!task.creator && task.unit == 0 && task.account_task.length === 0) return TASK_STATUS.ACTIVE
+  if (task.account_task.length === 0) return TASK_STATUS.ACTIVE
   else if (task.account_task.filter(x => x.status === 0).length) {
     return TASK_STATUS.DOING
   } else if (task.account_task.filter(x => x.status === 1).length == task.unit) {
