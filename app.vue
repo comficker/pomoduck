@@ -93,8 +93,8 @@ const showCooking = computed(() => {
       <nuxt-page/>
     </div>
     <div
-        class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
-        :class="{'py-6': authStore.activeAuth === 'telegram'}"
+      class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
+      :class="{'py-6': authStore.activeAuth === 'telegram'}"
     >
       <div class="relative">
         <div v-if="route.path == '/'" class="-z-10 absolute bottom-1 md:bottom-auto md:top-1 -inset-x-2">
@@ -117,7 +117,7 @@ const showCooking = computed(() => {
         <div class="menu">
           <template v-if="store.openDrawer">
             <div
-                v-for="item in ['public', 'my']" class="item" :class="{'active': store.taskFilter === item}"
+                v-for="item in ['my', 'public']" class="item" :class="{'active': store.taskFilter === item}"
                 @click="store.taskFilter = item"
             >
               <NuxtIcon :name="`${item}_task`" class="w-5 h-5"/>

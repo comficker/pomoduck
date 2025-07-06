@@ -1,1 +1,5 @@
+export enum TASK_STATUS {
+    DRAFT, ACTIVE, COMPLETED, DELETED, DOING
+}
 
+export const BASE_MINING_SPEED = 8.33333333e-5

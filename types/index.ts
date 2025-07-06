@@ -51,6 +51,7 @@ export interface ITask {
     reward_type: string
     duration_est: number
     unit: number
+    status: number
 }
 
 export interface AccountTask {

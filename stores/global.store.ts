@@ -32,7 +32,9 @@ export const useGlobalStore = defineStore('global', () => {
         mm: 0,
         ss: 0
     })
-    const taskFilter = ref('public')
+    const taskFilter = ref('my')
+
+    const loggedIn = computed(() => info.value && info.value.id)
 
     async function loadInfo(showLoading = true) {
         loading.value = showLoading
@@ -129,6 +131,7 @@ export const useGlobalStore = defineStore('global', () => {
         openDrawer,
         percent,
         isMobile,
+        loggedIn,
         isIphone,
         loadInfo,
         updateBoost,
