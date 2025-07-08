@@ -23,9 +23,9 @@ jobs:
       - name: Deploy via SSH
         run: |
           ssh -i ~/.ssh/id_ed25519 root@207.148.74.42 << 'EOF'
-            cd /home/hymx/dash
+            cd /home/frontend/pomoduck
             git pull origin master
             pnpm install
             pnpm run build
-            pm2 restart hymx_dash
+            pm2 restart pomoduck
           EOF
