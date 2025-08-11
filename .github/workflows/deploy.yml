@@ -18,11 +18,11 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan 207.148.74.42 >> ~/.ssh/known_hosts
+          ssh-keyscan 45.76.181.237 >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         run: |
-          ssh -i ~/.ssh/id_ed25519 root@207.148.74.42 << 'EOF'
+          ssh -i ~/.ssh/id_ed25519 root@45.76.181.237 << 'EOF'
             cd /home/frontend/pomoduck
             git pull origin master
             pnpm install
