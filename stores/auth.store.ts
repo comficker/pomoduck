@@ -32,6 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
     const loading = ref<boolean>(false);
     const route = useRoute()
     const authToken = useStatefulCookie('auth_token')
+    const authTokenRefresh = useStatefulCookie('auth_token_refresh')
     const store = useGlobalStore()
     const logs = ref<any[]>([])
     const activeAuth = ref('local')
@@ -95,6 +96,8 @@ export const useAuthStore = defineStore('auth', () => {
         password: string,
         password2: string
     }) => {
+        authToken.value = ''
+        authTokenRefresh.value = ''
         const path = isRegister ? '/auth-register' : '/auth-login'
         const res = await useNativeFetch<{ refresh: string, access: string }>(path, {
             method: 'POST',
@@ -104,6 +107,7 @@ export const useAuthStore = defineStore('auth', () => {
         })
         if (res) {
             authToken.value = res.access
+            authTokenRefresh.value = res.refresh
             await auth()
         } else {
             toast({
@@ -114,6 +118,25 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
+    const refreshToken = async () => {
+        if (authTokenRefresh.value) {
+            const res = await useNativeFetch<{ refresh: string, access: string }>("/auth-refresh-token", {
+                method: 'POST',
+                body: {
+                    "refresh": authTokenRefresh.value
+                }
+            }).catch(() => null)
+            if (res) {
+                authToken.value = res.access
+                await auth()
+                return
+            }
+        }
+        authToken.value = ''
+        authTokenRefresh.value = ''
+    }
+
+
     const auth = async () => {
         loading.value = true
         if (!authToken.value) {
@@ -121,9 +144,9 @@ export const useAuthStore = defineStore('auth', () => {
             await authWithWorldCoin()
         }
         const isSuccess = await store.loadInfo(true)
+        console.log(isSuccess);
         if (authToken.value && !isSuccess) {
-            authToken.value = ''
-            await auth()
+            await refreshToken()
         }
         loggedIn.value = !!store.info && !!store.info.id
         loading.value = false

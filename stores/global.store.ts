@@ -40,13 +40,13 @@ export const useGlobalStore = defineStore('global', () => {
     async function loadInfo(showLoading = true) {
         loading.value = showLoading
         if (authToken.value) {
-            const response = await useNativeFetch<Info>(`/hi`, {})
+            const response = await useNativeFetch<Info>(`/hi`, {}).catch(e => null)
             if (response) {
                 handleInfo(response)
             }
         }
         loading.value = false
-        return !!info.value
+        return !!(info.value && info.value.id)
     }
 
     function computeTimer() {

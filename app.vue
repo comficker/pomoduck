@@ -40,8 +40,6 @@ onMounted(async () => {
     body.style.backgroundColor = "#fff"
   }
 
-  await authStore.auth()
-
   if (authStore.activeAuth == 'telegram') {
     WebApp.expand()
     WebApp.setHeaderColor("#fff")
@@ -58,6 +56,8 @@ const showCooking = computed(() => {
   if (['wld', 'telegram'].includes(authStore.activeAuth)) return store.loading;
   return authStore.loading
 })
+
+await authStore.auth()
 </script>
 
 <template>

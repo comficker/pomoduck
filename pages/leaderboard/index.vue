@@ -11,7 +11,10 @@ const modes = ["Leaderboard", "Friends"]
 const mode = ref('Leaderboard')
 const url = computed(() => `t.me/Pomoduck_bot?start=${store.info.tg_id}`)
 
-const query = computed(() => ({inviter: mode.value === 'Friends' ? store.info.id : undefined}))
+const query = computed(() => ({
+  inviter: mode.value === 'Friends' ? store.info.id : undefined,
+  page_size: 20,
+}))
 
 const {data: mate} = useAuthFetch<APIResponse<Account>>('/accounts/', {
   query: query,
@@ -58,7 +61,7 @@ const share = () => {
       <div class="text-sm">Earn 10% from your mates and 2% from their referrals</div>
     </div>
     <div v-if="mate" class="flex-1 pb-20 divide-y divide-dashed">
-      <div v-for="item in mate.results" :key="item.id" class="py-2 flex justify-between">
+      <div v-for="item in mate.results" :key="item.id" class="py-1 flex justify-between">
         <div class="font-bold">{{ item.username || `${item.first_name} ${item.last_name}` }}</div>
         <div class="flex items-center gap-1">
           <span>{{ formatFloat(item.balance, 2, 2) }}</span>
