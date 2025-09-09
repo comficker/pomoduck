@@ -32,7 +32,7 @@ export const useGlobalStore = defineStore('global', () => {
         mm: 0,
         ss: 0
     })
-    const taskFilter = ref('my')
+    const taskFilter = ref('public')
     const refreshTask = ref(0)
     const modalName = ref<'auth' | null>(null)
 

@@ -121,10 +121,10 @@ await authStore.auth()
         <div class="menu">
           <template v-if="store.openDrawer">
             <div
-                v-for="item in ['my', 'public']" class="item" :class="{'active': store.taskFilter === item}"
+                v-for="item in ['public', 'private']" class="item" :class="{'active': store.taskFilter === item}"
                 @click="store.taskFilter = item"
             >
-              <NuxtIcon :name="`${item}_task`" class="w-5 h-5"/>
+              <NuxtIcon :name="`${item}_task`" class="size-5"/>
               <span class="capitalize">{{ item }} task</span>
             </div>
           </template>

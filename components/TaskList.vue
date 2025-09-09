@@ -49,7 +49,7 @@ onMounted(() => {
               <div class="text-center">Don't have any task now!</div>
             </div>
             <Task
-                v-for="(item, i) in taskRes.results.filter(x => store.taskFilter === 'my' ? !!x.creator : !x.creator)"
+                v-for="(item, i) in taskRes.results.filter(x => store.taskFilter === 'private' ? !!x.creator : !x.creator)"
                 :key="`${store.refreshTask}_${item.id}`" :task="item"
                 @update:task="taskRes.results[i] = $event"
             />
