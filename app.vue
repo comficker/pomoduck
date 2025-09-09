@@ -109,7 +109,7 @@ await authStore.auth()
               <NuxtIcon :name="`chevron-double-${!store.openDrawer ? 'up': 'down'}`" class="w-4 h-4"/>
             </div>
           </div>
-          <TaskList :key="store.refreshTask" :class="{'active': store.openDrawer}"/>
+          <TaskList :key="store.refreshTask" :class="{'active': store.openDrawer}" class="relative z-10"/>
           <div class="hidden md:flex justify-center" @click="store.openDrawer = !store.openDrawer">
             <div class="task-control dropbox">
               <NuxtIcon name="task" class="w-4 h-4"/>

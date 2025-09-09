@@ -83,8 +83,6 @@ watch(animationKey, () => {
     elm.load(animated[animationKey.value])
   }
 })
-
-const isTelegram = computed(() => authStore.activeAuth === 'telegram')
 </script>
 
 <template>
