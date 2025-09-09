@@ -90,7 +90,6 @@ const isTelegram = computed(() => authStore.activeAuth === 'telegram')
 <template>
   <div
     class="h-full flex flex-col justify-center gap-4"
-    :class="{'pb-[100px]': store.isIphone() && isTelegram, 'pb-[200px]': store.isIphone() && !isTelegram}"
   >
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">

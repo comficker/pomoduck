@@ -62,7 +62,7 @@ await authStore.auth()
 
 <template>
   <textarea v-if="false" class="w-full p-3 rounded border" :value="JSON.stringify(authStore.logs)"/>
-  <div class="h-screen w-full flex flex-col">
+  <div class="h-screen w-full flex flex-col gap-4">
     <div class="w-full flex gap-4 p-4 py-2 justify-between">
       <div class="flex-1 space-y-1">
         <nuxt-link class="block" to="/">
@@ -95,7 +95,7 @@ await authStore.auth()
       <nuxt-page/>
     </div>
     <div
-        class="fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
+        class="relative md:fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
         :class="{'py-6': authStore.activeAuth === 'telegram'}"
     >
       <div class="relative">
