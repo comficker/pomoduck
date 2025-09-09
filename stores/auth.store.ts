@@ -112,6 +112,7 @@ export const useAuthStore = defineStore('auth', () => {
             authToken.value = res.access
             authTokenRefresh.value = res.refresh
             await auth()
+            if (loggedIn.value) store.modalName = null;
         } else {
             toast({
                 variant: 'destructive',
