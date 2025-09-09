@@ -34,6 +34,7 @@ export const useGlobalStore = defineStore('global', () => {
     })
     const taskFilter = ref('my')
     const refreshTask = ref(0)
+    const modalName = ref<'auth' | null>(null)
 
     const loggedIn = computed(() => info.value && info.value.id)
 
@@ -139,6 +140,7 @@ export const useGlobalStore = defineStore('global', () => {
         loadInfo,
         updateBoost,
         work,
+        modalName
     }
 })
 

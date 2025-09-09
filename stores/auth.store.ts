@@ -51,6 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
             })
             if (response) {
                 authToken.value = response.access
+                authTokenRefresh.value = response.refresh
             }
             activeAuth.value = 'telegram'
         }
@@ -58,7 +59,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     const authWithWorldCoin = async () => {
         try {
-            if (!MiniKit.isInstalled()) {
+            if (!window.MiniKit || !MiniKit.isInstalled()) {
                 return;
             }
             activeAuth.value = 'wld'
@@ -66,7 +67,7 @@ export const useAuthStore = defineStore('auth', () => {
             if (!nonceRes) return;
             const {finalPayload} = await MiniKit.commandsAsync.walletAuth({
                 nonce: nonceRes.nonce,
-                statement: 'Login to PomoDuck',
+                statement: 'Login to POMODuck',
                 requestId: "0",
                 expirationTime: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
                 notBefore: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
@@ -84,6 +85,7 @@ export const useAuthStore = defineStore('auth', () => {
             })
             if (response) {
                 authToken.value = response.access
+                authTokenRefresh.value = response.refresh
             }
         } catch (e) {
             logs.value.push(e?.toString())
@@ -94,7 +96,8 @@ export const useAuthStore = defineStore('auth', () => {
         email: string,
         username: string,
         password: string,
-        password2: string
+        re_password?: string,
+        invite_code?: string
     }) => {
         authToken.value = ''
         authTokenRefresh.value = ''
@@ -136,13 +139,11 @@ export const useAuthStore = defineStore('auth', () => {
         authTokenRefresh.value = ''
     }
 
-
     const auth = async () => {
         loading.value = true
         await authTelegram()
         await authWithWorldCoin()
         const isSuccess = await store.loadInfo(true)
-        console.log(isSuccess);
         if (authToken.value && !isSuccess) {
             await refreshToken()
         }

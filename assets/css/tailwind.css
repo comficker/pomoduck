@@ -138,3 +138,35 @@ a {
 .major-mono {
     font-family: "IBM Plex Mono", monospace;
 }
+
+
+.dialog-content {
+    width: calc(100% - 32px);
+}
+
+textarea,
+input {
+    @apply border border-gray-300 outline-none rounded-lg p-1.5 px-3;
+}
+
+.divider {
+    @apply relative text-center;
+}
+
+.divider span {
+    @apply bg-white px-4 text-xs uppercase font-bold;
+}
+
+.divider:before {
+    @apply border-gray-400 border-b absolute -z-10 inset-0 bottom-3;
+
+    content: "";
+}
+
+.label {
+    @apply text-xs uppercase font-bold text-gray-500;
+}
+
+* {
+    touch-action: manipulation;
+}

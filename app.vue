@@ -3,9 +3,10 @@ import WebApp from '@twa-dev/sdk'
 import Toaster from '~/components/ui/toast/Toaster.vue'
 import {formatFloat} from "~/lib/utils";
 import TaskList from "~/components/TaskList.vue";
+import Auth from "~/components/modal/Auth.vue";
 
 useHead({
-  title: "PomoDuck - Quack! Quack Quack Quack!",
+  title: "PomoDuck - Quack! Quack! Quack! Quack!",
   link: [{
     href: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=IBM+Plex+Mono:wght@400;700&display=swap",
     rel: "stylesheet"
@@ -27,10 +28,12 @@ const menuTitle = computed(() => {
 })
 
 watch(() => route.path, () => {
-  if (route.name !== 'index') {
-    WebApp.BackButton.show();
-  } else {
-    WebApp.BackButton.hide();
+  if (authStore.activeAuth == 'telegram') {
+    if (route.name !== 'index') {
+      WebApp.BackButton.show();
+    } else {
+      WebApp.BackButton.hide();
+    }
   }
 })
 
@@ -39,7 +42,6 @@ onMounted(async () => {
   if (body) {
     body.style.backgroundColor = "#fff"
   }
-
   if (authStore.activeAuth == 'telegram') {
     WebApp.expand()
     WebApp.setHeaderColor("#fff")
@@ -62,7 +64,7 @@ await authStore.auth()
 
 <template>
   <textarea v-if="false" class="w-full p-3 rounded border" :value="JSON.stringify(authStore.logs)"/>
-  <div class="h-screen w-full flex flex-col gap-4">
+  <div class="h-screen w-full flex flex-col">
     <div class="w-full flex gap-4 p-4 py-2 justify-between">
       <div class="flex-1 space-y-1">
         <nuxt-link class="block" to="/">
@@ -145,7 +147,14 @@ await authStore.auth()
     <span class="text-center text-xl font-bold">Cooking...</span>
     <Button class="h-12 text-xl w-48 rounded-2xl" size="lg" @click="authStore.auth()">Retry</Button>
   </div>
-  <Toaster/>
+  <Dialog :open="!!store.modalName" @update:open="store.modalName = null">
+    <DialogContent class="max-w-sm">
+      <Auth v-if="store.modalName == 'auth'"/>
+    </DialogContent>
+  </Dialog>
+  <ClientOnly>
+    <Toaster/>
+  </ClientOnly>
 </template>
 
 <style>

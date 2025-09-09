@@ -71,3 +71,11 @@ export interface Tag {
     "id_string": string
     "icon": string,
 }
+
+export interface AuthDataInput {
+    "username": string,
+    "email": string
+    "password": string
+    "re_password"?: string
+    "invite_code"?: string
+}

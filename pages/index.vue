@@ -89,13 +89,13 @@ const isTelegram = computed(() => authStore.activeAuth === 'telegram')
 
 <template>
   <div
-    class="h-full flex flex-col justify-center gap-4"
+    class="h-full flex flex-col justify-center gap-4 py-4"
   >
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
         <span v-if="store.info.doing">Doing "{{ store.info.doing.task.name || 'Untitled' }}"</span>
-        <span v-else-if="store.percent < 100">Stay focus, QuackQuack!</span>
-        <span v-else>QuackQuack!</span>
+        <span v-else-if="store.percent < 100">Stay focus, Quack! Quack!</span>
+        <span v-else>Quack! Quack!</span>
       </div>
       <tgs-player
           autoplay
@@ -142,7 +142,7 @@ const isTelegram = computed(() => authStore.activeAuth === 'telegram')
           </div>
         </Button>
       </div>
-      <Login v-if="authStore.activeAuth === 'local' && !authStore.loggedIn"/>
+      <Button class="w-48 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">Start</Button>
     </div>
   </div>
 </template>
