@@ -140,7 +140,7 @@ watch(animationKey, () => {
           </div>
         </Button>
       </div>
-      <Button class="w-48 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">Start</Button>
+      <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">Start</Button>
     </div>
   </div>
 </template>
