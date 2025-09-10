@@ -135,7 +135,7 @@ watch(animationKey, () => {
               <img class="w-4 h-4" src="/icon/star.png" alt="">
               <span>{{ formatFloat(store.info.doing?.task.reward_amount) }}</span>
             </template>
-            <span v-else-if="store.isRunning">Quacking!</span>
+            <span v-else-if="store.isRunning">{{ formatFloat(store.percent, 2, 2) }}%</span>
             <span v-else>Start</span>
           </div>
         </Button>

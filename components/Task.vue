@@ -32,12 +32,6 @@ const status = computed(() => {
   return task.status
 })
 const completedPomo = computed(() => task.account_task.filter(x => x.status == 1).length)
-const reward = computed(() => {
-  if (task.reward_type === 'boost') return task.reward_amount;
-  else {
-    return BASE_MINING_SPEED * form.value.unit * task.duration_est
-  }
-})
 
 const updateTask = async () => {
   await useNativeFetch<AccountTaskDetail>(`/tasks/${task.id}/do`, {
@@ -128,25 +122,23 @@ watch(() => form.value.unit, () => {
         >
         <div v-else class="text-lg font-bold">{{ form.name || "Untitled" }}</div>
         <div class="flex gap-3 items-center text-sm">
-          <div v-if="task.reward_type === 'point'" class="flex gap-0.5">
-            <template v-if="updating">
-              <nuxt-icon name="minus-box" class="cursor-pointer w-4 h-4" @click="form.unit--"/>
-              <nuxt-icon name="plus-box" class="cursor-pointer w-4 h-4" @click="form.unit++"/>
-            </template>
-            <nuxt-icon
-                v-for="i in form.unit" class="w-4 h-4" :class="{'text-yellow-500': i <= completedPomo}"
-                name="tomato" filled
-            />
-            <span>x</span>
-            <div class="flex gap-0.5">
-              <span class="underline">{{ task.duration_est / 60 }}</span>
-              <span>m</span>
-            </div>
-          </div>
           <div class="flex gap-0.5 items-center">
-            <img class="size-4" v-if="task.reward_type === 'boost'" src="/icon/thunder.png" alt="">
-            <img class="size-4" v-else src="/icon/star.png" alt="">
-            <div>{{ formatFloat(reward, 3, 3) }}</div>
+            <template v-if="task.reward_type === 'boost'">
+              <img class="size-4" src="/icon/thunder.png" alt="">
+              <span>{{task.reward_amount}}</span>
+            </template>
+            <template v-else>
+              <img class="size-4" src="/icon/star.png" alt="">
+              <div>{{ formatFloat(task.reward_amount, 3, 3) }}</div>
+            </template>
+          </div>
+          <div v-if="task.reward_type === 'point'" class="flex items-center gap-0.5">
+            <span class="underline">{{ task.duration_est / 60 }}</span>
+            <span>m</span>
+            <template v-if="updating">
+              <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
+              <nuxt-icon name="plus-box" class="cursor-pointer size-4" @click="form.unit++"/>
+            </template>
           </div>
           <div v-if="updating" class="flex gap-2 ml-auto">
             <Button variant="secondary" size="xs" class="text-xs" @click="handleCancel">Cancel</Button>
@@ -154,9 +146,8 @@ watch(() => form.value.unit, () => {
           </div>
           <div
               v-else-if="task.status == TASK_STATUS.DRAFT" @click="updating = true"
-              class="flex gap-0.5 items-center cursor-pointer">
+              class="underline cursor-pointer">
             <span>Update</span>
-            <nuxt-icon name="pen" class="size-4"/>
           </div>
         </div>
       </div>
