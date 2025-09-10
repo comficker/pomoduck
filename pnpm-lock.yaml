@@ -26,8 +26,8 @@ dependencies:
     specifier: ^2.0.5
     version: 2.0.5
   '@twa-dev/sdk':
-    specifier: ^7.0.0
-    version: 7.0.0(react@18.3.1)
+    specifier: ^8.0.2
+    version: 8.0.2(react@18.3.1)
   '@types/lodash':
     specifier: ^4.17.7
     version: 4.17.7
@@ -2097,17 +2097,17 @@ packages:
       minimatch: 9.0.4
     dev: false
 
-  /@twa-dev/sdk@7.0.0(react@18.3.1):
-    resolution: {integrity: sha512-OZvqGGrdrgE0xU/IGjvsGKKouia5bTu6rA/BOOU6pJYLu776nQJs/HNFl7lwW16RONf1vvPqeV8XximsuzZ9Iw==}
+  /@twa-dev/sdk@8.0.2(react@18.3.1):
+    resolution: {integrity: sha512-Pp5GxnxP2blboVZFiM9aWjs4cb8IpW3x2jP3kLOMvIqy0jzNUTuFHkwHtx+zEvh/UcF2F+wmS8G6ebIA0XPXcg==}
     peerDependencies:
-      react: '>=16.0.0'
+      react: ^18.0.0 || ^19.0.0
     dependencies:
-      '@twa-dev/types': 7.0.0
+      '@twa-dev/types': 8.0.2
       react: 18.3.1
     dev: false
 
-  /@twa-dev/types@7.0.0:
-    resolution: {integrity: sha512-LBnMklxORuXd/ypv9gFKcQVNJkCktkeuU+2V6B5Ww7dcxDCoYBAKkNnIwEQ3cShq+cxTi96jC/CqWhgDMQ7AXQ==}
+  /@twa-dev/types@8.0.2:
+    resolution: {integrity: sha512-ICQ6n4NaUPPzV3/GzflVQS6Nnu5QX2vr9OlOG8ZkFf3rSJXzRKazrLAbZlVhCPPWkIW3MMuELPsE6tByrA49qA==}
     dev: false
 
   /@types/estree@1.0.5:

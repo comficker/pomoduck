@@ -84,6 +84,10 @@
         left: 0;
         right: 0;
         bottom: 0;
+
+        --head-top-extra: 0px;
+
+        padding-top: calc(env(safe-area-inset-top) + var(--head-top-extra));
     }
 }
 

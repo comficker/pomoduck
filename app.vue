@@ -4,7 +4,6 @@ import Toaster from '~/components/ui/toast/Toaster.vue'
 import {formatFloat} from "~/lib/utils";
 import TaskList from "~/components/TaskList.vue";
 import Auth from "~/components/modal/Auth.vue";
-import Music from "~/components/Music.vue";
 
 useHead({
   title: "PomoDuck - Quack! Quack! Quack! Quack!",
@@ -50,6 +49,12 @@ onMounted(async () => {
     WebApp.BackButton.onClick(() => router.back());
     if (WebApp.enableClosingConfirmation) {
       WebApp.enableClosingConfirmation()
+    }
+    if (['ios', 'android'].includes(WebApp.platform)) {
+      WebApp.requestFullscreen()
+      if (WebApp.platform == 'ios') {
+        document.body.style.setProperty("--head-top-extra", "40px")
+      }
     }
   }
 })
