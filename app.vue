@@ -55,16 +55,20 @@ onMounted(async () => {
 
 const showCooking = computed(() => {
   if (store.info && store.info.id) return false;
-  if (['wld', 'telegram'].includes(authStore.activeAuth)) return store.loading;
-  return authStore.loading
+  if (['wld', 'telegram'].includes(authStore.activeAuth)) return store.cooking;
+  return authStore.cooking
 })
 
 await authStore.auth()
 </script>
 
 <template>
-  <textarea v-if="false" class="w-full p-3 rounded border" :value="JSON.stringify(authStore.logs)"/>
-  <div class="h-[100svh] w-full flex flex-col">
+  <div class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
+    <blockquote v-if="store.info.is_staff" class="w-full">
+      {{JSON.stringify(authStore.logs)}}
+    </blockquote>
+  </div>
+  <div class="h-[100svh] w-full flex flex-col relative z-0">
     <div class="w-full flex gap-4 p-4 py-2 justify-between">
       <div class="flex-1 space-y-1">
         <nuxt-link class="block" to="/">
@@ -72,11 +76,8 @@ await authStore.auth()
         </nuxt-link>
         <div class="uppercase font-bold text-2xs flex items-center gap-1 text-gray-500">
           <span>Powered by</span>
-          <NuxtIcon name="wld" class="w-3 h-3" filled/>
-          <NuxtIcon name="ton" class="w-3 h-3" filled/>
-          <a href="/about" target="_blank">
-            <NuxtIcon name="open" class="w-4 h-4"/>
-          </a>
+          <NuxtIcon name="wld" class="size-4" filled/>
+          <NuxtIcon name="ton" class="size-[17px]" filled/>
         </div>
       </div>
       <div class="flex items-center gap-2">

@@ -32,7 +32,8 @@ export interface Info {
     meta: any,
     boost_level: number
     boost_balance: number
-    doing?: AccountTaskDetail
+    doing?: AccountTaskDetail,
+    is_staff: boolean
 }
 
 export interface ITask {

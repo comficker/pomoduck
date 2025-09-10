@@ -29,7 +29,7 @@ function urlParseQueryString(queryString: string) {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-    const loading = ref<boolean>(false);
+    const cooking = ref<boolean>(false);
     const route = useRoute()
     const authToken = useStatefulCookie('auth_token')
     const authTokenRefresh = useStatefulCookie('auth_token_refresh')
@@ -43,17 +43,24 @@ export const useAuthStore = defineStore('auth', () => {
             const h = decodeURIComponent(route.hash)
             const matches = h.matchAll(/#tgWebAppData=(.*?)&tgWebAppVersion/g);
             const initData = urlParseQueryString(Array.from(matches, x => x[1])[0])
-            const response = await useNativeFetch<{ refresh: string, access: string }>(`/auth-telegram`, {
-                method: 'GET',
-                query: {
-                    auth_data: initData
+            if (initData) {
+                activeAuth.value = 'telegram'
+                cooking.value = true
+                try {
+                    const response = await useNativeFetch<{ refresh: string, access: string }>(`/auth-telegram`, {
+                        method: 'GET',
+                        query: {
+                            auth_data: initData
+                        }
+                    })
+                    if (response) {
+                        authToken.value = response.access
+                        authTokenRefresh.value = response.refresh
+                    }
+                } catch (e) {
+                    logs.value.push(e?.toString())
                 }
-            })
-            if (response) {
-                authToken.value = response.access
-                authTokenRefresh.value = response.refresh
             }
-            activeAuth.value = 'telegram'
         }
     }
 
@@ -63,6 +70,7 @@ export const useAuthStore = defineStore('auth', () => {
                 return;
             }
             activeAuth.value = 'wld'
+            cooking.value = true
             const nonceRes = await useNativeFetch<{ nonce: string }>('/auth-wld')
             if (!nonceRes) return;
             const {finalPayload} = await MiniKit.commandsAsync.walletAuth({
@@ -141,7 +149,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const auth = async () => {
-        loading.value = true
+        cooking.value = true
         await authTelegram()
         await authWithWorldCoin()
         const isSuccess = await store.loadInfo(true)
@@ -149,11 +157,11 @@ export const useAuthStore = defineStore('auth', () => {
             await refreshToken()
         }
         loggedIn.value = !!store.info && !!store.info.id
-        loading.value = false
+        cooking.value = false
     }
 
     return {
-        loading,
+        cooking,
         logs,
         activeAuth,
         loggedIn,

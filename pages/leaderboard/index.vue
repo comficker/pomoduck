@@ -43,7 +43,7 @@ const share = () => {
       </div>
     </div>
     <div v-if="mode === 'Friends'" class="space-y-3">
-      <div class="border rounded-xl p-3 flex items-center gap-2">
+      <div class="flex items-center gap-2">
         <input disabled :value="url" type="text" class="text-sm text-gray-600 flex-1 outline-none">
         <div class="cursor-pointer" @click="copy" :class="{'text-green-600': isCopied}">
           <CopyIcon class="w-4 h-4"/>
