@@ -64,7 +64,7 @@ await authStore.auth()
 
 <template>
   <textarea v-if="false" class="w-full p-3 rounded border" :value="JSON.stringify(authStore.logs)"/>
-  <div class="h-screen w-full flex flex-col">
+  <div class="h-[100svh] w-full flex flex-col">
     <div class="w-full flex gap-4 p-4 py-2 justify-between">
       <div class="flex-1 space-y-1">
         <nuxt-link class="block" to="/">
