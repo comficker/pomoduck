@@ -20,6 +20,7 @@ export const useGlobalStore = defineStore('global', () => {
         meta: {},
         boost_level: 0,
         boost_balance: 0,
+        is_staff: false
     })
     const loading = ref(true)
     const fetched = ref(false)

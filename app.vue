@@ -72,9 +72,9 @@ await authStore.auth()
     <div class="w-full flex gap-4 p-4 py-2 justify-between">
       <div class="flex-1 space-y-1">
         <nuxt-link class="block" to="/">
-          <img class="h-5 md:h-8" :src="`/logo.png`" alt="">
+          <img class="h-8" :src="`/logo.png`" alt="">
         </nuxt-link>
-        <div class="uppercase font-bold text-2xs flex items-center gap-1 text-gray-500">
+        <div class="uppercase font-bold text-2xs hidden md:flex items-center gap-1 text-gray-500">
           <span>Powered by</span>
           <NuxtIcon name="wld" class="size-4" filled/>
           <NuxtIcon name="ton" class="size-[17px]" filled/>
@@ -92,6 +92,9 @@ await authStore.auth()
           <img src="/icon/thunder.png" class="size-4" alt="">
           <span>{{ store.info.boost_balance }}</span>
         </div>
+        <nuxt-link to="/settings">
+          <NuxtIcon name="cog" class="size-5"/>
+        </nuxt-link>
       </div>
     </div>
     <div class="max-w-md mx-auto flex-1 w-full relative overflow-auto">

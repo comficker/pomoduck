@@ -5,9 +5,8 @@ import {formatFloat} from "~/lib/utils";
 import {TASK_STATUS, BASE_MINING_SPEED} from "~/lib/constants";
 import {toast} from "~/components/ui/toast";
 
-
 const {task} = defineProps<{ task: ITask }>()
-const emits = defineEmits(['update:task'])
+const emits = defineEmits(['update:task', 'deleted'])
 
 const doing = ref(false)
 const store = useGlobalStore()
@@ -31,7 +30,6 @@ const status = computed(() => {
   }
   return task.status
 })
-const completedPomo = computed(() => task.account_task.filter(x => x.status == 1).length)
 
 const updateTask = async () => {
   await useNativeFetch<AccountTaskDetail>(`/tasks/${task.id}/do`, {
@@ -98,12 +96,27 @@ const handleSave = () => {
   })
 }
 
+const handleDeleteTask = () => {
+  useNativeFetch<ITask>(`/tasks/${task.id}/`, {
+    method: 'DELETE',
+  }).then((res) => {
+    emits('deleted')
+    updating.value = false
+  }).catch(e => {
+    toast({
+      variant: "destructive",
+      title: "Something went wrong!",
+      description: "Delete task failed",
+    })
+  })
+}
+
 watch(() => form.value.unit, () => {
   if (form.value.unit < 1) {
-    form.value.unit = 1
+    form.value.unit = 10
   }
-  if (form.value.unit > 5) {
-    form.value.unit = 5
+  if (form.value.unit > 10) {
+    form.value.unit = 1
   }
 })
 </script>
@@ -115,13 +128,24 @@ watch(() => form.value.unit, () => {
   >
     <div class="flex-1 flex gap-4 items-center">
       <div class="flex-1 font-semibold" :class="{'space-y-2': updating}">
-        <input
-            v-if="updating" v-model="form.name" type="text"
-            class="text-lg border rounded p-0.5 px-3 w-full"
-            placeholder="Name"
-        >
+        <template v-if="updating">
+          <input
+              v-model="form.name" type="text"
+              class="text-lg border rounded p-0.5 px-3 w-full"
+              placeholder="Name"
+          >
+          <textarea class="w-full" v-model="form.description" placeholder="Note"/>
+        </template>
         <div v-else class="text-lg font-bold">{{ form.name || "Untitled" }}</div>
         <div class="flex gap-3 items-center text-sm">
+          <div v-if="task.reward_type === 'point'" class="flex items-center gap-0.5">
+            <template v-if="updating">
+              <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
+              <nuxt-icon name="plus-box" class="cursor-pointer size-4" @click="form.unit++"/>
+            </template>
+            <span class="underline">{{ form.unit * task.duration_est / 60 }}</span>
+            <span>m</span>
+          </div>
           <div class="flex gap-0.5 items-center">
             <template v-if="task.reward_type === 'boost'">
               <img class="size-4" src="/icon/thunder.png" alt="">
@@ -129,24 +153,18 @@ watch(() => form.value.unit, () => {
             </template>
             <template v-else>
               <img class="size-4" src="/icon/star.png" alt="">
-              <div>{{ formatFloat(task.reward_amount, 3, 3) }}</div>
-            </template>
-          </div>
-          <div v-if="task.reward_type === 'point'" class="flex items-center gap-0.5">
-            <span class="underline">{{ task.duration_est / 60 }}</span>
-            <span>m</span>
-            <template v-if="updating">
-              <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
-              <nuxt-icon name="plus-box" class="cursor-pointer size-4" @click="form.unit++"/>
+              <div>{{ formatFloat(form.unit * BASE_MINING_SPEED * task.duration_est, 3, 3) }}</div>
             </template>
           </div>
           <div v-if="updating" class="flex gap-2 ml-auto">
-            <Button variant="secondary" size="xs" class="text-xs" @click="handleCancel">Cancel</Button>
-            <Button size="xs" class="text-xs" @click="handleSave">Save</Button>
+            <Button variant="link" size="xs" class="text-xs" @click="handleCancel">Cancel</Button>
+            <Button variant="destructive" size="xs" class="text-xs px-3 rounded-lg" @click="handleDeleteTask">Delete</Button>
+            <Button size="xs" class="text-xs px-3 rounded-lg" @click="handleSave">Save</Button>
           </div>
           <div
               v-else-if="task.status == TASK_STATUS.DRAFT" @click="updating = true"
-              class="underline cursor-pointer">
+              class="underline cursor-pointer"
+          >
             <span>Update</span>
           </div>
         </div>

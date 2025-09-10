@@ -2,13 +2,18 @@
 import type {APIResponse, ITask} from "~/types";
 
 const store = useGlobalStore()
-
-const {data: taskRes, refresh, pending} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
-  method: "GET",
-  query: {
-    page_size: 50
+const query = computed(() => {
+  return {
+    page_size: 50,
+    creator_id: store.taskFilter === 'private' ? store.info.id : undefined,
   }
 })
+const {data: taskRes, refresh, pending} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
+  method: "GET",
+  query: query,
+  watch: [query]
+})
+
 const isActiveSticky = ref(false)
 
 const createTask = () => {
@@ -49,12 +54,14 @@ onMounted(() => {
               <div class="text-center">Don't have any task now!</div>
             </div>
             <Task
-                v-for="(item, i) in taskRes.results.filter(x => store.taskFilter === 'private' ? !!x.creator : !x.creator)"
-                :key="`${store.refreshTask}_${item.id}`" :task="item"
+                v-for="(item, i) in taskRes.results"
+                :key="`${store.refreshTask}_${item.id}`"
+                :task="item"
                 @update:task="taskRes.results[i] = $event"
+                @deleted="taskRes.results.splice(i, 1)"
             />
             <div
-              v-show="store.loggedIn && store.taskFilter == 'my'"
+              v-show="store.loggedIn && store.taskFilter == 'private'"
               class="sticky bottom-0 bg-white flex justify-center"
               :class="{active: isActiveSticky}"
             >

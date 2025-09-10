@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {formatFloat} from "~/lib/utils";
+import {MiniKit} from '@worldcoin/minikit-js'
 import WebApp from "@twa-dev/sdk";
 
 const store = useGlobalStore()
@@ -55,7 +56,13 @@ const randomAnimate = () => {
 const runTimer = async () => {
   if (authStore.activeAuth === 'telegram') {
     WebApp.HapticFeedback.impactOccurred('medium')
+  } else if (authStore.activeAuth === 'wld') {
+    MiniKit.commands.sendHapticFeedback({
+      hapticsType: 'impact',
+      style: 'light',
+    })
   }
+
   await store.work()
   if (store.info.doing?.status == 1) {
     animationKey.value = 'done'
@@ -86,7 +93,7 @@ watch(animationKey, () => {
 
 <template>
   <div
-    class="h-full flex flex-col justify-center gap-4 py-4"
+      class="h-full flex flex-col justify-center gap-4 py-4"
   >
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
@@ -103,18 +110,24 @@ watch(animationKey, () => {
       />
       <div class="text-6xl font-extrabold flex gap-3 items-center num">
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="i in display2Digit(store.timer.mm)" class="w-14 p-1 bg-gray-100 rounded shadow-inner">{{ i }}</div>
+          <div v-for="i in display2Digit(store.timer.mm)" class="w-14 p-1 bg-gray-100 rounded shadow-inner">
+            {{ i }}
+          </div>
         </div>
         <div>:</div>
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="i in display2Digit(store.timer.ss)" class="w-14 p-1 bg-gray-100 rounded shadow-inner">{{ i }}</div>
+          <div v-for="i in display2Digit(store.timer.ss)" class="w-14 p-1 bg-gray-100 rounded shadow-inner">
+            {{ i }}
+          </div>
         </div>
       </div>
       <div class="flex justify-center items-center gap-2 text-yellow-600">
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="minus" @click="changeBoost(-1)"/>
         <div class="w-8 h-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
           <img class="w-5 h-5" src="/icon/thunder.png" alt="">
-          <span class="absolute text-xs -bottom-1 -right-1">x{{Math.min(store.info.boost_balance, store.info.boost_level) }}</span>
+          <span class="absolute text-xs -bottom-1 -right-1">x{{
+              Math.min(store.info.boost_balance, store.info.boost_level)
+            }}</span>
         </div>
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
       </div>
@@ -122,9 +135,9 @@ watch(animationKey, () => {
     <div class="p-4 bg-white flex justify-center num">
       <div v-if="authStore.loggedIn" class="inline-flex w-2/3">
         <Button
-          :variant="store.isRunning ? 'secondary': 'default'" size="lg"
-          class="rounded-2xl h-12 w-full relative overflow-hidden"
-          @click="runTimer()"
+            :variant="store.isRunning ? 'secondary': 'default'" size="lg"
+            class="rounded-2xl h-12 w-full relative overflow-hidden"
+            @click="runTimer()"
         >
           <div v-if="store.isRunning" class="absolute inset-0 overflow-hidden">
             <div class="h-full w-full flex flex-nowrap">
@@ -142,7 +155,9 @@ watch(animationKey, () => {
           </div>
         </Button>
       </div>
-      <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">Start</Button>
+      <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
+        Start
+      </Button>
     </div>
   </div>
 </template>
