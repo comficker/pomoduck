@@ -54,7 +54,7 @@ onMounted(async () => {
     }
     if (['ios', 'android'].includes(WebApp.platform)) {
       WebApp.requestFullscreen()
-      document.body.style.setProperty("--head-top-extra", "40px")
+      document.body.style.setProperty("--head-top-extra", "140px")
     }
   }
 })
