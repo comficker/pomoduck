@@ -53,18 +53,12 @@ onMounted(async () => {
   }
 })
 
-const showCooking = computed(() => {
-  if (store.info && store.info.id) return false;
-  if (['wld', 'telegram'].includes(authStore.activeAuth)) return store.cooking;
-  return authStore.cooking
-})
-
 await authStore.auth()
 </script>
 
 <template>
-  <div class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
-    <blockquote v-if="store.info.is_staff" class="w-full">
+  <div v-if="store.info.is_staff && false" class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
+    <blockquote class="w-full">
       {{JSON.stringify(authStore.logs)}}
     </blockquote>
   </div>
@@ -143,8 +137,8 @@ await authStore.auth()
       </div>
     </div>
   </div>
-  <div v-if="showCooking" class="fixed bg-white inset-0 flex flex-col justify-center gap-6 items-center z-10">
-    <img class="w-16 h-16" src="/icon.png" alt="">
+  <div v-if="authStore.cooking" class="fixed bg-white inset-0 flex flex-col justify-center gap-6 items-center z-10">
+    <img class="size-16" src="/icon.png" alt="">
     <span class="text-center text-xl font-bold">Cooking...</span>
     <Button class="h-12 text-xl w-48 rounded-2xl" size="lg" @click="authStore.auth()">Retry</Button>
   </div>
