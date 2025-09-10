@@ -4,6 +4,7 @@ import Toaster from '~/components/ui/toast/Toaster.vue'
 import {formatFloat} from "~/lib/utils";
 import TaskList from "~/components/TaskList.vue";
 import Auth from "~/components/modal/Auth.vue";
+import Music from "~/components/Music.vue";
 
 useHead({
   title: "PomoDuck - Quack! Quack! Quack! Quack!",

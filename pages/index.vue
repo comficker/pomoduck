@@ -89,7 +89,7 @@ watch(animationKey, () => {
   <div
     class="h-full flex flex-col justify-center gap-4 py-4"
   >
-    <div class="flex-1 px-4 text-center flex items-center justify-center flex-col">
+    <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
         <span v-if="store.info.doing">Doing "{{ store.info.doing.task.name || 'Untitled' }}"</span>
         <span v-else-if="store.percent < 100">Stay focus, Quack! Quack!</span>
@@ -102,7 +102,8 @@ watch(animationKey, () => {
           :src="animated[getRandomRest()]"
           @click="randomAnimate"
       />
-      <div class="text-7xl font-extrabold flex gap-1 items-center major-mono">
+      <Music/>
+      <div class="text-6xl font-extrabold flex gap-1 items-center major-mono">
         <div>{{ display2Digit(store.timer.mm) }}</div>
         <div>:</div>
         <div>{{ display2Digit(store.timer.ss) }}</div>
