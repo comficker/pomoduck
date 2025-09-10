@@ -3,7 +3,7 @@ import type {AccountTaskDetail, ITask} from "~/types";
 import WebApp from '@twa-dev/sdk'
 import {formatFloat} from "~/lib/utils";
 import {TASK_STATUS, BASE_MINING_SPEED} from "~/lib/constants";
-import {toast} from "~/components/ui/toast";
+import { toast } from 'vue-sonner'
 
 const {task} = defineProps<{ task: ITask }>()
 const emits = defineEmits(['update:task', 'deleted'])
@@ -139,7 +139,7 @@ watch(() => form.value.unit, () => {
         <div v-else class="text-lg font-bold">{{ form.name || "Untitled" }}</div>
         <div class="flex gap-3 items-center text-sm">
           <div v-if="task.reward_type === 'point'" class="flex items-center gap-0.5">
-            <template v-if="updating">
+            <template v-if="updating && task.status == TASK_STATUS.DRAFT">
               <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
               <nuxt-icon name="plus-box" class="cursor-pointer size-4" @click="form.unit++"/>
             </template>
@@ -153,7 +153,7 @@ watch(() => form.value.unit, () => {
             </template>
             <template v-else>
               <img class="size-4" src="/icon/star.png" alt="">
-              <div>{{ formatFloat(form.unit * BASE_MINING_SPEED * task.duration_est, 3, 3) }}</div>
+              <div>{{ formatFloat(form.unit * BASE_MINING_SPEED * task.duration_est * 1.5, 3, 3) }}</div>
             </template>
           </div>
           <div v-if="updating" class="flex gap-2 ml-auto">
@@ -162,10 +162,10 @@ watch(() => form.value.unit, () => {
             <Button size="xs" class="text-xs px-3 rounded-lg" @click="handleSave">Save</Button>
           </div>
           <div
-              v-else-if="task.status == TASK_STATUS.DRAFT" @click="updating = true"
-              class="underline cursor-pointer"
+            v-else-if="task.creator" @click="updating = true"
+            class="underline cursor-pointer"
           >
-            <span>Update</span>
+            <NuxtIcon name="cog" class="size-4"/>
           </div>
         </div>
       </div>
@@ -182,9 +182,3 @@ watch(() => form.value.unit, () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.act {
-  @apply font-bold cursor-pointer rounded-none hover:rounded-2xl hover:bg-yellow-100 duration-300 p-2 flex items-center gap-1;
-}
-</style>

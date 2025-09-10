@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import WebApp from '@twa-dev/sdk'
-import Toaster from '~/components/ui/toast/Toaster.vue'
+import { Toaster } from '@/components/ui/sonner'
 import {formatFloat} from "~/lib/utils";
 import TaskList from "~/components/TaskList.vue";
 import Auth from "~/components/modal/Auth.vue";
@@ -162,27 +162,4 @@ await authStore.auth()
 </template>
 
 <style>
-.menu {
-  @apply px-1 bg-black/70 rounded-full p-1 text-sm grid grid-cols-2 gap-2 font-semibold uppercase text-white;
-}
-
-.menu a.router-link-active,
-.menu .item.active {
-  @apply bg-yellow-500;
-}
-
-.menu a,
-.menu .item {
-  @apply block p-3 flex justify-center items-center gap-1 rounded-full duration-100 cursor-pointer;
-}
-
-.dropbox {
-  @apply overflow-hidden shadow border rounded-xl rounded-b-none md:rounded-b-xl md:rounded-t-none border-b-0 md:border-t-0
-}
-
-.task-control {
-  @apply text-xs bg-white cursor-pointer flex items-center gap-1 p-1 px-4;
-
-  z-index: 0;
-}
 </style>

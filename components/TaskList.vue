@@ -62,12 +62,12 @@ onMounted(() => {
             />
             <div
               v-show="store.loggedIn && store.taskFilter == 'private'"
-              class="sticky bottom-0 bg-white flex justify-center"
+              class="sticky bottom-0 border-t border-gray-100 pt-2 bg-white flex justify-center"
               :class="{active: isActiveSticky}"
             >
               <Button variant="link" class="gap-2" @click="createTask">
                 <NuxtIcon name="plus" class="w-5 h-5"/>
-                <div>Add task</div>
+                <div>Add your task</div>
               </Button>
             </div>
           </div>
@@ -78,27 +78,6 @@ onMounted(() => {
 </template>
 
 <style>
-.task-list {
-  @apply bg-white duration-300 opacity-0 overflow-hidden shadow border;
 
-  border-radius: 24px;
-  padding: 1.45rem 0;
-  height: 0;
-}
-
-.task-list.active {
-  @apply -my-4 md:mb-0 mt-0 md:-mt-3 opacity-100 py-3;
-
-  height: calc(50vh);
-}
-
-
-.sticky {
-  transition: .1s;
-}
-
-.sticky.active {
-  box-shadow: 0 7px 7px 5px;
-}
 </style>
 

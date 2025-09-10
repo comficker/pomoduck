@@ -110,24 +110,24 @@ watch(animationKey, () => {
       />
       <div class="text-6xl font-extrabold flex gap-3 items-center num">
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="i in display2Digit(store.timer.mm)" class="w-14 p-1 bg-gray-100 rounded shadow-inner">
+          <div v-for="i in display2Digit(store.timer.mm)" class="w-14 p-1 bg-gray-100 rounded-xl shadow-inner">
             {{ i }}
           </div>
         </div>
         <div>:</div>
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="i in display2Digit(store.timer.ss)" class="w-14 p-1 bg-gray-100 rounded shadow-inner">
+          <div v-for="i in display2Digit(store.timer.ss)" class="w-14 p-1 bg-gray-100 rounded-xl shadow-inner">
             {{ i }}
           </div>
         </div>
       </div>
       <div class="flex justify-center items-center gap-2 text-yellow-600">
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="minus" @click="changeBoost(-1)"/>
-        <div class="w-8 h-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
-          <img class="w-5 h-5" src="/icon/thunder.png" alt="">
-          <span class="absolute text-xs -bottom-1 -right-1">x{{
-              Math.min(store.info.boost_balance, store.info.boost_level)
-            }}</span>
+        <div class="size-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
+          <img class="size-5" src="/icon/thunder.png" alt="">
+          <span class="absolute text-xs -bottom-1 -right-1">
+            x{{ Math.min(store.info.boost_balance, store.info.boost_level) }}
+          </span>
         </div>
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
       </div>
@@ -163,29 +163,4 @@ watch(animationKey, () => {
 </template>
 
 <style>
-@keyframes filling {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-.wave {
-  @apply h-full w-4 relative overflow-hidden;
-}
-
-.wave:before {
-  @apply rotate-90;
-
-  content: "";
-  position: absolute;
-  width: 400%;
-  height: 200%;
-  top: -50%;
-  left: -50%;
-  background-image: url("/wave.svg");
-  background-size: contain;
-}
 </style>

@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import {MiniKit} from '@worldcoin/minikit-js'
 import useStatefulCookie from "~/composables/useStatefulCookie";
-import {toast} from "~/components/ui/toast";
+import { toast } from 'vue-sonner'
 
 function urlSafeDecode(urlencoded: string) {
     try {

@@ -3,7 +3,7 @@ import {defineStore} from 'pinia'
 import type {AccountTaskDetail, Info} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {timeSinceObject} from "~/lib/utils";
-import {toast} from "~/components/ui/toast";
+import { toast } from 'vue-sonner'
 
 export const useGlobalStore = defineStore('global', () => {
     const authToken = useStatefulCookie('auth_token')
@@ -120,7 +120,7 @@ export const useGlobalStore = defineStore('global', () => {
                 })
             }
             info.value.doing = newData
-            refreshTask.value ++
+            refreshTask.value++
         }
         computeTimer()
     }

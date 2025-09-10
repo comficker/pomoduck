@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {Share1Icon, CopyIcon} from "@radix-icons/vue";
 import type {Account, APIResponse} from "~/types";
 import {copyContent, formatFloat} from "~/lib/utils";
 import WebApp from "@twa-dev/sdk";
@@ -46,10 +45,10 @@ const share = () => {
       <div class="flex items-center gap-2">
         <input disabled :value="url" type="text" class="text-sm text-gray-600 flex-1 outline-none">
         <div class="cursor-pointer" @click="copy" :class="{'text-green-600': isCopied}">
-          <CopyIcon class="w-4 h-4"/>
+          <NuxtIcon name="copy" class="size-4"/>
         </div>
         <div class="cursor-pointer" @click="share">
-          <Share1Icon class="w-4 h-4"/>
+          <NuxtIcon name="share" class="size-4"/>
         </div>
       </div>
       <div class="flex-1 flex items-center justify-center">
@@ -71,13 +70,3 @@ const share = () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.tabs {
-  @apply flex gap-2 text-3xl text-gray-400;
-}
-
-.tab {
-  @apply font-bold flex gap-2 duration-200 cursor-pointer;
-}
-</style>
