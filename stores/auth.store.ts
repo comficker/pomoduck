@@ -122,9 +122,7 @@ export const useAuthStore = defineStore('auth', () => {
             await auth()
             if (loggedIn.value) store.modalName = null;
         } else {
-            toast({
-                variant: 'destructive',
-                title: 'Something went wrong!',
+            toast("'Something went wrong!'", {
                 description: 'Please recheck your input!',
             })
         }

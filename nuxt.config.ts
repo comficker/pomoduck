@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     ssr: false,
     css: [
         '~/assets/css/tailwind.css',
-        '~/assets/fonts/stolzl/stylesheet.css'
+        '~/assets/fonts/stolzl/stylesheet.css',
+        'vue-sonner/style.css'
     ],
     modules: ["shadcn-nuxt", "nuxt-icons", "@pinia/nuxt"],
     // @ts-ignore

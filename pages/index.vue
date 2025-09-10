@@ -97,7 +97,7 @@ watch(animationKey, () => {
   >
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
-        <span v-if="store.info.doing">Doing "{{ store.info.doing.task.name || 'Untitled' }}"</span>
+        <span v-if="store.info.doing">Doing "{{ store.info.doing.name || 'Untitled' }}"</span>
         <span v-else-if="store.percent < 100">Stay focus, Quack! Quack!</span>
         <span v-else>Quack! Quack!</span>
       </div>
@@ -149,7 +149,7 @@ watch(animationKey, () => {
             <template v-if="store.percent > 0">
               <span>Claim</span>
               <img class="w-4 h-4" src="/icon/star.png" alt="">
-              <span>{{ formatFloat(store.info.doing?.task.reward_amount) }}</span>
+              <span>{{ formatFloat(store.info.doing?.reward_amount) }}</span>
             </template>
             <span v-else>Start</span>
           </div>

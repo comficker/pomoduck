@@ -32,7 +32,7 @@ export interface Info {
     meta: any,
     boost_level: number
     boost_balance: number
-    doing?: AccountTaskDetail,
+    doing?: ITask,
     is_staff: boolean
 }
 
@@ -57,13 +57,15 @@ export interface ITask {
 
 export interface AccountTask {
     status: number;
+    start_at: string | null
+    finished_at: string | null
 }
 
 export interface AccountTaskDetail {
     id: number
     task: ITask
-    start_at: string
-    finished_at: string
+    start_at: string | null
+    finished_at: string | null
     status: number;
 }
 

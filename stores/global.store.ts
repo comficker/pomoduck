@@ -1,6 +1,6 @@
 import {ref} from "vue"
 import {defineStore} from 'pinia'
-import type {AccountTaskDetail, Info} from "~/types";
+import type {AccountTask, AccountTaskDetail, Info, ITask} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {timeSinceObject} from "~/lib/utils";
 import { toast } from 'vue-sonner'
@@ -38,6 +38,7 @@ export const useGlobalStore = defineStore('global', () => {
     const modalName = ref<'auth' | null>(null)
 
     const loggedIn = computed(() => info.value && info.value.id)
+    const accountTask = computed(() => info.value.doing?.account_task.find(x => !x.finished_at))
 
     async function loadInfo(showLoading = true) {
         loading.value = showLoading
@@ -52,9 +53,9 @@ export const useGlobalStore = defineStore('global', () => {
     }
 
     function computeTimer() {
-        if (info.value.doing && info.value.doing.start_at) {
-            const startAt = new Date(info.value.doing.start_at).getTime()
-            const timeUnit = info.value.doing?.task.duration_est * 1000
+        if (info.value.doing && accountTask.value && accountTask.value.start_at) {
+            const startAt = new Date(accountTask.value.start_at).getTime()
+            const timeUnit = info.value.doing.duration_est * 1000
             const now = new Date().getTime()
             const deadline = startAt + timeUnit
             const timeRan = now - startAt
@@ -104,19 +105,20 @@ export const useGlobalStore = defineStore('global', () => {
     }
 
     async function work(task_id: number | undefined = undefined) {
-        if (!task_id) task_id = info.value.doing?.task.id
+        if (!task_id) task_id = info.value.doing?.id
         else openDrawer.value = false;
 
         if (task_id) {
-            const newData = await useNativeFetch<AccountTaskDetail>(`/tasks/${task_id}/do`, {
+            const newData = await useNativeFetch<ITask>(`/tasks/${task_id}/do`, {
                 method: "POST",
             })
-            if (info.value.doing && newData.id !== info.value.doing.id && !newData.start_at) {
+            const newAT = newData.account_task.find(x => !x.finished_at)
+            if (info.value.doing && newAT && !newAT.start_at) {
                 percent.value = 0
-                info.value.balance += info.value.doing.task.reward_amount
+                info.value.balance += info.value.doing.reward_amount
                 toast({
                     title: "Congratulations!",
-                    description: `You got ${info.value.doing.task.reward_amount} ${info.value.doing.task.reward_type}!`,
+                    description: `You got ${info.value.doing.reward_amount} ${info.value.doing.reward_type}!`,
                 })
             }
             info.value.doing = newData
