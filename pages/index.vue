@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {formatFloat} from "~/lib/utils";
 import WebApp from "@twa-dev/sdk";
-import Login from "~/components/Login.vue";
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
@@ -46,7 +45,7 @@ const display2Digit = (num: number) => {
   if (num <= 9) {
     return `0${num}`
   }
-  return num
+  return num.toString()
 }
 
 const randomAnimate = () => {
@@ -89,7 +88,7 @@ watch(animationKey, () => {
   <div
     class="h-full flex flex-col justify-center gap-4 py-4"
   >
-    <div class="flex-1 px-4 text-center flex items-center justify-center flex-col">
+    <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
         <span v-if="store.info.doing">Doing "{{ store.info.doing.task.name || 'Untitled' }}"</span>
         <span v-else-if="store.percent < 100">Stay focus, Quack! Quack!</span>
@@ -102,10 +101,14 @@ watch(animationKey, () => {
           :src="animated[getRandomRest()]"
           @click="randomAnimate"
       />
-      <div class="text-6xl font-extrabold flex gap-1 items-center major-mono">
-        <div>{{ display2Digit(store.timer.mm) }}</div>
+      <div class="text-6xl font-extrabold flex gap-3 items-center num">
+        <div class="grid grid-cols-2 gap-1">
+          <div v-for="i in display2Digit(store.timer.mm)" class="w-14 p-1 bg-gray-100 rounded shadow-inner">{{ i }}</div>
+        </div>
         <div>:</div>
-        <div>{{ display2Digit(store.timer.ss) }}</div>
+        <div class="grid grid-cols-2 gap-1">
+          <div v-for="i in display2Digit(store.timer.ss)" class="w-14 p-1 bg-gray-100 rounded shadow-inner">{{ i }}</div>
+        </div>
       </div>
       <div class="flex justify-center items-center gap-2 text-yellow-600">
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="minus" @click="changeBoost(-1)"/>
@@ -116,7 +119,7 @@ watch(animationKey, () => {
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
       </div>
     </div>
-    <div class="p-4 bg-white flex justify-center">
+    <div class="p-4 bg-white flex justify-center num">
       <div v-if="authStore.loggedIn" class="inline-flex w-2/3">
         <Button
           :variant="store.isRunning ? 'secondary': 'default'" size="lg"
@@ -130,12 +133,11 @@ watch(animationKey, () => {
             </div>
           </div>
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-lg">
-            <template v-if="store.percent === 100">
+            <template v-if="store.percent > 0">
               <span>Claim</span>
               <img class="w-4 h-4" src="/icon/star.png" alt="">
               <span>{{ formatFloat(store.info.doing?.task.reward_amount) }}</span>
             </template>
-            <span v-else-if="store.isRunning">{{ formatFloat(store.percent, 2, 2) }}%</span>
             <span v-else>Start</span>
           </div>
         </Button>

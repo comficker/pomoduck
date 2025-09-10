@@ -177,3 +177,7 @@ input {
 * {
     touch-action: manipulation;
 }
+
+.num {
+    font-family: "Stolzl Display", monospace;
+}

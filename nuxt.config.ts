@@ -4,6 +4,10 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
+  css: [
+    '~/assets/css/tailwind.css',
+    '~/assets/fonts/stolzl/stylesheet.css'
+  ],
   modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "nuxt-icons", "@pinia/nuxt"],
   // @ts-ignore
   shadcn: {

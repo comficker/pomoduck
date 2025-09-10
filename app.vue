@@ -7,10 +7,12 @@ import Auth from "~/components/modal/Auth.vue";
 
 useHead({
   title: "PomoDuck - Quack! Quack! Quack! Quack!",
-  link: [{
-    href: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=IBM+Plex+Mono:wght@400;700&display=swap",
-    rel: "stylesheet"
-  }],
+  link: [
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
+    }
+  ],
   meta: [
     {name: 'viewport', content: 'width=device-width, user-scalable=no'},
     {name: 'apple-mobile-web-app-status-bar-style', content: 'default'},
@@ -80,17 +82,17 @@ await authStore.auth()
           <NuxtIcon name="ton" class="size-[17px]" filled/>
         </div>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 num">
         <div
             class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2"
         >
-          <img src="/icon/star.png" class="w-4 h-4" alt="">
-          <span class="major-mono">{{ formatFloat(store.info.balance, 2, 2) }}</span>
+          <img src="/icon/star.png" class="size-4" alt="">
+          <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
         </div>
         <div
             class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
-          <img src="/icon/thunder.png" class="w-4 h-4" alt="">
-          <span class="major-mono">{{ store.info.boost_balance }}</span>
+          <img src="/icon/thunder.png" class="size-4" alt="">
+          <span>{{ store.info.boost_balance }}</span>
         </div>
       </div>
     </div>
