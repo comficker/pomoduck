@@ -68,7 +68,7 @@ await authStore.auth()
       {{JSON.stringify(authStore.logs)}}
     </blockquote>
   </div>
-  <div class="h-[100svh] w-full flex flex-col relative z-0">
+  <div class="wrapper w-full flex flex-col relative z-0">
     <div class="w-full flex gap-4 p-4 py-2 justify-between">
       <div class="flex-1 space-y-1">
         <nuxt-link class="block" to="/">
