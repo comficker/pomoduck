@@ -24,6 +24,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 root@45.76.181.237 << 'EOF'
             cd /home/frontend/pomoduck
+            git stash
             git pull origin main
             pnpm install
             pnpm run build
