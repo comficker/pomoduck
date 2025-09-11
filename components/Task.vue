@@ -24,7 +24,7 @@ const accountTask = computed(() => {
   return s || task.account_task[0]
 })
 const status = computed(() => {
-  if (accountTask.value) {
+  if (accountTask.value && task.creator) {
     if (accountTask.value.finished_at && accountTask.value.start_at) {
       return TASK_STATUS.COMPLETED
     } else if (accountTask.value.start_at && !accountTask.value.finished_at) {
@@ -37,11 +37,11 @@ const status = computed(() => {
 })
 const progress = computed(() => {
   const completed = task.account_task.filter(x => x.finished_at).length
-  return completed >= task.unit ?  task.unit : completed
+  return completed >= task.unit ? task.unit : completed
 })
 
 const act = async () => {
-  if (status.value != TASK_STATUS.ACTIVE) return;
+  if (status.value > 1) return;
 
   if (task.type === 'default') {
     await store.work(task.id);
@@ -143,7 +143,7 @@ watch(() => form.value.unit, () => {
             <NuxtIcon name="cog" class="size-4"/>
           </div>
           <div v-if="task.creator" class="flex rounded overflow-hidden items-center text-2xs">
-            <span class="num bg-green-400 text-white p-0.5 px-2">{{progress}}/{{ form.unit}}</span>
+            <span class="num bg-green-400 text-white p-0.5 px-2">{{ progress }}/{{ form.unit }}</span>
           </div>
           <div v-if="task.reward_type === 'point'" class="flex items-center gap-0.5">
             <template v-if="updating && task.status == TASK_STATUS.DRAFT">
@@ -166,10 +166,11 @@ watch(() => form.value.unit, () => {
           <div v-if="updating" class="flex text-xs gap-2 ml-auto">
             <Button variant="link" size="xs" @click="handleCancel">Reset</Button>
             <Button
-              v-if="status == TASK_STATUS.DRAFT"
-              variant="destructive" size="xs" class="px-3 rounded-lg"
-              @click="handleDeleteTask"
-            >Delete</Button>
+                v-if="status == TASK_STATUS.DRAFT"
+                variant="destructive" size="xs" class="px-3 rounded-lg"
+                @click="handleDeleteTask"
+            >Delete
+            </Button>
             <Button size="xs" class="px-3 rounded-lg" @click="handleSave">Save</Button>
           </div>
         </div>
