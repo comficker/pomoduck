@@ -106,24 +106,25 @@ export const useGlobalStore = defineStore('global', () => {
 
     async function work(task_id: number | undefined = undefined) {
         if (!task_id) task_id = info.value.doing?.id
-        else openDrawer.value = false;
-
+        let newData: ITask | undefined = undefined;
         if (task_id) {
-            const newData = await useNativeFetch<ITask>(`/tasks/${task_id}/do`, {
+            newData = await useNativeFetch<ITask>(`/tasks/${task_id}/do`, {
                 method: "POST",
             })
             const newAT = newData.account_task.find(x => !x.finished_at)
-            if (info.value.doing && newAT && !newAT.start_at) {
+            if (newData.type === 'default' && info.value.doing && newAT && !newAT.start_at) {
                 percent.value = 0
                 info.value.balance += info.value.doing.reward_amount
                 toast("Congratulations!", {
                     description: `You got ${info.value.doing.reward_amount} ${info.value.doing.reward_type}!`,
                 })
+                openDrawer.value = false
             }
             info.value.doing = newData
             refreshTask.value++
         }
         computeTimer()
+        return newData
     }
 
     return {

@@ -3,15 +3,15 @@ import type {AccountTaskDetail, ITask} from "~/types";
 import WebApp from '@twa-dev/sdk'
 import {formatFloat} from "~/lib/utils";
 import {TASK_STATUS, BASE_MINING_SPEED} from "~/lib/constants";
-import { toast } from 'vue-sonner'
+import {toast} from 'vue-sonner'
 
 const {task} = defineProps<{ task: ITask }>()
 const emits = defineEmits(['update:task', 'deleted'])
 
-const doing = ref(false)
 const store = useGlobalStore()
 const authStore = useAuthStore()
 
+const doing = ref(false)
 const updating = ref(false)
 const form = ref({
   name: task.name,
@@ -19,33 +19,25 @@ const form = ref({
   unit: task.unit
 })
 
+const accountTask = computed(() => task.account_task[0])
 const status = computed(() => {
-  if (task.account_task.length === 0) return TASK_STATUS.ACTIVE
-  else if (task.account_task.filter(x => x.status === 0).length) {
-    return TASK_STATUS.DOING
-  } else if (task.account_task.filter(x => x.status === 1).length == task.unit) {
-    return TASK_STATUS.COMPLETED
-  } else if (task.account_task.filter(x => x.status === 0).length == 0) {
-    return TASK_STATUS.ACTIVE
+  if (accountTask.value) {
+    if (accountTask.value.finished_at && accountTask.value.start_at) {
+      return TASK_STATUS.COMPLETED
+    } else if (accountTask.value.start_at && !accountTask.value.finished_at) {
+      return TASK_STATUS.DOING
+    } else if (!accountTask.value.start_at && !accountTask.value.finished_at) {
+      return TASK_STATUS.DRAFT
+    }
   }
-  return task.status
+  return TASK_STATUS.ACTIVE
 })
 
-const updateTask = async () => {
-  await useNativeFetch<AccountTaskDetail>(`/tasks/${task.id}/do`, {
-    method: "POST",
-  })
-  if (task.type == 'one_time') {
-    task.status = TASK_STATUS.COMPLETED
-  }
-}
-
 const act = async () => {
-  if ([TASK_STATUS.DOING, TASK_STATUS.COMPLETED].includes(status.value)) return;
+  if (status.value != TASK_STATUS.ACTIVE) return;
 
   if (task.type === 'default') {
     await store.work(task.id);
-    task.status = TASK_STATUS.ACTIVE;
     return;
   }
 
@@ -67,9 +59,8 @@ const act = async () => {
     }
   }
   setTimeout(async () => {
-    await updateTask()
+    await store.work(task.id);
     doing.value = false
-    await store.loadInfo()
   }, 7000)
 }
 
@@ -77,7 +68,6 @@ const handleCancel = () => {
   form.value.name = task.name
   form.value.description = task.description
   form.value.unit = task.unit
-  updating.value = false
 }
 
 const handleSave = () => {
@@ -138,6 +128,13 @@ watch(() => form.value.unit, () => {
         </template>
         <div v-else class="text-lg font-bold">{{ form.name || "Untitled" }}</div>
         <div class="flex gap-3 items-center text-sm">
+          <div
+              v-if="task.creator" @click="updating = !updating"
+              class="underline cursor-pointer"
+              :class="{'text-blue-500': updating}"
+          >
+            <NuxtIcon name="cog" class="size-4"/>
+          </div>
           <div v-if="task.reward_type === 'point'" class="flex items-center gap-0.5">
             <template v-if="updating && task.status == TASK_STATUS.DRAFT">
               <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
@@ -149,23 +146,25 @@ watch(() => form.value.unit, () => {
           <div class="flex gap-0.5 items-center">
             <template v-if="task.reward_type === 'boost'">
               <img class="size-4" src="/icon/thunder.png" alt="">
-              <span>{{task.reward_amount}}</span>
+              <span>{{ task.reward_amount }}</span>
             </template>
             <template v-else>
               <img class="size-4" src="/icon/star.png" alt="">
               <div>{{ formatFloat(form.unit * BASE_MINING_SPEED * task.duration_est * 1.5, 3, 3) }}</div>
             </template>
           </div>
-          <div v-if="updating" class="flex gap-2 ml-auto">
-            <Button variant="link" size="xs" class="text-xs" @click="handleCancel">Cancel</Button>
-            <Button variant="destructive" size="xs" class="text-xs px-3 rounded-lg" @click="handleDeleteTask">Delete</Button>
-            <Button size="xs" class="text-xs px-3 rounded-lg" @click="handleSave">Save</Button>
+          <div v-if="task.creator" class="flex gap-0.5 items-center">
+            <NuxtIcon name="checklist" class="size-4"/>
+            <span>{{ task.account_task.length > form.unit ? form.unit : task.account_task.length }}/{{ form.unit }}</span>
           </div>
-          <div
-            v-else-if="task.creator" @click="updating = true"
-            class="underline cursor-pointer"
-          >
-            <NuxtIcon name="cog" class="size-4"/>
+          <div v-if="updating" class="flex text-xs gap-2 ml-auto">
+            <Button variant="link" size="xs" @click="handleCancel">Reset</Button>
+            <Button
+                v-if="status == TASK_STATUS.DRAFT"
+                variant="destructive" size="xs" class="px-3 rounded-lg"
+                @click="handleDeleteTask"
+            >Delete</Button>
+            <Button size="xs" class="px-3 rounded-lg" @click="handleSave">Save</Button>
           </div>
         </div>
       </div>
@@ -173,9 +172,12 @@ watch(() => form.value.unit, () => {
         <div
             @click="act"
             class="act"
-            :class="{'animate-pulse': doing || status === TASK_STATUS.DOING,'grayscale': status === TASK_STATUS.COMPLETED}"
+            :class="{
+              'animate-pulse': status === TASK_STATUS.DOING,
+              'grayscale': status === TASK_STATUS.COMPLETED}
+            "
         >
-          <span v-if="status == TASK_STATUS.ACTIVE">GO!</span>
+          <span v-if="[TASK_STATUS.ACTIVE, TASK_STATUS.DRAFT].includes(status)">GO!</span>
           <img v-else class="size-5" src="/icon.png" alt="">
         </div>
       </div>

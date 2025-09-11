@@ -297,7 +297,9 @@ input {
 }
 
 .menu {
-    @apply px-1 bg-black/70 rounded-full p-1 text-sm grid grid-cols-2 gap-2 font-semibold uppercase text-white;
+    @apply px-1 bg-black/70 p-1 text-sm grid grid-cols-2 gap-2 font-semibold uppercase text-white;
+
+    border-radius: 20px;
 }
 
 .menu a.router-link-active,
@@ -307,7 +309,8 @@ input {
 
 .menu a,
 .menu .item {
-    @apply block p-3 flex justify-center items-center gap-1 rounded-full duration-100 cursor-pointer;
+    @apply p-3 flex justify-center items-center gap-1 duration-100 cursor-pointer;
+    border-radius: 17px;
 }
 
 .dropbox {

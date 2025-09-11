@@ -97,7 +97,7 @@ await authStore.auth()
         </nuxt-link>
       </div>
     </div>
-    <div class="max-w-md mx-auto flex-1 w-full relative overflow-auto">
+    <div class="max-w-md mx-auto flex-1 w-full relative overflow-auto no-scroll">
       <nuxt-page/>
     </div>
     <div

@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import type {Account, APIResponse} from "~/types";
-import {copyContent, formatFloat} from "~/lib/utils";
-import WebApp from "@twa-dev/sdk";
+import {formatFloat} from "~/lib/utils";
 
 const store = useGlobalStore()
 
-const isCopied = ref(false)
 const modes = ["Leaderboard", "Friends"]
 const mode = ref('Leaderboard')
-const url = computed(() => `t.me/Pomoduck_bot?start=${store.info.tg_id}`)
+const url = computed(() => `t.me/Pomoduck_bot?start=${store.info.id}`)
 
 const query = computed(() => ({
   inviter: mode.value === 'Friends' ? store.info.id : undefined,
@@ -19,19 +17,10 @@ const {data: mate} = useAuthFetch<APIResponse<Account>>('/accounts/', {
   query: query,
   watch: [query]
 })
-
-const copy = () => {
-  copyContent(url.value)
-  isCopied.value = true
-}
-
-const share = () => {
-  WebApp.openTelegramLink(`https://t.me/share/url?url=https://${url.value}&text=Focus to earn with me!`)
-}
 </script>
 
 <template>
-  <div class="w-full h-full p-4 flex flex-col relative gap-2">
+  <div class="w-full p-4 flex flex-col relative gap-2">
     <div class="tabs">
       <div
           v-for="item in modes"
@@ -41,25 +30,7 @@ const share = () => {
         <span>{{ item }}</span>
       </div>
     </div>
-    <div v-if="mode === 'Friends'" class="space-y-3">
-      <div class="flex items-center gap-2">
-        <input disabled :value="url" type="text" class="text-sm text-gray-600 flex-1 outline-none">
-        <div class="cursor-pointer" @click="copy" :class="{'text-green-600': isCopied}">
-          <NuxtIcon name="copy" class="size-4"/>
-        </div>
-        <div class="cursor-pointer" @click="share">
-          <NuxtIcon name="share" class="size-4"/>
-        </div>
-      </div>
-      <div class="flex-1 flex items-center justify-center">
-        <Button class="gap-2 h-12 rounded-xl w-full" @click="share">
-          <NuxtIcon name="mate" class="w-6 h-6"/>
-          <span>Invite</span>
-        </Button>
-      </div>
-      <div class="text-sm">Earn 10% from your mates and 2% from their referrals</div>
-    </div>
-    <div v-if="mate" class="flex-1 pb-20 divide-y divide-dashed">
+    <div v-if="mate" class="flex-1 divide-y divide-dashed">
       <div v-for="item in mate.results" :key="item.id" class="py-1 flex justify-between">
         <div class="font-bold">{{ item.username || `${item.first_name} ${item.last_name}` }}</div>
         <div class="flex items-center gap-1">
@@ -67,6 +38,16 @@ const share = () => {
           <img class="w-4 h-4" src="/icon/star.png" alt="">
         </div>
       </div>
+    </div>
+    <div class="bg-white pt-4 space-y-3 sticky bottom-4">
+      <div class="flex items-center gap-4">
+        <input disabled :value="url" type="text" class="text-sm !py-2 text-gray-600 flex-1 outline-none">
+        <Copy :value="url"/>
+      </div>
+      <div class="flex-1 flex items-center justify-center">
+        <Share :url="url" title="Focus to earn with me!"/>
+      </div>
+      <div class="text-sm text-center">Earn 10% from your mates and 2% from their referrals</div>
     </div>
   </div>
 </template>
