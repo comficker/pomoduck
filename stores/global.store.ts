@@ -116,8 +116,7 @@ export const useGlobalStore = defineStore('global', () => {
             if (info.value.doing && newAT && !newAT.start_at) {
                 percent.value = 0
                 info.value.balance += info.value.doing.reward_amount
-                toast({
-                    title: "Congratulations!",
+                toast("Congratulations!", {
                     description: `You got ${info.value.doing.reward_amount} ${info.value.doing.reward_type}!`,
                 })
             }
