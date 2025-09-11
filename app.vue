@@ -92,7 +92,7 @@ await authStore.auth()
           <img src="/icon/thunder.png" class="size-4" alt="">
           <span>{{ store.info.boost_balance }}</span>
         </div>
-        <nuxt-link to="/settings">
+        <nuxt-link v-if="store.loggedIn" to="/settings">
           <NuxtIcon name="cog" class="size-5"/>
         </nuxt-link>
       </div>

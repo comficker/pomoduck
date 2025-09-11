@@ -1,6 +1,35 @@
 <script setup lang="ts">
-
 import {Switch} from "~/components/ui/switch";
+
+const authStore = useAuthStore()
+
+const form = ref({
+  notify: {
+    in_app: true,
+    telegram: true,
+    extension: true
+  },
+  vibration: true,
+  sound: true
+})
+
+function toggleNotifySwitch(e: boolean) {
+  form.value.notify.in_app = e
+  form.value.notify.telegram = e
+  form.value.notify.extension = e
+}
+
+function connectGG() {
+
+}
+
+function connectX() {
+
+}
+
+function connectTG() {
+
+}
 </script>
 
 <template>
@@ -10,39 +39,42 @@ import {Switch} from "~/components/ui/switch";
       <div class="space-y-2">
         <div class="flex justify-between">
           <span class="font-semibold">Notify</span>
-          <Switch />
+          <Switch
+              :model-value="form.notify.in_app && form.notify.extension && form.notify.telegram"
+              @update:model-value="toggleNotifySwitch"
+          />
         </div>
         <div class="space-y-2 flex-1">
           <div class="flex justify-between">
-            <div class="flex gap-2">
-              <NuxtIcon name="subdirectory" class="size-5"/>
+            <div class="flex gap-1">
+              <NuxtIcon name="subdirectory" class="size-4"/>
               <span class="font-semibold">In app</span>
             </div>
-            <Switch />
+            <Switch v-model="form.notify.in_app"/>
           </div>
           <div class="flex justify-between">
-            <div class="flex gap-2">
-              <NuxtIcon name="subdirectory" class="size-5"/>
+            <div class="flex gap-1">
+              <NuxtIcon name="subdirectory" class="size-4"/>
               <span class="font-semibold">Telegram</span>
             </div>
-            <Switch />
+            <Switch v-model="form.notify.telegram"/>
           </div>
           <div class="flex justify-between">
-            <div class="flex gap-2">
-              <NuxtIcon name="subdirectory" class="size-5"/>
+            <div class="flex gap-1">
+              <NuxtIcon name="subdirectory" class="size-4"/>
               <span class="font-semibold">Extension</span>
             </div>
-            <Switch />
+            <Switch v-model="form.notify.extension"/>
           </div>
         </div>
       </div>
       <div class="flex justify-between">
         <span class="font-semibold">Sound</span>
-        <Switch />
+        <Switch v-model="form.sound"/>
       </div>
       <div class="flex justify-between">
         <span class="font-semibold">Haptic Feedback</span>
-        <Switch />
+        <Switch v-model="form.vibration"/>
       </div>
     </div>
     <div class="space-y-3">
@@ -50,19 +82,18 @@ import {Switch} from "~/components/ui/switch";
       <div class="space-y-2">
         <div class="flex justify-between">
           <span class="font-semibold">Google</span>
-          <Button variant="outline" size="sm">Connect</Button>
+          <Button variant="outline" size="sm" @click="connectGG">Connect</Button>
         </div>
         <div class="flex justify-between">
           <span class="font-semibold">Telegram</span>
-          <Button variant="outline" size="sm">Connect</Button>
+          <Button variant="outline" size="sm" @click="connectTG">Connect</Button>
         </div>
         <div class="flex justify-between">
           <span class="font-semibold">X</span>
-          <Button variant="outline" size="sm">Connect</Button>
+          <Button variant="outline" size="sm" @click="connectX">Connect</Button>
         </div>
       </div>
     </div>
-    <hr>
-    <Button size="lg" variant="destructive" class="rounded-full">Logout</Button>
+    <Button size="lg" variant="destructive" class="rounded-full" @click="authStore.logout()">Logout</Button>
   </div>
 </template>

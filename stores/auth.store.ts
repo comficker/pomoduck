@@ -158,6 +158,12 @@ export const useAuthStore = defineStore('auth', () => {
         cooking.value = false
     }
 
+    const logout = async () => {
+        authToken.value = ''
+        authTokenRefresh.value = ''
+        await store.loadInfo()
+    }
+
     return {
         cooking,
         logs,
@@ -165,6 +171,7 @@ export const useAuthStore = defineStore('auth', () => {
         loggedIn,
         authLocal,
         auth,
+        logout
     }
 })
 
