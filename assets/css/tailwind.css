@@ -159,9 +159,9 @@
     --sidebar-ring: oklch(0.708 0 0);
 }
 
-.task:nth-child(odd),
-.app:nth-child(odd) {
-    background: #FAFAFA;
+.task:nth-child(even),
+.app:nth-child(even) {
+    background: #F9F9F9;
 }
 
 .border-doodle {

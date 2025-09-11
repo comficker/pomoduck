@@ -56,9 +56,11 @@ export interface ITask {
 }
 
 export interface AccountTask {
-    status: number;
+    id: number
+    status: number
     start_at: string | null
     finished_at: string | null
+    boost_amount: number
 }
 
 export interface AccountTaskDetail {

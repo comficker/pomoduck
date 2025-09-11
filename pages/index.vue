@@ -28,20 +28,6 @@ const getRandomRest = () => {
 
 const animationKey = ref<string>(getRandomRest())
 
-const changeBoost = (amount: number) => {
-  useNativeFetch<{
-    "level": number,
-    "balance": number
-  }>('/2024/boost', {
-    method: 'POST',
-    query: {
-      amount: amount
-    }
-  }).then((res) => {
-    store.updateBoost(res)
-  })
-}
-
 const display2Digit = (num: number) => {
   if (num <= 9) {
     return `0${num}`

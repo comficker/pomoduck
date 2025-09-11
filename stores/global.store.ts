@@ -3,7 +3,7 @@ import {defineStore} from 'pinia'
 import type {AccountTask, AccountTaskDetail, Info, ITask} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {timeSinceObject} from "~/lib/utils";
-import { toast } from 'vue-sonner'
+import {toast} from 'vue-sonner'
 
 export const useGlobalStore = defineStore('global', () => {
     const authToken = useStatefulCookie('auth_token')
@@ -33,12 +33,14 @@ export const useGlobalStore = defineStore('global', () => {
         mm: 0,
         ss: 0
     })
-    const taskFilter = ref('public')
+    const taskFilter = ref<'public' | 'private'>('public')
     const refreshTask = ref(0)
     const modalName = ref<'auth' | null>(null)
 
     const loggedIn = computed(() => info.value && info.value.id)
-    const accountTask = computed(() => info.value.doing?.account_task.find(x => !x.finished_at))
+    const accountTask = computed(() => {
+        return info.value.doing?.account_task.find(x => !x.finished_at) || info.value.doing?.account_task[0]
+    })
 
     async function loadInfo(showLoading = true) {
         loading.value = showLoading
@@ -127,6 +129,29 @@ export const useGlobalStore = defineStore('global', () => {
         return newData
     }
 
+    const changeBoost = (amount: number) => {
+        if (accountTask.value && !accountTask.value.finished_at) {
+            useNativeFetch<{ "balance": number }>(`/tasks/${accountTask.value?.id}/boost`, {
+                method: 'POST',
+                body: {
+                    changed_amount: amount
+                }
+            }).then(r => {
+                info.value.boost_balance = r.balance
+                if (info.value.doing) {
+                    const index = info.value.doing.account_task.findIndex(x => x.id == accountTask.value?.id)
+                    if (info.value.doing && index >= 0 ) {
+                        info.value.doing.account_task[index].boost_amount += amount
+                    }
+                }
+            }).catch(e => {
+                toast("Something went wrong!", {
+                    description: "Boost error!",
+                })
+            })
+        }
+    }
+
     return {
         isRunning,
         loading,
@@ -143,7 +168,8 @@ export const useGlobalStore = defineStore('global', () => {
         loadInfo,
         updateBoost,
         work,
-        modalName
+        modalName,
+        changeBoost
     }
 })
 

@@ -19,7 +19,10 @@ const form = ref({
   unit: task.unit
 })
 
-const accountTask = computed(() => task.account_task[0])
+const accountTask = computed(() => {
+  const s = task.account_task.find(x => x.finished_at)
+  return s || task.account_task[0]
+})
 const status = computed(() => {
   if (accountTask.value) {
     if (accountTask.value.finished_at && accountTask.value.start_at) {
@@ -31,6 +34,10 @@ const status = computed(() => {
     }
   }
   return TASK_STATUS.ACTIVE
+})
+const progress = computed(() => {
+  const completed = task.account_task.filter(x => x.finished_at).length
+  return completed >= task.unit ?  task.unit : completed
 })
 
 const act = async () => {
@@ -135,6 +142,9 @@ watch(() => form.value.unit, () => {
           >
             <NuxtIcon name="cog" class="size-4"/>
           </div>
+          <div v-if="task.creator" class="flex rounded overflow-hidden items-center text-2xs">
+            <span class="num bg-green-400 text-white p-0.5 px-2">{{progress}}/{{ form.unit}}</span>
+          </div>
           <div v-if="task.reward_type === 'point'" class="flex items-center gap-0.5">
             <template v-if="updating && task.status == TASK_STATUS.DRAFT">
               <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
@@ -153,16 +163,12 @@ watch(() => form.value.unit, () => {
               <div>{{ formatFloat(form.unit * BASE_MINING_SPEED * task.duration_est * 1.5, 3, 3) }}</div>
             </template>
           </div>
-          <div v-if="task.creator" class="flex gap-0.5 items-center">
-            <NuxtIcon name="checklist" class="size-4"/>
-            <span>{{ task.account_task.length > form.unit ? form.unit : task.account_task.length }}/{{ form.unit }}</span>
-          </div>
           <div v-if="updating" class="flex text-xs gap-2 ml-auto">
             <Button variant="link" size="xs" @click="handleCancel">Reset</Button>
             <Button
-                v-if="status == TASK_STATUS.DRAFT"
-                variant="destructive" size="xs" class="px-3 rounded-lg"
-                @click="handleDeleteTask"
+              v-if="status == TASK_STATUS.DRAFT"
+              variant="destructive" size="xs" class="px-3 rounded-lg"
+              @click="handleDeleteTask"
             >Delete</Button>
             <Button size="xs" class="px-3 rounded-lg" @click="handleSave">Save</Button>
           </div>
