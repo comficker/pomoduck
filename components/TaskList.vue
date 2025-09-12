@@ -50,7 +50,7 @@ onMounted(() => {
 <template>
   <div class="task-list">
     <div class="h-full p-3 pt-0 pb-14 md:pb-0 md:pt-14">
-      <div v-if="!pending && taskRes" class="w-full h-full relative">
+      <div v-if="taskRes" class="w-full h-full relative">
         <div class="parent absolute inset-0 overflow-auto no-scroll">
           <div class="child space-y-1">
             <div v-if="store.taskFilter == 'private'" class="flex capitalize gap-3 py-2 label sticky top-0 bg-white">

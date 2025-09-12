@@ -40,9 +40,18 @@ const {data: mate} = useAuthFetch<APIResponse<Account>>('/accounts/', {
       </div>
     </div>
     <div class="bg-white pt-4 space-y-3 sticky bottom-4">
-      <div class="flex items-center gap-4">
-        <input disabled :value="url" type="text" class="text-sm !py-2 text-gray-600 flex-1 outline-none">
-        <Copy v-if="store.loggedIn" :value="url"/>
+      <div class="relative">
+        <div class="flex items-center gap-4">
+          <input
+              disabled :value="url" type="text"
+              class="text-sm !py-2 text-gray-600 flex-1 outline-none"
+              :class="{'blur-sm': !store.loggedIn}"
+          >
+          <Copy v-if="store.loggedIn" :value="url"/>
+        </div>
+        <div v-if="!store.loggedIn" class="absolute inset-0 flex items-center justify-center">
+          <div class="label underline cursor-pointer" @click="store.modalName = 'auth'">Login to get your link</div>
+        </div>
       </div>
       <div class="flex-1 flex items-center justify-center">
         <Share :url="url" title="Focus to earn with me!"/>

@@ -41,6 +41,10 @@ const progress = computed(() => {
 })
 
 const act = async () => {
+  if (!authStore.loggedIn) {
+    store.modalName = 'auth'
+    return
+  }
   if (status.value > 1) return;
 
   if (task.type === 'default') {
