@@ -41,7 +41,7 @@ const progress = computed(() => {
 })
 
 const act = async () => {
-  if (!authStore.loggedIn) {
+  if (!store.loggedIn) {
     store.modalName = 'auth'
     return
   }

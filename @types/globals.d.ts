@@ -10,5 +10,6 @@ declare global {
         Telegram: any
         webviewClose: any
         MiniKit: MiniKit
+        IDKit: any
     }
 }

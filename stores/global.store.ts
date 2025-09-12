@@ -5,23 +5,25 @@ import useStatefulCookie from "~/composables/useStatefulCookie";
 import {timeSinceObject} from "~/lib/utils";
 import {toast} from 'vue-sonner'
 
+const DEFAULT_INFO: Info = {
+    id: 0,
+    tg_id: 0,
+    username: "Anonymous",
+    first_name: "",
+    last_name: "",
+    balance: 0,
+    checkin_day: 0,
+    checkin_last_time: "",
+    meta: {},
+    boost_level: 0,
+    boost_balance: 0,
+    is_staff: false
+}
+
 export const useGlobalStore = defineStore('global', () => {
     const authToken = useStatefulCookie('auth_token')
 
-    const info = ref<Info>({
-        id: 0,
-        tg_id: 0,
-        username: "Anonymous",
-        first_name: "",
-        last_name: "",
-        balance: 0,
-        checkin_day: 0,
-        checkin_last_time: "",
-        meta: {},
-        boost_level: 0,
-        boost_balance: 0,
-        is_staff: false
-    })
+    const info = ref<Info>(DEFAULT_INFO)
     const loading = ref(true)
     const fetched = ref(false)
     const isRunning = ref(false)
@@ -49,6 +51,8 @@ export const useGlobalStore = defineStore('global', () => {
             if (response) {
                 handleInfo(response)
             }
+        } else {
+            info.value = DEFAULT_INFO
         }
         loading.value = false
         return !!(info.value && info.value.id)
@@ -84,6 +88,7 @@ export const useGlobalStore = defineStore('global', () => {
         }
         computeTimer()
         window.itv = setInterval(() => computeTimer(), 500)
+        modalName.value = null
     }
 
     function resetTimer() {

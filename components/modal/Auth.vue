@@ -2,8 +2,12 @@
 import {Button} from "~/components/ui/button";
 import type {AuthDataInput} from "~/types";
 import {DialogDescription, DialogHeader, DialogTitle} from "~/components/ui/dialog";
+import TelegramLogin from "~/components/modal/TelegramLogin.vue";
+import WorldLogin from "~/components/modal/WorldLogin.vue";
+import GoogleLogin from "~/components/modal/GoogleLogin.vue";
 
 const authStore = useAuthStore()
+const store = useGlobalStore()
 const route = useRoute()
 const isLogging = ref(true)
 const fetching = ref(false)
@@ -30,10 +34,6 @@ const submit = async () => {
   await authStore.authLocal(!isLogging.value, form.value)
   fetching.value = false
 }
-
-const authGoogle = () => {
-  window.open(`${useRuntimeConfig().public.api}/auth/google/login`, "_self")
-}
 </script>
 
 <template>
@@ -43,8 +43,8 @@ const authGoogle = () => {
     </DialogTitle>
     <DialogDescription class="text-left" v-if="meta.desc">{{ meta.desc }}</DialogDescription>
   </DialogHeader>
-  <div class="space-y-3">
-    <div v-if="!isLogging || authStore.loggedIn" class="relative">
+  <div v-if="false" class="space-y-3">
+    <div v-if="!isLogging || store.loggedIn" class="relative">
       <input
           :disabled="!updating" class="w-full" v-model="form.username" type="text" name="Username"
           placeholder="Username"
@@ -60,7 +60,7 @@ const authGoogle = () => {
           :disabled="!updating" class="w-full" v-model="form.password" type="password" name="password"
           placeholder="Password">
     </div>
-    <template v-if="!isLogging && !authStore.loggedIn">
+    <template v-if="!isLogging && !store.loggedIn">
       <div class="relative">
         <input
             class="w-full" v-model="form.re_password" type="password" name="password2"
@@ -73,21 +73,19 @@ const authGoogle = () => {
     </template>
   </div>
   <div class="w-full space-y-3">
-    <Button size="lg" class="w-full text-lg" :class="{'animated-pulse': fetching}" @click="submit">
-      <span>{{ isLogging ? 'Login' : 'Register' }}</span>
-    </Button>
-    <div class="text-center text-gray-600 text-sm font-semibold">
-      <span>{{ isLogging ? "Don't have an account? " : 'Already have account? ' }}</span>
-      <span
-          class="cursor-pointer text-blue-500 underline"
-          @click="isLogging = !isLogging">{{ isLogging ? 'Register' : 'Login' }}</span>
-    </div>
-    <div class="divider">
-      <span>Or</span>
-    </div>
-    <Button variant="outline" size="lg" class="w-full items-center gap-2 font-semibold" @click="authGoogle">
-      <span>Continue with Google</span>
-      <NuxtIcon filled name="google" class="size-5"/>
-    </Button>
+    <template v-if="false">
+      <Button size="lg" class="w-full text-lg" :class="{'animated-pulse': fetching}" @click="submit">
+        <span>{{ isLogging ? 'Login' : 'Register' }}</span>
+      </Button>
+      <div class="text-center text-gray-600 text-sm font-semibold">
+        <span>{{ isLogging ? "Don't have an account? " : 'Already have account? ' }}</span>
+        <span
+            class="cursor-pointer text-blue-500 underline"
+            @click="isLogging = !isLogging">{{ isLogging ? 'Register' : 'Login' }}</span>
+      </div>
+    </template>
+    <TelegramLogin/>
+    <WorldLogin/>
+    <GoogleLogin/>
   </div>
 </template>

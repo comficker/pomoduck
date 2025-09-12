@@ -36,31 +36,31 @@ export const useAuthStore = defineStore('auth', () => {
     const store = useGlobalStore()
     const logs = ref<any[]>([])
     const activeAuth = ref('local')
-    const loggedIn = ref(false)
 
-    async function authTelegram() {
-        if (route.hash) {
+    async function authTelegram(initData = null) {
+        if (!initData && route.hash) {
             const h = decodeURIComponent(route.hash)
             const matches = h.matchAll(/#tgWebAppData=(.*?)&tgWebAppVersion/g);
-            const initData = urlParseQueryString(Array.from(matches, x => x[1])[0])
-            if (initData) {
-                activeAuth.value = 'telegram'
-                cooking.value = true
-                try {
-                    const response = await useNativeFetch<{ refresh: string, access: string }>(`/auth-telegram`, {
-                        method: 'GET',
-                        query: {
-                            auth_data: initData
-                        }
-                    })
-                    if (response) {
-                        authToken.value = response.access
-                        authTokenRefresh.value = response.refresh
+            initData = urlParseQueryString(Array.from(matches, x => x[1])[0])
+        }
+        if (initData) {
+            activeAuth.value = 'telegram'
+            cooking.value = true
+            try {
+                const response = await useNativeFetch<{ refresh: string, access: string }>(`/auth-telegram`, {
+                    method: 'GET',
+                    query: {
+                        auth_data: initData
                     }
-                } catch (e) {
-                    logs.value.push(e?.toString())
+                })
+                if (response) {
+                    authToken.value = response.access
+                    authTokenRefresh.value = response.refresh
                 }
+            } catch (e) {
+                logs.value.push(e?.toString())
             }
+            cooking.value = false
         }
     }
 
@@ -95,9 +95,35 @@ export const useAuthStore = defineStore('auth', () => {
                 authToken.value = response.access
                 authTokenRefresh.value = response.refresh
             }
+            cooking.value = false
         } catch (e) {
             logs.value.push(e?.toString())
         }
+    }
+
+    const authOAUTH = () => {
+        if (route.query.access_token && route.query.refresh_token) {
+            authToken.value = route.query.access_token + ''
+            authTokenRefresh.value = route.query.refresh_token + ''
+        }
+    }
+
+    const refreshToken = async () => {
+        if (authTokenRefresh.value) {
+            const res = await useNativeFetch<{ refresh: string, access: string }>("/auth-refresh-token", {
+                method: 'POST',
+                body: {
+                    "refresh": authTokenRefresh.value
+                }
+            }).catch(() => null)
+            if (res) {
+                authToken.value = res.access
+                await auth()
+                return
+            }
+        }
+        authToken.value = ''
+        authTokenRefresh.value = ''
     }
 
     const authLocal = async (isRegister: boolean, form: {
@@ -120,7 +146,6 @@ export const useAuthStore = defineStore('auth', () => {
             authToken.value = res.access
             authTokenRefresh.value = res.refresh
             await auth()
-            if (loggedIn.value) store.modalName = null;
         } else {
             toast("'Something went wrong!'", {
                 description: 'Please recheck your input!',
@@ -128,50 +153,32 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    const refreshToken = async () => {
-        if (authTokenRefresh.value) {
-            const res = await useNativeFetch<{ refresh: string, access: string }>("/auth-refresh-token", {
-                method: 'POST',
-                body: {
-                    "refresh": authTokenRefresh.value
-                }
-            }).catch(() => null)
-            if (res) {
-                authToken.value = res.access
-                await auth()
-                return
-            }
-        }
-        authToken.value = ''
-        authTokenRefresh.value = ''
-    }
-
     const auth = async () => {
-        cooking.value = true
         await authTelegram()
         await authWithWorldCoin()
+        authOAUTH()
         const isSuccess = await store.loadInfo(true)
         if (authToken.value && !isSuccess) {
             await refreshToken()
         }
-        loggedIn.value = !!store.info && !!store.info.id
-        cooking.value = false
     }
 
     const logout = async () => {
         authToken.value = ''
         authTokenRefresh.value = ''
         await store.loadInfo()
+        await useRouter().replace("/")
     }
 
     return {
         cooking,
         logs,
         activeAuth,
-        loggedIn,
         authLocal,
         auth,
-        logout
+        logout,
+        authTelegram,
+        authWithWorldCoin
     }
 })
 

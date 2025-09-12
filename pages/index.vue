@@ -119,7 +119,7 @@ watch(animationKey, () => {
       </div>
     </div>
     <div class="p-4 bg-white flex justify-center num">
-      <div v-if="authStore.loggedIn" class="inline-flex w-2/3">
+      <div v-if="store.loggedIn" class="inline-flex w-2/3">
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"
             class="rounded-2xl h-12 w-full relative overflow-hidden"

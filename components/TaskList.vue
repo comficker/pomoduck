@@ -62,7 +62,8 @@ onMounted(() => {
               </div>
             </div>
             <div v-if="taskRes.results.length === 0" class="p-3 py-1.5 text-sm">
-              <div class="text-center">Don't have any task now!</div>
+              <div v-if="store.loggedIn" class="text-center">Don't have any task now!</div>
+              <div v-else class="text-center">You must login to work!</div>
             </div>
             <Task
                 v-for="(item, i) in taskRes.results"
