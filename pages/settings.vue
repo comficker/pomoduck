@@ -94,6 +94,6 @@ function connectTG() {
         </div>
       </div>
     </div>
-    <Button size="lg" variant="destructive" class="rounded-full" @click="authStore.logout()">Logout</Button>
+    <Button v-if="!['wld', 'telegram'].includes(authStore.activeAuth)" size="lg" variant="destructive" class="rounded-full" @click="authStore.logout()">Logout</Button>
   </div>
 </template>

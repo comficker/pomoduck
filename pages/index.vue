@@ -78,14 +78,11 @@ watch(animationKey, () => {
 </script>
 
 <template>
-  <div
-      class="h-full flex flex-col justify-center gap-4 py-4"
-  >
+  <div class="h-full flex flex-col justify-center gap-4 py-4">
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
       <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
-        <span v-if="store.info.doing">Doing "{{ store.info.doing.name || 'Untitled' }}"</span>
-        <span v-else-if="store.percent < 100">Stay focus, Quack! Quack!</span>
-        <span v-else>Quack! Quack!</span>
+        <span v-if="store.isRunning && store.info.doing">Doing "{{ store.info.doing.name || 'Untitled' }}"</span>
+        <span v-else>Quack! <b>{{ store.info.username }}</b>!</span>
       </div>
       <tgs-player
           autoplay
@@ -108,14 +105,14 @@ watch(animationKey, () => {
         </div>
       </div>
       <div class="flex justify-center items-center gap-2 text-yellow-600">
-        <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="minus" @click="changeBoost(-1)"/>
+        <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="minus" @click="store.changeBoost(-1)"/>
         <div class="size-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
           <img class="size-5" src="/icon/thunder.png" alt="">
           <span class="absolute text-xs -bottom-1 -right-1">
             x{{ Math.min(store.info.boost_balance, store.info.boost_level) }}
           </span>
         </div>
-        <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="changeBoost(1)"/>
+        <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="store.changeBoost(1)"/>
       </div>
     </div>
     <div class="p-4 bg-white flex justify-center num">
