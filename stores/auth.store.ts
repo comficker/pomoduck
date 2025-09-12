@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import {MiniKit} from '@worldcoin/minikit-js'
 import useStatefulCookie from "~/composables/useStatefulCookie";
-import { toast } from 'vue-sonner'
+import {toast} from 'vue-sonner'
 
 function urlSafeDecode(urlencoded: string) {
     try {
@@ -33,6 +33,7 @@ export const useAuthStore = defineStore('auth', () => {
     const route = useRoute()
     const authToken = useStatefulCookie('auth_token')
     const authTokenRefresh = useStatefulCookie('auth_token_refresh')
+    const refCode = useStatefulCookie('ref')
     const store = useGlobalStore()
     const logs = ref<any[]>([])
     const activeAuth = ref('local')
@@ -154,12 +155,22 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const auth = async () => {
+        if (route.query.ref) {
+            refCode.value = route.query.ref + ''
+        }
         await authTelegram()
         await authWithWorldCoin()
         authOAUTH()
         const isSuccess = await store.loadInfo(true)
         if (authToken.value && !isSuccess) {
             await refreshToken()
+        }
+        if (isSuccess && refCode.value && !store.info.inviter) {
+            await useNativeFetch('/settings', {
+                method: 'POST', body: {
+                    inviter: refCode.value
+                }
+            })
         }
     }
 

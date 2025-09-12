@@ -3,10 +3,19 @@ import type {Account, APIResponse} from "~/types";
 import {formatFloat} from "~/lib/utils";
 
 const store = useGlobalStore()
+const authStore = useAuthStore()
+const config = useRuntimeConfig()
 
 const modes = ["Leaderboard", "Friends"]
 const mode = ref('Leaderboard')
-const url = computed(() => `t.me/Pomoduck_bot?start=${store.info.id}`)
+
+const url = computed(() => {
+  if (authStore.activeAuth === 'telegram') {
+    return `t.me/Pomoduck_bot?start=${store.info.id}`
+  } else {
+    return `${config.public.appURL}?ref=${store.info.id}`
+  }
+})
 
 const query = computed(() => ({
   inviter: mode.value === 'Friends' ? store.info.id : undefined,

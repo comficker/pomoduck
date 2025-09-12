@@ -33,6 +33,7 @@ export interface Info {
     boost_level: number
     boost_balance: number
     doing?: ITask,
+    inviter?: number
     is_staff: boolean
 }
 
