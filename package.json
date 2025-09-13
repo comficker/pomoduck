@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@lottiefiles/vue-lottie-player": "^1.1.0",
+    "@nuxt/types": "^2.18.1",
     "@pinia/nuxt": "0.11.1",
     "@tailwindcss/vite": "^4.1.13",
     "@twa-dev/sdk": "^8.0.2",

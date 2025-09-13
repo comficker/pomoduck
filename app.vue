@@ -27,6 +27,9 @@ const authStore = useAuthStore()
 const menuTitle = computed(() => {
   return `${store.openDrawer ? 'Hide' : 'Show'} Task Manager`
 })
+const showMenu = computed(() => {
+  return ['/', '/leaderboard'].includes(route.path)
+})
 
 watch(() => route.path, () => {
   if (authStore.activeAuth == 'telegram') {
@@ -100,6 +103,7 @@ await authStore.auth()
       <nuxt-page/>
     </div>
     <div
+        v-if="showMenu"
         class="relative md:fixed bottom-0 md:bottom-auto md:top-0 inset-x-0 max-w-md mx-auto w-full z-10 bg-white p-4 md:p-3"
         :class="{'py-6': authStore.activeAuth === 'telegram'}"
     >
