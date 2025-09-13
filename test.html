@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <title>Calendar Chart - 3 Tháng Gần Nhất</title>
+    <style>
+        :root {
+            --cell-size: 24px;
+            --cell-gap: 4px;
+            --font: 13px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+        }
+
+        body {
+            font: var(--font);
+            padding: 18px;
+            background: #fff;
+            color: #111;
+        }
+
+        .calendar {
+            display:flex;
+            gap: 12px;
+            align-items:flex-start;
+            flex-wrap:wrap;
+        }
+
+        svg.calendar-svg {
+            overflow: visible;
+            display:block;
+        }
+
+        .tooltip {
+            position:fixed;
+            pointer-events:none;
+            background:#111;
+            color:#fff;
+            padding:6px 8px;
+            border-radius:6px;
+            font-size:13px;
+            transform: translate(-50%, -120%);
+            white-space:nowrap;
+            z-index:1000;
+            display:none;
+        }
+
+        /* màu ô */
+        .c0 { fill: #ebedf0; }
+        .c1 { fill: #9be9a8; }
+        .c2 { fill: #40c463; }
+        .c3 { fill: #30a14e; }
+        .c4 { fill: #216e39; }
+
+        rect.day {
+            rx:3; ry:3;
+            cursor:pointer;
+        }
+        rect.day:hover {
+            stroke-width:1;
+            stroke:#555;
+        }
+
+        @media (max-width:720px){
+            :root {
+                --cell-size: 10px;
+                --cell-gap: 3px;
+            }
+            .weekday-labels { display:none; }
+        }
+    </style>
+</head>
+<body>
+<div class="calendar" id="calendarRoot">
+    <div>
+        <svg class="calendar-svg" id="calendarSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+</div>
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+    (function(){
+        const CELL_SIZE = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--cell-size')) || 12;
+        const CELL_GAP  = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--cell-gap')) || 4;
+        const DAYS_PER_WEEK = 7;
+
+        const svg = document.getElementById('calendarSvg');
+        const tooltip = document.getElementById('tooltip');
+
+        const endDate = new Date();
+        endDate.setHours(0,0,0,0);
+        const startDate = new Date(endDate);
+        startDate.setMonth(startDate.getMonth() - 3);
+        startDate.setDate(startDate.getDate() - startDate.getDay()); // bắt đầu từ Chủ Nhật
+
+        const days = [];
+        const temp = new Date(startDate);
+        while(temp <= endDate){
+            days.push(new Date(temp));
+            temp.setDate(temp.getDate() + 1);
+        }
+
+        const totalWeeks = Math.ceil(days.length / 7);
+
+        const svgWidth = totalWeeks * (CELL_SIZE + CELL_GAP);
+        const svgHeight = DAYS_PER_WEEK * (CELL_SIZE + CELL_GAP);
+
+        svg.setAttribute('width', svgWidth);
+        svg.setAttribute('height', svgHeight);
+        svg.setAttribute('viewBox', `0 0 ${svgWidth} ${svgHeight}`);
+
+        const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.setAttribute("transform", "translate(0,0)");
+        svg.appendChild(group);
+
+        const rects = [];
+        days.forEach((d, i) => {
+            const weekIndex = Math.floor(i / 7);
+            const dayOfWeek = d.getDay();
+
+            const x = weekIndex * (CELL_SIZE + CELL_GAP);
+            const y = dayOfWeek * (CELL_SIZE + CELL_GAP);
+
+            const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect.setAttribute('class','day c0');
+            rect.setAttribute('width', CELL_SIZE);
+            rect.setAttribute('height', CELL_SIZE);
+            rect.setAttribute('x', x);
+            rect.setAttribute('y', y);
+            rect.setAttribute('data-date', d.toISOString().split('T')[0]);
+            rect.setAttribute('data-count', 0);
+
+            rect.addEventListener('mouseenter', showTooltip);
+            rect.addEventListener('mouseleave', hideTooltip);
+            rect.addEventListener('mousemove', moveTooltip);
+
+            group.appendChild(rect);
+            rects.push(rect);
+        });
+
+        // Tooltip
+        function showTooltip(e){
+            const rect = e.target;
+            const date = rect.getAttribute('data-date');
+            const count = +rect.getAttribute('data-count') || 0;
+            tooltip.style.display = 'block';
+            tooltip.innerHTML = `<strong>${count}</strong> contributions<br>${date}`;
+            moveTooltip(e);
+        }
+        function hideTooltip(){
+            tooltip.style.display = 'none';
+        }
+        function moveTooltip(e){
+            tooltip.style.left = (e.clientX + 8) + 'px';
+            tooltip.style.top = (e.clientY - 8) + 'px';
+        }
+
+        let breaks = [0,1,2,3,4];
+
+        function computeBreaks(values){
+            if(values.length === 0) return [0,1,2,3,4];
+            const max = Math.max(...values);
+            if(max <= 0) return [0,1,2,3,4];
+            return [0,Math.ceil(max*0.2),Math.ceil(max*0.4),Math.ceil(max*0.7),max];
+        }
+
+        function getClass(val){
+            if(val <= breaks[1]) return 'c1';
+            if(val <= breaks[2]) return 'c2';
+            if(val <= breaks[3]) return 'c3';
+            return 'c4';
+        }
+
+        window.setCalendarData = function(data){
+            const values = Object.values(data).map(v=>+v||0);
+            breaks = computeBreaks(values);
+            rects.forEach(rect => {
+                const date = rect.getAttribute('data-date');
+                const count = data[date] || 0;
+                rect.setAttribute('data-count', count);
+
+                let cls = 'c0';
+                if(count > 0) cls = getClass(count);
+                rect.setAttribute('class', `day ${cls}`);
+            });
+        };
+
+        const demoData = {};
+        days.forEach(d => {
+            const key = d.toISOString().split('T')[0];
+            demoData[key] = Math.random() > 0.7 ? Math.floor(Math.random()*10)+1 : 0;
+        });
+        window.setCalendarData(demoData);
+    })();
+</script>
+</body>
+</html>

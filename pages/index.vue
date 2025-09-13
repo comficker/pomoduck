@@ -94,13 +94,13 @@ watch(animationKey, () => {
       <div class="text-6xl font-extrabold flex gap-3 items-center num">
         <div class="grid grid-cols-2 gap-1">
           <div v-for="i in display2Digit(store.timer.mm)" class="w-14 p-1 bg-gray-100 rounded-xl shadow-inner">
-            {{ i }}
+            <span>{{ i }}</span>
           </div>
         </div>
         <div>:</div>
         <div class="grid grid-cols-2 gap-1">
           <div v-for="i in display2Digit(store.timer.ss)" class="w-14 p-1 bg-gray-100 rounded-xl shadow-inner">
-            {{ i }}
+            <span>{{ i }}</span>
           </div>
         </div>
       </div>

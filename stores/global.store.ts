@@ -2,7 +2,7 @@ import {ref} from "vue"
 import {defineStore} from 'pinia'
 import type {AccountTask, AccountTaskDetail, Info, ITask} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
-import {timeSinceObject} from "~/lib/utils";
+import {formatFloat, timeSinceObject} from "~/lib/utils";
 import {toast} from 'vue-sonner'
 
 const DEFAULT_INFO: Info = {
@@ -123,12 +123,12 @@ export const useGlobalStore = defineStore('global', () => {
                 percent.value = 0
                 info.value.balance += info.value.doing.reward_amount
                 toast("Congratulations!", {
-                    description: `You got ${info.value.doing.reward_amount} ${info.value.doing.reward_type}!`,
+                    description: `You got ${formatFloat(info.value.doing.reward_amount, 0, 3)} ${info.value.doing.reward_type}!`,
                 })
-                openDrawer.value = false
             }
             info.value.doing = newData
             refreshTask.value++
+            if (newData.type === 'default') openDrawer.value = false
         }
         computeTimer()
         return newData
