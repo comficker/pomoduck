@@ -53,7 +53,7 @@ onMounted(() => {
       <div v-if="taskRes" class="w-full h-full relative">
         <div class="parent absolute inset-0 overflow-auto no-scroll">
           <div class="child space-y-1">
-            <div v-if="store.taskFilter == 'private'" class="flex capitalize gap-3 py-2 label sticky top-0 bg-white">
+            <div v-if="store.taskFilter == 'private'" class="flex capitalize gap-3 py-2 label sticky num top-0 bg-white">
               <div
                   v-for="item in [[1, 'Available'], [2, 'Completed']]"
                   class="cursor-pointer" :class="{'text-blue-500': item[0] === status}"

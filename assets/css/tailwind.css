@@ -383,3 +383,7 @@ input {
 .tab {
     @apply font-bold flex gap-2 duration-200 cursor-pointer;
 }
+
+a.router.router-link-exact-active {
+    @apply text-blue-500;
+}

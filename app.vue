@@ -90,12 +90,12 @@ await authStore.auth()
           <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
         </div>
         <div
-            class="w-20 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
+            class="w-16 font-semibold uppercase flex gap-2 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
           <img src="/icon/thunder.png" class="size-4" alt="">
           <span>{{ store.info.boost_balance }}</span>
         </div>
-        <nuxt-link v-if="store.loggedIn" to="/settings">
-          <NuxtIcon name="cog" class="size-5"/>
+        <nuxt-link class="router" v-if="store.loggedIn" to="/settings">
+          <NuxtIcon name="cog" class="size-6"/>
         </nuxt-link>
       </div>
     </div>
