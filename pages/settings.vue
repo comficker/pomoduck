@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {Switch} from "~/components/ui/switch";
+import WebApp from "@twa-dev/sdk";
 
 const authStore = useAuthStore()
 
@@ -11,6 +12,12 @@ const form = ref({
   },
   vibration: true,
   sound: true
+})
+
+const showLogout = computed(() => {
+  if (authStore.activeAuth == 'wld') return false
+  return !['ios', 'android'].includes(WebApp.platform);
+
 })
 
 function toggleNotifySwitch(e: boolean) {
@@ -94,6 +101,7 @@ function connectTG() {
         </div>
       </div>
     </div>
-    <Button v-if="!['wld', 'telegram'].includes(authStore.activeAuth)" size="lg" variant="destructive" class="rounded-full" @click="authStore.logout()">Logout</Button>
+    <Button v-if="showLogout" size="lg" variant="destructive" class="rounded-full" @click="authStore.logout()">Logout
+    </Button>
   </div>
 </template>
