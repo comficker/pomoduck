@@ -48,7 +48,7 @@ const {data: mate} = useAuthFetch<APIResponse<Account>>('/accounts/', {
         </div>
       </div>
     </div>
-    <div class="bg-white pt-4 space-y-3 sticky bottom-4">
+    <div class="bg-white pt-4 space-y-3 sticky bottom-0">
       <div class="relative">
         <div class="flex items-center gap-4">
           <input
