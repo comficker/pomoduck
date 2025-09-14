@@ -30,9 +30,9 @@ useHead({
       </div>
     </div>
     <ReportChart :data="data.history"/>
-    <div class="space-y-2 text-sm">
-      <div class="label">History</div>
-      <div v-for="key in Object.keys(data.history).reverse()">🗓️ <span class="">[{{ key }}]</span> [{{ formatFloat(data.history[key].duration / 60) }} minutes]
+    <div class="text-sm divide-y divide-dashed">
+      <div class="label mb-1 pb-1">History</div>
+      <div v-for="key in Object.keys(data.history).reverse()" class="py-1">🗓️ <span class="">[{{ key }}]</span> [{{ formatFloat(data.history[key].duration / 60) }} minutes]
         got {{ formatFloat(data.history[key].point) }} points
       </div>
     </div>

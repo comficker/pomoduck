@@ -141,7 +141,7 @@ watch(animationKey, () => {
       <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
         Start
       </Button>
-      <div class="border size-12 rounded-2xl bg-gray-50 p-3">
+      <div class="border border-gray-100 size-12 rounded-2xl bg-gray-50 p-3">
         <nuxt-link to="/leaderboard"><img src="/trophy.png" class="size-6" alt="Leaderboard"/></nuxt-link>
       </div>
     </div>

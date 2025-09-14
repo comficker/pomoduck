@@ -105,8 +105,11 @@ const tables = computed(() => {
             <div v-for="week in chunk" class="">
               <TooltipProvider v-for="day in week" :delayDuration="100">
                 <Tooltip :open="!!tooltipToggle[day]">
-                  <TooltipTrigger class="pt-full mb-0.5 relative" as="div"
-                                  @click="tooltipToggle[day] = !tooltipToggle[day]">
+                  <TooltipTrigger
+                      class="pt-full mb-0.5 relative" as="div"
+                      @click="tooltipToggle[day] = !tooltipToggle[day]"
+                      @mouseover="tooltipToggle[day] = true"
+                  >
                     <div
                         class="absolute inset-0 bg-gray-100 rounded border border-gray-200/50 hover:border-gray-500 duration-200"
                         :class="{
@@ -130,7 +133,8 @@ const tables = computed(() => {
                       </div>
                       <div class="flex gap-0.5">
                         <NuxtIcon name="subdirectory" class="size-3"/>
-                        <div>Earned: <span class="font-bold">{{ formatFloat(data[day].point, 2, 2) }}</span> points</div>
+                        <div>Earned: <span class="font-bold">{{ formatFloat(data[day].point, 2, 2) }}</span> points
+                        </div>
                       </div>
                     </template>
                     <TooltipArrow
