@@ -6,7 +6,7 @@ import TaskList from "~/components/TaskList.vue";
 import Auth from "~/components/modal/Auth.vue";
 
 useHead({
-  title: "PomoDuck - Quack! Quack! Quack! Quack!",
+  title: "PomoDuck Timer",
   link: [
     {
       rel: "stylesheet",
@@ -140,9 +140,9 @@ await authStore.auth()
               <NuxtIcon name="home" class="w-5 h-5"/>
               <span>Home</span>
             </nuxt-link>
-            <nuxt-link to="/leaderboard" class="">
+            <nuxt-link to="/report" class="">
               <NuxtIcon name="rank" class="w-5 h-5"/>
-              <span>Leaderboard</span>
+              <span>Report</span>
             </nuxt-link>
           </template>
         </div>

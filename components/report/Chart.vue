@@ -1,20 +1,110 @@
 <script setup lang="ts">
-import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from 'reka-ui'
+import {TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger} from 'reka-ui'
+import {formatFloat} from "~/lib/utils";
+
+const {data} = defineProps<{ data: { [key: string]: { point: number, duration: number } } }>()
+
+const cr = computed(() => {
+  const values = Object.keys(data).map(key => data[key].duration)
+  if (!values.length) return [];
+
+  const max = Math.max(...values);
+  const step = max / 5;
+
+  return [step, step * 2, step * 3, step * 4];
+})
+
+function formatDateLocal(d: Date) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+const tables = computed(() => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const thisSunday = new Date(today);
+  const dayOfWeek = today.getDay();
+  thisSunday.setDate(today.getDate() - dayOfWeek);
+
+  let targetSunday;
+  if (thisSunday < today) {
+    targetSunday = new Date(thisSunday);
+    targetSunday.setDate(thisSunday.getDate() + 7);
+  } else {
+    targetSunday = thisSunday;
+  }
+  targetSunday.setHours(0, 0, 0, 0);
+
+  const startDate = new Date(targetSunday);
+  startDate.setDate(startDate.getDate() - 111);
+  startDate.setHours(0, 0, 0, 0);
+
+  const dates = [];
+  const cur = new Date(startDate);
+  while (cur <= targetSunday) {
+    dates.push(formatDateLocal(cur));
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  const parts = [];
+  const partSize = 28;
+  const weekSize = 7;
+  for (let i = 0; i < 4; i++) {
+    const weeks = [];
+    for (let j = 0; j < 4; j++) {
+      weeks.push(dates.slice(i * partSize + j * weekSize, i * partSize + (j + 1) * weekSize));
+    }
+    parts.push(weeks);
+  }
+
+  const lastDateStr = dates[dates.length - 1];
+  if (lastDateStr !== formatDateLocal(targetSunday)) {
+    console.warn('Last date mismatch', lastDateStr, formatDateLocal(targetSunday));
+  }
+
+  return {
+    targetSunday: formatDateLocal(targetSunday),
+    dates,
+    parts
+  };
+})
 </script>
 
 <template>
   <div class="space-y-2">
     <div class="label">Working activity</div>
-    <div class="grid grid-cols-4 gap-1">
-      <div v-for="k in 4" class="grid grid-cols-4 gap-1">
-        <div v-for="i in 4" class="space-y-1">
-          <TooltipProvider v-for="j in 7">
+    <div class="grid grid-cols-4 gap-2">
+      <div v-for="chunk in tables.parts" class="grid grid-cols-4 gap-0.5">
+        <div v-for="week in chunk" class="">
+          <TooltipProvider v-for="day in week" :delayDuration="100">
             <Tooltip>
-              <TooltipTrigger class="pt-full relative" as="div">
-                <div class="absolute inset-0 bg-gray-100 rounded border border-gray-200/50 hover:border-gray-500 duration-200"></div>
+              <TooltipTrigger class="pt-full mb-0.5 relative" as="div">
+                <div
+                    class="absolute inset-0 bg-gray-100 rounded border border-gray-200/50 hover:border-gray-500 duration-200"
+                    :class="{
+                      'border-0': data[day],
+                      'c0': data[day] && data[day].duration < cr[0],
+                      'c1': data[day] && data[day].duration > cr[0],
+                      'c2': data[day] && data[day].duration > cr[1],
+                      'c3': data[day] && data[day].duration > cr[2],
+                      'c4': data[day] && data[day].duration > cr[3]
+                  }"
+                />
               </TooltipTrigger>
-              <TooltipContent class="z-20 data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-grass11 select-none rounded-md bg-white px-[15px] py-[10px] text-sm leading-none shadow-sm border will-change-[transform,opacity]">
-                <p>Add to library</p>
+              <TooltipContent
+                  class="z-20 space-y-0.5 data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-grass11 select-none rounded-md bg-white px-[15px] py-[10px] text-sm leading-none shadow-sm border will-change-[transform,opacity]"
+              >
+                <p class="label">{{ day }}</p>
+                <template v-if="data[day]">
+                  <div class="flex gap-0.5">
+                    <NuxtIcon name="subdirectory" class="size-3"/>
+                    <div>Focus time: <span class="font-bold">{{ data[day].duration / 60 }}</span> minutes</div>
+                  </div>
+                  <div class="flex gap-0.5">
+                    <NuxtIcon name="subdirectory" class="size-3"/>
+                    <div>Earned: <span class="font-bold">{{ formatFloat(data[day].point, 2, 2) }}</span> points</div>
+                  </div>
+                </template>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -23,3 +113,11 @@ import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRo
     </div>
   </div>
 </template>
+
+<style>
+.c0 { background: #ebedf0; }
+.c1 { background: #9be9a8; }
+.c2 { background: #40c463; }
+.c3 { background: #30a14e; }
+.c4 { background: #216e39; }
+</style>

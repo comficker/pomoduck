@@ -46,5 +46,16 @@ export default defineNuxtConfig({
         compilerOptions: {
             isCustomElement: (tag) => ['tgs-player'].includes(tag),
         },
+    },
+    app: {
+        head: {
+            titleTemplate: '%s - PomoDuck.com - Quack! Quack! Quack! Quack', // default fallback title
+            htmlAttrs: {
+                lang: 'en',
+            },
+            link: [
+                { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+            ]
+        }
     }
 })

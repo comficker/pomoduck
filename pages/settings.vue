@@ -99,7 +99,7 @@ watch(() => JSON.stringify(form.value), () => {
   <div class="w-full h-full p-4 flex flex-col relative gap-6">
     <div class="space-y-3">
       <div class="label">Settings</div>
-      <div class="space-y-2">
+      <div v-if="form.meta" class="space-y-2">
         <div class="flex justify-between">
           <span class="font-semibold">Notify</span>
           <Switch
@@ -131,11 +131,11 @@ watch(() => JSON.stringify(form.value), () => {
           </div>
         </div>
       </div>
-      <div class="flex justify-between">
+      <div v-if="form.meta" class="flex justify-between">
         <span class="font-semibold">Sound</span>
         <Switch v-model="form.meta.sound"/>
       </div>
-      <div class="flex justify-between">
+      <div v-if="form.meta" class="flex justify-between">
         <span class="font-semibold">Haptic Feedback</span>
         <Switch v-model="form.meta.vibration"/>
       </div>
