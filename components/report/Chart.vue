@@ -105,6 +105,11 @@ const tables = computed(() => {
                     <div>Earned: <span class="font-bold">{{ formatFloat(data[day].point, 2, 2) }}</span> points</div>
                   </div>
                 </template>
+                <TooltipArrow
+                    class="fill-white stroke-gray-200"
+                    :width="12"
+                    :height="6"
+                />
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
