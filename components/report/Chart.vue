@@ -4,6 +4,8 @@ import {formatFloat} from "~/lib/utils";
 
 const {data} = defineProps<{ data: { [key: string]: { point: number, duration: number } } }>()
 
+const tooltipToggle = ref<{ [key: string]: boolean }>({})
+
 const cr = computed(() => {
   const values = Object.keys(data).map(key => data[key].duration)
   if (!values.length) return [];
@@ -77,8 +79,8 @@ const tables = computed(() => {
       <div v-for="chunk in tables.parts" class="grid grid-cols-4 gap-0.5">
         <div v-for="week in chunk" class="">
           <TooltipProvider v-for="day in week" :delayDuration="100">
-            <Tooltip>
-              <TooltipTrigger class="pt-full mb-0.5 relative" as="div">
+            <Tooltip :open="!!tooltipToggle[day]">
+              <TooltipTrigger class="pt-full mb-0.5 relative" as="div" @click="tooltipToggle[day] = !tooltipToggle[day]">
                 <div
                     class="absolute inset-0 bg-gray-100 rounded border border-gray-200/50 hover:border-gray-500 duration-200"
                     :class="{
@@ -120,9 +122,23 @@ const tables = computed(() => {
 </template>
 
 <style>
-.c0 { background: #ebedf0; }
-.c1 { background: #9be9a8; }
-.c2 { background: #40c463; }
-.c3 { background: #30a14e; }
-.c4 { background: #216e39; }
+.c0 {
+  background: #ebedf0;
+}
+
+.c1 {
+  background: #9be9a8;
+}
+
+.c2 {
+  background: #40c463;
+}
+
+.c3 {
+  background: #30a14e;
+}
+
+.c4 {
+  background: #216e39;
+}
 </style>
