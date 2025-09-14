@@ -109,6 +109,7 @@ const tables = computed(() => {
                       class="pt-full mb-0.5 relative" as="div"
                       @click="tooltipToggle[day] = !tooltipToggle[day]"
                       @mouseover="tooltipToggle[day] = true"
+                      @mouseleave="tooltipToggle[day] = false"
                   >
                     <div
                         class="absolute inset-0 bg-gray-100 rounded border border-gray-200/50 hover:border-gray-500 duration-200"
