@@ -115,7 +115,7 @@ watch(animationKey, () => {
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="store.changeBoost(1)"/>
       </div>
     </div>
-    <div class="p-4 bg-white flex justify-center num">
+    <div class="p-4 bg-white flex justify-center num gap-4 items-center">
       <div v-if="store.loggedIn" class="inline-flex w-2/3">
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"
@@ -141,6 +141,9 @@ watch(animationKey, () => {
       <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
         Start
       </Button>
+      <div class="border size-12 rounded-2xl bg-gray-50 p-3">
+        <nuxt-link to="/leaderboard"><img src="/trophy.png" class="size-6" alt="Leaderboard"/></nuxt-link>
+      </div>
     </div>
   </div>
 </template>
