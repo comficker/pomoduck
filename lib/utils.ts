@@ -130,3 +130,7 @@ export function cloneDeep<T>(value: T): T {
 
     return _clone(value);
 }
+
+export function shortAddress(address: string): string {
+    return address.substring(0, 3) + '...' + address.substring(address.length - 4, address.length - 1)
+}

@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/sonner'
 import {formatFloat} from "~/lib/utils";
 import TaskList from "~/components/TaskList.vue";
 import Auth from "~/components/modal/Auth.vue";
-import MergeAccount from "~/components/MergeAccount.vue";
+import MergeAccount from "~/components/modal/MergeAccount.vue";
 
 useHead({
   title: "PomoDuck Timer",
