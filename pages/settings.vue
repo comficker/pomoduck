@@ -4,6 +4,7 @@ import WebApp from "@twa-dev/sdk";
 import {cloneDeep, debounce} from "~/lib/utils";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {MiniKit} from "@worldcoin/minikit-js";
+import TelegramLogin from "~/components/modal/TelegramLogin.vue";
 
 const authToken = useStatefulCookie('auth_token')
 
@@ -47,9 +48,13 @@ const DEFAULT = {
 }
 
 const authStore = useAuthStore()
+const store = useGlobalStore()
+const route = useRoute()
+
 const {data, pending} = useAuthFetch<ISettings>('/settings')
 
 const form = ref<ISettings>(cloneDeep(DEFAULT))
+const mergeToken = ref<string | null>(route.query.merge?.toString() || null)
 
 const init = () => {
   if (data.value) {
@@ -85,16 +90,20 @@ function connectOauth(channel: string) {
   window.open(`${useRuntimeConfig().public.api}/v2/auth-${channel}?token=${authToken.value}`, isInApp ? "_blank" : "_self")
 }
 
-function connectTG() {
-
-}
-
 const push = debounce(() => {
   useNativeFetch('/settings', {
     method: 'POST',
     body: form.value,
   })
 }, 800)
+
+const handleTelegramConnected = async (user: any) => {
+  const response = await authStore.authTelegram(user)
+  await store.loadInfo(true)
+  if (response && response.merge) {
+    mergeToken.value = response.merge
+  }
+}
 
 onMounted(() => {
   init()
@@ -172,7 +181,7 @@ watch(() => JSON.stringify(form.value), () => {
           <div v-if="data?.tg_id">
             {{ data.telegram_username || data.tg_id }}
           </div>
-          <Button v-else variant="outline" size="sm" @click="connectTG">Connect</Button>
+          <TelegramLogin v-else @done="handleTelegramConnected"/>
         </div>
         <div class="flex justify-between items-center">
           <span class="font-semibold">X</span>

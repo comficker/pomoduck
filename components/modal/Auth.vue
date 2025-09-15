@@ -35,6 +35,11 @@ const submit = async () => {
   await authStore.authLocal(!isLogging.value, form.value)
   fetching.value = false
 }
+
+const onTelegramConnected = async (user: any) => {
+  await authStore.authTelegram(user)
+  await store.loadInfo(true)
+}
 </script>
 
 <template>
@@ -85,7 +90,7 @@ const submit = async () => {
             @click="isLogging = !isLogging">{{ isLogging ? 'Register' : 'Login' }}</span>
       </div>
     </template>
-    <TelegramLogin/>
+    <TelegramLogin @done="onTelegramConnected"/>
     <WorldLogin/>
     <GoogleLogin/>
     <TwitterLogin/>

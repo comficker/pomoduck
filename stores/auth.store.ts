@@ -48,7 +48,7 @@ export const useAuthStore = defineStore('auth', () => {
             activeAuth.value = 'telegram'
             cooking.value = true
             try {
-                const response = await useNativeFetch<{ refresh: string, access: string }>(`/auth-telegram`, {
+                const response = await useNativeFetch<{ refresh: string, access: string, merge?: string }>(`/auth-telegram`, {
                     method: 'GET',
                     query: {
                         auth_data: initData
@@ -57,12 +57,14 @@ export const useAuthStore = defineStore('auth', () => {
                 if (response) {
                     authToken.value = response.access
                     authTokenRefresh.value = response.refresh
+                    return response
                 }
             } catch (e) {
                 logs.value.push(e?.toString())
             }
             cooking.value = false
         }
+        return null
     }
 
     const authWithWorldCoin = async () => {

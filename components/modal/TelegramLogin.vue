@@ -1,11 +1,10 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
 const store = useGlobalStore()
-
+const emits = defineEmits(['done'])
 onMounted(() => {
   window.onTelegramAuth = async (user) => {
-    await authStore.authTelegram(user)
-    await store.loadInfo(true)
+    emits('done', user)
   };
   const container = document.getElementById("telegram-login-container");
   const script = document.createElement("script");
