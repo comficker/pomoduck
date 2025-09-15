@@ -16,6 +16,20 @@ useHead({
   meta: [
     {name: 'viewport', content: 'width=device-width, user-scalable=no'},
     {name: 'apple-mobile-web-app-status-bar-style', content: 'default'},
+  ],
+  script: [
+    {
+      src: "https://www.googletagmanager.com/gtag/js?id=G-DYC8GTSSMK", async: true
+    },
+    {
+      hid: "gtmHead",
+      innerHTML: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-DYC8GTSSMK');
+        `,
+    },
   ]
 })
 
@@ -28,7 +42,7 @@ const menuTitle = computed(() => {
   return `${store.openDrawer ? 'Hide' : 'Show'} Task Manager`
 })
 const showMenu = computed(() => {
-  return ['/', '/leaderboard'].includes(route.path)
+  return ['/', '/report'].includes(route.path)
 })
 
 watch(() => route.path, () => {
