@@ -5,6 +5,7 @@ import {DialogDescription, DialogHeader, DialogTitle} from "~/components/ui/dial
 import TelegramLogin from "~/components/modal/TelegramLogin.vue";
 import WorldLogin from "~/components/modal/WorldLogin.vue";
 import GoogleLogin from "~/components/modal/GoogleLogin.vue";
+import TwitterLogin from "~/components/modal/TwitterLogin.vue";
 
 const authStore = useAuthStore()
 const store = useGlobalStore()
@@ -87,5 +88,6 @@ const submit = async () => {
     <TelegramLogin/>
     <WorldLogin/>
     <GoogleLogin/>
+    <TwitterLogin/>
   </div>
 </template>

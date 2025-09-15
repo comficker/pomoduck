@@ -3,6 +3,7 @@ import {Switch} from "~/components/ui/switch";
 import WebApp from "@twa-dev/sdk";
 import {cloneDeep, debounce} from "~/lib/utils";
 import useStatefulCookie from "~/composables/useStatefulCookie";
+import {MiniKit} from "@worldcoin/minikit-js";
 
 const authToken = useStatefulCookie('auth_token')
 
@@ -73,12 +74,15 @@ function toggleNotifySwitch(e: boolean) {
   }
 }
 
-function connectGG() {
-  window.open(`${useRuntimeConfig().public.api}/v2/auth-google?token=${authToken.value}`, "_self")
-}
-
-function connectX() {
-  window.open(`${useRuntimeConfig().public.api}/v2/auth-twitter?token=${authToken.value}`, "_self")
+function connectOauth(channel: string) {
+  let isWLD: boolean
+  try {
+    isWLD = MiniKit.isInstalled()
+  } catch (e) {
+    isWLD = false
+  }
+  const isInApp = ['ios', 'android'].includes(WebApp.platform) || isWLD
+  window.open(`${useRuntimeConfig().public.api}/v2/auth-${channel}?token=${authToken.value}`, isInApp ? "_blank" : "_self")
 }
 
 function connectTG() {
@@ -159,23 +163,23 @@ watch(() => JSON.stringify(form.value), () => {
         <div class="flex justify-between items-center">
           <span class="font-semibold">Google</span>
           <div v-if="data?.google_id">
-            {{ data.email || data.google_id}}
+            {{ data.email || data.google_id }}
           </div>
-          <Button v-else variant="outline" size="sm" @click="connectGG">Connect</Button>
+          <Button v-else variant="outline" size="sm" @click="connectOauth('google')">Connect</Button>
         </div>
         <div class="flex justify-between items-center">
           <span class="font-semibold">Telegram</span>
           <div v-if="data?.tg_id">
-            {{ data.telegram_username || data.tg_id}}
+            {{ data.telegram_username || data.tg_id }}
           </div>
           <Button v-else variant="outline" size="sm" @click="connectTG">Connect</Button>
         </div>
         <div class="flex justify-between items-center">
           <span class="font-semibold">X</span>
           <div v-if="data?.twitter_id">
-            {{ data.twitter_username || data.twitter_id}}
+            {{ data.twitter_username || data.twitter_id }}
           </div>
-          <Button v-else variant="outline" size="sm" @click="connectX">Connect</Button>
+          <Button v-else variant="outline" size="sm" @click="connectOauth('twitter')">Connect</Button>
         </div>
       </div>
     </div>
