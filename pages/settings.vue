@@ -141,7 +141,10 @@ watch(() => JSON.stringify(form.value), () => {
       </div>
     </div>
     <div class="space-y-3">
-      <div class="label">Connected</div>
+      <div class="space-y-1">
+        <div class="label">Connected</div>
+        <p class="text-sm italic">You can login and synchronize via connected app</p>
+      </div>
       <div class="space-y-2">
         <div class="flex justify-between">
           <span class="font-semibold">Google</span>
