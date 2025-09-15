@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/sonner'
 import {formatFloat} from "~/lib/utils";
 import TaskList from "~/components/TaskList.vue";
 import Auth from "~/components/modal/Auth.vue";
+import MergeAccount from "~/components/MergeAccount.vue";
 
 useHead({
   title: "PomoDuck Timer",
@@ -170,7 +171,8 @@ await authStore.auth()
   </div>
   <Dialog :open="!!store.modalName" @update:open="store.modalName = null">
     <DialogContent class="max-w-sm">
-      <Auth v-if="store.modalName == 'auth'"/>
+      <Auth v-if="store.modalName === 'auth'"/>
+      <MergeAccount v-else-if="store.modalName === 'merge'"/>
     </DialogContent>
   </Dialog>
   <ClientOnly>

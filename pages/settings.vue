@@ -99,14 +99,20 @@ const push = debounce(() => {
 
 const handleTelegramConnected = async (user: any) => {
   const response = await authStore.authTelegram(user, true)
-  await store.loadInfo(true)
+  await store.loadInfo(false)
   if (response && response.merge) {
-    mergeToken.value = response.merge
+    store.modalData = {token: response.merge}
+    store.modalName = 'merge'
+    console.log(store.modalName);
   }
 }
 
 onMounted(() => {
   init()
+  if (route.query.merge) {
+    store.modalData = {token: route.query.merge.toString()}
+    store.modalName = 'merge'
+  }
 })
 
 watch(pending, () => {

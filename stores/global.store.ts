@@ -37,7 +37,8 @@ export const useGlobalStore = defineStore('global', () => {
     })
     const taskFilter = ref<'public' | 'private'>('public')
     const refreshTask = ref(0)
-    const modalName = ref<'auth' | null>(null)
+    const modalName = ref<'auth' | 'merge' |  null>(null)
+    const modalData = ref<any>(null)
 
     const loggedIn = computed(() => info.value && info.value.id)
     const accountTask = computed(() => {
@@ -174,7 +175,8 @@ export const useGlobalStore = defineStore('global', () => {
         updateBoost,
         work,
         modalName,
-        changeBoost
+        changeBoost,
+        modalData
     }
 })
 
