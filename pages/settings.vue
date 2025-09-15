@@ -2,6 +2,10 @@
 import {Switch} from "~/components/ui/switch";
 import WebApp from "@twa-dev/sdk";
 import {cloneDeep, debounce} from "~/lib/utils";
+import useStatefulCookie from "~/composables/useStatefulCookie";
+
+const authToken = useStatefulCookie('auth_token')
+
 
 interface ISettings {
   "meta": {
@@ -17,6 +21,9 @@ interface ISettings {
   "google_id": string | null,
   "twitter_id": string | null,
   "wld_id": string | null,
+  telegram_username: string | null,
+  email: string | null,
+  twitter_username: string | null,
 }
 
 const DEFAULT = {
@@ -33,6 +40,9 @@ const DEFAULT = {
   google_id: null,
   twitter_id: null,
   wld_id: null,
+  telegram_username: null,
+  email: null,
+  twitter_username: null,
 }
 
 const authStore = useAuthStore()
@@ -64,11 +74,11 @@ function toggleNotifySwitch(e: boolean) {
 }
 
 function connectGG() {
-
+  window.open(`${useRuntimeConfig().public.api}/v2/auth-google?token=${authToken.value}`, "_self")
 }
 
 function connectX() {
-
+  window.open(`${useRuntimeConfig().public.api}/v2/auth-twitter?token=${authToken.value}`, "_self")
 }
 
 function connectTG() {
@@ -146,17 +156,26 @@ watch(() => JSON.stringify(form.value), () => {
         <p class="text-sm italic">You can login and synchronize via connected app</p>
       </div>
       <div class="space-y-2">
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
           <span class="font-semibold">Google</span>
-          <Button variant="outline" size="sm" @click="connectGG">Connect</Button>
+          <div v-if="data?.google_id">
+            {{ data.email || data.google_id}}
+          </div>
+          <Button v-else variant="outline" size="sm" @click="connectGG">Connect</Button>
         </div>
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
           <span class="font-semibold">Telegram</span>
-          <Button variant="outline" size="sm" @click="connectTG">Connect</Button>
+          <div v-if="data?.tg_id">
+            {{ data.telegram_username || data.tg_id}}
+          </div>
+          <Button v-else variant="outline" size="sm" @click="connectTG">Connect</Button>
         </div>
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
           <span class="font-semibold">X</span>
-          <Button variant="outline" size="sm" @click="connectX">Connect</Button>
+          <div v-if="data?.twitter_id">
+            {{ data.twitter_username || data.twitter_id}}
+          </div>
+          <Button v-else variant="outline" size="sm" @click="connectX">Connect</Button>
         </div>
       </div>
     </div>

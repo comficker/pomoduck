@@ -64,7 +64,7 @@ useHead({
       </section>
     </main>
 
-    <div class="bg-white shadow mt-12">
+    <div class="mt-12">
       <div class="max-w-4xl mx-auto p-4 text-center text-gray-500 text-sm">
         © 2025 PomoDuck. All rights reserved.
       </div>
