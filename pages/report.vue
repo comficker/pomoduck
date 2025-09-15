@@ -14,12 +14,12 @@ useHead({
 </script>
 
 <template>
-  <div v-if="data" class="w-full h-full p-4 relative space-y-6">
-    <div class="grid grid-cols-3 gap-2 md:gap-4">
-      <div class="bg-gray-100 rounded border border-gray-200/50 p-2 md:p-4">
-        <div class="num text-3xl font-bold">{{ formatFloat(data.total, 0, 2) }}</div>
-        <div class="text-sm">Focus hours</div>
-      </div>
+  <div v-if="data" class="w-full h-full p-4 relative space-y-4">
+    <div class="bg-gray-100 rounded border border-gray-200/50 p-2 md:p-4">
+      <div class="num text-3xl font-bold">{{ formatFloat(data.total, 0, 2) }}</div>
+      <div class="text-sm">Focus hours</div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 md:gap-4">
       <div class="bg-gray-100 rounded border border-gray-200/50 p-2 md:p-4">
         <div class="num text-3xl font-bold">{{ formatFloat(data.avg, 0, 2) }}</div>
         <div class="text-sm">Hours/day</div>
@@ -32,7 +32,7 @@ useHead({
     <ReportChart :data="data.history"/>
     <div class="text-sm divide-y divide-dashed">
       <div class="label pb-1">History</div>
-      <div v-for="key in Object.keys(data.history).reverse()" class="py-1"><span class="">[🗓️ {{ key }}]</span> [🕒 {{ formatFloat(data.history[key].duration / 60) }} minutes]
+      <div v-for="key in Object.keys(data.history).reverse()" class="py-1"><span class="">🗓️ {{ key }}</span> 🕒 {{ formatFloat(data.history[key].duration / 60) }} minutes
         ⬆️ {{ formatFloat(data.history[key].point) }} points
       </div>
     </div>
