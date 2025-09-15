@@ -98,7 +98,7 @@ const push = debounce(() => {
 }, 800)
 
 const handleTelegramConnected = async (user: any) => {
-  const response = await authStore.authTelegram(user)
+  const response = await authStore.authTelegram(user, true)
   await store.loadInfo(true)
   if (response && response.merge) {
     mergeToken.value = response.merge

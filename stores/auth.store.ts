@@ -38,7 +38,7 @@ export const useAuthStore = defineStore('auth', () => {
     const logs = ref<any[]>([])
     const activeAuth = ref('local')
 
-    async function authTelegram(initData = null) {
+    async function authTelegram(initData = null, connecting = false) {
         if (!initData && route.hash) {
             const h = decodeURIComponent(route.hash)
             const matches = h.matchAll(/#tgWebAppData=(.*?)&tgWebAppVersion/g);
@@ -51,19 +51,21 @@ export const useAuthStore = defineStore('auth', () => {
                 const response = await useNativeFetch<{ refresh: string, access: string, merge?: string }>(`/auth-telegram`, {
                     method: 'GET',
                     query: {
-                        auth_data: initData
+                        auth_data: initData,
+                        connecting: connecting
                     }
                 })
                 if (response) {
                     authToken.value = response.access
                     authTokenRefresh.value = response.refresh
+                    cooking.value = false
                     return response
                 }
             } catch (e) {
                 logs.value.push(e?.toString())
             }
-            cooking.value = false
         }
+        cooking.value = false
         return null
     }
 
