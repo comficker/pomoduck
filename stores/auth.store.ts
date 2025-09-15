@@ -103,9 +103,11 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const authOAUTH = () => {
-        if (route.query.access_token && route.query.refresh_token) {
+        if (route.query.access_token) {
             authToken.value = route.query.access_token + ''
-            authTokenRefresh.value = route.query.refresh_token + ''
+            if (route.query.refresh_token) {
+                authTokenRefresh.value = route.query.refresh_token + ''
+            }
         }
     }
 
