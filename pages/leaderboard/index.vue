@@ -11,7 +11,7 @@ const mode = ref('Leaderboard')
 
 const url = computed(() => {
   if (authStore.activeAuth === 'telegram') {
-    return `t.me/Pomoduck_bot?start=${store.info.id}`
+    return `https://t.me/Pomoduck_bot?start=${store.info.id}`
   } else {
     return `${config.public.appURL}?ref=${store.info.id}`
   }
