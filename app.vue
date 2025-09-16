@@ -80,7 +80,7 @@ await authStore.auth()
 </script>
 
 <template>
-  <div v-if="store.info.is_staff && false" class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
+  <div v-if="store.info.is_staff && authStore.logs.length" class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
     <blockquote class="w-full">
       {{JSON.stringify(authStore.logs)}}
     </blockquote>
