@@ -52,7 +52,7 @@ export const useAuthStore = defineStore('auth', () => {
                 authTokenRefresh.value = ""
                 const response = await useNativeFetch<{ refresh: string, access: string, merge?: string }>(`/auth-telegram`, {
                     method: 'GET',
-                    query: {
+                    body: {
                         auth_data: initData,
                         connecting: connecting
                     }
