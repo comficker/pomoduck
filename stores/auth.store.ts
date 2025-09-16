@@ -38,24 +38,11 @@ export const useAuthStore = defineStore('auth', () => {
     const logs = ref<any[]>([])
     const activeAuth = ref('local')
 
-    async function authTelegram(initData: any = null, connecting = false) {
+    async function authTelegram(initData = null, connecting = false) {
         if (!initData && route.hash) {
             const h = decodeURIComponent(route.hash)
-            const matches = h.matchAll(/#tgWebAppData=(.*?)&tgWebAppVersion/g)
-            const test = urlParseQueryString(Array.from(matches, x => x[1])[0])
-            const x: string[] = []
-            Object.keys(test).forEach((key) => {
-                x.push(`${key}=${test[key]}`)
-            })
-            let token = x.join('&')
-            token = token.replace('=null', '')
-            if (token.startsWith('"')) {
-                token = token.slice(1)
-            }
-            if (token.endsWith('"')) {
-                token = token.slice(0, -1)
-            }
-            initData = token
+            const matches = h.matchAll(/#tgWebAppData=(.*?)&tgWebAppVersion/g);
+            initData = urlParseQueryString(Array.from(matches, x => x[1])[0])
         }
         if (initData) {
             activeAuth.value = 'telegram'
