@@ -81,9 +81,9 @@ await authStore.auth()
 
 <template>
   <div v-if="authStore.logs.length" class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
-    <blockquote class="w-full">
+    <textarea class="w-full">
       {{JSON.stringify(authStore.logs)}}
-    </blockquote>
+    </textarea>
   </div>
   <div class="wrapper w-full flex flex-col relative z-0">
     <div class="w-full flex gap-4 p-4 py-2 justify-between">
