@@ -65,6 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
                 }
             } catch (e) {
                 logs.value.push(e?.toString())
+                logs.value.push(initData)
             }
         }
         cooking.value = false
