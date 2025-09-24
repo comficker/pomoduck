@@ -54,7 +54,6 @@ const route = useRoute()
 const {data, pending} = useAuthFetch<ISettings>('/settings')
 
 const form = ref<ISettings>(cloneDeep(DEFAULT))
-const mergeToken = ref<string | null>(route.query.merge?.toString() || null)
 
 const init = () => {
   if (data.value) {

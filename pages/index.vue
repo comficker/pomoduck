@@ -7,6 +7,7 @@ const store = useGlobalStore()
 const authStore = useAuthStore()
 
 useHead({
+  title: "Pomodoro Timer - PomoDuck Timer",
   script: [
     {src: "https://unpkg.com/@lottiefiles/lottie-player@0.2.0/dist/tgs-player.js", async: true}
   ]
