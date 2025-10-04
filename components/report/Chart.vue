@@ -130,7 +130,7 @@ const tables = computed(() => {
                     <template v-if="data[day]">
                       <div class="flex gap-0.5">
                         <NuxtIcon name="subdirectory" class="size-3"/>
-                        <div>Focus time: <span class="font-bold">{{ data[day].duration / 3600 }}</span> hours</div>
+                        <div>Focus time: <span class="font-bold">{{ formatFloat(data[day].duration / 3600) }}</span> hours</div>
                       </div>
                       <div class="flex gap-0.5">
                         <NuxtIcon name="subdirectory" class="size-3"/>
