@@ -37,7 +37,7 @@ useHead({
         <div>Time [Minutes]</div>
         <div class="text-right">Rewards</div>
       </div>
-      <div v-for="key in Object.keys(data.history).reverse()" class="py-1 grid grid-cols-3 num">
+      <div v-for="key in Object.keys(data.history).reverse().slice(0, 7)" class="py-1 grid grid-cols-3 num">
         <div class="">🗓️ {{ key }}</div>
         <div>🕒 {{ formatFloat(data.history[key].duration / 60) }}</div>
         <div class="text-right">{{ formatFloat(data.history[key].point) }} ⬆️</div>
