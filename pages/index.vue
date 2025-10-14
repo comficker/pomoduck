@@ -118,7 +118,7 @@ watch(animationKey, () => {
             class="rounded-2xl h-12 w-full relative overflow-hidden"
             @click="runTimer()"
         >
-          <div v-if="store.isRunning" class="absolute inset-0 overflow-hidden">
+          <div v-if="store.isRunning" class="absolute bg-white inset-0 overflow-hidden">
             <div class="h-full w-full flex flex-nowrap">
               <div class="h-full bg-black/80" :style="{width: `${store.percent}%`}"/>
               <div class="wave"/>

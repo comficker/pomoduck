@@ -82,6 +82,11 @@ const tables = computed(() => {
     months
   };
 })
+
+const handleCLickToolTip = (day: string, val: boolean) => {
+  if (window.innerWidth < 600) return
+  tooltipToggle.value[day] = val
+}
 </script>
 
 <template>
@@ -108,19 +113,19 @@ const tables = computed(() => {
                   <TooltipTrigger
                       class="pt-full mb-0.5 relative" as="div"
                       @click="tooltipToggle[day] = !tooltipToggle[day]"
-                      @mouseover="tooltipToggle[day] = true"
-                      @mouseleave="tooltipToggle[day] = false"
+                      @mouseover="handleCLickToolTip(day, true)"
+                      @mouseleave="handleCLickToolTip(day, false)"
                   >
                     <div
                         class="absolute inset-0 bg-gray-100 rounded border border-gray-200/50 hover:border-gray-500 duration-200"
                         :class="{
-                      'border-0': data[day],
-                      'c0': data[day] && data[day].duration < cr[0],
-                      'c1': data[day] && data[day].duration > cr[0],
-                      'c2': data[day] && data[day].duration > cr[1],
-                      'c3': data[day] && data[day].duration > cr[2],
-                      'c4': data[day] && data[day].duration > cr[3]
-                  }"
+                          'border-0': data[day],
+                          'c0': data[day] && data[day].duration < cr[0],
+                          'c1': data[day] && data[day].duration > cr[0],
+                          'c2': data[day] && data[day].duration > cr[1],
+                          'c3': data[day] && data[day].duration > cr[2],
+                          'c4': data[day] && data[day].duration > cr[3]
+                        }"
                     />
                   </TooltipTrigger>
                   <TooltipContent
