@@ -87,15 +87,15 @@ watch(animationKey, () => {
           :src="animated[getRandomRest()]"
           @click="randomAnimate"
       />
-      <div class="text-6xl font-extrabold flex gap-3 items-center num">
+      <div class="text-6xl md:text-8xl font-extrabold flex gap-3 items-center text-left">
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="i in display2Digit(store.timer.mm)" class="w-14 p-1">
+          <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1" :class="{'text-right': index == 0}">
             <span>{{ i }}</span>
           </div>
         </div>
         <div>:</div>
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="i in display2Digit(store.timer.ss)" class="w-14 p-1">
+          <div v-for="(i, index) in display2Digit(store.timer.ss)" class="w-12 md:w-20 p-1" :class="{'text-right': index == 0}">
             <span>{{ i }}</span>
           </div>
         </div>
@@ -111,7 +111,7 @@ watch(animationKey, () => {
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="store.changeBoost(1)"/>
       </div>
     </div>
-    <div class="p-4 bg-white flex justify-center num gap-4 items-center">
+    <div class="p-4 flex justify-center num gap-4 items-center">
       <div v-if="store.loggedIn" class="inline-flex w-2/3">
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"

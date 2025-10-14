@@ -161,7 +161,7 @@
 
 .task:nth-child(even),
 .app:nth-child(even) {
-    background: #F9F9F9;
+    background: #FFF;
 }
 
 .border-doodle {
@@ -297,7 +297,7 @@ input {
 }
 
 .menu {
-    @apply px-1 text-sm flex justify-center font-semibold uppercase;
+    @apply px-1 gap-2 text-sm flex justify-center font-semibold uppercase;
 }
 
 .menu a.router-link-active,
@@ -307,8 +307,8 @@ input {
 
 .menu a,
 .menu .item {
-    @apply p-3 flex justify-center items-center gap-1 duration-100 cursor-pointer;
-    border-radius: 17px;
+    @apply p-1.5 px-2 flex justify-center items-center gap-1 duration-100 cursor-pointer;
+    border-radius: 10px;
 }
 
 .dropbox {

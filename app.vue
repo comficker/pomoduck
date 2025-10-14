@@ -75,7 +75,7 @@ await authStore.auth()
   <div v-if="authStore.logs.length" class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
     <textarea v-for="log in authStore.logs" class="w-full" :value="JSON.stringify(log)"/>
   </div>
-  <div class="wrapper w-full flex flex-col relative z-0">
+  <div class="wrapper w-full flex flex-col relative z-0 bg-neutral-100">
     <div class="w-full flex gap-4 p-4 py-2 justify-between">
       <div class="flex-1 space-y-1 flex gap-4 items-center">
         <div class="">
@@ -84,7 +84,7 @@ await authStore.auth()
             <img class="md:hidden h-10" :src="`/icon.png`" alt="">
           </nuxt-link>
         </div>
-        <div class="hidden text-center xl:block p-4 rounded-xl font-semibold text-sm text-gray-500">
+        <div class="hidden text-center xl:block p-4 rounded-xl font-semibold text-gray-500">
           <span v-if="store.isRunning && store.info.doing">Doing "{{ store.info.doing.name || 'Untitled' }}"</span>
           <span v-else>Quack! <b>{{ store.info.username }}</b>!</span>
         </div>
