@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {formatFloat} from "~/lib/utils";
 import {MiniKit} from '@worldcoin/minikit-js'
 import WebApp from "@twa-dev/sdk";
 
@@ -81,26 +80,22 @@ watch(animationKey, () => {
 <template>
   <div class="h-full flex flex-col justify-center gap-4 py-4">
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
-      <div class="border shadow-inner py-1 p-4 rounded-xl font-semibold text-sm text-gray-500">
-        <span v-if="store.isRunning && store.info.doing">Doing "{{ store.info.doing.name || 'Untitled' }}"</span>
-        <span v-else>Quack! <b>{{ store.info.username }}</b>!</span>
-      </div>
       <tgs-player
           autoplay
           loop
-          style="width: 150px; height: 150px;"
+          style="width: 120px; height: 120px;"
           :src="animated[getRandomRest()]"
           @click="randomAnimate"
       />
       <div class="text-6xl font-extrabold flex gap-3 items-center num">
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="i in display2Digit(store.timer.mm)" class="w-14 p-1 bg-gray-100 rounded-xl shadow-inner">
+          <div v-for="i in display2Digit(store.timer.mm)" class="w-14 p-1">
             <span>{{ i }}</span>
           </div>
         </div>
         <div>:</div>
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="i in display2Digit(store.timer.ss)" class="w-14 p-1 bg-gray-100 rounded-xl shadow-inner">
+          <div v-for="i in display2Digit(store.timer.ss)" class="w-14 p-1">
             <span>{{ i }}</span>
           </div>
         </div>
@@ -131,9 +126,7 @@ watch(animationKey, () => {
           </div>
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-lg">
             <template v-if="store.percent > 0">
-              <span>Claim</span>
-              <img class="w-4 h-4" src="/icon/star.png" alt="">
-              <span>{{ formatFloat(store.info.doing?.reward_amount) }}</span>
+              <span>Harvest</span>
             </template>
             <span v-else>Start</span>
           </div>

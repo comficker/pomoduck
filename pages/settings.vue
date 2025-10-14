@@ -179,7 +179,7 @@ watch(() => JSON.stringify(form.value), () => {
           <div v-if="data?.google_id">
             {{ data.email || data.google_id }}
           </div>
-          <Button v-else variant="outline" size="sm" @click="connectOauth('google')">Connect</Button>
+          <Button v-else variant="outline" size="xs" @click="connectOauth('google')">Connect</Button>
         </div>
         <div class="flex justify-between items-center">
           <span class="font-semibold">Telegram</span>
@@ -193,7 +193,7 @@ watch(() => JSON.stringify(form.value), () => {
           <div v-if="data?.twitter_id">
             {{ data.twitter_username || data.twitter_id }}
           </div>
-          <Button v-else variant="outline" size="sm" @click="connectOauth('twitter')">Connect</Button>
+          <Button v-else variant="outline" size="xs" @click="connectOauth('twitter')">Connect</Button>
         </div>
       </div>
     </div>

@@ -39,7 +39,7 @@ const {data: mate} = useAuthFetch<APIResponse<Account>>('/accounts/', {
         <span>{{ item }}</span>
       </div>
     </div>
-    <div v-if="mate" class="flex-1 divide-y divide-dashed">
+    <div v-if="mate && mate.results.length" class="flex-1 divide-y divide-dashed">
       <div v-for="item in mate.results" :key="item.id" class="py-1 flex justify-between">
         <div class="font-bold">{{ item.username || `${item.first_name} ${item.last_name}` }}</div>
         <div class="flex items-center gap-1">
@@ -48,7 +48,7 @@ const {data: mate} = useAuthFetch<APIResponse<Account>>('/accounts/', {
         </div>
       </div>
     </div>
-    <div class="bg-white pt-4 space-y-3 sticky bottom-0">
+    <div v-if="mode === 'Friends'" class="bg-white pt-4 space-y-3 sticky bottom-0">
       <div class="relative">
         <div class="flex items-center gap-4">
           <input

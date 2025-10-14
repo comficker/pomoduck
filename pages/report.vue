@@ -15,18 +15,18 @@ useHead({
 
 <template>
   <div v-if="data" class="w-full h-full p-4 relative space-y-4">
-    <div class="bg-gray-100 rounded border border-gray-200/50 p-2 md:p-4">
-      <div class="num text-3xl font-bold">{{ formatFloat(data.total, 0, 2) }}</div>
-      <div class="text-sm">Focus hours</div>
-    </div>
-    <div class="grid grid-cols-2 gap-2 md:gap-4">
-      <div class="bg-gray-100 rounded border border-gray-200/50 p-2 md:p-4">
-        <div class="num text-3xl font-bold">{{ formatFloat(data.avg, 0, 2) }}</div>
-        <div class="text-sm">Hours/day</div>
+    <div class="grid grid-cols-3 gap-2 md:gap-3">
+      <div class="bg-gray-100 rounded border border-gray-200/50 py-1 p-2 md:p-4">
+        <div class="num text-xl md:text-3xl font-bold">{{ formatFloat(data.total, 0, 2) }}</div>
+        <div class="text-2xs uppercase">Focus hours</div>
       </div>
-      <div class="bg-gray-100 rounded border border-gray-200/50 p-2 md:p-4">
-        <div class="num text-3xl font-bold">7</div>
-        <div class="text-sm">Day streak</div>
+      <div class="bg-gray-100 rounded border border-gray-200/50 py-1 p-2 md:p-4">
+        <div class="num text-xl md:text-3xl font-bold">{{ formatFloat(data.avg, 0, 2) }}</div>
+        <div class="text-2xs uppercase">Hours/day</div>
+      </div>
+      <div class="bg-gray-100 rounded border border-gray-200/50 py-1 p-2 md:p-4">
+        <div class="num text-xl md:text-3xl font-bold">7</div>
+        <div class="text-2xs uppercase">Day streak</div>
       </div>
     </div>
     <ReportChart :data="data.history"/>

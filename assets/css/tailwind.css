@@ -297,14 +297,12 @@ input {
 }
 
 .menu {
-    @apply px-1 bg-black/70 p-1 text-sm grid grid-cols-2 gap-2 font-semibold uppercase text-white;
-
-    border-radius: 20px;
+    @apply px-1 text-sm flex justify-center font-semibold uppercase;
 }
 
 .menu a.router-link-active,
 .menu .item.active {
-    @apply bg-yellow-500;
+    @apply bg-yellow-200;
 }
 
 .menu a,
@@ -326,21 +324,6 @@ input {
 .act {
     @apply font-bold cursor-pointer rounded-none hover:rounded-2xl hover:bg-yellow-100 duration-300 p-2 flex items-center gap-1;
 }
-
-.task-list {
-    @apply bg-white duration-300 opacity-0 overflow-hidden shadow border;
-
-    border-radius: 24px;
-    padding: 1.45rem 0;
-    height: 0;
-}
-
-.task-list.active {
-    @apply -my-4 md:mb-0 mt-0 md:-mt-3 opacity-100 py-3;
-
-    height: calc(50vh);
-}
-
 
 .sticky {
     transition: .1s;
@@ -377,13 +360,21 @@ input {
 }
 
 .tabs {
-    @apply flex gap-2 text-3xl text-gray-400;
+    @apply flex gap-4 text-3xl text-gray-400;
 }
 
 .tab {
     @apply font-bold flex gap-2 duration-200 cursor-pointer;
 }
 
+.tab.active {
+    @apply text-black;
+}
+
 a.router.router-link-exact-active {
     @apply text-blue-500;
+}
+
+.text-2xs {
+    font-size: 10px;
 }
