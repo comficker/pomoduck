@@ -83,8 +83,8 @@ onMounted(() => {
           @deleted="taskRes.results.splice(i, 1)"
       />
       <div
-          v-show="store.loggedIn && store.taskFilter == 'private' && status == TASK_STATUS.ACTIVE"
-          class="sticky bottom-0 pt-2 bg-white flex justify-center"
+          v-show="store.loggedIn && taskFilter == 'Your' && status == TASK_STATUS.ACTIVE"
+          class="sticky bottom-0 py-2 flex justify-center"
           :class="{active: isActiveSticky}"
       >
         <Button variant="link" class="gap-2" @click="createTask">
