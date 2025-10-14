@@ -154,7 +154,7 @@ watch(() => form.value.unit, () => {
             <template v-else>
               <NuxtIcon
                   v-for="item in task.unit"
-                  name="egg"
+                  name="barley"
                   class="size-4 "
                   :class="{
                     'text-yellow-500': item > progress && task.duration_est >= 1500,

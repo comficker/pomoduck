@@ -104,11 +104,11 @@ await authStore.auth()
             <span class="hidden md:block">Setting</span>
           </nuxt-link>
         </div>
-        <div class="flex gap-1 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
-          <img src="/icon/star.png" class="size-4" alt="">
+        <div class="flex gap-1 items-center justify-center bg-white rounded-xl py-0.5 px-2">
+          <NuxtIcon name="barley" class="size-4"/>
           <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
         </div>
-        <div class="flex gap-1 items-center justify-center bg-gray-100 rounded-xl py-0.5 px-2">
+        <div class="flex gap-1 items-center justify-center bg-white rounded-xl py-0.5 px-2">
           <img src="/icon/thunder.png" class="size-4" alt="">
           <span>{{ store.info.boost_balance }}</span>
         </div>

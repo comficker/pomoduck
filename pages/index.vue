@@ -126,7 +126,8 @@ watch(animationKey, () => {
           </div>
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-lg">
             <template v-if="store.percent > 0">
-              <span>Harvest 🥚</span>
+              <span>Harvest</span>
+              <NuxtIcon name="barley" class="size-5"/>
             </template>
             <span v-else>Start</span>
           </div>
