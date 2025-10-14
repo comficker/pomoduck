@@ -24,8 +24,8 @@ const accountTask = computed(() => {
 })
 
 const status = computed(() => {
-  if (accountTask.value && task.creator) {
-    if (accountTask.value.finished_at && accountTask.value.start_at) {
+  if (accountTask.value) {
+    if (accountTask.value.finished_at) {
       return TASK_STATUS.COMPLETED
     } else if (accountTask.value.start_at && !accountTask.value.finished_at) {
       return TASK_STATUS.DOING

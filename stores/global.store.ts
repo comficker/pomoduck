@@ -129,7 +129,6 @@ export const useGlobalStore = defineStore('global', () => {
             }
             info.value.doing = newData
             refreshTask.value++
-            console.log(newData.type);
             if (newData.type === 'default') {
                 await useRouter().push({ name: 'index' })
             }
