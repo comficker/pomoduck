@@ -129,7 +129,10 @@ export const useGlobalStore = defineStore('global', () => {
             }
             info.value.doing = newData
             refreshTask.value++
-            if (newData.type === 'default') openDrawer.value = false
+            console.log(newData.type);
+            if (newData.type === 'default') {
+                await useRouter().push({ name: 'index' })
+            }
         }
         computeTimer()
         return newData
