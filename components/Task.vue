@@ -125,7 +125,7 @@ watch(() => form.value.unit, () => {
 
 <template>
   <div
-      class="task p-2 md:rounded-xl flex items-center gap-4 group"
+      class="task p-2 md:rounded flex items-center gap-4 group"
       :class="{'!bg-yellow-50 border': updating, 'border border-yellow-500': status === TASK_STATUS.DOING}"
   >
     <div class="flex-1 flex gap-4 items-center">
@@ -133,7 +133,7 @@ watch(() => form.value.unit, () => {
         <template v-if="updating">
           <input
               v-model="form.name" type="text"
-              class="text-lg border rounded p-0.5 px-3 w-full"
+              class="text-lg rounded p-0.5 px-3 w-full"
               placeholder="Name"
           >
           <textarea class="w-full" v-model="form.description" placeholder="Note"/>
@@ -153,7 +153,7 @@ watch(() => form.value.unit, () => {
             </template>
             <template v-else>
               <NuxtIcon
-                  v-for="item in task.unit"
+                  v-for="item in form.unit"
                   name="barley"
                   class="size-4 "
                   :class="{
@@ -186,12 +186,12 @@ watch(() => form.value.unit, () => {
       </div>
       <div v-if="!updating" class="space-y-1 text-xs">
         <div
-            @click="act"
-            class="act"
-            :class="{
-              'animate-pulse': status === TASK_STATUS.DOING,
-              'grayscale': status === TASK_STATUS.COMPLETED}
-            "
+          @click="act"
+          class="act"
+          :class="{
+            'animate-pulse': status === TASK_STATUS.DOING,
+            'grayscale': status === TASK_STATUS.COMPLETED}
+          "
         >
           <span v-if="[TASK_STATUS.ACTIVE, TASK_STATUS.DRAFT].includes(status)">GO!</span>
           <img v-else class="size-5" src="/icon.png" alt="">

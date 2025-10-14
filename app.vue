@@ -4,6 +4,7 @@ import {Toaster} from '@/components/ui/sonner'
 import {formatFloat} from "~/lib/utils";
 import Auth from "~/components/modal/Auth.vue";
 import MergeAccount from "~/components/modal/MergeAccount.vue";
+import CurentTask from "~/components/CurentTask.vue";
 
 useHead({
   title: "PomoDuck Timer",
@@ -84,10 +85,7 @@ await authStore.auth()
             <img class="md:hidden h-10" :src="`/icon.png`" alt="">
           </nuxt-link>
         </div>
-        <div class="hidden text-center xl:block p-4 rounded-xl font-semibold text-gray-500">
-          <span v-if="store.isRunning && store.info.doing">Doing "{{ store.info.doing.name || 'Untitled' }}"</span>
-          <span v-else>Quack! <b>{{ store.info.username }}</b>!</span>
-        </div>
+        <CurentTask class="hidden xl:block"/>
       </div>
       <div class="flex items-center justify-end gap-2 num font-semibold uppercase">
         <div class="menu">
@@ -115,6 +113,7 @@ await authStore.auth()
       </div>
     </div>
     <div class="max-w-md mx-auto flex-1 w-full relative">
+      <CurentTask v-if="route.name === 'index'" class="block md:hidden"/>
       <nuxt-page/>
     </div>
     <div class="p-2 uppercase font-bold text-2xs hidden md:flex justify-center items-center gap-1 text-gray-500">
