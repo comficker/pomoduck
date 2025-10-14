@@ -77,7 +77,7 @@ await authStore.auth()
     <textarea v-for="log in authStore.logs" class="w-full" :value="JSON.stringify(log)"/>
   </div>
   <div class="wrapper w-full flex flex-col relative z-0 bg-neutral-100">
-    <div class="w-full flex gap-4 p-4 py-2 justify-between">
+    <div class="w-full flex gap-4 p-4 py-2 justify-between items-center">
       <div class="flex-1 space-y-1 flex gap-4 items-center">
         <div class="">
           <nuxt-link class="block" to="/">
@@ -85,35 +85,39 @@ await authStore.auth()
             <img class="md:hidden h-10" :src="`/icon.png`" alt="">
           </nuxt-link>
         </div>
-        <CurentTask class="hidden xl:block"/>
-      </div>
-      <div class="flex items-center justify-end gap-2 num font-semibold uppercase">
         <div class="menu">
-          <nuxt-link to="/task" class="">
-            <NuxtIcon name="task" class="w-5 h-5"/>
-            <span class="hidden md:block">Task</span>
-          </nuxt-link>
-          <nuxt-link to="/report" class="">
-            <NuxtIcon name="rank" class="w-5 h-5"/>
-            <span class="hidden md:block">Report</span>
-          </nuxt-link>
-          <nuxt-link v-if="store.loggedIn" to="/settings">
-            <NuxtIcon name="cog" class="size-6"/>
-            <span class="hidden md:block">Setting</span>
+          <nuxt-link to="/leaderboard">
+            <img src="/trophy.png" class="size-5" alt="Leaderboard"/>
+            <span class="hidden md:block">Leaderboard</span>
           </nuxt-link>
         </div>
-        <div class="flex gap-1 items-center justify-center bg-white rounded-xl py-0.5 px-2">
-          <NuxtIcon name="barley" class="size-4"/>
-          <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
-        </div>
-        <div class="flex gap-1 items-center justify-center bg-white rounded-xl py-0.5 px-2">
-          <img src="/icon/thunder.png" class="size-4" alt="">
-          <span>{{ store.info.boost_balance }}</span>
+      </div>
+      <div class="menu">
+        <nuxt-link to="/achievement" class="">
+          <img src="/icon/star.png" alt="Achievement" class="size-5"/>
+          <span class="hidden md:block">Achievement</span>
+        </nuxt-link>
+        <nuxt-link to="/task" class="">
+          <NuxtIcon name="task" class="size-5"/>
+          <span class="hidden md:block">Task</span>
+        </nuxt-link>
+        <nuxt-link to="/report" class="">
+          <NuxtIcon name="rank" class="size-5"/>
+          <span class="hidden md:block">Report</span>
+        </nuxt-link>
+        <div class="num flex gap-2 items-center justify-center bg-white text-yellow-500 shadow rounded-lg">
+          <div class="flex p-0.5">
+            <NuxtIcon name="barley" class="size-4"/>
+            <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
+          </div>
+          <div class="p-0.5 border-l">
+            <NuxtIcon name="egg" class="size-6"/>
+          </div>
         </div>
       </div>
     </div>
     <div class="max-w-md mx-auto flex-1 w-full relative">
-      <CurentTask v-if="route.name === 'index'" class="absolute top-0 inset-x-0 block md:hidden"/>
+      <CurentTask v-if="route.name === 'index'" class="absolute top-0 inset-x-0"/>
       <nuxt-page/>
     </div>
     <div class="p-2 uppercase font-bold text-2xs hidden md:flex justify-center items-center gap-1 text-gray-500">
