@@ -49,7 +49,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-4 space-y-3">
+  <div class="px-4 space-y-3">
     <div class="label">Tasks</div>
     <div class="tabs">
       <div

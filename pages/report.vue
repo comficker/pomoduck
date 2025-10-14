@@ -14,7 +14,7 @@ useHead({
 </script>
 
 <template>
-  <div v-if="data" class="w-full h-full p-4 relative space-y-4">
+  <div v-if="data" class="w-full h-full px-4 relative space-y-4">
     <div class="grid grid-cols-3 gap-2 md:gap-3">
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
         <div class="num text-xl md:text-3xl font-bold">{{ formatFloat(data.total, 0, 2) }}</div>

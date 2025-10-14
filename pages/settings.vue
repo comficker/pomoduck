@@ -124,7 +124,7 @@ watch(() => JSON.stringify(form.value), () => {
 </script>
 
 <template>
-  <div class="w-full h-full p-4 flex flex-col relative gap-6">
+  <div class="w-full h-full px-4 flex flex-col relative gap-6">
     <div class="space-y-3">
       <div class="label">Settings</div>
       <div v-if="form.meta" class="space-y-2">
