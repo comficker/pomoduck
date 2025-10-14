@@ -78,7 +78,7 @@ watch(animationKey, () => {
 </script>
 
 <template>
-  <div class="h-full flex flex-col justify-center gap-4 py-4">
+  <div class="h-full flex flex-col justify-center gap-4 pb-16">
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
       <tgs-player
           autoplay

@@ -59,7 +59,7 @@ onMounted(() => {
           @click="taskFilter = item"
       >{{item}}</div>
     </div>
-    <div v-if="taskRes" class="space-y-1 md:-mx-2">
+    <div v-if="taskRes" class="space-y-1 -mx-2">
       <div
           v-if="store.taskFilter == 'private'"
           class="flex capitalize gap-3 py-2 label sticky num top-0 bg-white"
