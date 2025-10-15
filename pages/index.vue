@@ -133,7 +133,7 @@ watch(animationKey, () => {
       </div>
     </div>
     <div class="p-4 flex flex-col justify-center num gap-4 items-center">
-      <div v-if="store.loggedIn" class="inline-flex w-2/3 mx-auto">
+      <div v-if="store.loggedIn" class="inline-flex w-3/4 mx-auto">
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"
             class="rounded-2xl h-12 w-full relative overflow-hidden"
@@ -158,8 +158,8 @@ watch(animationKey, () => {
         {{startText}}
       </Button>
       <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">
-        <div v-for="i in ['work', 'break']" class="flex gap-2">
-          <span class="text-gray-500">{{ i }}:</span>
+        <div v-for="i in ['work', 'break']" class="flex items-center gap-2">
+          <NuxtIcon :name="i" class="text-gray-500 size-4"/>
           <div class="cursor-pointer underline" v-for="item in taskRes?.results.filter(x => x.tag === i)" @click="store.work(item.id)">{{item.duration_est / 60}} Mins</div>
         </div>
         <NuxtLink class="underline" to="/task">More...</NuxtLink>
