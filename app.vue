@@ -8,11 +8,9 @@ import CurentTask from "~/components/CurentTask.vue";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
@@ -120,7 +118,6 @@ await authStore.auth()
             <div
                 class="num flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg">
               <div class="flex p-2 py-2 items-center">
-                <NuxtIcon name="barley" class="size-4"/>
                 <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
               </div>
               <div class="flex-1 p-1">
@@ -131,7 +128,10 @@ await authStore.auth()
           <DropdownMenuContent side="bottom" align="end" class="num">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator/>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem v-if="false">Profile</DropdownMenuItem>
+            <DropdownMenuItem as-child>
+              <nuxt-link to="/balance">Balance</nuxt-link>
+            </DropdownMenuItem>
             <DropdownMenuItem as-child>
               <nuxt-link to="/settings">Settings</nuxt-link>
             </DropdownMenuItem>
@@ -142,7 +142,7 @@ await authStore.auth()
         <Button v-else class="num" @click="store.modalName = 'auth'">Login</Button>
       </div>
     </div>
-    <div class="max-w-md mx-auto flex-1 w-full relative">
+    <div class="max-w-md mx-auto flex-1 w-full relative overflow-y-auto no-scroll">
       <CurentTask v-if="route.name === 'index'" class="absolute top-4 inset-x-0"/>
       <nuxt-page/>
     </div>

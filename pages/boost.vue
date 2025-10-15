@@ -20,7 +20,7 @@ const boost = () => {
       description: "Balance is not enough!",
       action: {
         label: 'Get more!',
-        onClick: () => router.push('/balance?type=boost&action=purchase'),
+        onClick: () => router.push('/balance?type=Boost&action=purchase'),
       },
     })
     return
@@ -78,7 +78,7 @@ const boost = () => {
         <span>Available:</span>
         <span class="num">{{ store.info.boost_balance }}</span>
         <img src="/icon/thunder.png" class="size-5" alt="">
-        <nuxt-link class="underline" to="/balance?type=boost&action=purchase">Get</nuxt-link>
+        <nuxt-link class="underline" to="/balance?type=Boost&action=purchase">Get</nuxt-link>
       </div>
     </div>
   </div>
