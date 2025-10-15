@@ -112,6 +112,10 @@ export const useGlobalStore = defineStore('global', () => {
     }
 
     async function work(task_id: number | undefined = undefined) {
+        if (!loggedIn.value) {
+            modalName.value = 'auth'
+            return
+        }
         if (!task_id) task_id = info.value.doing?.id
         let newData: ITask | undefined = undefined;
         if (task_id) {
