@@ -115,7 +115,7 @@ await authStore.auth()
           <NuxtIcon name="rank" class="size-5"/>
           <span class="hidden md:block">Report</span>
         </nuxt-link>
-        <DropdownMenu>
+        <DropdownMenu v-if="store.loggedIn">
           <DropdownMenuTrigger as-child>
             <div
                 class="num flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg">
@@ -139,6 +139,7 @@ await authStore.auth()
             <DropdownMenuItem @click="authStore.logout()">Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Button class="num" @click="store.modalName = 'auth'">Login</Button>
       </div>
     </div>
     <div class="max-w-md mx-auto flex-1 w-full relative">
