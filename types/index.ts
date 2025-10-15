@@ -54,6 +54,7 @@ export interface ITask {
     duration_est: number
     unit: number
     status: number
+    tag: string
 }
 
 export interface AccountTask {

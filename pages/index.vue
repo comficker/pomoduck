@@ -29,11 +29,12 @@ const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
     type: 'default',
     status: 1
   },
+  key: 'index'
 })
 
 const startText = computed(() => {
   if (store.info.doing) {
-    return `Start focus ${store.info.doing.duration_est / 60} mins`
+    return `Start ${store.info.doing.tag} in ${store.info.doing.duration_est / 60} mins`
   }
   return 'Start a pomodoro'
 })
@@ -156,9 +157,12 @@ watch(animationKey, () => {
       <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
         {{startText}}
       </Button>
-      <div v-if="!store.isRunning" class="flex gap-4 text-xs uppercase font-semibold justify-center">
-        <div class="cursor-pointer" v-for="item in taskRes?.results" @click="store.work(item.id)">{{item.duration_est / 60}} Mins</div>
-        <NuxtLink to="/task">More...</NuxtLink>
+      <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">
+        <div v-for="i in ['work', 'break']" class="flex gap-2">
+          <span class="text-gray-500">{{ i }}:</span>
+          <div class="cursor-pointer underline" v-for="item in taskRes?.results.filter(x => x.tag === i)" @click="store.work(item.id)">{{item.duration_est / 60}} Mins</div>
+        </div>
+        <NuxtLink class="underline" to="/task">More...</NuxtLink>
       </div>
     </div>
   </div>
