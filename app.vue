@@ -139,11 +139,11 @@ await authStore.auth()
             <DropdownMenuItem @click="authStore.logout()">Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button class="num" @click="store.modalName = 'auth'">Login</Button>
+        <Button v-else class="num" @click="store.modalName = 'auth'">Login</Button>
       </div>
     </div>
     <div class="max-w-md mx-auto flex-1 w-full relative">
-      <CurentTask v-if="route.name === 'index'" class="absolute top-0 inset-x-0"/>
+      <CurentTask v-if="route.name === 'index'" class="absolute top-4 inset-x-0"/>
       <nuxt-page/>
     </div>
     <div class="p-2 uppercase font-bold text-2xs hidden md:flex justify-center items-center gap-1 text-gray-500">
