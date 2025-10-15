@@ -121,16 +121,13 @@ watch(animationKey, () => {
           </div>
         </div>
       </div>
-      <div class="flex justify-center items-center gap-2 text-yellow-600">
-        <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="minus" @click="store.changeBoost(-1)"/>
-        <div class="size-8 flex items-center bg-gray-100 rounded-xl py-0.5 px-2 relative">
-          <img class="size-5" src="/icon/thunder.png" alt="">
-          <span class="absolute text-xs -bottom-1 -right-1">
-            x{{ Math.min(store.info.boost_balance, store.info.boost_level) }}
-          </span>
-        </div>
-        <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="store.changeBoost(1)"/>
-      </div>
+      <NuxtLink
+          to="/boost"
+          class="cursor-pointer num inline-flex items-center gap-2 bg-gray-100 font-bold text-yellow-500 rounded-lg text-xs py-1 px-3 relative border"
+      >
+        <img class="size-4" src="/icon/thunder.png" alt="">
+        <span>BOOST</span>
+      </NuxtLink>
     </div>
     <div class="p-4 flex flex-col justify-center num gap-4 items-center">
       <div v-if="store.loggedIn" class="inline-flex w-3/4 mx-auto">
