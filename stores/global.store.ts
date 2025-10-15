@@ -69,7 +69,6 @@ export const useGlobalStore = defineStore('global', () => {
 
             isRunning.value = timeRan <= timeUnit
             percent.value = isRunning.value ? (100 * timeRan / timeUnit) : 100
-
             if (isRunning.value) {
                 timer.value = timeSinceObject(deadline, true)
                 return
@@ -161,24 +160,24 @@ export const useGlobalStore = defineStore('global', () => {
     }
 
     return {
+        changeBoost,
         isRunning,
-        loading,
+        isMobile,
+        isIphone,
         info,
         fetched,
         timer,
         taskFilter,
         openDrawer,
         percent,
-        isMobile,
         refreshTask,
         loggedIn,
-        isIphone,
         loadInfo,
+        loading,
         updateBoost,
         work,
         modalName,
-        changeBoost,
-        modalData
+        modalData,
     }
 })
 

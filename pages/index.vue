@@ -31,6 +31,13 @@ const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
   },
 })
 
+const startText = computed(() => {
+  if (store.info.doing) {
+    return `Start focus ${store.info.doing.duration_est / 60} mins`
+  }
+  return 'Start a pomodoro'
+})
+
 const getRandomRest = () => {
   const items = ['rest1', 'rest2', 'rest3']
   return items[Math.floor(Math.random() * items.length)]
@@ -82,6 +89,7 @@ watch(() => store.percent, () => {
 watch(animationKey, () => {
   const elm = document.querySelector('tgs-player')
   if (elm) {
+    // @ts-ignore
     elm.load(animated[animationKey.value])
   }
 })
@@ -141,14 +149,14 @@ watch(animationKey, () => {
               <span>Harvest</span>
               <NuxtIcon name="barley" class="size-5"/>
             </template>
-            <span v-else>Start</span>
+            <span v-else>{{ startText }}</span>
           </div>
         </Button>
       </div>
       <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
-        Start
+        {{startText}}
       </Button>
-      <div class="flex gap-4 text-xs uppercase font-semibold justify-center">
+      <div v-if="!store.isRunning" class="flex gap-4 text-xs uppercase font-semibold justify-center">
         <div class="cursor-pointer" v-for="item in taskRes?.results" @click="store.work(item.id)">{{item.duration_est / 60}} Mins</div>
         <NuxtLink to="/task">More...</NuxtLink>
       </div>
