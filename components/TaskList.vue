@@ -59,10 +59,10 @@ onMounted(() => {
           @click="taskFilter = item"
       >{{item}}</div>
     </div>
-    <div v-if="taskRes" class="space-y-1 -mx-2">
+    <div v-if="taskRes && !pending" class="space-y-1 -mx-2">
       <div
-          v-if="store.taskFilter == 'private'"
-          class="flex capitalize gap-3 py-2 label sticky num top-0 bg-white"
+          v-if="taskFilter == 'Your'"
+          class="flex capitalize gap-3 p-2 label sticky num top-0"
       >
         <div
             v-for="item in [[1, 'Available'], [2, 'Completed']]"

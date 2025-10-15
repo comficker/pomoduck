@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {ITask} from "~/types";
 import WebApp from '@twa-dev/sdk'
-import {TASK_STATUS, BASE_MINING_SPEED} from "~/lib/constants";
+import {TASK_STATUS} from "~/lib/constants";
 import {toast} from 'vue-sonner'
 
 const {task} = defineProps<{ task: ITask }>()
@@ -125,7 +125,7 @@ watch(() => form.value.unit, () => {
 
 <template>
   <div
-      class="task p-2 md:rounded flex items-center gap-4 group"
+      class="task p-2 rounded flex items-center gap-4 group"
       :class="{'!bg-yellow-50 border': updating, 'border border-yellow-500': status === TASK_STATUS.DOING}"
   >
     <div class="flex-1 flex gap-4 items-center">

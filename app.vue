@@ -5,6 +5,16 @@ import {formatFloat} from "~/lib/utils";
 import Auth from "~/components/modal/Auth.vue";
 import MergeAccount from "~/components/modal/MergeAccount.vue";
 import CurentTask from "~/components/CurentTask.vue";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 useHead({
   title: "PomoDuck Timer",
@@ -82,12 +92,12 @@ await authStore.auth()
         <div class="">
           <nuxt-link class="block" to="/">
             <img class="md:block hidden h-8" :src="`/logo.png`" alt="">
-            <img class="md:hidden h-10" :src="`/icon.png`" alt="">
+            <img class="md:hidden h-8" :src="`/icon.png`" alt="">
           </nuxt-link>
         </div>
         <div class="menu">
           <nuxt-link to="/leaderboard">
-            <img src="/trophy.png" class="size-5" alt="Leaderboard"/>
+            <img src="/trophy.png" class="size-4" alt="Leaderboard"/>
             <span class="hidden md:block">Leaderboard</span>
           </nuxt-link>
         </div>
@@ -105,15 +115,30 @@ await authStore.auth()
           <NuxtIcon name="rank" class="size-5"/>
           <span class="hidden md:block">Report</span>
         </nuxt-link>
-        <div class="num flex gap-2 items-center justify-center bg-white text-yellow-500 shadow rounded-lg">
-          <div class="flex p-0.5">
-            <NuxtIcon name="barley" class="size-4"/>
-            <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
-          </div>
-          <div class="p-0.5 border-l">
-            <NuxtIcon name="egg" class="size-6"/>
-          </div>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <div
+                class="num flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg">
+              <div class="flex p-2 py-2 items-center">
+                <NuxtIcon name="barley" class="size-4"/>
+                <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
+              </div>
+              <div class="flex-1 p-1">
+                <NuxtIcon name="chevron-down" class="size-5"/>
+              </div>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="bottom" align="end" class="num">
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator/>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem as-child>
+              <nuxt-link to="/settings">Settings</nuxt-link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator/>
+            <DropdownMenuItem @click="authStore.logout()">Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
     <div class="max-w-md mx-auto flex-1 w-full relative">

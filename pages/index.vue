@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {MiniKit} from '@worldcoin/minikit-js'
 import WebApp from "@twa-dev/sdk";
+import type {APIResponse, ITask} from "~/types";
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
@@ -20,6 +21,15 @@ const animated: { [key: string]: string } = {
   'done': '/animate/461413.tgs',
   'running': '/animate/461406.tgs'
 }
+
+const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
+  method: "GET",
+  query: {
+    page_size: 10,
+    type: 'default',
+    status: 1
+  },
+})
 
 const getRandomRest = () => {
   const items = ['rest1', 'rest2', 'rest3']
@@ -89,13 +99,15 @@ watch(animationKey, () => {
       />
       <div class="text-6xl md:text-8xl font-extrabold flex gap-3 items-center text-left">
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1" :class="{'text-right': index == 0}">
+          <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
+               :class="{'text-right': index == 0}">
             <span>{{ i }}</span>
           </div>
         </div>
         <div>:</div>
         <div class="grid grid-cols-2 gap-1">
-          <div v-for="(i, index) in display2Digit(store.timer.ss)" class="w-12 md:w-20 p-1" :class="{'text-right': index == 0}">
+          <div v-for="(i, index) in display2Digit(store.timer.ss)" class="w-12 md:w-20 p-1"
+               :class="{'text-right': index == 0}">
             <span>{{ i }}</span>
           </div>
         </div>
@@ -111,8 +123,8 @@ watch(animationKey, () => {
         <NuxtIcon v-if="!store.isRunning" class="w-5 h-5" name="plus" @click="store.changeBoost(1)"/>
       </div>
     </div>
-    <div class="p-4 flex justify-center num gap-4 items-center">
-      <div v-if="store.loggedIn" class="inline-flex w-2/3">
+    <div class="p-4 flex flex-col justify-center num gap-4 items-center">
+      <div v-if="store.loggedIn" class="inline-flex w-2/3 mx-auto">
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"
             class="rounded-2xl h-12 w-full relative overflow-hidden"
@@ -136,10 +148,9 @@ watch(animationKey, () => {
       <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
         Start
       </Button>
-      <div v-if="store.loggedIn" class="shadow size-12 rounded-2xl bg-gray-50 p-3">
-        <nuxt-link to="/settings">
-          <NuxtIcon name="cog" class="size-6"/>
-        </nuxt-link>
+      <div class="flex gap-4 text-xs uppercase font-semibold justify-center">
+        <div class="cursor-pointer" v-for="item in taskRes?.results" @click="store.work(item.id)">{{item.duration_est / 60}} Mins</div>
+        <NuxtLink to="/task">More...</NuxtLink>
       </div>
     </div>
   </div>

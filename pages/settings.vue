@@ -197,7 +197,5 @@ watch(() => JSON.stringify(form.value), () => {
         </div>
       </div>
     </div>
-    <Button v-if="showLogout" size="lg" variant="destructive" class="rounded-full" @click="authStore.logout()">Logout
-    </Button>
   </div>
 </template>

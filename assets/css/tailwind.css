@@ -298,7 +298,7 @@ input {
 }
 
 .menu {
-    @apply gap-2 text-sm flex justify-center font-semibold uppercase;
+    @apply gap-2 text-sm flex justify-center items-center font-semibold uppercase;
 }
 
 .menu a.router-link-active,
