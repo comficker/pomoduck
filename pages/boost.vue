@@ -44,7 +44,9 @@ const boost = () => {
   <div class="w-full px-4 flex flex-col relative gap-8">
     <div class="text-xl space-y-3">
       <div class="text-5xl font-bold">Boost</div>
-      <img class="w-32" src="/thunder.png" alt="">
+      <div class="w-32 h-32">
+        <img class="w-full" src="/thunder.png" alt="">
+      </div>
       <div class="num text-7xl font-bold">X2</div>
       <div>Way to go earn double xp for the next:</div>
       <div class="divide-y divide-dashed">
@@ -62,22 +64,22 @@ const boost = () => {
             <span>{{ option.s }}%</span>
           </div>
           <div class="flex ml-auto items-center">
-            <span class="n">{{ formatFloat(option.a, 0) }}</span>
+            <span class="n text-base">{{ formatFloat(option.a, 0) }}</span>
             <img src="/icon/thunder.png" class="size-5" alt="">
           </div>
         </div>
       </div>
     </div>
     <div class="sticky bottom-4 inset-x-0 space-y-3">
-      <Button class="w-full h-12 text-lg items-center gap-0.5" size="lg" @click="boost">
+      <Button class="w-full h-12 text-lg items-center gap-0" size="lg" @click="boost">
         <span>Boost with</span>
-        <span class="n">{{ formatFloat(options[selected].a, 0) }}</span>
-        <img src="/icon/thunder.png" class="size-5" alt="">
+        <span class="ml-3 n">{{ formatFloat(options[selected].a, 0) }}</span>
+        <img src="/icon/thunder.png" class="size-4" alt="">
       </Button>
-      <div class="flex justify-center items-center gap-2">
+      <div class="flex justify-center items-center">
         <span>Available:</span>
-        <span class="num">{{ store.info.boost_balance }}</span>
-        <img src="/icon/thunder.png" class="size-5" alt="">
+        <span class="num ml-2">{{ store.info.boost_balance }}</span>
+        <img src="/icon/thunder.png" class="size-5 mr-2" alt="">
         <nuxt-link class="underline" to="/balance?type=Boost&action=purchase">Get</nuxt-link>
       </div>
     </div>

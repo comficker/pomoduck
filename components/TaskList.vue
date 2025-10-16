@@ -59,7 +59,7 @@ onMounted(() => {
           @click="taskFilter = item"
       >{{item}}</div>
     </div>
-    <div v-if="taskRes && !pending" class="space-y-1 -mx-2">
+    <div class="space-y-1 -mx-2">
       <div class="flex capitalize gap-3 p-2 label sticky num top-0">
         <div
             v-for="item in [[1, 'Available'], [2, 'Completed']]"
@@ -68,17 +68,19 @@ onMounted(() => {
         >{{ item[1] }}
         </div>
       </div>
-      <div v-if="taskRes.results.length === 0" class="p-3 py-1.5 text-sm">
+      <div v-if="taskRes?.results.length === 0" class="p-3 py-1.5 text-sm">
         <div v-if="store.loggedIn" class="text-center">Don't have any task now!</div>
         <div v-else class="text-center">You must login to work!</div>
       </div>
-      <Task
-          v-for="(item, i) in taskRes.results"
-          :key="`${store.refreshTask}_${item.id}`"
-          :task="item"
-          @update:task="taskRes.results[i] = $event"
-          @deleted="taskRes.results.splice(i, 1)"
-      />
+      <template v-else-if="taskRes">
+        <Task
+            v-for="(item, i) in taskRes.results"
+            :key="`${store.refreshTask}_${item.id}`"
+            :task="item"
+            @update:task="taskRes.results[i] = $event"
+            @deleted="taskRes?.results.splice(i, 1)"
+        />
+      </template>
       <div
           v-show="store.loggedIn && taskFilter == 'Your' && status == TASK_STATUS.ACTIVE"
           class="sticky bottom-0 py-2 flex justify-center"
