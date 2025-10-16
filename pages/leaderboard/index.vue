@@ -40,11 +40,12 @@ const {data: mate, pending} = useAuthFetch<APIResponse<Account>>('/accounts/', {
       </div>
     </div>
     <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y divide-dashed">
-      <div v-for="item in mate.results" :key="item.id" class="py-1 flex justify-between">
-        <div class="font-bold">{{ item.username || `${item.first_name} ${item.last_name}` }}</div>
-        <div class="flex items-center gap-1">
+      <div v-for="(item, i) in mate.results" :key="item.id" class="font-bold py-1 flex gap-4">
+        <div>{{ i + 1}}</div>
+        <div class="flex-1">{{ item.username || `${item.first_name} ${item.last_name}` }}</div>
+        <div class="flex items-center gap-1 n">
           <span>{{ formatFloat(item.balance, 2, 2) }}</span>
-          <img class="w-4 h-4" src="/icon/star.png" alt="">
+          <img class="size-5" src="/icon/star.png" alt="">
         </div>
       </div>
     </div>

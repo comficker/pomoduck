@@ -136,7 +136,10 @@ watch(() => form.value.unit, () => {
           >
           <textarea class="w-full" v-model="form.description" placeholder="Note"/>
         </template>
-        <div v-else class="text-lg font-bold cursor-pointer" @click="updating = true">{{ form.name || "Untitled" }}</div>
+        <div
+            v-else class="text-lg font-bold cursor-pointer"
+            @click="updating = !!task.creator"
+        >{{ form.name || "Untitled" }}</div>
         <div class="flex gap-3 items-center text-sm">
           <div
               v-if="task.reward_type === 'point' && updating && task.status == TASK_STATUS.ACTIVE"
