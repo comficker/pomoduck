@@ -25,8 +25,9 @@ export const useGlobalStore = defineStore('global', () => {
 
   const info = ref<Info>(DEFAULT_INFO)
   const loading = ref(true)
-  const fetched = ref(false)
+  const pending = ref(false)
   const isRunning = ref(false)
+  const fetched = ref(false)
   const openDrawer = ref(false)
   const percent = ref(0)
   const timer = ref({
@@ -118,6 +119,7 @@ export const useGlobalStore = defineStore('global', () => {
     if (!task_id) task_id = info.value.doing?.id
     let newData: ITask | undefined = undefined;
     if (task_id) {
+      pending.value = true
       newData = await useNativeFetch<ITask>(`/tasks/${task_id}/do`, {
         method: "POST",
       })
@@ -134,6 +136,7 @@ export const useGlobalStore = defineStore('global', () => {
       if (newData.type === 'default') {
         await useRouter().push({name: 'index'})
       }
+      pending.value = false
     }
     computeTimer()
     return newData
@@ -157,6 +160,7 @@ export const useGlobalStore = defineStore('global', () => {
     work,
     modalName,
     modalData,
+    pending
   }
 })
 

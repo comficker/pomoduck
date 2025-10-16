@@ -44,7 +44,7 @@ const boost = () => {
   <div class="w-full px-4 flex flex-col relative gap-8">
     <div class="text-xl space-y-3">
       <div class="text-5xl font-bold">Boost</div>
-      <img class="w-1/2" src="/thunder.png" alt="">
+      <img class="w-32" src="/thunder.png" alt="">
       <div class="num text-7xl font-bold">X2</div>
       <div>Way to go earn double xp for the next:</div>
       <div class="divide-y divide-dashed">

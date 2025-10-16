@@ -134,6 +134,7 @@ watch(animationKey, () => {
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"
             class="rounded-2xl h-12 w-full relative overflow-hidden"
+            :class="{'animate-pulse': store.pending}"
             @click="runTimer()"
         >
           <div v-if="store.isRunning" class="absolute bg-white inset-0 overflow-hidden">
@@ -143,7 +144,8 @@ watch(animationKey, () => {
             </div>
           </div>
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-lg">
-            <template v-if="store.percent > 0">
+            <span v-if="store.pending">...</span>
+            <template v-else-if="store.percent > 0">
               <img src="/icon/star.png" alt="Achievement" class="size-5"/>
               <span>Claim</span>
               <img src="/icon/star.png" alt="Achievement" class="size-5"/>

@@ -49,7 +49,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="px-4 space-y-3">
+  <div class="px-4 space-y-2">
     <div class="label">Tasks</div>
     <div class="tabs">
       <div
@@ -60,10 +60,7 @@ onMounted(() => {
       >{{item}}</div>
     </div>
     <div v-if="taskRes && !pending" class="space-y-1 -mx-2">
-      <div
-          v-if="taskFilter == 'Your'"
-          class="flex capitalize gap-3 p-2 label sticky num top-0"
-      >
+      <div class="flex capitalize gap-3 p-2 label sticky num top-0">
         <div
             v-for="item in [[1, 'Available'], [2, 'Completed']]"
             class="cursor-pointer" :class="{'text-blue-500': item[0] === status}"
