@@ -8,7 +8,6 @@ import TelegramLogin from "~/components/modal/TelegramLogin.vue";
 
 const authToken = useStatefulCookie('auth_token')
 
-
 interface ISettings {
   "meta": {
     notify: {

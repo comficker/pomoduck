@@ -90,9 +90,7 @@ const handleSave = () => {
     emits('update:task', res)
     updating.value = false
   }).catch(e => {
-    toast({
-      variant: "destructive",
-      title: "Something went wrong!",
+    toast.error( "Something went wrong!", {
       description: "Update task failed",
     })
   })
@@ -126,7 +124,7 @@ watch(() => form.value.unit, () => {
 <template>
   <div
       class="task p-2 rounded flex items-center gap-4 group"
-      :class="{'!bg-yellow-50 border': updating, 'border border-yellow-500': status === TASK_STATUS.DOING}"
+      :class="{'!bg-yellow-50 border': updating, '!bg-yellow-50': status === TASK_STATUS.DOING}"
   >
     <div class="flex-1 flex gap-4 items-center">
       <div class="flex-1 font-semibold" :class="{'space-y-2': updating}">

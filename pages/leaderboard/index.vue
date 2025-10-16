@@ -22,7 +22,7 @@ const query = computed(() => ({
   page_size: 20,
 }))
 
-const {data: mate} = useAuthFetch<APIResponse<Account>>('/accounts/', {
+const {data: mate, pending} = useAuthFetch<APIResponse<Account>>('/accounts/', {
   query: query,
   watch: [query]
 })
@@ -39,7 +39,7 @@ const {data: mate} = useAuthFetch<APIResponse<Account>>('/accounts/', {
         <span>{{ item }}</span>
       </div>
     </div>
-    <div v-if="mate && mate.results.length" class="flex-1 divide-y divide-dashed">
+    <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y divide-dashed">
       <div v-for="item in mate.results" :key="item.id" class="py-1 flex justify-between">
         <div class="font-bold">{{ item.username || `${item.first_name} ${item.last_name}` }}</div>
         <div class="flex items-center gap-1">
