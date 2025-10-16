@@ -138,7 +138,7 @@ watch(() => form.value.unit, () => {
           >
           <textarea class="w-full" v-model="form.description" placeholder="Note"/>
         </template>
-        <div v-else class="text-lg font-bold">{{ form.name || "Untitled" }}</div>
+        <div v-else class="text-lg font-bold cursor-pointer" @click="updating = true">{{ form.name || "Untitled" }}</div>
         <div class="flex gap-3 items-center text-sm">
           <div
               v-if="task.reward_type === 'point' && updating && task.status == TASK_STATUS.ACTIVE"
@@ -164,14 +164,8 @@ watch(() => form.value.unit, () => {
               />
             </template>
           </div>
-          <div
-              v-if="task.creator" @click="updating = !updating"
-              class="hidden group-hover:block underline cursor-pointer"
-              :class="{'text-blue-500': updating}"
-          >
-            <NuxtIcon name="cog" class="size-4"/>
-          </div>
           <div v-if="updating" class="flex text-xs gap-2 ml-auto">
+            <Button variant="link" size="xs" @click="updating = false">Cancel</Button>
             <Button variant="link" size="xs" @click="handleCancel">Reset</Button>
             <Button
                 v-if="status == TASK_STATUS.DRAFT"
