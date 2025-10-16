@@ -148,8 +148,12 @@ await authStore.auth()
     </div>
     <div class="p-2 uppercase font-bold text-2xs hidden md:flex justify-center items-center gap-1 text-gray-500">
       <span>Powered by</span>
-      <NuxtIcon name="wld" class="size-4" filled/>
-      <NuxtIcon name="ton" class="size-[17px]" filled/>
+      <a class="size-5" target="_blank" href="https://world.org/mini-app?app_id=app_3a93096ed6e4f35613c5387f47a4266d">
+        <NuxtIcon name="wld" filled/>
+      </a>
+      <a class="size-5" target="_blank" href="https://t.me/Pomoduck_bot">
+        <NuxtIcon name="ton" filled/>
+      </a>
     </div>
   </div>
   <div v-if="authStore.cooking" class="fixed bg-white inset-0 flex flex-col justify-center gap-6 items-center z-10">
