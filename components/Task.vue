@@ -152,15 +152,14 @@ watch(() => form.value.unit, () => {
               <img v-for="item in task.reward_amount" class="size-4" src="/icon/thunder.png" alt="">
             </template>
             <template v-else>
-              <NuxtIcon
+              <img
                   v-for="item in form.unit"
-                  name="barley"
-                  class="size-4 "
+                  src="/icon/star.png" alt="Achievement" class="size-4"
                   :class="{
-                    'text-yellow-500': item > progress && task.duration_est >= 1500,
-                    'text-yellow-300': item > progress && task.duration_est >= 900,
-                    'text-yellow-200': item > progress && task.duration_est < 900,
-                    'text-gray-400': item <= progress
+                    'size-6': task.duration_est >= 1500,
+                    'size-5': task.duration_est >= 900,
+                    'size-4': task.duration_est < 900,
+                    'grayscale': item <= progress
                   }"
               />
             </template>

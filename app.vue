@@ -102,7 +102,7 @@ await authStore.auth()
       </div>
       <div class="menu">
         <nuxt-link to="/achievement" class="">
-          <img src="/icon/star.png" alt="Achievement" class="size-5"/>
+          <NuxtIcon name="medal" class="size-5"/>
           <span class="hidden md:block">Achievement</span>
         </nuxt-link>
         <nuxt-link to="/task" class="">
