@@ -1,6 +1,6 @@
 import {ref} from "vue"
 import {defineStore} from 'pinia'
-import type {AccountTask, AccountTaskDetail, Info, ITask} from "~/types";
+import type {AccountTask, AccountTaskDetail, Achievement, Info, ITask} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {formatFloat, timeSinceObject} from "~/lib/utils";
 import {toast} from 'vue-sonner'
@@ -118,29 +118,37 @@ export const useGlobalStore = defineStore('global', () => {
       return
     }
     if (!task_id) task_id = info.value.doing?.id
-    let newData: ITask | undefined = undefined;
+
     if (task_id) {
       pending.value = true
-      newData = await useNativeFetch<ITask>(`/tasks/${task_id}/do`, {
+      const {earned, achievements, next} = await useNativeFetch<{
+        earned: any,
+        achievements: Achievement[],
+        next: ITask
+      }>(`/tasks/${task_id}/do`, {
         method: "POST",
       })
-      const newAT = newData.account_task.find(x => !x.finished_at)
-      if (newData.type === 'default' && info.value.doing && newAT && !newAT.start_at) {
-        percent.value = 0
-        info.value.balance += info.value.doing.reward_amount
+
+      if (earned) {
+        if (earned.type === "boost") {
+          info.value.boost_balance += earned.amount
+        } else {
+          info.value.balance += earned.amount
+        }
         toast("Congratulations!", {
-          description: `You got ${formatFloat(info.value.doing.reward_amount, 0, 3)} ${info.value.doing.reward_type}!`,
+          description: `You got ${formatFloat(earned.amount, 0, 3)} ${earned.type}!`,
         })
       }
-      info.value.doing = newData
+
+      info.value.doing = next
       refreshTask.value++
-      if (newData.type === 'default') {
+      if (next.type === 'default') {
         await useRouter().push({name: 'index'})
       }
       pending.value = false
     }
     computeTimer()
-    return newData
+    return info.value.doing
   }
 
   return {
