@@ -57,17 +57,17 @@ const boost = () => {
           </div>
         </div>
         <span class="label">Currently</span>
-        <div class="num text-7xl font-bold">X2</div>
+        <div class="num text-7xl font-bold">X1</div>
       </div>
       <div class="space-y-3">
         <div class="divide-y divide-dashed">
-          <div v-for="(option, index) in tasks" class="flex items-center gap-2 py-1" :class="{'text-gray-400': index }">
+          <div v-for="(option, index) in tasks" class="flex items-center gap-2 py-1" :class="{'text-gray-400': false }">
             <span>{{ option.name }}</span>
             <div v-if="option.s" class="ml-auto text-green-400 flex num gap-0.5 items-center">
               <span>+</span>
               <span>{{ option.s }}</span>
             </div>
-            <NuxtIcon class="size-6" :name="index ? 'checked': 'load'"/>
+            <NuxtIcon class="size-6" :name="false ? 'checked': 'load'"/>
           </div>
         </div>
       </div>

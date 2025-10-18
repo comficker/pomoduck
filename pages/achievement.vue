@@ -46,9 +46,6 @@ const {data: response, pending} = useAuthFetch<APIResponse<Achievement>>(`/achie
             </div>
           </div>
         </div>
-        <div class="size-6 mx-3" :class="{'text-gray-400': !item.claimed}">
-          <NuxtIcon class="size-6" name="checked"/>
-        </div>
       </div>
     </div>
   </div>
