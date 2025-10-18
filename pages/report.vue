@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ReportChart from "~/components/report/Chart.vue";
 import {formatFloat} from "~/lib/utils";
-
+const store = useGlobalStore()
 const {data} = useAuthFetch<{
   "history": { [key: string]: {point: number, duration: number} },
   "total": number,
@@ -25,7 +25,7 @@ useHead({
         <div class="text-2xs uppercase">Hours/day</div>
       </div>
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
-        <div class="num text-3xl font-bold">7</div>
+        <div class="num text-3xl font-bold">{{ store.info.day_streak }}</div>
         <div class="text-2xs uppercase">Day streak</div>
       </div>
     </div>
