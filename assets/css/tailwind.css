@@ -209,8 +209,13 @@ input {
     touch-action: manipulation;
 }
 
+[data-title],
 .num {
     font-family: "Stolzl Display", monospace;
+}
+
+[data-title] {
+    font-size: 16px;
 }
 
 @theme inline {

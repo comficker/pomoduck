@@ -121,13 +121,6 @@ watch(animationKey, () => {
           </div>
         </div>
       </div>
-      <NuxtLink
-          to="/boost"
-          class="cursor-pointer num inline-flex items-center gap-2 bg-gray-100 font-bold text-yellow-500 rounded-lg text-xs py-1 px-3 relative border"
-      >
-        <img class="size-4" src="/icon/thunder.png" alt="">
-        <span>BOOST</span>
-      </NuxtLink>
     </div>
     <div class="p-4 flex flex-col justify-center num gap-4 items-center">
       <div v-if="store.loggedIn" class="inline-flex w-3/4 mx-auto">
@@ -164,6 +157,13 @@ watch(animationKey, () => {
         </div>
         <NuxtLink class="underline" to="/task">More...</NuxtLink>
       </div>
+      <NuxtLink
+          to="/boost"
+          class="cursor-pointer num inline-flex items-center gap-2 bg-gray-100 font-bold text-yellow-500 rounded-lg text-xs py-1 px-3 relative border"
+      >
+        <img class="size-4" src="/icon/thunder.png" alt="">
+        <span>BOOST</span>
+      </NuxtLink>
     </div>
   </div>
 </template>

@@ -86,3 +86,12 @@ export interface AuthDataInput {
     "re_password"?: string
     "invite_code"?: string
 }
+
+export interface Achievement {
+    "name": string
+    "description": string
+    "id_string": string
+    "condition": string
+    "rarity": string
+    "claimed": boolean
+}
