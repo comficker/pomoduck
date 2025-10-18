@@ -29,8 +29,10 @@ const {data: response, pending} = useAuthFetch<APIResponse<Achievement>>(`/achie
   <div class="w-full px-4 space-y-4">
     <div class="label">Achievements</div>
     <div class="space-y-2 text-sm pb-8">
-      <div v-for="item in response?.results" class="flex items-center bg-gray-50 shadow rounded" :class="{'grayscale': !item.claimed}">
-        <NuxtIcon :name="`medal/${item.id_string}`" filled class="size-24"/>
+      <div v-for="item in response?.results" class="flex items-center bg-gray-50 shadow rounded" :class="{'opacity-50': !item.claimed}">
+        <div class="size-24">
+          <NuxtIcon :name="`medal/${item.id_string}`" filled/>
+        </div>
         <div class="flex-1">
           <div class="text-xl">{{ item.name }}</div>
           <div>{{ item.description }}</div>

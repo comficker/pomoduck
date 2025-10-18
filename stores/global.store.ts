@@ -130,6 +130,7 @@ export const useGlobalStore = defineStore('global', () => {
       })
 
       if (earned) {
+        percent.value = 0
         if (earned.type === "boost") {
           info.value.boost_balance += earned.amount
         } else {
