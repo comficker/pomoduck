@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ReportChart from "~/components/report/Chart.vue";
-import {formatFloat} from "~/lib/utils";
+import {formatFloat, timeLeftStr} from "~/lib/utils";
 const store = useGlobalStore()
 const {data} = useAuthFetch<{
   "history": { [key: string]: {point: number, duration: number} },
@@ -15,18 +15,18 @@ useHead({
 
 <template>
   <div v-if="data" class="w-full h-full px-4 relative space-y-4">
-    <div class="grid grid-cols-3 gap-2 md:gap-3">
+    <div class="grid grid-cols-3 gap-2 md:gap-3 uppercase">
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
-        <div class="num text-3xl font-bold">{{ formatFloat(data.total, 0, 2) }}</div>
-        <div class="text-2xs uppercase">Focus hours</div>
+        <div class="num text-3xl font-bold">{{ timeLeftStr(data.total * 60 * 60, false) }}</div>
+        <div class="text-2xs">Focus time</div>
       </div>
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
-        <div class="num text-3xl font-bold">{{ formatFloat(data.avg, 0, 2) }}</div>
-        <div class="text-2xs uppercase">Hours/day</div>
+        <div class="num text-3xl font-bold">{{ timeLeftStr(data.avg * 60 * 60, false) }}</div>
+        <div class="text-2xs">per/day</div>
       </div>
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
         <div class="num text-3xl font-bold">{{ store.info.day_streak }}</div>
-        <div class="text-2xs uppercase">Day streak</div>
+        <div class="text-2xs">Day streak</div>
       </div>
     </div>
     <ReportChart :data="data.history"/>
@@ -39,7 +39,7 @@ useHead({
       </div>
       <div v-for="key in Object.keys(data.history).reverse().slice(0, 7)" class="py-1 grid grid-cols-3 num">
         <div class="">🗓️ {{ key }}</div>
-        <div>🕒 {{ formatFloat(data.history[key].duration / 60) }}</div>
+        <div>🕒 {{ timeLeftStr(data.history[key].duration) }}</div>
         <div class="text-right">{{ formatFloat(data.history[key].point) }} ⬆️</div>
       </div>
     </div>

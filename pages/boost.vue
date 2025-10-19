@@ -51,7 +51,7 @@ const boost = () => {
     })
     return
   }
-  useNativeFetch<{ "boost_balance": number }>('/boost', {
+  useNativeFetch<{ "boost_balance": number, "boost_end": string }>('/boost', {
     method: "POST",
     body: {
       days: s.d
