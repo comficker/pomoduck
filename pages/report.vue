@@ -34,8 +34,7 @@ useHead({
     <div class="grid grid-cols-3 gap-2 md:gap-3 font-bold">
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
         <div class="text-2xs uppercase">Day streak</div>
-        <div class="num text-4xl">{{ store.info.day_streak }}</div>
-
+        <div class="num text-5xl">{{ store.info.day_streak }}</div>
       </div>
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
         <div class="text-2xs uppercase">Focus time</div>
