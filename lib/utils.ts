@@ -10,19 +10,6 @@ export function formatFloat(num: any, min: number = 0, max: number = 4) {
   return num?.toLocaleString('en-US', {minimumFractionDigits: min, maximumFractionDigits: max}) || 0
 }
 
-export function truncateAddress(address: string): string {
-  return address.substring(0, 16) + '.....' + address.substring(address.length - 16, address.length)
-}
-
-export const copyContent = async (text: string) => {
-  try {
-    await navigator.clipboard.writeText(text);
-    console.log('Content copied to clipboard');
-  } catch (err) {
-    console.error('Failed to copy: ', err);
-  }
-}
-
 const calculateTimeDistance = (distance: number) => {
   const d = Math.floor(distance / (1000 * 60 * 60 * 24));
   const hh = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -31,24 +18,6 @@ const calculateTimeDistance = (distance: number) => {
   return {
     d, hh, mm, ss
   }
-}
-
-export const timeLeftStr = (distance: number, s = true, m = true, h = true, d = true) => {
-  const obj = calculateTimeDistance(distance * 1000)
-  let str = ''
-  if (obj.d && d) {
-    str += `${obj.d}d`
-  }
-  if (obj.hh && h) {
-    str += `${obj.hh}h`
-  }
-  if (obj.mm && m) {
-    str += `${obj.mm}m`
-  }
-  if (obj.ss && s) {
-    str += `${obj.ss}s`
-  }
-  return str
 }
 
 export const timeSinceStr = (str: string) => {
@@ -132,5 +101,25 @@ export function cloneDeep<T>(value: T): T {
 }
 
 export function shortAddress(address: string): string {
+  if (address.length < 10) {
+    return address
+  }
   return address.substring(0, 3) + '...' + address.substring(address.length - 4, address.length - 1)
+}
+
+export function timeLeftStr(seconds: number, is_object = false) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  if (is_object) {
+    return {
+      hours: pad(hours),
+      minutes: pad(minutes),
+    }
+  }
+  if (hours > 0) {
+    return `${pad(hours)}h ${pad(minutes)}m`;
+  } else {
+    return `${pad(minutes)}m`;
+  }
 }

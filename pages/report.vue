@@ -1,12 +1,28 @@
 <script setup lang="ts">
 import ReportChart from "~/components/report/Chart.vue";
 import {formatFloat, timeLeftStr} from "~/lib/utils";
+
 const store = useGlobalStore()
 const {data} = useAuthFetch<{
-  "history": { [key: string]: {point: number, duration: number} },
+  "history": { [key: string]: { point: number, duration: number } },
   "total": number,
   "avg": number
 }>('/reports')
+
+const reformatOverview = computed<{
+  total: { hours: number, minutes: number },
+  avg: { hours: number, minutes: number }
+}>(() => {
+  if (data.value)
+    return {
+      total: timeLeftStr(data.value.total * 60 * 60, true),
+      avg: timeLeftStr(data.value.avg * 60 * 60, true)
+    }
+  return {
+    total: "0",
+    avg: "0",
+  }
+})
 
 useHead({
   title: "Reports"
@@ -15,18 +31,25 @@ useHead({
 
 <template>
   <div v-if="data" class="w-full h-full px-4 relative space-y-4">
-    <div class="grid grid-cols-3 gap-2 md:gap-3 uppercase">
+    <div class="grid grid-cols-3 gap-2 md:gap-3 font-bold">
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
-        <div class="num text-3xl font-bold">{{ timeLeftStr(data.total * 60 * 60, false) }}</div>
-        <div class="text-2xs">Focus time</div>
+        <div class="text-2xs uppercase">Day streak</div>
+        <div class="num text-4xl">{{ store.info.day_streak }}</div>
+
       </div>
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
-        <div class="num text-3xl font-bold">{{ timeLeftStr(data.avg * 60 * 60, false) }}</div>
-        <div class="text-2xs">per/day</div>
+        <div class="text-2xs uppercase">Focus time</div>
+        <div class="num text-xl leading-none">
+          <div>{{ reformatOverview.total.hours }}H</div>
+          <div>{{ reformatOverview.total.minutes }}m</div>
+        </div>
       </div>
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
-        <div class="num text-3xl font-bold">{{ store.info.day_streak }}</div>
-        <div class="text-2xs">Day streak</div>
+        <div class="text-2xs uppercase">per/day</div>
+        <div class="num text-xl leading-none">
+          <div>{{ reformatOverview.avg.hours }}H</div>
+          <div>{{ reformatOverview.avg.minutes }}m</div>
+        </div>
       </div>
     </div>
     <ReportChart :data="data.history"/>

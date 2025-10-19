@@ -135,7 +135,7 @@ const handleCLickToolTip = (day: string, val: boolean) => {
                     <template v-if="data[day]">
                       <div class="flex gap-0.5">
                         <NuxtIcon name="subdirectory" class="size-3"/>
-                        <div>Focus time: <span class="font-bold">{{ timeLeftStr(data[day].duration) }}</span> hours</div>
+                        <div>Focus time: <span class="font-bold">{{ timeLeftStr(data[day].duration) }}</span></div>
                       </div>
                       <div class="flex gap-0.5">
                         <NuxtIcon name="subdirectory" class="size-3"/>
