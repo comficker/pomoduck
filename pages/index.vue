@@ -3,6 +3,10 @@ import {MiniKit} from '@worldcoin/minikit-js'
 import WebApp from "@twa-dev/sdk";
 import type {APIResponse, ITask} from "~/types";
 
+const getRandomRest = () => {
+  const items = ['rest1', 'rest2', 'rest3']
+  return items[Math.floor(Math.random() * items.length)]
+}
 const store = useGlobalStore()
 const authStore = useAuthStore()
 
@@ -22,6 +26,8 @@ const animated: { [key: string]: string } = {
   'running': '/animate/461406.tgs'
 }
 
+const animationKey = ref<string>(getRandomRest())
+
 const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
   method: "GET",
   query: {
@@ -39,12 +45,24 @@ const startText = computed(() => {
   return 'Start a pomodoro'
 })
 
-const getRandomRest = () => {
-  const items = ['rest1', 'rest2', 'rest3']
-  return items[Math.floor(Math.random() * items.length)]
-}
-
-const animationKey = ref<string>(getRandomRest())
+const boost = computed(() => {
+  let current = store.info.boost_level || 1
+  if (store.info.boost_end) {
+    const now = new Date()
+    const end = new Date(store.info.boost_end)
+    if (end.getTime() >= now.getTime()) {
+      current = current * 2
+    }
+    return {
+      level: current,
+      end: end
+    }
+  }
+  return {
+    level: current,
+    end: null
+  }
+})
 
 const display2Digit = (num: number) => {
   if (num <= 9) {
@@ -148,22 +166,31 @@ watch(animationKey, () => {
         </Button>
       </div>
       <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
-        {{startText}}
+        {{ startText }}
       </Button>
+      <div class="flex flex-col items-center justify-center gap-2 num text-xs font-bold uppercase">
+        <div class="flex gap-1">
+          <span>Current Multiplier:</span>
+          <span>x{{ boost.level }}</span>
+        </div>
+        <NuxtLink
+            to="/boost"
+            class="flex gap-1 cursor-pointer items-center bg-gray-100 text-yellow-500 rounded-lg py-1 px-3 relative border"
+        >
+          <img class="size-4" src="/icon/thunder.png" alt="">
+          <span>Increase</span>
+        </NuxtLink>
+      </div>
       <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">
         <div v-for="i in ['work', 'break']" class="flex items-center gap-2">
           <NuxtIcon :name="i" class="text-gray-500 size-4"/>
-          <div class="cursor-pointer underline" v-for="item in taskRes?.results.filter(x => x.tag === i)" @click="store.work(item.id)">{{item.duration_est / 60}} Mins</div>
+          <div class="cursor-pointer underline" v-for="item in taskRes?.results.filter(x => x.tag === i)"
+               @click="store.work(item.id)">{{ item.duration_est / 60 }} Mins
+          </div>
         </div>
         <NuxtLink class="underline" to="/task">More...</NuxtLink>
       </div>
-      <NuxtLink
-          to="/boost"
-          class="cursor-pointer num inline-flex items-center gap-2 bg-gray-100 font-bold text-yellow-500 rounded-lg text-xs py-1 px-3 relative border"
-      >
-        <img class="size-4" src="/icon/thunder.png" alt="">
-        <span>BOOST</span>
-      </NuxtLink>
+
     </div>
   </div>
 </template>

@@ -17,6 +17,7 @@ const DEFAULT_INFO: Info = {
   meta: {},
   boost_level: 0,
   boost_balance: 0,
+  boost_end: null,
   is_staff: false,
   day_streak: 0
 }

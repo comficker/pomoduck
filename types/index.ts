@@ -32,6 +32,7 @@ export interface Info {
     meta: any,
     boost_level: number
     boost_balance: number
+    boost_end: string | null
     doing?: ITask,
     inviter?: number
     is_staff: boolean

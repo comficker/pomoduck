@@ -19,6 +19,25 @@ const store = useGlobalStore()
 const router = useRouter()
 
 const selected = ref(0)
+const boostState = computed(() => {
+  let current = store.info.boost_level || 1
+  if (store.info.boost_end) {
+    const now = new Date()
+    const end = new Date(store.info.boost_end)
+    if (end.getTime() >= now.getTime()) {
+      current = current * 2
+    }
+    return {
+      level: current,
+      end: end
+    }
+  }
+  return {
+    level: current,
+    end: null
+  }
+})
+
 
 const boost = () => {
   const s = options[selected.value]
@@ -39,9 +58,16 @@ const boost = () => {
     }
   }).then(r => {
     store.updateBoost(r)
+    toast.error("Double Boost Activated!", {
+      description: "Focus and earn now!",
+      action: {
+        label: 'Go!',
+        onClick: () => router.push('/'),
+      }
+    })
   }).catch(e => {
     toast("Something went wrong!", {
-      description: "Boost error!",
+      description: "Boost error, try again!",
     })
   })
 }
@@ -57,7 +83,11 @@ const boost = () => {
           </div>
         </div>
         <span class="label">Currently</span>
-        <div class="num text-7xl font-bold">X1</div>
+        <div class="num text-7xl font-bold">X{{ boostState.level }}</div>
+        <div class="label" v-if="boostState.end">until
+          {{ boostState.end.toLocaleDateString() }} :
+          {{ boostState.end.toLocaleTimeString() }}
+        </div>
       </div>
       <div class="space-y-3">
         <div class="divide-y divide-dashed">
@@ -72,7 +102,8 @@ const boost = () => {
         </div>
       </div>
       <div class="space-y-3">
-        <div>Way to go earn double your power:</div>
+        <div v-if="boostState.end">Extend the time:</div>
+        <div v-else>Way to go earn double your power:</div>
         <div class="divide-y divide-dashed">
           <div
               v-for="(option, index) in options" class="flex items-center gap-2 py-1"
@@ -97,7 +128,7 @@ const boost = () => {
     </div>
     <div class="sticky bg-neutral-100 bottom-0 pb-4 inset-x-0 space-y-3">
       <Button class="w-full h-12 text-lg items-center gap-0" size="lg" @click="boost">
-        <span>Boost now</span>
+        <span>{{boostState.end ? 'Extend': 'Double'}} now</span>
       </Button>
       <div class="flex justify-center items-center">
         <span>Available:</span>
