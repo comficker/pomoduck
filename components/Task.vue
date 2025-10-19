@@ -165,16 +165,17 @@ watch(() => form.value.unit, () => {
               />
             </template>
           </div>
-          <div v-if="updating" class="flex text-xs gap-2 ml-auto">
+          <div v-if="updating" class="flex text-xs gap-4 ml-auto">
             <Button variant="link" size="xs" @click="updating = false">Cancel</Button>
-            <Button variant="link" size="xs" @click="handleCancel">Reset</Button>
-            <Button
-                v-if="status == TASK_STATUS.DRAFT"
-                variant="destructive" size="xs" class="px-3 rounded-lg"
-                @click="handleDeleteTask"
-            >Delete
+            <Button variant="link" size="xs" @click="handleDeleteTask">
+              <NuxtIcon name="trash" class="size-5"/>
             </Button>
-            <Button size="xs" class="px-3 rounded-lg" @click="handleSave">Save</Button>
+            <Button variant="link" size="xs" @click="handleCancel">
+              <NuxtIcon name="load" class="size-5"/>
+            </Button>
+            <Button variant="link" size="xs" @click="handleSave">
+              <NuxtIcon name="save" class="size-5"/>
+            </Button>
           </div>
         </div>
       </div>
