@@ -94,5 +94,5 @@ export interface Achievement {
     "id_string": string
     "condition": string
     "rarity": string
-    "claimed": boolean
+    "claimed": null | {xp: number, boost: number}
 }

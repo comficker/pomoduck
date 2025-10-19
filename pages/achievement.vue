@@ -37,14 +37,16 @@ const {data: response, pending} = useAuthFetch<APIResponse<Achievement>>(`/achie
           <div class="text-xl font-bold">{{ item.name }}</div>
           <div>{{ item.description }}</div>
           <div v-if="reward_guides[item.rarity]" class="mt-1 flex gap-2 text-xs num">
-            <div>Reward:</div>
+            <div>{{item.claimed ? 'Claimed' : 'Reward'}}:</div>
             <div class="flex items-center">
               <img src="/icon/star.png" class="size-4" alt="">
-              <div>{{reward_guides[item.rarity].xp[0]}} ~ {{reward_guides[item.rarity].xp[1]}}</div>
+              <div v-if="item.claimed">{{item.claimed.xp}}</div>
+              <div v-else>{{reward_guides[item.rarity].xp[0]}} ~ {{reward_guides[item.rarity].xp[1]}}</div>
             </div>
             <div class="flex items-center">
               <img src="/icon/thunder.png" class="size-4" alt="">
-              <div>{{reward_guides[item.rarity].boost[0]}} ~ {{reward_guides[item.rarity].boost[1]}}</div>
+              <div v-if="item.claimed">{{item.claimed.boost}}</div>
+              <div v-else>{{reward_guides[item.rarity].boost[0]}} ~ {{reward_guides[item.rarity].boost[1]}}</div>
             </div>
           </div>
         </div>
