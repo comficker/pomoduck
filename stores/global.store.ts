@@ -109,8 +109,9 @@ export const useGlobalStore = defineStore('global', () => {
     return ua.includes('iphone') || ua.includes('ipad');
   }
 
-  function updateBoost(args: { boost_balance: number }) {
+  function updateBoost(args: { boost_balance: number, boost_end: string }) {
     info.value.boost_balance = args.boost_balance
+    info.value.boost_end = args.boost_end
   }
 
   async function work(task_id: number | undefined = undefined) {
