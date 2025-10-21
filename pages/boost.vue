@@ -41,6 +41,10 @@ const boostState = computed(() => {
 
 const boost = () => {
   const s = options[selected.value]
+  if (!store.loggedIn) {
+    store.modalName = 'auth'
+    return
+  }
   if (store.info.boost_balance < s.a) {
     toast.error("Something went wrong!", {
       description: "Balance is not enough!",
@@ -128,9 +132,10 @@ const boost = () => {
     </div>
     <div class="sticky bg-neutral-100 bottom-0 pb-4 inset-x-0 space-y-3">
       <Button class="w-full h-12 text-lg items-center gap-0" size="lg" @click="boost">
-        <span>{{boostState.end ? 'Extend': 'Double'}} now</span>
+        <span v-if="store.loggedIn">{{boostState.end ? 'Extend': 'Double'}} now</span>
+        <span v-else>Login Required</span>
       </Button>
-      <div class="flex justify-center items-center">
+      <div v-if="store.loggedIn" class="flex justify-center items-center">
         <span>Available:</span>
         <span class="num ml-2">{{ store.info.boost_balance }}</span>
         <img src="/icon/thunder.png" class="size-5 mr-2" alt="">

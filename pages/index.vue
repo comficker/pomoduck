@@ -178,7 +178,7 @@ watch(animationKey, () => {
             class="flex gap-1 cursor-pointer items-center bg-gray-100 text-yellow-500 rounded-lg py-1 px-3 relative border"
         >
           <img class="size-4" src="/icon/thunder.png" alt="">
-          <span>Increase</span>
+          <span>Boost</span>
         </NuxtLink>
       </div>
       <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">

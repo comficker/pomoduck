@@ -100,8 +100,8 @@ export function cloneDeep<T>(value: T): T {
   return _clone(value);
 }
 
-export function shortAddress(address: string): string {
-  if (address.length < 10) {
+export function shortAddress(address: string, max=10): string {
+  if (address.length < max) {
     return address
   }
   return address.substring(0, 3) + '...' + address.substring(address.length - 4, address.length - 1)
