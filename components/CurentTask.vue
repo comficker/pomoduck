@@ -7,7 +7,7 @@ const store = useGlobalStore()
 <template>
   <div class="bg-gradient-to-r text-center via-yellow-100 p-2 px-4 font-semibold text-gray-500">
     <span v-if="store.isRunning && store.info.doing">{{ store.info.doing.name || 'Untitled' }}</span>
-    <span v-else>Quack! <b>{{ shortAddress(store.info.username) }}</b>!</span>
+    <span v-else>Quack! <b>{{ shortAddress(store.info.username, 16) }}</b>!</span>
   </div>
 </template>
 
