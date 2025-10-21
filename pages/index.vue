@@ -170,8 +170,8 @@ watch(animationKey, () => {
       </Button>
       <div class="mt-2 mb-4 flex flex-col items-center justify-center gap-2 num text-xs font-bold uppercase">
         <div class="flex gap-1">
-          <span>0.005 / minutes</span>
-          <span>X {{ boost.level }}</span>
+          <span>{{ 0.005 * boost.level }}/Mins</span>
+          <span class="text-green-500">X{{ boost.level }}</span>
         </div>
         <NuxtLink
             to="/boost"
