@@ -140,7 +140,7 @@ watch(animationKey, () => {
         </div>
       </div>
     </div>
-    <div class="p-4 flex flex-col justify-center num gap-4 items-center">
+    <div class="p-4 flex flex-col justify-center num items-center">
       <div v-if="store.loggedIn" class="inline-flex w-3/4 mx-auto">
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"
@@ -168,10 +168,10 @@ watch(animationKey, () => {
       <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
         {{ startText }}
       </Button>
-      <div class="flex flex-col items-center justify-center gap-2 num text-xs font-bold uppercase">
+      <div class="mt-2 mb-4 flex flex-col items-center justify-center gap-2 num text-xs font-bold uppercase">
         <div class="flex gap-1">
-          <span>Current Multiplier:</span>
-          <span>x{{ boost.level }}</span>
+          <span>0.005 / minutes</span>
+          <span>X {{ boost.level }}</span>
         </div>
         <NuxtLink
             to="/boost"
@@ -190,7 +190,6 @@ watch(animationKey, () => {
         </div>
         <NuxtLink class="underline" to="/task">More...</NuxtLink>
       </div>
-
     </div>
   </div>
 </template>
