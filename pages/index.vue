@@ -159,6 +159,7 @@ watch(animationKey, () => {
             <template v-else-if="store.percent > 0">
               <img src="/icon/star.png" alt="Achievement" class="size-5"/>
               <span>Claim</span>
+              <span>{{ 0.005 * (store.info.doing?.duration_est || 25) / 60 * boost.level }}XP</span>
               <img src="/icon/star.png" alt="Achievement" class="size-5"/>
             </template>
             <span v-else>{{ startText }}</span>
@@ -169,10 +170,6 @@ watch(animationKey, () => {
         {{ startText }}
       </Button>
       <div class="mt-2 mb-4 flex flex-col items-center justify-center gap-2 num text-xs font-bold uppercase">
-        <div class="flex gap-1">
-          <span>{{ 0.005 * (store.info.doing?.duration_est || 25) / 60 * boost.level }}</span>
-          <span class="text-green-500">X{{ boost.level }}</span>
-        </div>
         <NuxtLink
             to="/boost"
             class="flex gap-1 cursor-pointer items-center bg-gray-100 text-yellow-500 rounded-lg py-1 px-3 relative border"
