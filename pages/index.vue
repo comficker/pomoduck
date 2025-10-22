@@ -170,7 +170,7 @@ watch(animationKey, () => {
       </Button>
       <div class="mt-2 mb-4 flex flex-col items-center justify-center gap-2 num text-xs font-bold uppercase">
         <div class="flex gap-1">
-          <span>{{ 0.005 * boost.level }}/Mins</span>
+          <span>{{ 0.005 * (store.info.doing?.duration_est || 25) / 60 * boost.level }}</span>
           <span class="text-green-500">X{{ boost.level }}</span>
         </div>
         <NuxtLink
@@ -184,8 +184,10 @@ watch(animationKey, () => {
       <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">
         <div v-for="i in ['work', 'break']" class="flex items-center gap-2">
           <NuxtIcon :name="i" class="text-gray-500 size-4"/>
-          <div class="cursor-pointer underline" v-for="item in taskRes?.results.filter(x => x.tag === i)"
-               @click="store.work(item.id)">{{ item.duration_est / 60 }} Mins
+          <div
+              class="cursor-pointer underline"
+              v-for="item in taskRes?.results.filter(x => x.tag === i)"
+              @click="store.work(item.id)">{{ item.duration_est / 60 }} Mins
           </div>
         </div>
         <NuxtLink class="underline" to="/task">More...</NuxtLink>
