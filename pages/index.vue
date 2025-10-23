@@ -124,7 +124,7 @@ watch(animationKey, () => {
           :src="animated[getRandomRest()]"
           @click="randomAnimate"
       />
-      <div class="text-6xl md:text-8xl font-extrabold flex gap-3 items-center text-left">
+      <div class="text-7xl md:text-9xl font-extrabold flex gap-3 items-center text-left">
         <div class="grid grid-cols-2 gap-1">
           <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
                :class="{'text-right': index == 0}">
