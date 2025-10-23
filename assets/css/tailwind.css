@@ -313,7 +313,7 @@ input {
 
 .menu a,
 .menu .item {
-    @apply p-1.5 px-2 flex justify-center items-center gap-1 duration-100 cursor-pointer;
+    @apply p-1.5 px-2 flex justify-center items-center gap-2 duration-100 cursor-pointer;
     border-radius: 10px;
     font-family: "Stolzl Display", monospace;
 }
