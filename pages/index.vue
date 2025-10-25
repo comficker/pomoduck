@@ -2,6 +2,7 @@
 import {MiniKit} from '@worldcoin/minikit-js'
 import WebApp from "@twa-dev/sdk";
 import type {APIResponse, ITask} from "~/types";
+import CurentTask from "~/components/CurentTask.vue";
 
 const getRandomRest = () => {
   const items = ['rest1', 'rest2', 'rest3']
@@ -139,6 +140,7 @@ watch(animationKey, () => {
           </div>
         </div>
       </div>
+      <CurentTask class=""/>
     </div>
     <div class="p-4 flex flex-col justify-center num items-center">
       <div v-if="store.loggedIn" class="inline-flex w-3/4 mx-auto">

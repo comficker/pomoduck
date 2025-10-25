@@ -104,7 +104,7 @@ export function shortAddress(address: string, max=10): string {
   if (address.length < max) {
     return address
   }
-  return address.substring(0, 3) + '...' + address.substring(address.length - 4, address.length - 1)
+  return address.substring(0, 3) + '...' + address.substring(address.length - 4, address.length)
 }
 
 export function timeLeftStr(seconds: number, is_object = false) {
