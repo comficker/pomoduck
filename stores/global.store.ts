@@ -154,6 +154,25 @@ export const useGlobalStore = defineStore('global', () => {
     return info.value.doing
   }
 
+  async function stop() {
+    const task_id = info.value.doing?.id
+    if (task_id) {
+      pending.value = true
+      const current = await useNativeFetch<ITask>(`/tasks/${task_id}/stop`, {
+        method: "POST",
+      }).catch(() => null)
+      if (current) {
+        toast("Quack Quack!", {
+          description: `You have successfully given up!`,
+        })
+        info.value.doing = current
+        percent.value = 0
+        isRunning.value = false
+      }
+      pending.value = false
+    }
+  }
+
   return {
     isRunning,
     isMobile,
@@ -172,7 +191,8 @@ export const useGlobalStore = defineStore('global', () => {
     work,
     modalName,
     modalData,
-    pending
+    pending,
+    stop
   }
 })
 
