@@ -4,7 +4,6 @@ import {Toaster} from '@/components/ui/sonner'
 import {formatFloat} from "~/lib/utils";
 import Auth from "~/components/modal/Auth.vue";
 import MergeAccount from "~/components/modal/MergeAccount.vue";
-import CurentTask from "~/components/CurentTask.vue";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -76,7 +75,7 @@ onMounted(async () => {
     }
   }
   document.addEventListener("contextmenu", function (e) {
-    e.preventDefault()
+    // e.preventDefault()
     e.stopPropagation()
     return false;
   });

@@ -2,32 +2,15 @@
 import {MiniKit} from '@worldcoin/minikit-js'
 import WebApp from "@twa-dev/sdk";
 import type {APIResponse, ITask} from "~/types";
-import CurentTask from "~/components/CurentTask.vue";
+import CurrentTask from "~/components/CurentTask.vue";
 
-const getRandomRest = () => {
-  const items = ['rest1', 'rest2', 'rest3']
-  return items[Math.floor(Math.random() * items.length)]
-}
 const store = useGlobalStore()
 const authStore = useAuthStore()
 
 useHead({
-  title: "Pomodoro Timer - PomoDuck Timer",
-  script: [
-    {src: "https://unpkg.com/@lottiefiles/lottie-player@0.2.0/dist/tgs-player.js", async: true}
-  ]
+  title: "Pomodoro Timer - PomoDuck Timer"
 })
 
-const animated: { [key: string]: string } = {
-  'call': '/animate/461405.tgs',
-  'rest1': '/animate/461404.tgs',
-  'rest2': '/animate/461401.tgs',
-  'rest3': '/animate/461397.tgs',
-  'done': '/animate/461413.tgs',
-  'running': '/animate/461406.tgs'
-}
-
-const animationKey = ref<string>(getRandomRest())
 const holdStart = ref<Date | null>(null)
 const now = ref<Date | null>(new Date())
 const intervalId = ref<any>(null)
@@ -81,10 +64,6 @@ const display2Digit = (num: number) => {
   return num.toString()
 }
 
-const randomAnimate = () => {
-  animationKey.value = getRandomRest()
-}
-
 const runTimer = async () => {
   if (store.isRunning) {
     return
@@ -99,9 +78,6 @@ const runTimer = async () => {
   }
 
   await store.work()
-  if (store.info.doing?.status == 1) {
-    animationKey.value = 'done'
-  }
 }
 
 const onMouseDown = () => {
@@ -134,40 +110,23 @@ const onMouseUp = () => {
     clearTimeout(timeoutId.value)
   }
 }
-
-watch(() => store.percent, () => {
-  if (store.isRunning) {
-    if (store.percent === 0) {
-      animationKey.value = getRandomRest()
-    } else if (store.percent < 100) {
-      animationKey.value = 'running'
-    } else {
-      animationKey.value = 'call'
-    }
-  } else {
-    animationKey.value = getRandomRest()
-  }
-})
-
-watch(animationKey, () => {
-  const elm = document.querySelector('tgs-player')
-  if (elm) {
-    // @ts-ignore
-    elm.load(animated[animationKey.value])
-  }
-})
 </script>
 
 <template>
   <div class="h-full flex flex-col justify-center gap-4 pb-16">
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
-      <tgs-player
-          autoplay
-          loop
-          style="width: 120px; height: 120px;"
-          :src="animated[getRandomRest()]"
-          @click="randomAnimate"
-      />
+      <div v-if="!store.isRunning" class="num flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">
+        <div v-for="i in ['work', 'break']" class="flex items-center gap-2">
+          <NuxtIcon :name="i" class="text-gray-500 size-4"/>
+          <div
+              class="cursor-pointer underline"
+              v-for="item in taskRes?.results.filter(x => x.tag === i)"
+              @click="store.work(item.id)">{{ item.duration_est / 60 }} Mins
+          </div>
+        </div>
+        <NuxtLink class="underline" to="/task">More...</NuxtLink>
+      </div>
+      <CurrentTask v-else/>
       <div class="text-7xl md:text-9xl font-extrabold flex gap-3 items-center text-left">
         <div class="grid grid-cols-2 gap-1">
           <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
@@ -183,7 +142,6 @@ watch(animationKey, () => {
           </div>
         </div>
       </div>
-      <CurentTask/>
     </div>
     <div class="p-4 flex flex-col justify-center num items-center">
       <div v-if="store.loggedIn" class="inline-flex w-3/4 mx-auto">
@@ -230,17 +188,6 @@ watch(animationKey, () => {
           <img class="size-4" src="/icon/thunder.png" alt="">
           <span>Boost</span>
         </NuxtLink>
-      </div>
-      <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">
-        <div v-for="i in ['work', 'break']" class="flex items-center gap-2">
-          <NuxtIcon :name="i" class="text-gray-500 size-4"/>
-          <div
-              class="cursor-pointer underline"
-              v-for="item in taskRes?.results.filter(x => x.tag === i)"
-              @click="store.work(item.id)">{{ item.duration_est / 60 }} Mins
-          </div>
-        </div>
-        <NuxtLink class="underline" to="/task">More...</NuxtLink>
       </div>
     </div>
   </div>
