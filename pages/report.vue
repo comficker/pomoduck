@@ -34,18 +34,18 @@ useHead({
     <div class="grid grid-cols-3 gap-2 md:gap-3 font-bold">
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
         <div class="text-2xs uppercase">Day streak</div>
-        <div class="num text-5xl">{{ store.info.day_streak }}</div>
+        <div class="text-5xl">{{ store.info.day_streak }}</div>
       </div>
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
         <div class="text-2xs uppercase">Focus time</div>
-        <div class="num text-xl leading-none">
+        <div class="text-xl leading-none">
           <div>{{ reformatOverview.total.hours }}H</div>
           <div>{{ reformatOverview.total.minutes }}m</div>
         </div>
       </div>
       <div class="bg-white rounded border border-gray-200/50 py-1 p-2 md:p-4">
         <div class="text-2xs uppercase">per/day</div>
-        <div class="num text-xl leading-none">
+        <div class="text-xl leading-none">
           <div>{{ reformatOverview.avg.hours }}H</div>
           <div>{{ reformatOverview.avg.minutes }}m</div>
         </div>
@@ -59,7 +59,7 @@ useHead({
         <div>Time [Minutes]</div>
         <div class="text-right">Rewards</div>
       </div>
-      <div v-for="key in Object.keys(data.history).reverse().slice(0, 7)" class="py-1 grid grid-cols-3 num">
+      <div v-for="key in Object.keys(data.history).reverse().slice(0, 7)" class="py-1 grid grid-cols-3">
         <div class="">🗓️ {{ key }}</div>
         <div>🕒 {{ timeLeftStr(data.history[key].duration) }}</div>
         <div class="text-right">{{ formatFloat(data.history[key].point) }} ⬆️</div>

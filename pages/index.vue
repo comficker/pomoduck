@@ -113,9 +113,9 @@ const onMouseUp = () => {
 </script>
 
 <template>
-  <div class="h-full flex flex-col justify-center gap-4 pb-16">
+  <div id="timer" class="h-full flex flex-col justify-center gap-4 pb-16">
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
-      <div v-if="!store.isRunning" class="num flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">
+      <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">
         <div v-for="i in ['work', 'break']" class="flex items-center gap-2">
           <NuxtIcon :name="i" class="text-gray-500 size-4"/>
           <div
@@ -127,7 +127,7 @@ const onMouseUp = () => {
         <NuxtLink class="underline" to="/task">More...</NuxtLink>
       </div>
       <CurrentTask v-else/>
-      <div class="text-7xl md:text-9xl font-extrabold flex gap-3 items-center text-left">
+      <div class="content text-7xl md:text-9xl font-extrabold flex gap-3 items-center text-left">
         <div class="grid grid-cols-2 gap-1">
           <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
                :class="{'text-right': index == 0}">
@@ -143,8 +143,8 @@ const onMouseUp = () => {
         </div>
       </div>
     </div>
-    <div class="p-4 flex flex-col justify-center num items-center">
-      <div v-if="store.loggedIn" class="inline-flex w-3/4 mx-auto">
+    <div class="p-4 flex flex-col justify-center items-center">
+      <div v-if="store.loggedIn" class="inline-flex w-3/4 md:w-1/2 mx-auto">
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"
             class="btn-timer"
@@ -180,7 +180,7 @@ const onMouseUp = () => {
       <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
         {{ startText }}
       </Button>
-      <div class="my-4 flex flex-col items-center justify-center gap-2 num text-xs font-bold uppercase">
+      <div class="my-4 flex flex-col items-center justify-center gap-2 text-xs font-bold uppercase">
         <NuxtLink
             to="/boost"
             class="flex gap-1 cursor-pointer items-center text-yellow-500 relative"

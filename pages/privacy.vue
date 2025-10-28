@@ -8,7 +8,7 @@ useHead({
   <div class="p-4 space-y-6">
     <div class="bg-white shadow">
       <div class="max-w-4xl mx-auto">
-        <h1 class="num text-xl font-bold">Privacy Policy</h1>
+        <h1 class="text-xl font-bold">Privacy Policy</h1>
         <p class="text-sm text-gray-600">Effective Date: <strong>2025-9-9</strong></p>
       </div>
     </div>
@@ -22,7 +22,7 @@ useHead({
       </section>
 
       <section>
-        <h2 class="num text-xl font-semibold mt-6">1. Information We Collect</h2>
+        <h2 class="text-xl font-semibold mt-6">1. Information We Collect</h2>
         <ul class="list-disc list-inside mt-2 space-y-2">
           <li>Name, email, and profile information</li>
           <li>Device information, IP address, and usage logs</li>
@@ -31,7 +31,7 @@ useHead({
       </section>
 
       <section>
-        <h2 class="num text-xl font-semibold mt-6">2. How We Use Your Information</h2>
+        <h2 class="text-xl font-semibold mt-6">2. How We Use Your Information</h2>
         <ul class="list-disc list-inside mt-2 space-y-2">
           <li>To provide and improve our services</li>
           <li>To authenticate user accounts</li>
@@ -41,7 +41,7 @@ useHead({
       </section>
 
       <section>
-        <h2 class="num text-xl font-semibold mt-6">3. Sharing Your Information</h2>
+        <h2 class="text-xl font-semibold mt-6">3. Sharing Your Information</h2>
         <p class="mt-2">
           We do not sell or rent your data. We may share it with service providers or legal authorities only when
           necessary.
@@ -49,7 +49,7 @@ useHead({
       </section>
 
       <section>
-        <h2 class="num text-xl font-semibold mt-6">4. Your Rights</h2>
+        <h2 class="text-xl font-semibold mt-6">4. Your Rights</h2>
         <p class="mt-2">
           You can request to access, correct, or delete your data by contacting us at
           <strong>[support@example.com]</strong>.
@@ -57,7 +57,7 @@ useHead({
       </section>
 
       <section>
-        <h2 class="num text-xl font-semibold mt-6">5. Changes to This Policy</h2>
+        <h2 class="text-xl font-semibold mt-6">5. Changes to This Policy</h2>
         <p class="mt-2">
           We may update this policy periodically. Changes will be communicated through our website.
         </p>

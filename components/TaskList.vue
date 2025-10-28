@@ -60,7 +60,7 @@ onMounted(() => {
       >{{item}}</div>
     </div>
     <div class="space-y-1 -mx-2">
-      <div v-if="store.loggedIn" class="bg-white flex capitalize gap-3 p-2 label sticky num top-0">
+      <div v-if="store.loggedIn" class="bg-white flex capitalize gap-3 p-2 label sticky top-0">
         <div
             v-for="item in [[1, 'Available'], [2, 'Completed']]"
             class="cursor-pointer" :class="{'text-blue-500': item[0] === status}"

@@ -105,7 +105,7 @@ const handleCLickToolTip = (day: string, val: boolean) => {
       </div>
       <div class="flex-1 grid grid-cols-4 gap-2">
         <div v-for="(chunk, i) in tables.parts" class="">
-          <div class="text-xs num">{{ tables.months[i] }}</div>
+          <div class="text-xs">{{ tables.months[i] }}</div>
           <div class="grid grid-cols-4 gap-0.5">
             <div v-for="week in chunk" class="">
               <TooltipProvider v-for="day in week" :delayDuration="100">
