@@ -127,15 +127,15 @@ const onMouseUp = () => {
         <NuxtLink class="underline" to="/task">More...</NuxtLink>
       </div>
       <CurrentTask v-else/>
-      <div class="content text-7xl md:text-9xl font-extrabold flex gap-3 items-center text-left">
-        <div class="grid grid-cols-2 gap-1">
+      <div class="content text-7xl md:text-9xl font-bold flex gap-3 items-center text-left">
+        <div class="grid grid-cols-2 gap-2">
           <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
                :class="{'text-right': index == 0}">
             <span>{{ i }}</span>
           </div>
         </div>
         <div>:</div>
-        <div class="grid grid-cols-2 gap-1">
+        <div class="grid grid-cols-2 gap-2">
           <div v-for="(i, index) in display2Digit(store.timer.ss)" class="w-12 md:w-20 p-1"
                :class="{'text-right': index == 0}">
             <span>{{ i }}</span>
@@ -162,7 +162,7 @@ const onMouseUp = () => {
               <div class="wave"/>
             </div>
           </div>
-          <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-lg">
+          <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-base">
             <span v-if="store.pending">...</span>
             <template v-else-if="store.percent >= 100">
               <img src="/icon/star.png" alt="Achievement" class="size-5"/>
