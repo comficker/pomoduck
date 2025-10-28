@@ -146,7 +146,7 @@ await authStore.auth()
         <Button v-else class="num" @click="store.modalName = 'auth'">Login</Button>
       </div>
     </div>
-    <div class="max-w-md mx-auto flex-1 w-full relative overflow-y-auto no-scroll">
+    <div class="max-w-lg mx-auto flex-1 w-full relative overflow-y-auto no-scroll">
       <nuxt-page/>
     </div>
     <div class="p-2 uppercase font-bold text-2xs hidden md:flex justify-center items-center gap-1 text-gray-500">
