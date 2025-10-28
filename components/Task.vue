@@ -131,13 +131,13 @@ watch(() => form.value.unit, () => {
         <template v-if="updating">
           <input
               v-model="form.name" type="text"
-              class="text-lg rounded p-0.5 px-3 w-full"
+              class="rounded p-0.5 px-3 w-full"
               placeholder="Name"
           >
           <textarea class="w-full" v-model="form.description" placeholder="Note"/>
         </template>
         <div
-            v-else class="text-lg font-bold cursor-pointer"
+            v-else class="font-semibold cursor-pointer"
             @click="updating = !!task.creator"
         >{{ form.name || "Untitled" }}</div>
         <div class="flex gap-3 items-center text-sm">
