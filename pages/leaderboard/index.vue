@@ -39,7 +39,7 @@ const {data: mate, pending} = useAuthFetch<APIResponse<Account>>('/accounts/', {
         <span>{{ item }}</span>
       </div>
     </div>
-    <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y divide-dashed">
+    <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y divide-dashed text-base">
       <div v-for="(item, i) in mate.results" :key="item.id" class="font-bold py-1 flex">
         <div class="w-8">{{ i + 1}}</div>
         <div class="flex-1">{{ shortAddress(item.username || `${item.first_name} ${item.last_name}`, 16) }}</div>
