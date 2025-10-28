@@ -115,9 +115,9 @@ const onMouseUp = () => {
 <template>
   <div id="timer" class="h-full flex flex-col justify-center gap-4 pb-16">
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
-      <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs uppercase font-semibold justify-center">
-        <div v-for="i in ['work', 'break']" class="flex items-center gap-2">
-          <NuxtIcon :name="i" class="text-gray-500 size-4"/>
+      <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-base uppercase font-semibold justify-center">
+        <div v-for="i in ['work', 'break']" class="flex items-center gap-3">
+          <NuxtIcon :name="i" class="text-gray-500 size-6"/>
           <div
               class="cursor-pointer underline"
               v-for="item in taskRes?.results.filter(x => x.tag === i)"
