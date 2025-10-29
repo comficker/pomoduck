@@ -99,9 +99,10 @@ const boost = () => {
         <div class="divide-y divide-dashed">
           <div v-for="(option, index) in tasks" class="flex items-center gap-2 py-1" :class="{'text-gray-400': false }">
             <span>{{ option.name }}</span>
-            <div v-if="option.s" class="ml-auto text-green-400 flex num gap-0.5 items-center">
-              <span>+</span>
-              <span>{{ option.s }} 🥚</span>
+            <div v-if="option.s" class="ml-auto">
+              <div class="relative">
+                <span>🥚</span>
+              </div>
             </div>
             <NuxtIcon class="size-6" :name="false ? 'checked': 'load'"/>
           </div>

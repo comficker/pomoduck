@@ -43,8 +43,8 @@ const onMoveH = (isUp = true) => {
             class="w-full h-full flex justify-center items-center cursor-pointer gap-1 duration-200 transition-all"
             :class="{
               'bg-gradient-to-r via-yellow-50 font-semibold': i == active,
-              'mt-8 opacity-30 scale-60': canAction && i !== active,
-              'opacity-0': !canAction && i !== active
+              'mt-8 opacity-30 scale-60': i !== active,
+              'opacity-0!': !canAction && i !== active
             }"
             @click="onClick(i)"
         >
