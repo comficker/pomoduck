@@ -107,21 +107,19 @@ await authStore.auth()
       <div class="menu">
         <nuxt-link to="/achievement" class="">
           <NuxtIcon name="medal" class="size-5"/>
-          <span class="hidden md:block">Achievement</span>
         </nuxt-link>
         <nuxt-link to="/task" class="">
           <NuxtIcon name="task" class="size-5"/>
-          <span class="hidden md:block">Task</span>
         </nuxt-link>
         <nuxt-link to="/report" class="">
           <NuxtIcon name="rank" class="size-5"/>
-          <span class="hidden md:block">Report</span>
         </nuxt-link>
         <DropdownMenu v-if="store.loggedIn">
           <DropdownMenuTrigger as-child>
             <div
                 class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer">
-              <div class="flex p-4 py-2 items-center text-sm">
+              <div class="flex p-4 py-1 gap-1 items-center text-base">
+                <img src="/icon/star.png" alt="star" class="size-5"/>
                 <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
               </div>
               <div class="flex-1 p-1">
@@ -129,7 +127,7 @@ await authStore.auth()
               </div>
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent side="bottom" align="end" class="text-base">
+          <DropdownMenuContent side="bottom" align="end" class="text-base min-w-52">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator/>
             <DropdownMenuItem v-if="false">Profile</DropdownMenuItem>

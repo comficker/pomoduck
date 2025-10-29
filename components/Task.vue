@@ -179,7 +179,7 @@ watch(() => form.value.unit, () => {
           </div>
         </div>
       </div>
-      <div v-if="!updating" class="space-y-1 text-xs">
+      <div v-if="!updating" class="space-y-1">
         <div
           @click="act"
           class="act"
