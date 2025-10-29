@@ -1,6 +1,8 @@
 import type {ClassValue} from "clsx"
 import {clsx} from "clsx"
 import {twMerge} from "tailwind-merge"
+import WebApp from "@twa-dev/sdk";
+import {MiniKit} from "@worldcoin/minikit-js";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -121,5 +123,16 @@ export function timeLeftStr(seconds: number, is_object = false) {
     return `${pad(hours)}h ${pad(minutes)}m`;
   } else {
     return `${pad(minutes)}m`;
+  }
+}
+
+export const sendHaptic = (activeAuth: string) => {
+  if (activeAuth === 'telegram') {
+    WebApp.HapticFeedback.impactOccurred('medium')
+  } else if (activeAuth === 'wld') {
+    MiniKit.commands.sendHapticFeedback({
+      hapticsType: 'impact',
+      style: 'light',
+    })
   }
 }

@@ -3,6 +3,7 @@ import {MiniKit} from '@worldcoin/minikit-js'
 import WebApp from "@twa-dev/sdk";
 import CurrentTask from "~/components/CurentTask.vue";
 import TaskSwitch from "~/components/TaskSwitch.vue";
+import {sendHaptic} from "~/lib/utils";
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
@@ -40,15 +41,7 @@ const runTimer = async () => {
   if (store.isRunning) {
     return
   }
-  if (authStore.activeAuth === 'telegram') {
-    WebApp.HapticFeedback.impactOccurred('medium')
-  } else if (authStore.activeAuth === 'wld') {
-    MiniKit.commands.sendHapticFeedback({
-      hapticsType: 'impact',
-      style: 'light',
-    })
-  }
-
+  sendHaptic(authStore.activeAuth)
   await store.work()
 }
 

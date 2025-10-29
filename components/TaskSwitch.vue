@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type {ITask} from "~/types";
+import {sendHaptic} from "~/lib/utils";
 
 const store = useGlobalStore()
-
+const authStore = useAuthStore()
 const {data: taskRes} = useAuthFetch<ITask[][]>(`/switch-tasks`, {
   method: "GET",
   key: 'index'
@@ -16,12 +17,14 @@ const canAction = computed(() => {
 
 const onClick = (index: number) => {
   if (!taskRes.value || !canAction.value) return;
+  sendHaptic(authStore.activeAuth)
   active.value = index
   store.info.doing = taskRes.value[active.value][0]
 }
 
 const onMoveH = (isUp = true) => {
   if (!taskRes.value || !canAction.value) return;
+  sendHaptic(authStore.activeAuth)
   if (isUp) {
     taskRes.value[active.value].unshift(<ITask>taskRes.value[active.value].pop())
   } else {
