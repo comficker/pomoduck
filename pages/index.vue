@@ -169,7 +169,7 @@ const onMouseUp = () => {
             <template v-else-if="store.percent >= 100">
               <span>🥚</span>
               <span>Claim</span>
-              <span>{{ 0.005 * (store.info.doing?.duration_est || 25) / 60 * boost.level }}</span>
+              <span>{{ store.info.doing?.reward_amount }}</span>
               <span>🥚</span>
             </template>
             <span v-else-if="store.percent > 0">

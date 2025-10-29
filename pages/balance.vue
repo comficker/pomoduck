@@ -8,7 +8,7 @@ const store = useGlobalStore()
 const label = ref(route.query.type || 'EGG')
 
 const balance = computed(() => {
-  return label.value === 'EGG' ? store.info.balance : store.info.boost_balance
+  return label.value === 'EGG' ? store.info.egg : store.info.boost_balance
 })
 
 const purchase = () => {
@@ -37,7 +37,3 @@ const purchase = () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

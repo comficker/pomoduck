@@ -120,7 +120,7 @@ await authStore.auth()
                 class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer">
               <div class="flex p-4 py-1 gap-1 items-center text-base">
                 <span>🥚</span>
-                <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
+                <span>{{ formatFloat(store.info.egg, 0, 0) }}</span>
               </div>
               <div class="flex-1 p-1">
                 <NuxtIcon name="chevron-down" class="size-5"/>

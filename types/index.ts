@@ -39,6 +39,7 @@ export interface Info {
   inviter?: number
   is_staff: boolean
   day_streak: number
+  egg: number
 }
 
 export interface ITask {
