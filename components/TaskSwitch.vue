@@ -32,6 +32,21 @@ const onMoveH = (isUp = true) => {
   }
   store.info.doing = taskRes.value[active.value][0]
 }
+
+watch(taskRes, () => {
+  if (!taskRes.value) return;
+  for (let i = 0; i < taskRes.value.length; i++) {
+    for (let j = 0; j < taskRes.value[i].length; j++) {
+      if (store.info.doing?.id == taskRes.value[i][j].id) {
+        active.value = i
+        const [itemToMove] = taskRes.value[i].splice(j, 1);
+        console.log(itemToMove);
+        taskRes.value[i].unshift(itemToMove);
+        break
+      }
+    }
+  }
+})
 </script>
 
 <template>
