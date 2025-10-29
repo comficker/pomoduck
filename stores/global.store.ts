@@ -20,7 +20,8 @@ const DEFAULT_INFO: Info = {
   boost_end: null,
   is_staff: false,
   day_streak: 0,
-  egg: 0
+  egg: 0,
+  egg_extra: 0
 }
 
 export const useGlobalStore = defineStore('global', () => {

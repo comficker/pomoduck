@@ -9,10 +9,10 @@ const options = [
 ]
 
 const tasks = [
-  {name: "PomoDuck in telegram name", d: 1, a: 8, s: 0.2},
-  {name: "PomoDuck in X name", d: 7, a: Math.round(8 * 7 * 0.8), s: 0.2},
-  {name: "Invite 3 friends", d: 30, a: Math.round(8 * 30 * 0.7), s: 0.2},
-  {name: "Invite 10 friends", d: 30, a: Math.round(8 * 30 * 0.7), s: 0.4},
+  {name: "PomoDuck in telegram name", d: 1, a: 8, s: 1},
+  {name: "PomoDuck in X name", d: 7, a: Math.round(8 * 7 * 0.8), s: 1},
+  {name: "Invite 3 friends", d: 30, a: Math.round(8 * 30 * 0.7), s: 1},
+  {name: "Invite 10 friends", d: 30, a: Math.round(8 * 30 * 0.7), s: 1},
 ]
 
 const store = useGlobalStore()
@@ -80,14 +80,16 @@ const boost = () => {
 <template>
   <div class="w-full px-4 flex flex-col relative gap-8">
     <div class="text-xl space-y-6">
-      <div class="space-y-2 text-center">
+      <div class="space-y-6 text-center">
         <div class="flex justify-center">
           <div class="w-28 h-28">
             <img class="w-full" src="/thunder.png" alt="">
           </div>
         </div>
-        <span class="label">Currently</span>
-        <div class="num text-7xl font-bold">X{{ boostState.level }}</div>
+        <div class="label">Currently</div>
+        <div class="text-7xl font-bold">
+          <span>🥚</span><span class="text-3xl">x{{ (store.info.egg_extra + 1) & boostState.level }}</span>
+        </div>
         <div class="label" v-if="boostState.end">until
           {{ boostState.end.toLocaleDateString() }} :
           {{ boostState.end.toLocaleTimeString() }}
@@ -99,7 +101,7 @@ const boost = () => {
             <span>{{ option.name }}</span>
             <div v-if="option.s" class="ml-auto text-green-400 flex num gap-0.5 items-center">
               <span>+</span>
-              <span>{{ option.s }}</span>
+              <span>{{ option.s }} 🥚</span>
             </div>
             <NuxtIcon class="size-6" :name="false ? 'checked': 'load'"/>
           </div>

@@ -40,6 +40,7 @@ export interface Info {
   is_staff: boolean
   day_streak: number
   egg: number
+  egg_extra: number
 }
 
 export interface ITask {
