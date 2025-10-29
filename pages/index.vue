@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {MiniKit} from '@worldcoin/minikit-js'
 import WebApp from "@twa-dev/sdk";
-import type {APIResponse, ITask} from "~/types";
 import CurrentTask from "~/components/CurentTask.vue";
+import TaskSwitch from "~/components/TaskSwitch.vue";
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
@@ -16,39 +16,11 @@ const now = ref<Date | null>(new Date())
 const intervalId = ref<any>(null)
 const timeoutId = ref<any>(null)
 
-const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/`, {
-  method: "GET",
-  query: {
-    page_size: 10,
-    type: 'default',
-    status: 1
-  },
-  key: 'index'
-})
-
 const startText = computed(() => {
   if (store.info.doing) {
     return `Start ${store.info.doing.tag} in ${store.info.doing.duration_est / 60} mins`
   }
   return 'Start a pomodoro'
-})
-const boost = computed(() => {
-  let current = store.info.boost_level || 1
-  if (store.info.boost_end) {
-    const now = new Date()
-    const end = new Date(store.info.boost_end)
-    if (end.getTime() >= now.getTime()) {
-      current = current * 2
-    }
-    return {
-      level: current,
-      end: end
-    }
-  }
-  return {
-    level: current,
-    end: null
-  }
 })
 const holdPercent = computed(() => {
   if (now.value && holdStart.value) {
@@ -131,19 +103,7 @@ const onMouseUp = () => {
           </div>
         </div>
       </div>
-      <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs items-center md:text-base uppercase font-semibold justify-center">
-        <div v-for="i in ['work', 'break']" class="flex items-center gap-3">
-          <div
-              class="cursor-pointer flex items-center gap-1"
-              v-for="item in taskRes?.results.filter(x => x.tag === i)"
-              @click="store.work(item.id)">
-            <NuxtIcon :name="i" class="text-gray-500 size-6"/>
-            <span>{{ item.duration_est / 60 }} Mins</span>
-          </div>
-        </div>
-        <NuxtLink to="/task">More...</NuxtLink>
-      </div>
-      <CurrentTask v-else/>
+      <TaskSwitch/>
     </div>
     <div class="p-4 flex flex-col justify-center items-center">
       <div v-if="store.loggedIn" class="inline-flex w-3/4 md:w-1/2 mx-auto">

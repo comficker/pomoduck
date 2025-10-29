@@ -132,7 +132,7 @@ await authStore.auth()
             <DropdownMenuSeparator/>
             <DropdownMenuItem v-if="false">Profile</DropdownMenuItem>
             <DropdownMenuItem as-child>
-              <nuxt-link to="/balance">Balance</nuxt-link>
+              <nuxt-link to="/inventory">Inventory</nuxt-link>
             </DropdownMenuItem>
             <DropdownMenuItem as-child>
               <nuxt-link to="/settings">Settings</nuxt-link>
