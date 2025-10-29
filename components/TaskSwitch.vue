@@ -48,7 +48,7 @@ const onMoveH = (isUp = true) => {
             }"
             @click="onClick(i)"
         >
-          <span>{{ tasks[0].name }}</span>
+          <span>{{ tasks[0].name || "Untitled" }}</span>
         </div>
       </div>
     </div>
