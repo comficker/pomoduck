@@ -115,18 +115,6 @@ const onMouseUp = () => {
 <template>
   <div id="timer" class="h-full flex flex-col justify-center gap-4 pb-16">
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
-      <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-base uppercase font-semibold justify-center">
-        <div v-for="i in ['work', 'break']" class="flex items-center gap-3">
-          <NuxtIcon :name="i" class="text-gray-500 size-6"/>
-          <div
-              class="cursor-pointer underline"
-              v-for="item in taskRes?.results.filter(x => x.tag === i)"
-              @click="store.work(item.id)">{{ item.duration_est / 60 }} Mins
-          </div>
-        </div>
-        <NuxtLink class="underline" to="/task">More...</NuxtLink>
-      </div>
-      <CurrentTask v-else/>
       <div class="content text-7xl md:text-9xl font-bold flex gap-3 items-center text-left">
         <div class="grid grid-cols-2 gap-2">
           <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
@@ -142,6 +130,19 @@ const onMouseUp = () => {
           </div>
         </div>
       </div>
+      <div v-if="!store.isRunning" class="flex flex-nowrap gap-4 text-xs items-center md:text-base uppercase font-semibold justify-center">
+        <div v-for="i in ['work', 'break']" class="flex items-center gap-3">
+          <div
+              class="cursor-pointer flex items-center gap-1"
+              v-for="item in taskRes?.results.filter(x => x.tag === i)"
+              @click="store.work(item.id)">
+            <NuxtIcon :name="i" class="text-gray-500 size-6"/>
+            <span>{{ item.duration_est / 60 }} Mins</span>
+          </div>
+        </div>
+        <NuxtLink to="/task">More...</NuxtLink>
+      </div>
+      <CurrentTask v-else/>
     </div>
     <div class="p-4 flex flex-col justify-center items-center">
       <div v-if="store.loggedIn" class="inline-flex w-3/4 md:w-1/2 mx-auto">

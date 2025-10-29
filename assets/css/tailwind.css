@@ -84,8 +84,6 @@
         left: 0;
         right: 0;
         bottom: 0;
-        font-size: 19px;
-        line-height: 1.6;
 
         --head-top-extra: 0px;
     }
@@ -207,10 +205,6 @@ input {
     touch-action: manipulation;
 }
 
-[data-title] {
-    font-size: 16px;
-}
-
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
@@ -296,7 +290,7 @@ input {
 }
 
 .menu {
-    @apply gap-2 text-xs flex justify-center items-center font-semibold uppercase;
+    @apply text-sm gap-2 flex justify-center items-center font-semibold uppercase;
 }
 
 .menu a.router-link-active,
@@ -307,7 +301,7 @@ input {
 .menu a,
 .menu .item {
     @apply p-1.5 px-2 flex justify-center items-center gap-2 duration-100 cursor-pointer;
-    border-radius: 10px;
+
     font-family: "Stolzl Display", monospace;
 }
 
@@ -389,6 +383,11 @@ a.router.router-link-exact-active {
     user-select: none; /* Standard syntax */
 }
 
+[data-title] {
+    font-size: 16px;
+    font-family: "Stolzl Display", monospace;
+}
+
 .content {
-    font-family: "Lexend", sans-serif;
+    font-family: "Lexend", serif;
 }

@@ -120,8 +120,8 @@ await authStore.auth()
         <DropdownMenu v-if="store.loggedIn">
           <DropdownMenuTrigger as-child>
             <div
-                class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg">
-              <div class="flex p-2 py-2 items-center text-sm">
+                class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer">
+              <div class="flex p-4 py-2 items-center text-sm">
                 <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
               </div>
               <div class="flex-1 p-1">
@@ -129,7 +129,7 @@ await authStore.auth()
               </div>
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent side="bottom" align="end" class="text-sm">
+          <DropdownMenuContent side="bottom" align="end" class="text-base">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator/>
             <DropdownMenuItem v-if="false">Profile</DropdownMenuItem>
