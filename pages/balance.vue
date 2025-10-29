@@ -5,10 +5,10 @@ import {toast} from "vue-sonner";
 const route = useRoute()
 const store = useGlobalStore()
 
-const label = ref(route.query.type || 'XP')
+const label = ref(route.query.type || 'EGG')
 
 const balance = computed(() => {
-  return label.value === 'XP' ? store.info.balance : store.info.boost_balance
+  return label.value === 'EGG' ? store.info.balance : store.info.boost_balance
 })
 
 const purchase = () => {
@@ -21,7 +21,7 @@ const purchase = () => {
     <div class="label text-center">Balance</div>
     <div class="tabs justify-center">
       <div
-          v-for="item in ['XP', 'Boost']"
+          v-for="item in ['EGG', 'Boost']"
           class="tab"
           :class="{'active': label === item}"
           @click="label = item"

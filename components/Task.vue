@@ -142,7 +142,7 @@ watch(() => form.value.unit, () => {
         >{{ form.name || "Untitled" }}</div>
         <div class="flex gap-3 items-center text-sm">
           <div
-              v-if="task.reward_type === 'point' && updating && task.status == TASK_STATUS.ACTIVE"
+              v-if="task.reward_type === 'point' && updating && task.status != TASK_STATUS.COMPLETED"
               class="flex items-center gap-0.5"
           >
             <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
@@ -153,16 +153,7 @@ watch(() => form.value.unit, () => {
               <img v-for="item in task.reward_amount" class="size-4" src="/icon/thunder.png" alt="">
             </template>
             <template v-else>
-              <img
-                  v-for="item in form.unit"
-                  src="/icon/star.png" alt="Achievement" class="size-4"
-                  :class="{
-                    'size-6': task.duration_est >= 1500,
-                    'size-5': task.duration_est >= 900,
-                    'size-4': task.duration_est < 900,
-                    'grayscale': item <= progress
-                  }"
-              />
+              <div v-for="item in task.reward_amount">🥚</div>
             </template>
           </div>
           <div v-if="updating" class="flex text-xs gap-4 ml-auto">
@@ -185,8 +176,9 @@ watch(() => form.value.unit, () => {
           class="act"
           :class="{
             'animate-pulse': status === TASK_STATUS.DOING,
-            'grayscale': status === TASK_STATUS.COMPLETED}
-          "
+            'grayscale': status === TASK_STATUS.COMPLETED
+          }
+        "
         >
           <span v-if="[TASK_STATUS.ACTIVE, TASK_STATUS.DRAFT].includes(status)">GO!</span>
           <img v-else class="size-5" src="/icon.png" alt="">

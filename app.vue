@@ -100,7 +100,7 @@ await authStore.auth()
         <div class="menu">
           <nuxt-link to="/leaderboard">
             <img src="/trophy.png" class="size-4" alt="Leaderboard"/>
-            <span class="hidden md:block">Leaderboard</span>
+            <span class="hidden md:block text-sm">Leaderboard</span>
           </nuxt-link>
         </div>
       </div>
@@ -119,7 +119,7 @@ await authStore.auth()
             <div
                 class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer">
               <div class="flex p-4 py-1 gap-1 items-center text-base">
-                <img src="/icon/star.png" alt="star" class="size-5"/>
+                <span>🥚</span>
                 <span>{{ formatFloat(store.info.balance, 2, 2) }}</span>
               </div>
               <div class="flex-1 p-1">

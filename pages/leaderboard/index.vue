@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {Account, APIResponse} from "~/types";
-import {formatFloat, shortAddress} from "~/lib/utils";
+import {shortAddress, timeLeftStr} from "~/lib/utils";
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
@@ -44,8 +44,7 @@ const {data: mate, pending} = useAuthFetch<APIResponse<Account>>('/accounts/', {
         <div class="w-8">{{ i + 1}}</div>
         <div class="flex-1">{{ shortAddress(item.username || `${item.first_name} ${item.last_name}`, 16) }}</div>
         <div class="flex items-center gap-1 n">
-          <span>{{ formatFloat(item.balance, 2, 2) }}</span>
-          <img class="size-5" src="/icon/star.png" alt="">
+          <span>{{ timeLeftStr(item.total_focus) }}</span>
         </div>
       </div>
     </div>

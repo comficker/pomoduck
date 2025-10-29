@@ -115,6 +115,7 @@ const onMouseUp = () => {
 <template>
   <div id="timer" class="h-full flex flex-col justify-center gap-4 pb-16">
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
+      <img class="w-52" src="/art.svg" alt="">
       <div class="content text-7xl md:text-9xl font-bold flex gap-3 items-center text-left">
         <div class="grid grid-cols-2 gap-2">
           <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
@@ -166,10 +167,10 @@ const onMouseUp = () => {
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-base">
             <span v-if="store.pending">...</span>
             <template v-else-if="store.percent >= 100">
-              <img src="/icon/star.png" alt="Achievement" class="size-5"/>
+              <span>🥚</span>
               <span>Claim</span>
-              <span>{{ 0.005 * (store.info.doing?.duration_est || 25) / 60 * boost.level }}XP</span>
-              <img src="/icon/star.png" alt="Achievement" class="size-5"/>
+              <span>{{ 0.005 * (store.info.doing?.duration_est || 25) / 60 * boost.level }}</span>
+              <span>🥚</span>
             </template>
             <span v-else-if="store.percent > 0">
               hold to give up
