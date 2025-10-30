@@ -102,13 +102,15 @@ const progressUnit = computed(() => {
           </div>
         </div>
       </div>
-      <TaskSwitch/>
-      <div v-if="store.info.doing" class="mt-4 flex gap-1 justify-center">
-        <img
-            v-for="i in store.info.doing.unit" :key="i" src="/icon.png"
-            :class="{'grayscale': i <= progressUnit}"
-            alt="Pomodoro" class="size-4"
-        />
+      <div class="w-full">
+        <TaskSwitch/>
+        <div v-if="store.info.doing" class="flex gap-1 justify-center" :class="{'mt-8': !store.isRunning}">
+          <img
+              v-for="i in store.info.doing.unit" :key="i" src="/icon.png"
+              :class="{'grayscale': i <= progressUnit}"
+              alt="Pomodoro" class="size-4"
+          />
+        </div>
       </div>
     </div>
     <div class="p-4 flex flex-col justify-center items-center">
