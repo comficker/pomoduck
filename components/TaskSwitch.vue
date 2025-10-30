@@ -56,10 +56,10 @@ watch(taskRes, () => {
       <div v-for="(tasks, i) in taskRes" class="inset-0" :class="{'absolute': canAction}">
         <div
             class="break-all w-full h-full flex justify-center items-center cursor-pointer gap-1 duration-200 transition-all"
+            v-if="!(!canAction && i !== active)"
             :class="{
               'font-semibold': i == active,
-              'mt-8 opacity-30 scale-60': i !== active,
-              'opacity-0!': !canAction && i !== active,
+              'mt-8 opacity-30 scale-60': i !== active
             }"
             @click="onClick(i)"
         >
