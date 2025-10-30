@@ -87,7 +87,7 @@ const progressUnit = computed(() => {
   <div id="timer" class="h-full flex flex-col justify-center gap-4 pb-16">
     <div class="flex-1 px-4 text-center flex items-center justify-center flex-col gap-4">
       <img class="w-48" src="/art.svg" alt="">
-      <div class="content text-7xl md:text-9xl font-bold flex gap-3 items-center text-left">
+      <div class="content text-7xl md:text-8xl font-bold flex gap-3 items-center text-left">
         <div class="grid grid-cols-2 gap-2">
           <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
                :class="{'text-right': index == 0}">
