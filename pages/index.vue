@@ -75,6 +75,12 @@ const onMouseUp = () => {
     clearTimeout(timeoutId.value)
   }
 }
+
+const progressUnit = computed(() => {
+  if (!store.info.doing) return 0
+  const completed = store.info.doing.account_task.filter(x => x.finished_at).length
+  return completed >=  store.info.doing.unit ?  store.info.doing.unit : completed
+})
 </script>
 
 <template>
@@ -97,6 +103,13 @@ const onMouseUp = () => {
         </div>
       </div>
       <TaskSwitch/>
+      <div v-if="store.info.doing" class="mt-4 flex gap-1 justify-center">
+        <img
+            v-for="i in store.info.doing.unit" :key="i" src="/icon.png"
+            :class="{'grayscale': i <= progressUnit}"
+            alt="Pomodoro" class="size-4"
+        />
+      </div>
     </div>
     <div class="p-4 flex flex-col justify-center items-center">
       <div v-if="store.loggedIn" class="inline-flex w-3/4 md:w-1/2 mx-auto">
