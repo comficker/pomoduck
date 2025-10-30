@@ -142,18 +142,36 @@ watch(() => form.value.unit, () => {
         >{{ form.name || "Untitled" }}</div>
         <div class="flex gap-3 items-center text-sm">
           <div
-              v-if="task.reward_type === 'point' && updating && task.status != TASK_STATUS.COMPLETED"
-              class="flex items-center gap-0.5"
+            v-if="task.type === 'default' && updating && task.status != TASK_STATUS.COMPLETED"
+            class="flex items-center gap-0.5"
           >
             <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
             <nuxt-icon name="plus-box" class="cursor-pointer size-4" @click="form.unit++"/>
           </div>
-          <div class="flex items-center">
+          <div class="flex gap-1 items-center">
             <template v-if="task.reward_type === 'boost'">
-              <img v-for="item in task.reward_amount" class="size-4" src="/icon/thunder.png" alt="">
+              <TooltipProvider>
+                <Tooltip :disable-closing-trigger="true">
+                  <TooltipTrigger>
+                    <img class="size-4" src="/icon/thunder.png" alt="">
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{{task.reward_amount}} {{ task.reward_type}}s</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </template>
             <template v-else>
-              <div v-for="item in task.reward_amount">🥚</div>
+              <TooltipProvider v-for="item in form.unit" :key="item">
+                <Tooltip :disable-closing-trigger="true">
+                  <TooltipTrigger>
+                    <img src="/icon.png" alt="Pomodoro" class="size-4" :class="{'grayscale': item <= progress}"/>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{{task.reward_amount}} {{ task.reward_type}}s</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </template>
           </div>
           <div v-if="updating" class="flex text-xs gap-4 ml-auto">
@@ -177,8 +195,7 @@ watch(() => form.value.unit, () => {
           :class="{
             'animate-pulse': status === TASK_STATUS.DOING,
             'grayscale': status === TASK_STATUS.COMPLETED
-          }
-        "
+          }"
         >
           <span v-if="[TASK_STATUS.ACTIVE, TASK_STATUS.DRAFT].includes(status)">GO!</span>
           <img v-else class="size-5" src="/icon.png" alt="">
