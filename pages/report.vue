@@ -9,18 +9,21 @@ const {data} = useAuthFetch<{
   "avg": number
 }>('/reports')
 
-const reformatOverview = computed<{
-  total: { hours: number, minutes: number },
-  avg: { hours: number, minutes: number }
-}>(() => {
+const reformatOverview = computed(() => {
   if (data.value)
     return {
-      total: timeLeftStr(data.value.total * 60 * 60, true),
-      avg: timeLeftStr(data.value.avg * 60 * 60, true)
+      total: timeLeftStr(data.value.total, true),
+      avg: timeLeftStr(data.value.avg, true)
     }
   return {
-    total: "0",
-    avg: "0",
+    total: {
+      hours: 0,
+      minutes: 0,
+    },
+    avg: {
+      hours: 0,
+      minutes: 0,
+    }
   }
 })
 
