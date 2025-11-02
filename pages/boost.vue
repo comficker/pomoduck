@@ -109,8 +109,8 @@ const boost = () => {
         </div>
       </div>
       <div class="space-y-3">
-        <div v-if="boostState.end">Extend the time:</div>
-        <div v-else>Way to go earn double your power:</div>
+        <div class="content font-light text-base" v-if="boostState.end">Extend the time:</div>
+        <div class="content font-light text-base" v-else>Way to go earn double your power:</div>
         <div class="divide-y divide-dashed">
           <div
               v-for="(option, index) in options" class="flex items-center gap-2 py-1"
