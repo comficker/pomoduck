@@ -52,14 +52,14 @@ watch(taskRes, () => {
 <template>
   <div class="flex w-full items-center content text-2xl">
     <NuxtIcon v-if="canAction" name="chevron-left" class="text-gray-500 cursor-pointer size-6" @click="onMoveH(false)"/>
-    <div class="flex-1 h-10 relative" :class="{'h-10': canAction}">
-      <div v-for="(tasks, i) in taskRes" class="inset-0" :class="{'absolute': canAction}">
+    <div class="flex-1 h-10 relative">
+      <div v-for="(tasks, i) in taskRes" class="absolute inset-0">
         <div
             class="break-all w-full h-full flex justify-center items-center cursor-pointer gap-1 duration-200 transition-all"
-            v-if="!(!canAction && i !== active)"
             :class="{
               'font-semibold': i == active,
-              'mt-8 opacity-30 scale-60': i !== active
+              'mt-6 opacity-30 scale-60': i !== active,
+              'opacity-0!': !canAction && i !== active
             }"
             @click="onClick(i)"
         >

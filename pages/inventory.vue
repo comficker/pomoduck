@@ -1,39 +1,59 @@
 <script setup lang="ts">
-import {formatFloat} from "~/lib/utils";
 import {toast} from "vue-sonner";
 
 const route = useRoute()
 const store = useGlobalStore()
 
-const label = ref(route.query.type || 'EGG')
-
-const balance = computed(() => {
-  return label.value === 'EGG' ? store.info.egg : store.info.boost_balance
-})
-
-const purchase = () => {
+const coming = () => {
   toast.info("Coming Soon!")
 }
 </script>
 
 <template>
   <div class="px-4 space-y-4">
-    <div class="label text-center">Balance</div>
-    <div class="tabs justify-center">
-      <div
-          v-for="item in ['EGG', 'Boost']"
-          class="tab"
-          :class="{'active': label === item}"
-          @click="label = item"
-      >{{ item }}
+    <div class="label">Duck house</div>
+    <div class="grid grid-cols-2 gap-3">
+      <div class="border rounded pt-full relative">
+        <div class="p-3 space-y-2 relative z-10">
+          <div class="flex justify-between label">
+            <div>Boost</div>
+            <div>{{store.info.boost_balance}}</div>
+          </div>
+          <Button class="w-full" @click="coming">Purchase</Button>
+        </div>
+        <div class="absolute inset-4 center">
+          <div class="size-16">
+            <img src="/icon/thunder.png" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="border rounded pt-full relative">
+        <div class="p-3 space-y-2 relative z-10">
+          <div class="flex justify-between label">
+            <div>Egg</div>
+            <div>{{store.info.egg}}</div>
+          </div>
+          <Button class="w-full" @click="coming">Hatching</Button>
+        </div>
+        <div class="absolute inset-4 center">
+          <NuxtIcon filled name="eggs" class="size-32"/>
+        </div>
       </div>
     </div>
-    <div class="text-7xl num text-center font-bold">{{ formatFloat(balance, 0, 2)}}</div>
-    <div v-if="label === 'Boost'" class="flex justify-center gap-4">
-      <Button class="w-48 items-center gap-2" variant="link" @click="purchase">
-        <span class="text-lg">Purchase</span>
-        <NuxtIcon name="open" class="size-6"/>
-      </Button>
+    <div class="grid grid-cols-3 gap-3">
+      <div
+          v-for='i in ["common","uncommon", "rare", "epic", "legendary", "mythical"]'
+          class="border rounded pt-full relative"
+      >
+        <div class="flex justify-between p-3 label">
+          <div>{{ i }}</div>
+          <div>0</div>
+        </div>
+        <div class="absolute inset-4 center">
+          <NuxtIcon filled :name="`duck/${i}`" class="size-32"/>
+        </div>
+      </div>
     </div>
+
   </div>
 </template>

@@ -104,9 +104,9 @@ const progressUnit = computed(() => {
       </div>
       <div class="w-full">
         <TaskSwitch/>
-        <div v-if="store.info.doing" class="flex gap-1 justify-center" :class="{'mt-8': !store.isRunning}">
+        <div v-show="store.info.doing" class="flex gap-1 justify-center mt-6" >
           <img
-              v-for="i in store.info.doing.unit" :key="i" src="/icon.png"
+              v-for="i in (store.info.doing?.unit || 1)" :key="i" src="/icon.png"
               :class="{'grayscale': i <= progressUnit}"
               alt="Pomodoro" class="size-4"
           />

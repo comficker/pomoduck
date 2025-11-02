@@ -43,7 +43,7 @@ const {data: response, pending} = useAuthFetch<APIResponse<Achievement>>(`/achie
           <div v-if="reward_guides[item.rarity]" class="mt-1 flex gap-2 text-xs num">
             <div>{{ item.claimed ? 'Claimed' : 'Reward' }}:</div>
             <div class="flex items-center">
-              <div>🥚</div>
+              <NuxtIcon filled name="egg" class="size-4"/>
               <div v-if="item.claimed">{{ item.claimed.egg }}</div>
               <div v-else>{{ reward_guides[item.rarity].egg[0] }} ~ {{ reward_guides[item.rarity].egg[1] }}</div>
             </div>
