@@ -139,7 +139,7 @@ const handleCLickToolTip = (day: string, val: boolean) => {
                       </div>
                       <div class="flex gap-0.5">
                         <NuxtIcon name="subdirectory" class="size-3"/>
-                        <div>Earned: <span class="font-bold n">{{ formatFloat(data[day].point, 2, 2) }}</span> XP
+                        <div>Earned: <span class="font-bold n">{{ data[day].point }}</span> 🥚
                         </div>
                       </div>
                     </template>
