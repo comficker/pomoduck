@@ -87,8 +87,8 @@ const boost = () => {
           </div>
         </div>
         <div class="label">Currently</div>
-        <div class="text-7xl font-bold">
-          <span>🥚</span><span class="text-3xl">x{{ (store.info.egg_extra + 1) & boostState.level }}</span>
+        <div class="text-7xl flex items-end justify-center font-bold">
+          <NuxtIcon filled name="egg" class="size-16"/><span class="text-3xl">x{{ (store.info.egg_extra + 1) & boostState.level }}</span>
         </div>
         <div class="label" v-if="boostState.end">until
           {{ boostState.end.toLocaleDateString() }} :
@@ -99,12 +99,10 @@ const boost = () => {
         <div class="divide-y divide-dashed">
           <div v-for="(option, index) in tasks" class="flex items-center gap-2 py-1" :class="{'text-gray-400': false }">
             <span>{{ option.name }}</span>
-            <div v-if="option.s" class="ml-auto">
-              <div class="relative">
-                <span>🥚</span>
-              </div>
+            <div class="flex ml-auto">
+              <NuxtIcon filled name="egg" class="size-6"/>
+              <span>x1</span>
             </div>
-            <NuxtIcon class="size-6" :name="false ? 'checked': 'load'"/>
           </div>
         </div>
       </div>
