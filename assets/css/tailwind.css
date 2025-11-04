@@ -290,7 +290,7 @@ input {
 }
 
 .menu {
-    @apply gap-2 flex justify-center items-center font-semibold uppercase;
+    @apply gap-2 flex justify-center items-center font-semibold;
 }
 
 .menu a.router-link-active,
@@ -301,8 +301,6 @@ input {
 .menu a,
 .menu .item {
     @apply p-1.5 px-2 flex justify-center items-center gap-2 duration-100 cursor-pointer;
-
-    font-family: "Stolzl Display", monospace;
 }
 
 .dropbox {

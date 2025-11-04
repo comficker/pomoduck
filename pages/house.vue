@@ -7,6 +7,10 @@ const store = useGlobalStore()
 const coming = () => {
   toast.info("Coming Soon!")
 }
+
+useHead({
+  title: "Duckhouse"
+})
 </script>
 
 <template>
@@ -60,6 +64,5 @@ const coming = () => {
         </div>
       </div>
     </div>
-
   </div>
 </template>

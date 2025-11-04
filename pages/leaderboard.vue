@@ -26,24 +26,28 @@ const {data: mate, pending} = useAuthFetch<APIResponse<Account>>('/accounts/', {
   query: query,
   watch: [query]
 })
+
+useHead({
+  title: "Leaderboard"
+})
 </script>
 
 <template>
   <div class="w-full px-4 flex flex-col relative gap-2">
-    <div class="tabs">
+    <div class="flex gap-4 label">
       <div
           v-for="item in modes"
-          class="tab" :class="{'text-black': item == mode}"
+          class="cursor-pointer" :class="{'text-black': item == mode}"
           @click="mode=item"
       >
         <span>{{ item }}</span>
       </div>
     </div>
-    <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y divide-dashed text-base">
-      <div v-for="(item, i) in mate.results" :key="item.id" class="font-bold py-1 flex">
+    <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y divide-dashed text-sm">
+      <div v-for="(item, i) in mate.results" :key="item.id" class="py-1 font-semibold flex">
         <div class="w-8">{{ i + 1}}</div>
         <div class="flex-1">{{ shortAddress(item.username || `${item.first_name} ${item.last_name}`, 16) }}</div>
-        <div class="flex items-center gap-1 n">
+        <div class="flex items-center gap-1 content">
           <span>{{ timeLeftStr(item.total_focus) }}</span>
         </div>
       </div>

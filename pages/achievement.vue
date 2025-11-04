@@ -27,6 +27,10 @@ const reward_guides: { [key: string]: { xp: number[], egg: number[], boost: numb
 const {data: response, pending} = useAuthFetch<APIResponse<Achievement>>(`/achievements/`, {
   method: "GET"
 })
+
+useHead({
+  title: "Achievement"
+})
 </script>
 
 <template>

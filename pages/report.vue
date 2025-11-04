@@ -59,7 +59,7 @@ useHead({
       <div class="label pb-1">History</div>
       <div class="py-1 grid grid-cols-3 label">
         <div>Date</div>
-        <div>Time [Minutes]</div>
+        <div>Time</div>
         <div class="text-right">Eggs</div>
       </div>
       <div v-for="key in Object.keys(data.history).reverse().slice(0, 7)" class="py-1 grid grid-cols-3">

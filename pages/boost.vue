@@ -86,61 +86,19 @@ const boost = () => {
             <img class="w-full" src="/thunder.png" alt="">
           </div>
         </div>
-        <div class="label">Currently</div>
         <div class="text-7xl flex items-end justify-center font-bold">
           <NuxtIcon filled name="egg" class="size-16"/><span class="text-3xl">x{{ (store.info.egg_extra + 1) & boostState.level }}</span>
-        </div>
-        <div class="label" v-if="boostState.end">until
-          {{ boostState.end.toLocaleDateString() }} :
-          {{ boostState.end.toLocaleTimeString() }}
         </div>
       </div>
       <div class="space-y-3">
         <div class="divide-y divide-dashed">
           <div v-for="(option, index) in tasks" class="flex items-center gap-2 py-1" :class="{'text-gray-400': false }">
             <span>{{ option.name }}</span>
-            <div class="flex ml-auto">
-              <NuxtIcon filled name="egg" class="size-6"/>
-              <span>x1</span>
+            <div class="flex items-center gap-1 ml-auto">
+              <span>+1</span>
             </div>
           </div>
         </div>
-      </div>
-      <div class="space-y-3">
-        <div class="content font-light text-base" v-if="boostState.end">Extend the time:</div>
-        <div class="content font-light text-base" v-else>Way to go earn double your power:</div>
-        <div class="divide-y divide-dashed">
-          <div
-              v-for="(option, index) in options" class="flex items-center gap-2 py-1"
-              @click="selected = index"
-          >
-            <div class="size-5 border flex items-center justify-center rounded"
-                 :class="selected === index ? 'border-blue-500': 'border-gray-300'">
-              <div v-if="selected === index" class="size-3 bg-blue-500 rounded-xs"/>
-            </div>
-            <span>{{ option.name }}</span>
-            <div v-if="option.s" class="mt-2 text-green-400 flex text-xs num gap-0.5 items-center">
-              <span>OFF</span>
-              <span>{{ option.s }}%</span>
-            </div>
-            <div class="flex ml-auto items-center">
-              <span class="n text-base">{{ formatFloat(option.a, 0) }}</span>
-              <img src="/icon/thunder.png" class="size-5" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="sticky bg-neutral-100 bottom-0 pb-4 inset-x-0 space-y-3">
-      <Button class="w-full h-12 text-lg items-center gap-0" size="lg" @click="boost">
-        <span v-if="store.loggedIn">{{boostState.end ? 'Extend': 'Double'}} now</span>
-        <span v-else>Login Required</span>
-      </Button>
-      <div v-if="store.loggedIn" class="flex justify-center items-center">
-        <span>Available:</span>
-        <span class="num ml-2">{{ store.info.boost_balance }}</span>
-        <img src="/icon/thunder.png" class="size-5 mr-2" alt="">
-        <nuxt-link class="underline" to="/balance?type=Boost&action=purchase">Get</nuxt-link>
       </div>
     </div>
   </div>

@@ -120,6 +120,10 @@ watch(pending, () => {
 watch(() => JSON.stringify(form.value), () => {
   push()
 })
+
+useHead({
+  title: "Settings"
+})
 </script>
 
 <template>
