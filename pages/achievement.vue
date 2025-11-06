@@ -36,15 +36,15 @@ useHead({
 <template>
   <div class="w-full">
     <div class="label px-4 mb-2">Achievements</div>
-    <div class="text-xs pb-8 px-1 space-y-2">
-      <div v-for="item in response?.results" class="flex items-center bg-white" :class="{'grayscale': !item.claimed}">
+    <div class="text-sm pb-8 px-1 space-y-2">
+      <div v-for="item in response?.results" class="flex items-center border rounded" :class="{'grayscale': !item.claimed}">
         <div class="size-20">
           <NuxtIcon :name="`medal/${item.id_string}`" filled/>
         </div>
         <div class="flex-1">
-          <div class="text-lg font-bold">{{ item.name }}</div>
+          <div class="text-base font-semibold">{{ item.name }}</div>
           <div>{{ item.description }}</div>
-          <div v-if="reward_guides[item.rarity]" class="mt-1 flex gap-2 text-xs num">
+          <div v-if="reward_guides[item.rarity]" class="mt-1 flex gap-2 ">
             <div>{{ item.claimed ? 'Claimed' : 'Reward' }}:</div>
             <div class="flex items-center">
               <NuxtIcon filled name="egg" class="size-4"/>

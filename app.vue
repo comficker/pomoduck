@@ -98,17 +98,16 @@ await authStore.auth()
           </nuxt-link>
         </div>
         <div class="menu">
-          <nuxt-link to="/leaderboard">
-            <img src="/trophy.png" class="size-4" alt="Leaderboard"/>
-            <span class="hidden md:block text-sm">Leaderboard</span>
-          </nuxt-link>
           <nuxt-link to="/shop">
             <NuxtIcon name="storefront" class="size-5"/>
-            <span class="hidden md:block text-sm">Shop</span>
+            <span class="hidden md:block text-sm">Accessories</span>
           </nuxt-link>
         </div>
       </div>
       <div class="menu">
+        <nuxt-link to="/leaderboard">
+          <img :src="`/trophy.png`" class="size-4" alt="Leaderboard"/>
+        </nuxt-link>
         <nuxt-link to="/achievement" class="">
           <NuxtIcon name="medal" class="size-5"/>
         </nuxt-link>
