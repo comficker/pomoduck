@@ -290,7 +290,7 @@ input {
 }
 
 .menu {
-    @apply gap-2 flex justify-center items-center font-semibold;
+    @apply gap-2 flex justify-center items-center;
 }
 
 .menu a.router-link-active,
@@ -351,18 +351,6 @@ input {
     background-size: contain;
 }
 
-.tabs {
-    @apply flex gap-4 text-3xl text-gray-400;
-}
-
-.tab {
-    @apply font-bold flex gap-2 duration-200 cursor-pointer;
-}
-
-.tab.active {
-    @apply text-black;
-}
-
 a.router.router-link-exact-active {
     @apply text-blue-500;
 }
@@ -392,4 +380,8 @@ a.router.router-link-exact-active {
 
 .center {
     @apply flex items-center justify-center;
+}
+
+.nuxt-icon {
+    display: inline-flex;
 }

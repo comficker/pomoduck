@@ -79,7 +79,7 @@ const onMouseUp = () => {
 const progressUnit = computed(() => {
   if (!store.info.doing) return 0
   const completed = store.info.doing.account_task.filter(x => x.finished_at).length
-  return completed >=  store.info.doing.unit ?  store.info.doing.unit : completed
+  return completed >= store.info.doing.unit ? store.info.doing.unit : completed
 })
 </script>
 
@@ -104,12 +104,14 @@ const progressUnit = computed(() => {
       </div>
       <div class="w-full">
         <TaskSwitch/>
-        <div v-show="store.info.doing" class="flex gap-1 justify-center mt-6" >
-          <img
-              v-for="i in (store.info.doing?.unit || 1)" :key="i" src="/icon.png"
+        <div v-show="store.info.doing" class="flex gap-1 justify-center mt-6">
+          <div
+              v-for="i in (store.info.doing?.unit || 1)" :key="i"
+              class="size-6 flex items-center justify-center border border-blue-500 rounded-full"
               :class="{'grayscale': i <= progressUnit}"
-              alt="Pomodoro" class="size-4"
-          />
+          >
+            <div class="size-4 rounded-full bg-blue-500"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -135,10 +137,8 @@ const progressUnit = computed(() => {
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-base">
             <span v-if="store.pending">...</span>
             <template v-else-if="store.percent >= 100">
-              <span>🥚</span>
               <span>Claim</span>
-              <span>{{ store.info.doing?.reward_amount }}</span>
-              <span>🥚</span>
+              <span v-for="i in store.info.doing?.reward_amount">🥚</span>
             </template>
             <span v-else-if="store.percent > 0">
               hold to give up

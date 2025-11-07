@@ -26,9 +26,9 @@ const coming = () => {
         <template v-if="mode === 'shop'">
           <div class="text-xs flex gap-1">
             <div>Buy:</div>
-            <div class="flex items-center">
+            <div class="flex items-center gap-1">
               <span>10,000</span>
-              <img src="/icon/thunder.png" class="size-4" alt="">
+              <NuxtIcon name="footprint" filled class="size-4"/>
             </div>
             <div class="ml-auto flex items-center gap-1">
               <NuxtIcon name="storefront" class="size-3"/>
@@ -37,9 +37,9 @@ const coming = () => {
           </div>
           <div class="text-xs flex gap-1">
             <div>Rent:</div>
-            <div class="flex items-center">
+            <div class="flex items-center gap-1">
               <span>100</span>
-              <img src="/icon/thunder.png" class="size-4" alt="">
+              <NuxtIcon name="footprint" filled class="size-4"/>
               <span>per day</span>
             </div>
             <div class="ml-auto flex items-center gap-1">

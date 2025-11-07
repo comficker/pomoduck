@@ -51,23 +51,26 @@ onMounted(() => {
 <template>
   <div class="px-4 space-y-2">
     <div class="label">Tasks</div>
-    <div v-if="store.loggedIn" class="tabs">
-      <div
-          v-for="item in ['Public', 'Your']"
-          class="tab"
-          :class="{'active': taskFilter === item}"
-          @click="taskFilter = item"
-      >{{item}}</div>
-    </div>
-    <div class="space-y-1 -mx-2">
-      <div v-if="store.loggedIn" class="bg-white flex capitalize gap-3 p-2 label sticky top-0">
+    <div v-if="store.loggedIn" class="flex label justify-between">
+      <div class="flex gap-2">
+        <div
+            v-for="item in ['Public', 'Your']"
+            class="cursor-pointer"
+            :class="{'text-blue-500': taskFilter === item}"
+            @click="taskFilter = item"
+        >{{item}}</div>
+      </div>
+      <div class="flex gap-2">
         <div
             v-for="item in [[1, 'Available'], [2, 'Completed']]"
-            class="cursor-pointer" :class="{'text-blue-500': item[0] === status}"
+            class="cursor-pointer"
+            :class="{'text-blue-500': item[0] === status}"
             @click="status = item[0]"
         >{{ item[1] }}
         </div>
       </div>
+    </div>
+    <div class="space-y-1 -mx-2">
       <div v-if="taskRes?.results.length === 0" class="p-3 py-1.5 text-sm">
         <div v-if="store.loggedIn" class="text-center">Don't have any task now!</div>
         <div v-else class="text-center">You must login to work!</div>

@@ -20,14 +20,12 @@ useHead({
       <div class="border rounded">
         <div class="pt-full relative">
           <div class="absolute inset-4 center">
-            <div class="size-16">
-              <img src="/icon/thunder.png" alt="">
-            </div>
+            <NuxtIcon filled name="footprint" class="size-32"/>
           </div>
         </div>
         <div class="p-3 pt-0 space-y-2 relative z-10">
           <div class="flex justify-between label">
-            <div>Boost</div>
+            <div>Footprint</div>
             <div>{{store.info.boost_balance}}</div>
           </div>
           <Button class="w-full" @click="coming">Purchase</Button>

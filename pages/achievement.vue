@@ -46,13 +46,13 @@ useHead({
           <div>{{ item.description }}</div>
           <div v-if="reward_guides[item.rarity]" class="mt-1 flex gap-2 ">
             <div>{{ item.claimed ? 'Claimed' : 'Reward' }}:</div>
-            <div class="flex items-center">
+            <div class="flex items-center gap-1">
               <NuxtIcon filled name="egg" class="size-4"/>
               <div v-if="item.claimed">{{ item.claimed.egg }}</div>
               <div v-else>{{ reward_guides[item.rarity].egg[0] }} ~ {{ reward_guides[item.rarity].egg[1] }}</div>
             </div>
-            <div class="flex items-center">
-              <img src="/icon/thunder.png" class="size-4" alt="">
+            <div class="flex items-center gap-1">
+              <NuxtIcon name="footprint" filled class="size-4"/>
               <div v-if="item.claimed">{{ item.claimed.boost }}</div>
               <div v-else>{{ reward_guides[item.rarity].boost[0] }} ~ {{ reward_guides[item.rarity].boost[1] }}</div>
             </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const mode = ref('inventory')
+const mode = ref('shop')
 
 useHead({
   title: "Shop"

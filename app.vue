@@ -90,17 +90,14 @@ await authStore.auth()
   </div>
   <div class="wrapper w-full flex flex-col relative z-0 bg-neutral-100">
     <div class="w-full flex gap-4 p-4 py-2 justify-between items-center">
-      <div class="flex-1 space-y-1 flex gap-4 items-center">
-        <div class="">
-          <nuxt-link class="block" to="/">
-            <img class="md:block hidden h-8" :src="`/logo.png`" alt="">
-            <img class="md:hidden h-8" :src="`/icon.png`" alt="">
-          </nuxt-link>
-        </div>
+      <div class="flex-1 flex gap-4 items-center">
+        <nuxt-link class="block" to="/">
+          <NuxtIcon name="footprint" filled class="size-6"/>
+        </nuxt-link>
         <div class="menu">
           <nuxt-link to="/shop">
             <NuxtIcon name="storefront" class="size-5"/>
-            <span class="hidden md:block text-sm">Accessories</span>
+            <span class="hidden md:block uppercase text-sm">Accessories</span>
           </nuxt-link>
         </div>
       </div>
@@ -122,7 +119,7 @@ await authStore.auth()
             <div
                 class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer">
               <div class="hidden md:flex p-4 py-1 gap-1 items-center text-base">
-                <NuxtIcon name="egg" class="size-5" filled/>
+                <NuxtIcon name="egg" class="size-4" filled/>
                 <span>{{ formatFloat(store.info.egg, 0, 0) }}</span>
               </div>
               <div class="flex-1 p-1">

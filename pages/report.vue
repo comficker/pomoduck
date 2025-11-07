@@ -65,7 +65,10 @@ useHead({
       <div v-for="key in Object.keys(data.history).reverse().slice(0, 7)" class="py-1 grid grid-cols-3">
         <div class="">🗓️ {{ key }}</div>
         <div>🕒 {{ timeLeftStr(data.history[key].duration) }}</div>
-        <div class="text-right">{{ formatFloat(data.history[key].point) }}🥚</div>
+        <div class="flex justify-end gap-1 items-center">
+          <span>{{ formatFloat(data.history[key].point) }}</span>
+          <NuxtIcon name="eggs" filled class="size-4"/>
+        </div>
       </div>
     </div>
   </div>

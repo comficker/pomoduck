@@ -153,7 +153,7 @@ watch(() => form.value.unit, () => {
               <TooltipProvider>
                 <Tooltip :disable-closing-trigger="true">
                   <TooltipTrigger>
-                    <img class="size-4" src="/icon/thunder.png" alt="">
+                    <NuxtIcon name="footprint" filled class="size-4"/>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>{{task.reward_amount}} {{ task.reward_type}}s</p>
@@ -165,7 +165,7 @@ watch(() => form.value.unit, () => {
               <TooltipProvider v-for="item in form.unit" :key="item">
                 <Tooltip :disable-closing-trigger="true">
                   <TooltipTrigger>
-                    <img src="/icon.png" alt="Pomodoro" class="size-4" :class="{'grayscale': item <= progress}"/>
+                    <NuxtIcon name="eggs" filled class="size-5" :class="{'grayscale': item <= progress}"/>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>{{task.reward_amount}} {{ task.reward_type}}s</p>
