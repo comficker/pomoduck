@@ -91,10 +91,11 @@ await authStore.auth()
   <div class="wrapper w-full flex flex-col relative z-0 bg-neutral-100">
     <div class="w-full flex gap-4 p-4 py-2 justify-between items-center">
       <div class="flex-1 flex gap-4 items-center">
-        <nuxt-link class="block" to="/">
-          <NuxtIcon name="footprint" filled class="size-6"/>
-        </nuxt-link>
         <div class="menu">
+          <nuxt-link class="block" to="/">
+            <NuxtIcon name="house" filled class="size-6"/>
+            <span class="hidden md:block uppercase text-sm">Home</span>
+          </nuxt-link>
           <nuxt-link to="/shop">
             <NuxtIcon name="storefront" class="size-5"/>
             <span class="hidden md:block uppercase text-sm">Accessories</span>
