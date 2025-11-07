@@ -104,14 +104,8 @@ const progressUnit = computed(() => {
       </div>
       <div class="w-full">
         <TaskSwitch/>
-        <div v-show="store.info.doing" class="flex gap-1 justify-center mt-6">
-          <div
-              v-for="i in (store.info.doing?.unit || 1)" :key="i"
-              class="size-6 flex items-center justify-center border border-blue-500 rounded-full"
-              :class="{'grayscale': i <= progressUnit}"
-          >
-            <div class="size-4 rounded-full bg-blue-500"></div>
-          </div>
+        <div v-show="(store.info.doing?.unit || 0) > 1" class="label">
+          {{ progressUnit }}/{{ store.info.doing?.unit }}
         </div>
       </div>
     </div>

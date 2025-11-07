@@ -22,7 +22,13 @@ const coming = () => {
         <NuxtIcon filled :name="`item/${item.id}`"/>
       </div>
       <div class="flex-1 space-y-1">
-        <div class="font-semibold capitalize">{{ item.id }}</div>
+        <div class="flex justify-between">
+          <div class="font-semibold capitalize">{{ item.id }}</div>
+          <div class="flex text-xs gap-1 items-center">
+            <span>+1</span>
+            <NuxtIcon name="egg" filled class="size-3"/>
+          </div>
+        </div>
         <template v-if="mode === 'shop'">
           <div class="text-xs flex gap-1">
             <div>Buy:</div>

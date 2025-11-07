@@ -290,12 +290,12 @@ input {
 }
 
 .menu {
-    @apply gap-2 flex justify-center items-center;
+    @apply gap-2 flex justify-center items-center text-xs uppercase font-bold
 }
 
 .menu a.router-link-active,
 .menu .item.active {
-    @apply bg-yellow-200;
+    @apply bg-yellow-200 rounded-xl;
 }
 
 .menu a,

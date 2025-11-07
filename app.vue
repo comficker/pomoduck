@@ -94,11 +94,11 @@ await authStore.auth()
         <div class="menu">
           <nuxt-link class="block" to="/">
             <NuxtIcon name="house" filled class="size-6"/>
-            <span class="hidden md:block uppercase text-sm">Home</span>
+            <span class="hidden md:block">Home</span>
           </nuxt-link>
           <nuxt-link to="/shop">
             <NuxtIcon name="storefront" class="size-5"/>
-            <span class="hidden md:block uppercase text-sm">Accessories</span>
+            <span class="hidden md:block">Accessories</span>
           </nuxt-link>
         </div>
       </div>

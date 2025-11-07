@@ -90,7 +90,7 @@ const handleSave = () => {
     emits('update:task', res)
     updating.value = false
   }).catch(e => {
-    toast.error( "Something went wrong!", {
+    toast.error("Something went wrong!", {
       description: "Update task failed",
     })
   })
@@ -127,7 +127,7 @@ watch(() => form.value.unit, () => {
       :class="{'!bg-yellow-50 border': updating, '!bg-yellow-50': status === TASK_STATUS.DOING}"
   >
     <div class="flex-1 flex gap-4 items-center">
-      <div class="flex-1 font-semibold" :class="{'space-y-2': updating}">
+      <div class="flex-1 font-semibold space-y-1">
         <template v-if="updating">
           <input
               v-model="form.name" type="text"
@@ -139,39 +139,33 @@ watch(() => form.value.unit, () => {
         <div
             v-else class="font-semibold cursor-pointer"
             @click="updating = !!task.creator"
-        >{{ form.name || "Untitled" }}</div>
-        <div class="flex gap-3 items-center text-sm">
+        >{{ form.name || "Untitled" }}
+        </div>
+        <div class="flex gap-1 items-center text-sm">
           <div
-            v-if="task.type === 'default' && updating && task.status != TASK_STATUS.COMPLETED"
-            class="flex items-center gap-0.5"
+              v-if="task.type === 'default' && updating && task.status != TASK_STATUS.COMPLETED"
+              class="flex items-center gap-0.5"
           >
+            <span>Pomodoro: {{ form.unit }}</span>
             <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
             <nuxt-icon name="plus-box" class="cursor-pointer size-4" @click="form.unit++"/>
           </div>
-          <div class="flex gap-1 items-center">
+          <span v-else>{{form.unit}} x</span>
+          <div class="flex gap-0.5 items-center">
             <template v-if="task.reward_type === 'boost'">
               <TooltipProvider>
                 <Tooltip :disable-closing-trigger="true">
                   <TooltipTrigger>
-                    <NuxtIcon name="footprint" filled class="size-4"/>
+                    <NuxtIcon name="footprint" filled class="size-3"/>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{{task.reward_amount}} {{ task.reward_type}}s</p>
+                    <p>{{ task.reward_amount }} {{ task.reward_type }}s</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </template>
             <template v-else>
-              <TooltipProvider v-for="item in form.unit" :key="item">
-                <Tooltip :disable-closing-trigger="true">
-                  <TooltipTrigger>
-                    <NuxtIcon name="eggs" filled class="size-5" :class="{'grayscale': item <= progress}"/>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{{task.reward_amount}} {{ task.reward_type}}s</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <NuxtIcon v-for="i in task.reward_amount" name="egg" filled class="size-3"/>
             </template>
           </div>
           <div v-if="updating" class="flex text-xs gap-4 ml-auto">
@@ -190,9 +184,9 @@ watch(() => form.value.unit, () => {
       </div>
       <div v-if="!updating" class="space-y-1">
         <div
-          @click="act"
-          class="act"
-          :class="{
+            @click="act"
+            class="act"
+            :class="{
             'animate-pulse': status === TASK_STATUS.DOING,
             'grayscale': status === TASK_STATUS.COMPLETED
           }"
