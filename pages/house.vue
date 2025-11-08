@@ -20,7 +20,7 @@ useHead({
       <div class="border rounded">
         <div class="pt-full relative">
           <div class="absolute inset-4 center">
-            <NuxtIcon filled name="footprint" class="size-32"/>
+            <NuxtIcon filled name="footprint" class="size-24"/>
           </div>
         </div>
         <div class="p-3 pt-0 space-y-2 relative z-10">
@@ -34,7 +34,7 @@ useHead({
       <div class="border rounded">
         <div class="pt-full relative">
           <div class="absolute inset-4 center">
-            <NuxtIcon filled name="eggs" class="size-32"/>
+            <NuxtIcon filled name="eggs" class="size-24"/>
           </div>
         </div>
         <div class="p-3 pt-0 space-y-2 relative z-10">

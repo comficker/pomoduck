@@ -191,7 +191,7 @@ watch(() => form.value.unit, () => {
             'grayscale': status === TASK_STATUS.COMPLETED
           }"
         >
-          <span v-if="[TASK_STATUS.ACTIVE, TASK_STATUS.DRAFT].includes(status)">GO!</span>
+          <span v-if="TASK_STATUS.COMPLETED !== status">GO!</span>
           <img v-else class="size-5" src="/icon.png" alt="">
         </div>
       </div>

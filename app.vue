@@ -104,7 +104,7 @@ await authStore.auth()
       </div>
       <div class="menu">
         <nuxt-link to="/leaderboard">
-          <img :src="`/trophy.png`" class="size-4" alt="Leaderboard"/>
+          <NuxtIcon name="leaderboard" filled class="size-5"/>
         </nuxt-link>
         <nuxt-link to="/achievement" class="">
           <NuxtIcon name="medal" class="size-5"/>

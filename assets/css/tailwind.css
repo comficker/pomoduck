@@ -295,7 +295,7 @@ input {
 
 .menu a.router-link-active,
 .menu .item.active {
-    @apply bg-yellow-200 rounded-xl;
+    @apply bg-yellow-200 rounded-lg;
 }
 
 .menu a,
