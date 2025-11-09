@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {Account, APIResponse} from "~/types";
-import {shortAddress, timeLeftStr} from "~/lib/utils";
+import {getRandomInt, shortAddress, timeLeftStr} from "~/lib/utils";
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
@@ -43,6 +43,17 @@ useHead({
         <span>{{ item }}</span>
       </div>
     </div>
+    <div v-if="pending" class="flex-1 divide-y divide-dashed text-sm">
+      <div v-for="i in 20" class="py-1 flex">
+        <div class="w-8">{{ i}}</div>
+        <div class="flex-1">
+          <div class="h-4 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
+        </div>
+        <div class="flex justify-end w-32">
+          <div class="h-4 bg-gray-200" :style="{width: `${getRandomInt(20, 40)}%`}"/>
+        </div>
+      </div>
+    </div>
     <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y divide-dashed text-sm">
       <div v-for="(item, i) in mate.results" :key="item.id" class="py-1 font-semibold flex">
         <div class="w-8">{{ i + 1}}</div>
@@ -52,7 +63,7 @@ useHead({
         </div>
       </div>
     </div>
-    <div v-if="mode === 'Friends'" class="bg-white rounded p-4 space-y-3 sticky bottom-0">
+    <div v-if="!pending && mode === 'Friends'" class="bg-white rounded p-4 space-y-3 sticky bottom-0">
       <div class="relative">
         <div class="flex items-center gap-4">
           <input

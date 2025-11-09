@@ -2,7 +2,7 @@ import {ref} from "vue"
 import {defineStore} from 'pinia'
 import type {AccountTask, AccountTaskDetail, Achievement, Info, ITask} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
-import {formatFloat, timeSinceObject} from "~/lib/utils";
+import {calculateTimeDistance, formatFloat, timeSinceObject} from "~/lib/utils";
 import {toast} from 'vue-sonner'
 
 const DEFAULT_INFO: Info = {
@@ -98,7 +98,7 @@ export const useGlobalStore = defineStore('global', () => {
 
   function resetTimer() {
     isRunning.value = false
-    timer.value = {d: 0, hh: 0, mm: 0, ss: 0}
+    timer.value = info.value.doing ? calculateTimeDistance(info.value.doing.duration_est * 1000) : {d: 0, hh: 0, mm: 0, ss: 0}
   }
 
   function isMobile() {

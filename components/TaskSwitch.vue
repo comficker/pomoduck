@@ -1,72 +1,54 @@
 <script setup lang="ts">
-import type {ITask} from "~/types";
+import type {APIResponse, ITask} from "~/types";
 import {sendHaptic} from "~/lib/utils";
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
-const {data: taskRes} = useAuthFetch<ITask[][]>(`/switch-tasks`, {
+const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/?page_size=50&status=1`, {
   method: "GET",
   key: 'index'
 })
-
-const active = ref(0)
 
 const canAction = computed(() => {
   return store.percent == 0 && !store.isRunning
 })
 
-const onClick = (index: number) => {
+const onClick = (task: ITask) => {
   if (!taskRes.value || !canAction.value) return;
   sendHaptic(authStore.activeAuth)
-  active.value = index
-  store.info.doing = taskRes.value[active.value][0]
+  store.info.doing = task
 }
-
-const onMoveH = (isUp = true) => {
-  if (!taskRes.value || !canAction.value) return;
-  sendHaptic(authStore.activeAuth)
-  if (isUp) {
-    taskRes.value[active.value].unshift(<ITask>taskRes.value[active.value].pop())
-  } else {
-    taskRes.value[active.value].push(<ITask>taskRes.value[active.value].shift())
-  }
-  store.info.doing = taskRes.value[active.value][0]
-}
-
-watch(taskRes, () => {
-  if (!taskRes.value) return;
-  for (let i = 0; i < taskRes.value.length; i++) {
-    for (let j = 0; j < taskRes.value[i].length; j++) {
-      if (store.info.doing?.id == taskRes.value[i][j].id) {
-        active.value = i
-        const [itemToMove] = taskRes.value[i].splice(j, 1);
-        console.log(itemToMove);
-        taskRes.value[i].unshift(itemToMove);
-        break
-      }
-    }
-  }
-})
 </script>
 
 <template>
-  <div class="flex w-full items-center content text-2xl">
-    <NuxtIcon v-if="canAction" name="chevron-left" class="text-gray-500 cursor-pointer size-6" @click="onMoveH(false)"/>
-    <div class="flex-1 h-10 relative">
-      <div v-for="(tasks, i) in taskRes" class="absolute inset-0">
-        <div
-            class="break-all w-full h-full flex justify-center items-center cursor-pointer gap-1 duration-200 transition-all"
-            :class="{
-              'font-semibold': i == active,
-              'mt-6 opacity-30 scale-60': i !== active,
-              'opacity-0!': !canAction && i !== active
-            }"
-            @click="onClick(i)"
-        >
-          <span :class="{'truncate': canAction}">{{ tasks[0].name || "Untitled" }}</span>
-        </div>
+  <div class="max-w-xs mx-auto grid grid-cols-3 content text-left gap-2 text-sm">
+    <template v-if="canAction">
+      <div
+          v-for="item in taskRes?.results" @click="onClick(item)"
+          class="cursor-pointer border p-1 rounded flex justify-between items-end"
+          :class="{'border-orange-500': store.info.doing?.id === item.id}"
+      >
+       <div class="space-y-1">
+         <div class="text-2xs">{{ item.tag === 'work'? 'Focus' : item.name }}</div>
+         <div class="flex">
+           <NuxtIcon v-for="i in item.reward_amount" name="egg" filled class="size-3"/>
+         </div>
+       </div>
+        <NuxtIcon :name="item.tag" class="size-3 text-gray-300"/>
       </div>
-    </div>
-    <NuxtIcon v-if="canAction" name="chevron-right" class="text-gray-500 cursor-pointer size-6" @click="onMoveH(true)"/>
+    </template>
+    <template v-else-if="store.info.doing">
+      <div class=""/>
+      <div class="border p-1 rounded flex justify-between items-end border-orange-500">
+        <div class="space-y-1">
+          <div class="text-2xs">{{ store.info.doing.tag === 'work'? 'Focus' : store.info.doing.name }}</div>
+          <div class="flex">
+            <NuxtIcon v-for="i in store.info.doing.reward_amount" name="egg" filled class="size-3"/>
+          </div>
+        </div>
+        <NuxtIcon :name="store.info.doing.tag" class="size-3 text-gray-300"/>
+      </div>
+      <div class=""/>
+    </template>
   </div>
 </template>

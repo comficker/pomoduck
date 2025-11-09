@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {APIResponse, ITask} from "~/types";
 import {TASK_STATUS} from "~/lib/constants";
+import {getRandomInt} from "~/lib/utils";
 
 const store = useGlobalStore()
 
@@ -75,6 +76,12 @@ onMounted(() => {
         <div v-if="store.loggedIn" class="text-center">Don't have any task now!</div>
         <div v-else class="text-center">You must login to work!</div>
       </div>
+      <template v-if="pending">
+        <div v-for="i in 5" class="task p-2 space-y-2">
+          <div class="h-4 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
+          <div class="h-4 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(20, 50)}%`}"/>
+        </div>
+      </template>
       <template v-else-if="taskRes">
         <Task
             v-for="(item, i) in taskRes.results"

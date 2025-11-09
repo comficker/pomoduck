@@ -12,7 +12,7 @@ export function formatFloat(num: any, min: number = 0, max: number = 4) {
   return num?.toLocaleString('en-US', {minimumFractionDigits: min, maximumFractionDigits: max}) || 0
 }
 
-const calculateTimeDistance = (distance: number) => {
+export const calculateTimeDistance = (distance: number) => {
   const d = Math.floor(distance / (1000 * 60 * 60 * 24));
   const hh = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const mm = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -135,4 +135,8 @@ export const sendHaptic = (activeAuth: string) => {
       style: 'light',
     })
   }
+}
+
+export function getRandomInt(min: number, max: number) {
+  return Math.random() * (max - min) + min;
 }

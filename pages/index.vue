@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import {MiniKit} from '@worldcoin/minikit-js'
-import WebApp from "@twa-dev/sdk";
-import CurrentTask from "~/components/CurentTask.vue";
 import TaskSwitch from "~/components/TaskSwitch.vue";
 import {sendHaptic} from "~/lib/utils";
 
@@ -17,12 +14,6 @@ const now = ref<Date | null>(new Date())
 const intervalId = ref<any>(null)
 const timeoutId = ref<any>(null)
 
-const startText = computed(() => {
-  if (store.info.doing) {
-    return `Start ${store.info.doing.tag} in ${store.info.doing.duration_est / 60} mins`
-  }
-  return 'Start a pomodoro'
-})
 const holdPercent = computed(() => {
   if (now.value && holdStart.value) {
     return 100 * ((now.value.getTime() - holdStart.value.getTime()) / 2000)
@@ -75,12 +66,6 @@ const onMouseUp = () => {
     clearTimeout(timeoutId.value)
   }
 }
-
-const progressUnit = computed(() => {
-  if (!store.info.doing) return 0
-  const completed = store.info.doing.account_task.filter(x => x.finished_at).length
-  return completed >= store.info.doing.unit ? store.info.doing.unit : completed
-})
 </script>
 
 <template>
@@ -104,9 +89,6 @@ const progressUnit = computed(() => {
       </div>
       <div class="w-full">
         <TaskSwitch/>
-        <div v-show="(store.info.doing?.unit || 0) > 1" class="label">
-          {{ progressUnit }}/{{ store.info.doing?.unit }}
-        </div>
       </div>
     </div>
     <div class="p-4 flex flex-col justify-center items-center">
@@ -137,12 +119,12 @@ const progressUnit = computed(() => {
             <span v-else-if="store.percent > 0">
               hold to give up
             </span>
-            <span v-else>{{ startText }}</span>
+            <span v-else>Start session</span>
           </div>
         </Button>
       </div>
       <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
-        {{ startText }}
+        Start session
       </Button>
       <div class="my-4 flex flex-col items-center justify-center gap-2 text-xs font-bold uppercase">
         <NuxtLink
