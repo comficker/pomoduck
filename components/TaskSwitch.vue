@@ -16,6 +16,7 @@ const canAction = computed(() => {
 const onClick = (task: ITask) => {
   if (!taskRes.value || !canAction.value) return;
   sendHaptic(authStore.activeAuth)
+  task.account_task = []
   store.info.doing = task
 }
 </script>
@@ -25,7 +26,7 @@ const onClick = (task: ITask) => {
     <template v-if="canAction">
       <div
           v-for="item in taskRes?.results" @click="onClick(item)"
-          class="cursor-pointer border p-1 rounded flex justify-between items-end"
+          class="bg-white cursor-pointer border p-1 rounded flex justify-between items-end"
           :class="{'border-orange-500': store.info.doing?.id === item.id}"
       >
        <div class="space-y-1">
@@ -39,7 +40,7 @@ const onClick = (task: ITask) => {
     </template>
     <template v-else-if="store.info.doing">
       <div class=""/>
-      <div class="border p-1 rounded flex justify-between items-end border-orange-500">
+      <div class="bg-white border p-1 rounded flex justify-between items-end border-orange-500">
         <div class="space-y-1">
           <div class="text-2xs">{{ store.info.doing.tag === 'work'? 'Focus' : store.info.doing.name }}</div>
           <div class="flex">
