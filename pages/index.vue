@@ -114,7 +114,6 @@ const onMouseUp = () => {
             <span v-if="store.pending">...</span>
             <template v-else-if="store.percent >= 100">
               <span>Claim</span>
-              <span v-for="i in store.info.doing?.reward_amount">🥚</span>
             </template>
             <span v-else-if="store.percent > 0">
               hold to give up
