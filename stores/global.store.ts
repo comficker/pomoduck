@@ -99,7 +99,12 @@ export const useGlobalStore = defineStore('global', () => {
 
   function resetTimer() {
     isRunning.value = false
-    timer.value = info.value.doing ? calculateTimeDistance(info.value.doing.duration_est * 1000) : {d: 0, hh: 0, mm: 0, ss: 0}
+    timer.value = info.value.doing ? calculateTimeDistance(info.value.doing.duration_est * 1000) : {
+      d: 0,
+      hh: 0,
+      mm: 0,
+      ss: 0
+    }
   }
 
   function isMobile() {
@@ -136,11 +141,7 @@ export const useGlobalStore = defineStore('global', () => {
 
       if (earned) {
         percent.value = 0
-        if (earned.type === "boost") {
-          info.value.boost_balance += earned.amount
-        } else {
-          info.value.balance += earned.amount
-        }
+        info.value[<'footprint' | 'egg'>earned.type] += earned.amount
         toast("Congratulations!", {
           description: `You got ${formatFloat(earned.amount, 0, 3)} ${earned.type}!`,
         })
