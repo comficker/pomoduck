@@ -39,6 +39,7 @@ export interface Info {
   inviter?: number
   is_staff: boolean
   day_streak: number
+  footprint: number
   egg: number
   egg_extra: number
 }
@@ -99,5 +100,5 @@ export interface Achievement {
   "id_string": string
   "condition": string
   "rarity": string
-  "claimed": null | { xp: number, egg: number, boost: number }
+  "claimed": null | { xp: number, egg: number, footprint: number }
 }

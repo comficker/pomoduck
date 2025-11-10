@@ -26,7 +26,7 @@ useHead({
         <div class="p-3 pt-0 space-y-2 relative z-10">
           <div class="flex justify-between label">
             <div>Footprint</div>
-            <div>{{store.info.boost_balance}}</div>
+            <div>{{store.info.footprint}}</div>
           </div>
           <Button class="w-full" @click="coming">Purchase</Button>
         </div>

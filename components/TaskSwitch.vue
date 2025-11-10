@@ -29,12 +29,12 @@ const onClick = (task: ITask) => {
           class="bg-white cursor-pointer border p-1 rounded flex justify-between items-end"
           :class="{'border-orange-500': store.info.doing?.id === item.id}"
       >
-       <div class="space-y-1">
-         <div class="text-2xs">{{ item.tag === 'work'? 'Focus' : item.name }}</div>
-         <div class="flex">
-           <NuxtIcon v-for="i in item.reward_amount" name="egg" filled class="size-3"/>
-         </div>
-       </div>
+        <div class="space-y-1">
+          <div class="text-2xs">{{ item.tag === 'work' ? 'Focus' : item.name }}</div>
+          <div class="flex">
+            <NuxtIcon v-for="i in item.reward_amount" :name="item.reward_type" filled class="size-3"/>
+          </div>
+        </div>
         <NuxtIcon :name="item.tag" class="size-3 text-gray-300"/>
       </div>
     </template>
@@ -42,9 +42,13 @@ const onClick = (task: ITask) => {
       <div class=""/>
       <div class="flex justify-between items-end border border-transparent">
         <div class="space-y-1">
-          <div class="text-2xs">{{ store.info.doing.tag === 'work'? 'Focus' : store.info.doing.name }}</div>
+          <div class="text-2xs">{{ store.info.doing.tag === 'work' ? 'Focus' : store.info.doing.name }}</div>
           <div class="flex">
-            <NuxtIcon v-for="i in store.info.doing.reward_amount" name="egg" filled class="size-3"/>
+            <NuxtIcon
+                v-for="i in store.info.doing.reward_amount"
+                :name="store.info.doing.reward_type" filled
+                class="size-3"
+            />
           </div>
         </div>
         <NuxtIcon :name="store.info.doing.tag" class="size-3 text-gray-300"/>

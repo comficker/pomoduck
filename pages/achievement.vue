@@ -2,26 +2,26 @@
 import type {Achievement, APIResponse} from "~/types";
 import {getRandomInt} from "~/lib/utils";
 
-const reward_guides: { [key: string]: { xp: number[], egg: number[], boost: number[] } } = {
+const reward_guides: { [key: string]: { xp: number[], egg: number[], footprint: number[] } } = {
   common: {
     xp: [1, 10],
     egg: [1, 10],
-    boost: [1, 10]
+    footprint: [1, 5]
   },
   rare: {
     xp: [10, 30],
     egg: [10, 30],
-    boost: [10, 30]
+    footprint: [5, 10]
   },
   epic: {
     xp: [30, 70],
     egg: [30, 70],
-    boost: [30, 50]
+    footprint: [10, 20]
   },
   legendary: {
     xp: [70, 100],
     egg: [70, 100],
-    boost: [50, 100]
+    footprint: [20, 50]
   }
 }
 
@@ -67,8 +67,8 @@ useHead({
               </div>
               <div class="flex items-center gap-1">
                 <NuxtIcon name="footprint" filled class="size-4"/>
-                <div v-if="item.claimed">{{ item.claimed.boost }}</div>
-                <div v-else>{{ reward_guides[item.rarity].boost[0] }} ~ {{ reward_guides[item.rarity].boost[1] }}</div>
+                <div v-if="item.claimed">{{ item.claimed.footprint }}</div>
+                <div v-else>{{ reward_guides[item.rarity].footprint[0] }} ~ {{ reward_guides[item.rarity].footprint[1] }}</div>
               </div>
             </div>
           </div>

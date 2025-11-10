@@ -21,6 +21,7 @@ const DEFAULT_INFO: Info = {
   is_staff: false,
   day_streak: 0,
   egg: 0,
+  footprint: 0,
   egg_extra: 0
 }
 

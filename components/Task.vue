@@ -152,21 +152,7 @@ watch(() => form.value.unit, () => {
           </div>
           <span v-else>{{form.unit}} x</span>
           <div class="flex gap-0.5 items-center">
-            <template v-if="task.reward_type === 'boost'">
-              <TooltipProvider>
-                <Tooltip :disable-closing-trigger="true">
-                  <TooltipTrigger>
-                    <NuxtIcon name="footprint" filled class="size-3"/>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{{ task.reward_amount }} {{ task.reward_type }}s</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </template>
-            <template v-else>
-              <NuxtIcon v-for="i in task.reward_amount" name="egg" filled class="size-3"/>
-            </template>
+            <NuxtIcon v-for="i in task.reward_amount" :name="task.reward_type" filled class="size-3"/>
           </div>
           <div v-if="updating" class="flex text-xs gap-4 ml-auto">
             <Button variant="link" size="xs" @click="updating = false">Cancel</Button>
