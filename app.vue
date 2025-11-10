@@ -93,7 +93,7 @@ await authStore.auth()
       <div class="flex-1 flex gap-4 items-center">
         <div class="menu">
           <nuxt-link class="block" to="/">
-            <NuxtIcon name="house" filled class="size-6"/>
+            <NuxtIcon name="house" class="size-5"/>
             <span class="hidden md:block">Home</span>
           </nuxt-link>
           <nuxt-link to="/shop">
@@ -104,7 +104,7 @@ await authStore.auth()
       </div>
       <div class="menu">
         <nuxt-link to="/leaderboard">
-          <NuxtIcon name="leaderboard" filled class="size-5"/>
+          <NuxtIcon name="leaderboard" class="size-5"/>
         </nuxt-link>
         <nuxt-link to="/achievement" class="">
           <NuxtIcon name="medal" class="size-5"/>

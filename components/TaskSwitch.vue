@@ -40,7 +40,7 @@ const onClick = (task: ITask) => {
     </template>
     <template v-else-if="store.info.doing">
       <div class=""/>
-      <div class="flex justify-between items-end">
+      <div class="flex justify-between items-end border border-transparent">
         <div class="space-y-1">
           <div class="text-2xs">{{ store.info.doing.tag === 'work'? 'Focus' : store.info.doing.name }}</div>
           <div class="flex">

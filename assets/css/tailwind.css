@@ -290,17 +290,17 @@ input {
 }
 
 .menu {
-    @apply gap-2 flex justify-center items-center text-xs uppercase font-bold
+    @apply gap-4 flex justify-center items-center text-xs uppercase font-bold;
 }
 
 .menu a.router-link-active,
 .menu .item.active {
-    @apply bg-yellow-200 rounded-lg;
+    @apply border-yellow-400!;
 }
 
 .menu a,
 .menu .item {
-    @apply p-1.5 px-2 flex justify-center items-center gap-2 duration-100 cursor-pointer;
+    @apply py-1.5 flex justify-center items-center gap-1 duration-100 cursor-pointer border-b-2 border-transparent;
 }
 
 .dropbox {
