@@ -1,5 +1,4 @@
 import {defineStore} from 'pinia'
-import {MiniKit} from '@worldcoin/minikit-js'
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {toast} from 'vue-sonner'
 
@@ -34,7 +33,6 @@ export const useAuthStore = defineStore('auth', () => {
   const authToken = useStatefulCookie('auth_token')
   const authTokenRefresh = useStatefulCookie('auth_token_refresh')
   const refCode = useStatefulCookie('ref')
-  const store = useGlobalStore()
   const logs = ref<any[]>([])
   const activeAuth = ref('local')
 
@@ -74,7 +72,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const authWithWorldCoin = async () => {
     try {
-      if (!window.MiniKit || !MiniKit.isInstalled()) {
+      if (!window.wld || !window.wld.isInstalled()) {
         return;
       }
       activeAuth.value = 'wld'
@@ -83,7 +81,7 @@ export const useAuthStore = defineStore('auth', () => {
       authTokenRefresh.value = ""
       const nonceRes = await useNativeFetch<{ nonce: string }>('/auth-wld')
       if (!nonceRes) return;
-      const {finalPayload} = await MiniKit.commandsAsync.walletAuth({
+      const {finalPayload} = await window.wld.commandsAsync.walletAuth({
         nonce: nonceRes.nonce,
         statement: 'Login to POMODuck',
         requestId: "0",
@@ -93,7 +91,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await useNativeFetch<{ refresh: string, access: string }>('/auth-wld', {
         method: 'POST',
         body: {
-          info: MiniKit.user,
+          info: window.wld.user,
           nonce: nonceRes.nonce,
           payload: finalPayload
         }
@@ -130,7 +128,7 @@ export const useAuthStore = defineStore('auth', () => {
       }).catch(() => null)
       if (res) {
         authToken.value = res.access
-        await auth(1)
+        await init(1)
         return
       }
     }
@@ -157,7 +155,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (res) {
       authToken.value = res.access
       authTokenRefresh.value = res.refresh
-      await auth()
+      await init()
     } else {
       toast("'Something went wrong!'", {
         description: 'Please recheck your input!',
@@ -165,31 +163,20 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const auth = async (retry = 0) => {
+  const init = async (retry = 0) => {
     if (route.query.ref) {
       refCode.value = route.query.ref + ''
     }
-    await authTelegram()
-    await authWithWorldCoin()
+    if (process.client) {
+      await authTelegram()
+      await authWithWorldCoin()
+    }
     authOAUTH()
-    const isSuccess = await store.loadInfo(true)
-    if (authToken.value && !isSuccess) {
-      await refreshToken(retry)
-    }
-    if (isSuccess && refCode.value && !store.info.inviter) {
-      await useNativeFetch('/settings', {
-        method: 'POST', body: {
-          inviter: refCode.value
-        }
-      })
-    }
   }
 
   const logout = async () => {
     authToken.value = ''
     authTokenRefresh.value = ''
-    await store.loadInfo()
-    await useRouter().replace("/")
   }
 
   return {
@@ -197,10 +184,11 @@ export const useAuthStore = defineStore('auth', () => {
     logs,
     activeAuth,
     authLocal,
-    auth,
+    init,
     logout,
     authTelegram,
-    authWithWorldCoin
+    authWithWorldCoin,
+    refreshToken
   }
 })
 

@@ -1,15 +1,31 @@
-import type {SpinePlayer} from "@esotericsoftware/spine-player";
 import {MiniKit} from '@worldcoin/minikit-js'
-
+import WebApp from "@twa-dev/sdk";
 export {};
 
 declare global {
-    interface Window {
-        itv: Timeout,
-        sp: SpinePlayer,
-        Telegram: any
-        webviewClose: any
-        MiniKit: MiniKit
-        IDKit: any
-    }
+  interface Window {
+    itv: Timeout,
+    Telegram: any
+    webviewClose: any
+    IDKit: any,
+    wld: typeof MiniKit
+    telegram: typeof WebApp
+    onTelegramAuth: any
+  }
+}
+
+declare module '#app' {
+  interface NuxtApp {
+    $openLink(url: string): void,
+    $sendHaptic(): void,
+    $setupTelegram(): void
+  }
+}
+
+declare module 'vue' {
+  interface ComponentCustomProperties {
+    $openLink(url: string): void,
+    $sendHaptic(): void,
+    $setupTelegram(): void
+  }
 }

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import WebApp from '@twa-dev/sdk'
 import {Toaster} from '@/components/ui/sonner'
 import {formatFloat} from "~/lib/utils";
 import Auth from "~/components/modal/Auth.vue";
@@ -41,39 +40,16 @@ useHead({
   ]
 })
 
-const router = useRouter()
 const route = useRoute()
 const store = useGlobalStore()
 const authStore = useAuthStore()
 
-watch(() => route.path, () => {
-  if (authStore.activeAuth == 'telegram') {
-    if (route.name !== 'index') {
-      WebApp.BackButton.show();
-    } else {
-      WebApp.BackButton.hide();
-    }
-  }
-})
+await authStore.init()
+await store.init()
 
 onMounted(async () => {
-  const body = document.querySelector('body')
-  if (body) {
-    body.style.backgroundColor = "#fff"
-  }
-  if (authStore.activeAuth == 'telegram') {
-    WebApp.expand()
-    WebApp.setHeaderColor("#fff")
-    WebApp.setBackgroundColor("#fff")
-    WebApp.BackButton.onClick(() => router.back());
-    if (WebApp.enableClosingConfirmation) {
-      WebApp.enableClosingConfirmation()
-    }
-    if (['ios', 'android'].includes(WebApp.platform)) {
-      WebApp.requestFullscreen()
-      document.body.style.setProperty("--head-top-extra", "100px")
-    }
-  }
+  const {$setupTelegram} = useNuxtApp()
+  $setupTelegram()
   document.addEventListener("contextmenu", function (e) {
     // e.preventDefault()
     e.stopPropagation()
@@ -81,7 +57,15 @@ onMounted(async () => {
   });
 })
 
-await authStore.auth()
+watch(() => route.path, () => {
+  if (authStore.activeAuth === 'telegram') {
+    if (route.name !== 'index') {
+      window.telegram.BackButton.show();
+    } else {
+      window.telegram.BackButton.hide();
+    }
+  }
+})
 </script>
 
 <template>
@@ -165,8 +149,10 @@ await authStore.auth()
   </div>
   <Dialog :open="!!store.modalName" @update:open="store.modalName = null">
     <DialogContent class="max-w-sm">
-      <Auth v-if="store.modalName === 'auth'"/>
-      <MergeAccount v-else-if="store.modalName === 'merge'"/>
+      <client-only>
+        <Auth v-if="store.modalName === 'auth'"/>
+        <MergeAccount v-else-if="store.modalName === 'merge'"/>
+      </client-only>
     </DialogContent>
   </Dialog>
   <ClientOnly>

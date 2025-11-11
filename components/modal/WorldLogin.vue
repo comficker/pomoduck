@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {Button} from "~/components/ui/button";
-import '@worldcoin/idkit-standalone'
 
 const openConnect = async () => {
   window.IDKit.init({
@@ -28,7 +27,3 @@ const openConnect = async () => {
     <span>Continue with WorldCoin</span>
   </Button>
 </template>
-
-<style scoped>
-
-</style>

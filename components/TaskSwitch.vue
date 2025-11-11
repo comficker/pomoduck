@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {APIResponse, ITask} from "~/types";
-import {sendHaptic} from "~/lib/utils";
+const {$sendHaptic} = useNuxtApp()
 
 const store = useGlobalStore()
 const authStore = useAuthStore()
@@ -15,7 +15,7 @@ const canAction = computed(() => {
 
 const onClick = (task: ITask) => {
   if (!taskRes.value || !canAction.value) return;
-  sendHaptic(authStore.activeAuth)
+  $sendHaptic()
   task.account_task = []
   store.info.doing = task
 }
@@ -32,10 +32,10 @@ const onClick = (task: ITask) => {
         <div class="space-y-1">
           <div class="text-2xs">{{ item.tag === 'work' ? 'Focus' : item.name }}</div>
           <div class="flex">
-            <NuxtIcon v-for="i in item.reward_amount" :name="item.reward_type" filled class="size-3"/>
+            <NuxtIcon :name="item.tag" class="size-3 text-gray-300"/>
           </div>
         </div>
-        <NuxtIcon :name="item.tag" class="size-3 text-gray-300"/>
+        <NuxtIcon v-for="i in item.reward_amount" :name="item.reward_type" filled class="size-3"/>
       </div>
     </template>
     <template v-else-if="store.info.doing">
@@ -44,14 +44,14 @@ const onClick = (task: ITask) => {
         <div class="space-y-1">
           <div class="text-2xs">{{ store.info.doing.tag === 'work' ? 'Focus' : store.info.doing.name }}</div>
           <div class="flex">
-            <NuxtIcon
-                v-for="i in store.info.doing.reward_amount"
-                :name="store.info.doing.reward_type" filled
-                class="size-3"
-            />
+            <NuxtIcon :name="store.info.doing.tag" class="size-3 text-gray-300"/>
           </div>
         </div>
-        <NuxtIcon :name="store.info.doing.tag" class="size-3 text-gray-300"/>
+        <NuxtIcon
+            v-for="i in store.info.doing.reward_amount"
+            :name="store.info.doing.reward_type" filled
+            class="size-3"
+        />
       </div>
       <div class=""/>
     </template>

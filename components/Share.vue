@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import WebApp from "@twa-dev/sdk";
-
+const {$openLink} = useNuxtApp()
 const props = defineProps<{ url: string, title: string }>()
 
 function share() {
-  WebApp.openTelegramLink(`https://t.me/share/url?url=https://${props.url}&text=${props.title}`)
+  $openLink(`https://t.me/share/url?url=https://${props.url}&text=${props.title}`)
 }
 </script>
 

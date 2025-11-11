@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import TaskSwitch from "~/components/TaskSwitch.vue";
-import {sendHaptic} from "~/lib/utils";
 
+const {$sendHaptic} = useNuxtApp()
 const store = useGlobalStore()
-const authStore = useAuthStore()
 
 useHead({
   title: "Pomodoro Timer - PomoDuck Timer"
@@ -32,7 +31,7 @@ const runTimer = async () => {
   if (store.isRunning) {
     return
   }
-  sendHaptic(authStore.activeAuth)
+  $sendHaptic()
   await store.work()
 }
 
@@ -66,6 +65,14 @@ const onMouseUp = () => {
     clearTimeout(timeoutId.value)
   }
 }
+
+onMounted(() => {
+  if (window.itv) {
+    clearInterval(window.itv)
+  }
+  store.computeTimer()
+  window.itv = setInterval(() => store.computeTimer(), 500)
+})
 </script>
 
 <template>

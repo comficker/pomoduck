@@ -1,6 +1,6 @@
 import {ref} from "vue"
 import {defineStore} from 'pinia'
-import type {AccountTask, AccountTaskDetail, Achievement, Info, ITask} from "~/types";
+import type {Achievement, Info, ITask} from "~/types";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import {calculateTimeDistance, formatFloat, timeSinceObject} from "~/lib/utils";
 import {toast} from 'vue-sonner'
@@ -27,6 +27,7 @@ const DEFAULT_INFO: Info = {
 
 export const useGlobalStore = defineStore('global', () => {
   const authToken = useStatefulCookie('auth_token')
+  const refCode = useStatefulCookie('ref')
 
   const info = ref<Info>(DEFAULT_INFO)
   const loading = ref(true)
@@ -89,12 +90,6 @@ export const useGlobalStore = defineStore('global', () => {
       ...inf
     };
     fetched.value = true
-    if (window.itv) {
-      clearInterval(window.itv)
-    }
-    computeTimer()
-    window.itv = setInterval(() => computeTimer(), 500)
-    modalName.value = null
   }
 
   function resetTimer() {
@@ -177,6 +172,17 @@ export const useGlobalStore = defineStore('global', () => {
     }
   }
 
+  async function init() {
+    const isSuccess = await loadInfo(true)
+    if (isSuccess && refCode.value && !info.value.inviter) {
+      await useNativeFetch('/settings', {
+        method: 'POST', body: {
+          inviter: refCode.value
+        }
+      })
+    }
+  }
+
   return {
     isRunning,
     isMobile,
@@ -196,7 +202,9 @@ export const useGlobalStore = defineStore('global', () => {
     modalName,
     modalData,
     pending,
-    stop
+    stop,
+    init,
+    computeTimer
   }
 })
 

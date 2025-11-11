@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import {Switch} from "~/components/ui/switch";
-import WebApp from "@twa-dev/sdk";
 import {cloneDeep, debounce} from "~/lib/utils";
 import useStatefulCookie from "~/composables/useStatefulCookie";
-import {MiniKit} from "@worldcoin/minikit-js";
 import TelegramLogin from "~/components/modal/TelegramLogin.vue";
 
 const authToken = useStatefulCookie('auth_token')
@@ -63,12 +61,6 @@ const init = () => {
   }
 }
 
-const showLogout = computed(() => {
-  if (authStore.activeAuth == 'wld') return false
-  return !['ios', 'android'].includes(WebApp.platform);
-
-})
-
 function toggleNotifySwitch(e: boolean) {
   if (form.value.meta) {
     form.value.meta.notify.in_app = e
@@ -78,13 +70,7 @@ function toggleNotifySwitch(e: boolean) {
 }
 
 function connectOauth(channel: string) {
-  let isWLD: boolean
-  try {
-    isWLD = MiniKit.isInstalled()
-  } catch (e) {
-    isWLD = false
-  }
-  const isInApp = ['ios', 'android'].includes(WebApp.platform) || isWLD
+  const isInApp = ['telegram', 'wld'].includes(authStore.activeAuth)
   window.open(`${useRuntimeConfig().public.api}/v2/auth-${channel}?token=${authToken.value}`, isInApp ? "_blank" : "_self")
 }
 
@@ -189,7 +175,9 @@ useHead({
           <div v-if="data?.tg_id">
             {{ data.telegram_username || data.tg_id }}
           </div>
-          <TelegramLogin v-else @done="handleTelegramConnected"/>
+          <client-only v-else>
+            <TelegramLogin @done="handleTelegramConnected"/>
+          </client-only>
         </div>
         <div class="flex justify-between items-center">
           <span class="font-semibold">X</span>

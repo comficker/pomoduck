@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type {ITask} from "~/types";
-import WebApp from '@twa-dev/sdk'
 import {TASK_STATUS} from "~/lib/constants";
 import {toast} from 'vue-sonner'
 
+const { $openLink } = useNuxtApp()
 const {task} = defineProps<{ task: ITask }>()
 const emits = defineEmits(['update:task', 'deleted'])
 
@@ -56,14 +56,14 @@ const act = async () => {
   doing.value = true
   if (['one_time_x_connect', 'one_time_x_change_bio', 'one_time_x_rename'].includes(task.type)) {
     const data = await useNativeFetch<{ url: string }>(`/twitter/verify?task_id=${task.id}`)
-    if (data) WebApp.openLink(data.url);
+    if (data) $openLink(data.url);
   } else if (task.type === 'one_time' && task.meta) {
     switch (task.meta.action) {
       case "open_link":
         if (task.meta.url.includes("t.me") && authStore.activeAuth === 'telegram') {
-          WebApp.openTelegramLink(task.meta.url)
+          $openLink(task.meta.url)
         } else {
-          WebApp.openLink(task.meta.url)
+          $openLink(task.meta.url)
         }
         break
       default:
@@ -150,7 +150,7 @@ watch(() => form.value.unit, () => {
             <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
             <nuxt-icon name="plus-box" class="cursor-pointer size-4" @click="form.unit++"/>
           </div>
-          <span v-else>{{form.unit}} x</span>
+          <span v-else>{{ form.unit }} x</span>
           <div class="flex gap-0.5 items-center">
             <NuxtIcon v-for="i in task.reward_amount" :name="task.reward_type" filled class="size-3"/>
           </div>
