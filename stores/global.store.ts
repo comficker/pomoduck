@@ -186,7 +186,14 @@ export const useGlobalStore = defineStore('global', () => {
     return isSuccess
   }
 
+  function logout() {
+    info.value = DEFAULT_INFO
+    authToken.value = ''
+
+  }
+
   return {
+    logout,
     isRunning,
     isMobile,
     isIphone,

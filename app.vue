@@ -120,7 +120,7 @@ watch(() => route.path, () => {
               <nuxt-link to="/settings">Settings</nuxt-link>
             </DropdownMenuItem>
             <DropdownMenuSeparator/>
-            <DropdownMenuItem @click="authStore.logout()">Logout</DropdownMenuItem>
+            <DropdownMenuItem @click="store.logout()">Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <Button v-else @click="store.modalName = 'auth'">Login</Button>
@@ -142,7 +142,6 @@ watch(() => route.path, () => {
   <div v-if="authStore.cooking" class="fixed bg-white inset-0 flex flex-col justify-center gap-6 items-center z-10">
     <img class="size-16" src="/icon.png" alt="">
     <span class="text-center text-xl font-bold">Cooking...</span>
-    <Button class="h-12 text-xl w-48 rounded-2xl" size="lg" @click="authStore.auth()">Retry</Button>
   </div>
   <Dialog :open="!!store.modalName" @update:open="store.modalName = null">
     <DialogContent class="max-w-sm">

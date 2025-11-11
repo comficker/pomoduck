@@ -163,7 +163,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const init = async (retry = 0) => {
+  const init = async () => {
     if (route.query.ref) {
       refCode.value = route.query.ref + ''
     }
