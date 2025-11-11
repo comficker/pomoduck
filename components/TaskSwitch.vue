@@ -3,10 +3,14 @@ import type {APIResponse, ITask} from "~/types";
 const {$sendHaptic} = useNuxtApp()
 
 const store = useGlobalStore()
-const authStore = useAuthStore()
 const {data: taskRes} = useAuthFetch<APIResponse<ITask>>(`/tasks/?page_size=50&status=1`, {
   method: "GET",
-  key: 'index'
+  key: 'index',
+  query: {
+    page_size: 3,
+    status: 1,
+    type: "default"
+  }
 })
 
 const canAction = computed(() => {
@@ -30,7 +34,7 @@ const onClick = (task: ITask) => {
           :class="{'border-orange-500': store.info.doing?.id === item.id}"
       >
         <div class="space-y-1">
-          <div class="text-2xs">{{ item.tag === 'work' ? 'Focus' : item.name }}</div>
+          <div class="text-xs">{{ item.tag === 'work' ? 'Focus' : item.name }}</div>
           <div class="flex">
             <NuxtIcon :name="item.tag" class="size-3 text-gray-300"/>
           </div>
@@ -42,7 +46,7 @@ const onClick = (task: ITask) => {
       <div class=""/>
       <div class="flex justify-between items-end border border-transparent">
         <div class="space-y-1">
-          <div class="text-2xs">{{ store.info.doing.tag === 'work' ? 'Focus' : store.info.doing.name }}</div>
+          <div class="text-xs">{{ store.info.doing.tag === 'work' ? 'Focus' : store.info.doing.name }}</div>
           <div class="flex">
             <NuxtIcon :name="store.info.doing.tag" class="size-3 text-gray-300"/>
           </div>

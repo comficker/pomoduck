@@ -1,0 +1,22 @@
+import useStatefulCookie from "~/composables/useStatefulCookie";
+import {useAuthStore} from "~/stores/auth.store";
+
+export default defineNuxtPlugin(async (nuxtApp) => {
+  const authTokenRefresh = useStatefulCookie('auth_token_refresh')
+  const store = useGlobalStore()
+  const authStore = useAuthStore()
+  if (!store.initialed) {
+    await authStore.init()
+    let retry = 0
+    while (true) {
+      const isSuccess = await store.init()
+      if (!isSuccess && authTokenRefresh.value) {
+        await authStore.refreshToken(retry)
+      }
+      if (isSuccess || retry === 1) {
+        break
+      }
+      retry++
+    }
+  }
+})

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {toast} from "vue-sonner";
+import type {IShopItem} from "~/types";
+import {formatFloat} from "~/lib/utils";
 
 const {item, mode} = defineProps<{
-  item: {
-    id: string
-  },
+  item: IShopItem,
   mode: string
 }>()
 
@@ -19,11 +19,11 @@ const coming = () => {
   >
     <div class="flex items-center">
       <div class="size-24">
-        <NuxtIcon filled :name="`item/${item.id}`"/>
+        <NuxtIcon filled :name="`item/${item.id_string}`"/>
       </div>
       <div class="flex-1 space-y-1">
         <div class="flex justify-between">
-          <div class="font-semibold capitalize">{{ item.id }}</div>
+          <div class="font-semibold capitalize">{{ item.name }}</div>
           <div class="flex text-xs gap-1 items-center">
             <span>+1</span>
             <NuxtIcon name="egg" filled class="size-3"/>
@@ -33,24 +33,24 @@ const coming = () => {
           <div class="text-xs flex gap-1">
             <div>Buy:</div>
             <div class="flex items-center gap-1">
-              <span>10,000</span>
+              <span>{{ formatFloat(item.price) }}</span>
               <NuxtIcon name="footprint" filled class="size-4"/>
             </div>
             <div class="ml-auto flex items-center gap-1">
               <NuxtIcon name="storefront" class="size-3"/>
-              <span>0</span>
+              <span>{{ item.for_sale_count }}</span>
             </div>
           </div>
           <div class="text-xs flex gap-1">
             <div>Rent:</div>
             <div class="flex items-center gap-1">
-              <span>100</span>
+              <span>{{ formatFloat(item.base_rent_fee) }}</span>
               <NuxtIcon name="footprint" filled class="size-4"/>
               <span>per day</span>
             </div>
             <div class="ml-auto flex items-center gap-1">
               <NuxtIcon name="storefront" class="size-3"/>
-              <span>0</span>
+              <span>{{ item.for_rent_count }}</span>
             </div>
           </div>
         </template>

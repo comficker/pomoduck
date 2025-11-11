@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
+            env: "production",
             appURL: "https://www.pomoduck.com",
             api: 'https://welcome.pomoduck.com',
             apiVersion: 'v2',

@@ -31,7 +31,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
       },
       setupTelegram: () => {
-        if (WebApp.isActive) {
+        if (WebApp.initData) {
           const body = document.querySelector('body')
           if (body) {
             body.style.backgroundColor = "#fff"

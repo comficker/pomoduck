@@ -128,12 +128,12 @@ export const useAuthStore = defineStore('auth', () => {
       }).catch(() => null)
       if (res) {
         authToken.value = res.access
-        await init(1)
         return
       }
+    } else {
+      authToken.value = ''
+      authTokenRefresh.value = ''
     }
-    authToken.value = ''
-    authTokenRefresh.value = ''
   }
 
   const authLocal = async (isRegister: boolean, form: {

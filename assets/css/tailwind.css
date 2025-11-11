@@ -295,12 +295,15 @@ input {
 
 .menu a.router-link-active,
 .menu .item.active {
-    @apply border-yellow-400!;
+    background-image: url("/underline.svg");
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 80px;
 }
 
 .menu a,
 .menu .item {
-    @apply py-1.5 flex justify-center items-center gap-1 duration-100 cursor-pointer border-b-2 border-transparent;
+    @apply py-1.5 flex justify-center items-center gap-1 cursor-pointer border-b-2 border-transparent;
 }
 
 .dropbox {

@@ -102,3 +102,17 @@ export interface Achievement {
   "rarity": string
   "claimed": null | { xp: number, egg: number, footprint: number }
 }
+
+export interface IShopItem {
+  circulating_supply: number
+  description: string
+  id: number
+  id_string: string
+  label: string
+  max_supply: number
+  name: string
+  price: number
+  base_rent_fee: number
+  for_sale_count: number,
+  for_rent_count: number
+}

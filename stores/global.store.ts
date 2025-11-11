@@ -29,6 +29,7 @@ export const useGlobalStore = defineStore('global', () => {
   const authToken = useStatefulCookie('auth_token')
   const refCode = useStatefulCookie('ref')
 
+  const initialed = ref<boolean>(false)
   const info = ref<Info>(DEFAULT_INFO)
   const loading = ref(true)
   const pending = ref(false)
@@ -181,6 +182,8 @@ export const useGlobalStore = defineStore('global', () => {
         }
       })
     }
+    initialed.value = true
+    return isSuccess
   }
 
   return {
@@ -204,7 +207,8 @@ export const useGlobalStore = defineStore('global', () => {
     pending,
     stop,
     init,
-    computeTimer
+    computeTimer,
+    initialed
   }
 })
 

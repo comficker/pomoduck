@@ -43,15 +43,12 @@ useHead({
 const route = useRoute()
 const store = useGlobalStore()
 const authStore = useAuthStore()
-
-await authStore.init()
-await store.init()
-
+const cfg = useRuntimeConfig()
 onMounted(async () => {
   const {$setupTelegram} = useNuxtApp()
   $setupTelegram()
   document.addEventListener("contextmenu", function (e) {
-    // e.preventDefault()
+    if (cfg.public.env === 'production') e.preventDefault();
     e.stopPropagation()
     return false;
   });
