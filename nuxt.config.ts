@@ -24,11 +24,10 @@ export default defineNuxtConfig({
         componentDir: './components/ui'
     },
     runtimeConfig: {
+        api: 'https://welcome.pomoduck.com/v2',
         public: {
             env: "production",
             appURL: "https://www.pomoduck.com",
-            api: 'https://welcome.pomoduck.com',
-            apiVersion: 'v2',
             botName: 'Pomoduck_bot',
             chain: "mainnet",
             receiver: ""
