@@ -290,12 +290,12 @@ input {
 }
 
 .menu {
-    @apply gap-4 md:gap-6 flex justify-center items-center text-xs uppercase font-bold;
+    @apply gap-5 md:gap-6 flex justify-center items-center text-xs uppercase font-bold;
 }
 
 .menu a.router-link-active,
 .menu .item.active {
-    background-image: url("/underline.svg");
+    background-image: url("../../public/underline.svg");
     background-repeat: no-repeat;
     background-position: center bottom;
     background-size: 80px;

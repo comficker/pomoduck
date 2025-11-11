@@ -189,7 +189,6 @@ export const useGlobalStore = defineStore('global', () => {
   function logout() {
     info.value = DEFAULT_INFO
     authToken.value = ''
-
   }
 
   return {
