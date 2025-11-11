@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
   if (!url.pathname.startsWith('/api/')) return
   const target = config.api + url.pathname.replace(/^\/api/, '')
-
+  console.log(target);
   return proxyRequest(event, target, {
     fetch,
     headers: {
