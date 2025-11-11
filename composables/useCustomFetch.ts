@@ -19,7 +19,8 @@ function getParams<T>(url: string, options: any = {}) {
     baseURL: <string>config.public.api + "/" + <string>config.public.apiVersion,
     key: url,
     headers: headers,
-    query: options?.query
+    query: options?.query,
+    server: true
   }
   return defu(options, defaults)
 }
