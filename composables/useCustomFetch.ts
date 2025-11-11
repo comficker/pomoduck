@@ -5,10 +5,12 @@ import useStatefulCookie from "~/composables/useStatefulCookie";
 
 function getParams<T>(url: string, options: any = {}) {
   const config = useRuntimeConfig()
+  const _headers = useRequestHeaders(['cookie'])
   const authToken = useStatefulCookie('auth_token')
   const headers: any = {
     "Content-Type": 'application/json',
     "Accept": 'application/json; indent=2',
+    ..._headers
   }
   if (authToken.value) {
     headers['Authorization'] = `Bearer ${authToken.value}`
