@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     devtools: {enabled: true},
-    ssr: true,
+    ssr: false,
     css: [
         '~/assets/css/tailwind.css',
         '~/assets/fonts/stolzl/stylesheet.css',
@@ -28,6 +28,7 @@ export default defineNuxtConfig({
         public: {
             env: "production",
             appURL: "https://www.pomoduck.com",
+            api: 'https://welcome.pomoduck.com/v2',
             botName: 'Pomoduck_bot',
             chain: "mainnet",
             receiver: ""

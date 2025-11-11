@@ -4,6 +4,7 @@ import useStatefulCookie from "~/composables/useStatefulCookie";
 
 
 function getParams<T>(url: string, options: any = {}) {
+  const config = useRuntimeConfig()
   const _headers = useRequestHeaders(['cookie'])
   const authToken = useStatefulCookie('auth_token')
   const headers: any = {
@@ -15,18 +16,18 @@ function getParams<T>(url: string, options: any = {}) {
     headers['Authorization'] = `Bearer ${authToken.value}`
   }
   const defaults: UseFetchOptions<T> = {
+    baseURL: <string>config.public.api,
     key: url,
     headers: headers,
-    query: options?.query,
-    server: true
+    query: options?.query
   }
   return defu(options, defaults)
 }
 
 export function useNativeFetch<T>(url: string, options: any = undefined): Promise<T> {
-  return $fetch('/api' + url, getParams(url, options))
+  return $fetch(url, getParams(url, options))
 }
 
 export function useAuthFetch<T>(url: string, options: UseFetchOptions<T> = {}) {
-  return useFetch<T>('/api' + url, getParams(url, options))
+  return useFetch<T>(url, getParams(url, options))
 }
