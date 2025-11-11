@@ -7,9 +7,7 @@ export default defineEventHandler(async (event) => {
   if (!url.pathname.startsWith('/api/')) return
   if (url.pathname == "/api/test") {
     return proxyRequest(event, "https://api.creepup.fun/games/leaderboard?type=creep-point", {
-      headers: {
-        ...getRequestHeaders(event),
-      },
+      headers: {},
     })
   }
   const target = config.public.api + url.pathname.replace(/^\/api/, '')
