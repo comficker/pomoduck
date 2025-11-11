@@ -10,10 +10,5 @@ export default defineEventHandler(async (event) => {
   }
   const target = config.public.api + url.pathname.replace(/^\/api/, '')
   console.log(target);
-  return proxyRequest(event, target, {
-    fetch,
-    headers: {
-      ...getRequestHeaders(event),
-    },
-  })
+  return proxyRequest(event, target)
 })
