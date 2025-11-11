@@ -2,7 +2,7 @@
 import {Button} from "~/components/ui/button";
 
 const connect = async () => {
-  window.open(`${useRuntimeConfig().public.api}/v2/auth-twitter`, "_self")
+  window.open(`${useRuntimeConfig().public.api}/auth-twitter`, "_self")
 }
 </script>
 

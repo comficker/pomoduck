@@ -2,7 +2,7 @@
 import {Button} from "~/components/ui/button";
 
 const connect = async () => {
-  window.open(`${useRuntimeConfig().public.api}/v2/auth-google`, "_self")
+  window.open(`${useRuntimeConfig().public.api}/auth-google`, "_self")
 }
 </script>
 
