@@ -27,6 +27,7 @@ const DEFAULT_INFO: Info = {
 
 export const useGlobalStore = defineStore('global', () => {
   const authToken = useStatefulCookie('auth_token')
+  const authTokenRefresh = useStatefulCookie('auth_token_refresh')
   const refCode = useStatefulCookie('ref')
 
   const initialed = ref<boolean>(false)
@@ -189,6 +190,7 @@ export const useGlobalStore = defineStore('global', () => {
   function logout() {
     info.value = DEFAULT_INFO
     authToken.value = ''
+    authTokenRefresh.value = ''
   }
 
   return {

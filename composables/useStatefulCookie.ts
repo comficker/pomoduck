@@ -5,9 +5,7 @@ export default function useStatefulCookie(name: string) {
   const cookie = useCookie(name, {
     maxAge: 60 * 60 * 24 * 7 * 30,
     ...cfg.public.env === "production" ? {
-      domain: '.pomoduck.com',
-      sameSite: 'lax',
-      secure: true,
+      domain: '.pomoduck.com'
     } : {}
   });
   const state = useState(name, () => cookie.value);
