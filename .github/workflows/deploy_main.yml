@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - dev
 
 jobs:
   deploy:
@@ -24,17 +23,10 @@ jobs:
       - name: Deploy via SSH
         run: |
           ssh -i ~/.ssh/id_ed25519 root@45.76.181.237 << 'EOF'
-            if [[ "${GITHUB_REF##*/}" == "main" ]]; then
-              cd /home/frontend/pomoduck
-            elif [[ "${GITHUB_REF##*/}" == "dev" ]]; then
-              cd /home/pomoduck/front_dev
+            cd /home/frontend/pomoduck
             git stash
             git pull origin main
             pnpm install
             pnpm run build
-            if [[ "${GITHUB_REF##*/}" == "main" ]]; then
-              pm2 restart pomoduck
-            elif [[ "${GITHUB_REF##*/}" == "dev" ]]; then
-              pm2 restart pomoduck_dev
-           
+            pm2 restart pomoduck
           EOF
