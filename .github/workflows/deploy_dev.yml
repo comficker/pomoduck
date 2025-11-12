@@ -26,7 +26,7 @@ jobs:
             cd /home/pomoduck/front_dev
             git stash
             git pull origin dev
-            bun install
-            bun run build
+            pnpm install
+            pnpm run build
             pm2 restart pomoduck_dev
           EOF
