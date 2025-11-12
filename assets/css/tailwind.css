@@ -284,7 +284,7 @@ input {
 }
 
 .menu {
-    @apply gap-5 md:gap-6 flex justify-center items-center text-xs uppercase font-bold;
+    @apply gap-5 md:gap-6 flex justify-center items-center text-sm uppercase font-bold;
 }
 
 .menu a.router-link-active,

@@ -114,5 +114,21 @@ export interface IShopItem {
   price: number
   base_rent_fee: number
   for_sale_count: number,
-  for_rent_count: number
+  for_rent_count: number,
+  current_status: {
+    can_buy: boolean,
+    can_sell: boolean,
+    can_rent: boolean,
+    can_equip: boolean,
+    own: number
+    rent: string | null
+  }
+}
+
+export interface IAccountItem {
+  'id': number
+  'status': number
+  'rent_expired': string | null
+  'account': number
+  'renter': number
 }

@@ -42,7 +42,7 @@ useHead({
             <div>Egg</div>
             <div>{{store.info.egg}}</div>
           </div>
-          <Button class="w-full" @click="coming">Hatching</Button>
+          <Button class="w-full" @click="coming">Hatch</Button>
         </div>
       </div>
     </div>
