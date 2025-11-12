@@ -25,8 +25,8 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 root@45.76.181.237 << 'EOF'
             cd /home/pomoduck/front_dev
             git stash
-            git pull origin main
-            pnpm install
-            pnpm run build
+            git pull origin dev
+            bun install
+            bun run build
             pm2 restart pomoduck_dev
           EOF
