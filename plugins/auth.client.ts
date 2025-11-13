@@ -14,6 +14,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     if (WebApp.isActive) {
       await authStore.authTelegram()
     }
+    authStore.logs.push(`window.MiniKit.isInstalled(): ${window.MiniKit.isInstalled()}`)
     if (window.MiniKit.isInstalled()) {
       await authStore.authWithWorldCoin()
     }

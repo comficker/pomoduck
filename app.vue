@@ -11,7 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import useStatefulCookie from "~/composables/useStatefulCookie";
 import {useAuthStore} from "~/stores/auth.store";
 
 useHead({
@@ -47,6 +46,8 @@ const store = useGlobalStore()
 const authStore = useAuthStore()
 const cfg = useRuntimeConfig()
 
+const showLog = ref(false)
+
 onMounted(async () => {
   const {$setupTelegram} = useNuxtApp()
   $setupTelegram()
@@ -69,9 +70,6 @@ watch(() => route.path, () => {
 </script>
 
 <template>
-  <div v-if="authStore.logs.length" class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
-    <textarea v-for="log in authStore.logs" class="w-full" :value="JSON.stringify(log)"/>
-  </div>
   <div class="wrapper w-full flex flex-col relative z-0 divide-y">
     <div class="md:px-4">
       <div class="md:border-x has-star max-w-3xl w-full mx-auto flex gap-4 p-4 py-2 justify-between items-center">
@@ -167,4 +165,20 @@ watch(() => route.path, () => {
   <ClientOnly>
     <Toaster/>
   </ClientOnly>
+  <div
+      v-if="cfg.public.env !== 'production'"
+      class="fixed duration-100 bottom-0 inset-x-0 p-4 bg-white z-10 overflow-auto border-t"
+      :class="{'top-0': showLog}"
+  >
+    <div
+        v-if="cfg.public.env !== 'production'"
+        class="label bg-white"
+        @click="showLog = !showLog"
+    >Log</div>
+    <div v-if="showLog" class="divide-y divide-dashed text-xs font-mono">
+      <div class="py-1" v-for="log in authStore.logs">
+        {{ JSON.stringify(log) }}
+      </div>
+    </div>
+  </div>
 </template>
