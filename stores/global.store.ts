@@ -30,10 +30,9 @@ export const useGlobalStore = defineStore('global', () => {
   const authTokenRefresh = useStatefulCookie('auth_token_refresh')
   const refCode = useStatefulCookie('ref')
 
+  const status = ref<string | null>(null)
   const initialed = ref<boolean>(false)
   const info = ref<Info>(DEFAULT_INFO)
-  const loading = ref(true)
-  const pending = ref(false)
   const isRunning = ref(false)
   const fetched = ref(false)
   const openDrawer = ref(false)
@@ -54,8 +53,7 @@ export const useGlobalStore = defineStore('global', () => {
     return info.value.doing?.account_task.find(x => !x.finished_at) || info.value.doing?.account_task[0]
   })
 
-  async function loadInfo(showLoading = true) {
-    loading.value = showLoading
+  async function loadInfo() {
     if (authToken.value) {
       const response = await useNativeFetch<Info>(`/hi`, {}).catch(e => null)
       if (response) {
@@ -64,7 +62,6 @@ export const useGlobalStore = defineStore('global', () => {
     } else {
       info.value = DEFAULT_INFO
     }
-    loading.value = false
     return !!(info.value && info.value.id)
   }
 
@@ -125,9 +122,8 @@ export const useGlobalStore = defineStore('global', () => {
       return
     }
     if (!task_id) task_id = info.value.doing?.id
-
-    if (task_id) {
-      pending.value = true
+    if (task_id && !status.value) {
+      status.value = 'working'
       const {earned, achievements, next} = await useNativeFetch<{
         earned: any,
         achievements: Achievement[],
@@ -135,7 +131,6 @@ export const useGlobalStore = defineStore('global', () => {
       }>(`/tasks/${task_id}/do`, {
         method: "POST",
       })
-
       if (earned) {
         percent.value = 0
         info.value[<'footprint' | 'egg'>earned.type] += earned.amount
@@ -143,13 +138,12 @@ export const useGlobalStore = defineStore('global', () => {
           description: `You got ${formatFloat(earned.amount, 0, 3)} ${earned.type}!`,
         })
       }
-
       info.value.doing = next
       refreshTask.value++
+      status.value = null
       if (next.type === 'default') {
         await useRouter().push({name: 'index'})
       }
-      pending.value = false
     }
     computeTimer()
     return info.value.doing
@@ -157,8 +151,8 @@ export const useGlobalStore = defineStore('global', () => {
 
   async function stop() {
     const task_id = info.value.doing?.id
-    if (task_id) {
-      pending.value = true
+    if (task_id && !status.value) {
+      status.value = 'working'
       const current = await useNativeFetch<ITask>(`/tasks/${task_id}/stop`, {
         method: "POST",
       }).catch(() => null)
@@ -170,12 +164,12 @@ export const useGlobalStore = defineStore('global', () => {
         percent.value = 0
         isRunning.value = false
       }
-      pending.value = false
+      status.value = null
     }
   }
 
   async function init() {
-    const isSuccess = await loadInfo(true)
+    const isSuccess = await loadInfo()
     if (isSuccess && refCode.value && !info.value.inviter) {
       await useNativeFetch('/settings', {
         method: 'POST', body: {
@@ -207,16 +201,15 @@ export const useGlobalStore = defineStore('global', () => {
     refreshTask,
     loggedIn,
     loadInfo,
-    loading,
     updateBoost,
     work,
     modalName,
     modalData,
-    pending,
     stop,
     init,
     computeTimer,
-    initialed
+    initialed,
+    status
   }
 })
 

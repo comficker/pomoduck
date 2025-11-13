@@ -153,6 +153,11 @@ watch(() => route.path, () => {
       </div>
     </div>
   </div>
+  <div v-if="store.status === 'cooking'" class="fixed inset-0 bg-white flex flex-col items-center justify-center gap-4">
+    <img class="size-64" src="/cooking.svg" alt="">
+    <div class="text-3xl font-bold">Cooooooking...</div>
+    <div class="label">Wait few seconds, quack!</div>
+  </div>
   <Dialog :open="!!store.modalName" @update:open="store.modalName = null">
     <DialogContent class="max-w-sm">
       <client-only>
@@ -165,7 +170,7 @@ watch(() => route.path, () => {
     <Toaster/>
   </ClientOnly>
   <div
-      v-if="cfg.public.env !== 'production'"
+      v-if="cfg.public.env !== 'production' && showLog"
       class="fixed duration-100 bottom-0 inset-x-0 p-4 bg-white z-10 overflow-auto border-t"
       :class="{'top-0': showLog}"
   >
@@ -173,9 +178,9 @@ watch(() => route.path, () => {
         v-if="cfg.public.env !== 'production'"
         class="label bg-white"
         @click="showLog = !showLog"
-    >Log
+    >Hide
     </div>
-    <div v-if="showLog" class="divide-y divide-dashed text-xs font-mono">
+    <div class="divide-y divide-dashed text-xs font-mono">
       <div class="py-1" v-for="log in authStore.logs">
         {{ JSON.stringify(log) }}
       </div>

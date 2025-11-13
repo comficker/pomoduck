@@ -8,6 +8,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   MiniKit.install()
   window.MiniKit = MiniKit
   if (!store.loggedIn) {
+    store.status = 'cooking'
     if (WebApp.isActive) {
       await authStore.authTelegram()
     }
@@ -15,5 +16,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       await authStore.authWithWorldCoin()
     }
     await store.loadInfo()
+    store.status = null
   }
 })

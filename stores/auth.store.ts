@@ -28,7 +28,6 @@ function urlParseQueryString(queryString: string) {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  const cooking = ref<boolean>(false);
   const route = useRoute()
   const authToken = useStatefulCookie('auth_token')
   const authTokenRefresh = useStatefulCookie('auth_token_refresh')
@@ -41,6 +40,11 @@ export const useAuthStore = defineStore('auth', () => {
     logs.value.push(message)
   }
 
+  const resetCookie = () => {
+    authToken.value = ""
+    authTokenRefresh.value = ""
+  }
+
   async function authTelegram(initData = null, connecting = false) {
     if (!initData && route.hash) {
       const h = decodeURIComponent(route.hash)
@@ -49,10 +53,8 @@ export const useAuthStore = defineStore('auth', () => {
     }
     if (initData) {
       activeAuth.value = 'telegram'
-      cooking.value = true
+      resetCookie()
       try {
-        authToken.value = ""
-        authTokenRefresh.value = ""
         const response = await useNativeFetch<{ refresh: string, access: string, merge?: string }>(`/auth-telegram`, {
           method: 'POST',
           body: {
@@ -63,16 +65,12 @@ export const useAuthStore = defineStore('auth', () => {
         if (response) {
           authToken.value = response.access
           authTokenRefresh.value = response.refresh
-          cooking.value = false
-          return response
         }
       } catch (e) {
         logs.value.push(e?.toString())
         logs.value.push(initData)
       }
     }
-    cooking.value = false
-    return null
   }
 
   const authWithWorldCoin = async () => {
@@ -81,9 +79,7 @@ export const useAuthStore = defineStore('auth', () => {
         return;
       }
       activeAuth.value = 'wld'
-      cooking.value = true
-      authToken.value = ""
-      authTokenRefresh.value = ""
+      resetCookie()
       const nonceRes = await useNativeFetch<{ nonce: string }>('/auth-wld')
       if (!nonceRes) return;
       const {finalPayload} = await window.MiniKit.commandsAsync.walletAuth({
@@ -101,14 +97,13 @@ export const useAuthStore = defineStore('auth', () => {
           payload: finalPayload
         }
       }).catch(e => {
-        console.log(e);
+        logging(e);
         return null
       })
       if (response) {
         authToken.value = response.access
         authTokenRefresh.value = response.refresh
       }
-      cooking.value = false
     } catch (e) {
       logging(e?.toString())
     }
@@ -148,8 +143,7 @@ export const useAuthStore = defineStore('auth', () => {
     re_password?: string,
     invite_code?: string
   }) => {
-    authToken.value = ''
-    authTokenRefresh.value = ''
+    resetCookie()
     const path = isRegister ? '/auth-register' : '/auth-login'
     const res = await useNativeFetch<{ refresh: string, access: string }>(path, {
       method: 'POST',
@@ -168,14 +162,12 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const logout = async () => {
-    authToken.value = ''
-    authTokenRefresh.value = ''
+    resetCookie()
   }
 
   refCode.value = route.query.ref + ''
 
   return {
-    cooking,
     logs,
     activeAuth,
     authLocal,
