@@ -50,27 +50,25 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-4 border-b">
+  <div class="p-4">
     <h1 class="label">Tasks</h1>
   </div>
-  <div class="p-4 border-b">
-    <div v-if="store.loggedIn" class="flex label justify-between">
-      <div class="flex gap-2">
-        <div
-            v-for="item in ['Public', 'Your']"
-            class="cursor-pointer"
-            :class="{'text-blue-500': taskFilter === item}"
-            @click="taskFilter = item"
-        >{{item}}</div>
-      </div>
-      <div class="flex gap-2">
-        <div
-            v-for="item in [[1, 'Available'], [2, 'Completed']]"
-            class="cursor-pointer"
-            :class="{'text-blue-500': item[0] === status}"
-            @click="status = item[0]"
-        >{{ item[1] }}
-        </div>
+  <div v-if="store.loggedIn" class="p-4 flex label justify-between">
+    <div class="flex gap-2">
+      <div
+          v-for="item in ['Public', 'Your']"
+          class="cursor-pointer"
+          :class="{'text-blue-500': taskFilter === item}"
+          @click="taskFilter = item"
+      >{{item}}</div>
+    </div>
+    <div class="flex gap-2">
+      <div
+          v-for="item in [[1, 'Available'], [2, 'Completed']]"
+          class="cursor-pointer"
+          :class="{'text-blue-500': item[0] === status}"
+          @click="status = item[0]"
+      >{{ item[1] }}
       </div>
     </div>
   </div>

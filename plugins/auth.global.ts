@@ -12,7 +12,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     if (!isSuccess && authTokenRefresh.value) {
       await authStore.refreshToken(retry)
     }
-    if (isSuccess || retry === 1) {
+    if (isSuccess || retry === 2) {
       break
     }
     retry++

@@ -170,8 +170,9 @@ export const useAuthStore = defineStore('auth', () => {
     if (process.client) {
       await authTelegram()
       await authWithWorldCoin()
+    } else {
+      authOAUTH()
     }
-    authOAUTH()
   }
 
   const logout = async () => {
