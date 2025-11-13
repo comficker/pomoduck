@@ -21,7 +21,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       sendHaptic: () => {
         if (WebApp) {
           WebApp.HapticFeedback.impactOccurred('medium')
-        } else if (window.wld.isInstalled()) {
+        } else if (window.MiniKit.isInstalled()) {
           MiniKit.commands.sendHapticFeedback({
             hapticsType: 'impact',
             style: 'light',
