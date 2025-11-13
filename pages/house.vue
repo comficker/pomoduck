@@ -34,7 +34,7 @@ useHead({
   </div>
   <div class="grid grid-cols-3 md:grid-cols-4 divide-x divide-y md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
     <div
-        v-for='i in ["common","uncommon", "rare", "epic", "legendary", "mythical", "", ""]'
+        v-for='i in ["common","uncommon", "rare", "epic", "legendary", "mythical", "", "", "", "", "", ""]'
     >
       <div class="pt-full relative">
         <div class="absolute inset-4 center">

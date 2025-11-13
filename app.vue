@@ -45,7 +45,7 @@ const store = useGlobalStore()
 const authStore = useAuthStore()
 const cfg = useRuntimeConfig()
 
-const showLog = ref(false)
+const tabCount = ref(0)
 
 onMounted(async () => {
   const {$setupTelegram} = useNuxtApp()
@@ -137,7 +137,7 @@ watch(() => route.path, () => {
     </div>
     <div class="md:px-4 uppercase font-bold text-2xs text-gray-500">
       <div class="md:border-x has-star max-w-3xl mx-auto flex justify-center md:justify-between">
-        <div class="p-2 flex items-center gap-1">
+        <div class="p-2 flex items-center gap-1" @click="tabCount++">
           <span>Version 1.0.0</span>
         </div>
         <div class="p-2 hidden md:flex items-center gap-1">
@@ -170,14 +170,13 @@ watch(() => route.path, () => {
     <Toaster/>
   </ClientOnly>
   <div
-      v-if="cfg.public.env !== 'production' && showLog"
-      class="fixed duration-100 bottom-0 inset-x-0 p-4 bg-white z-10 overflow-auto border-t"
-      :class="{'top-0': showLog}"
+      v-if="cfg.public.env !== 'production' && tabCount > 5"
+      class="fixed duration-100 inset-0 p-4 bg-white z-10 overflow-auto border-t"
   >
     <div
         v-if="cfg.public.env !== 'production'"
-        class="label bg-white"
-        @click="showLog = !showLog"
+        class="label bg-white cursor-pointer"
+        @click="tabCount = 0"
     >Hide
     </div>
     <div class="divide-y divide-dashed text-xs font-mono">

@@ -91,7 +91,6 @@ const onTelegramConnected = async (user: any) => {
       </div>
     </template>
     <TelegramLogin @done="onTelegramConnected"/>
-    <WorldLogin/>
     <GoogleLogin/>
     <TwitterLogin/>
   </div>
