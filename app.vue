@@ -69,8 +69,8 @@ watch(() => route.path, () => {
   <div v-if="authStore.logs.length" class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
     <textarea v-for="log in authStore.logs" class="w-full" :value="JSON.stringify(log)"/>
   </div>
-  <div class="wrapper w-full flex flex-col relative z-0 bg-neutral-100 md:gap-8">
-    <div class="max-w-2xl w-full mx-auto flex gap-4 p-4 py-2 justify-between items-center">
+  <div class="wrapper w-full flex flex-col relative z-0 md:gap-8">
+    <div class="max-w-4xl w-full mx-auto flex gap-4 p-4 py-2 justify-between items-center">
       <div class="flex-1 flex gap-4 items-center">
         <div class="menu">
           <nuxt-link class="block" to="/">
@@ -79,7 +79,7 @@ watch(() => route.path, () => {
           </nuxt-link>
           <nuxt-link to="/shop">
             <NuxtIcon name="storefront" class="size-5"/>
-            <span class="hidden md:block">Accessories</span>
+            <span class="hidden md:block">Shop</span>
           </nuxt-link>
         </div>
       </div>

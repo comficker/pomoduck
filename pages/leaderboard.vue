@@ -43,7 +43,7 @@ useHead({
         <span>{{ item }}</span>
       </div>
     </div>
-    <div v-if="pending" class="flex-1 divide-y divide-dashed text-sm">
+    <div v-if="pending" class="flex-1 divide-y divide-dashed">
       <div v-for="i in 20" class="py-1 flex">
         <div class="w-8">{{ i}}</div>
         <div class="flex-1">
