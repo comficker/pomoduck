@@ -4,8 +4,6 @@ import '@worldcoin/idkit-standalone'
 
 export default defineNuxtPlugin((nuxtApp) => {
   window.telegram = WebApp
-  window.wld = MiniKit
-  window.wld.install()
   const router = useRouter()
   return {
     provide: {
@@ -21,7 +19,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
       },
       sendHaptic: () => {
-        if (window.telegram.isActive) {
+        if (WebApp) {
           WebApp.HapticFeedback.impactOccurred('medium')
         } else if (window.wld.isInstalled()) {
           MiniKit.commands.sendHapticFeedback({

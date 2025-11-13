@@ -72,7 +72,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const authWithWorldCoin = async () => {
     try {
-      if (!window.wld) {
+      if (!window.MiniKit || !window.MiniKit.isInstalled()) {
         return;
       }
       activeAuth.value = 'wld'
@@ -81,7 +81,7 @@ export const useAuthStore = defineStore('auth', () => {
       authTokenRefresh.value = ""
       const nonceRes = await useNativeFetch<{ nonce: string }>('/auth-wld')
       if (!nonceRes) return;
-      const {finalPayload} = await window.wld.commandsAsync.walletAuth({
+      const {finalPayload} = await window.MiniKit.commandsAsync.walletAuth({
         nonce: nonceRes.nonce,
         statement: 'Login to POMODuck',
         requestId: "0",
@@ -91,7 +91,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await useNativeFetch<{ refresh: string, access: string }>('/auth-wld', {
         method: 'POST',
         body: {
-          info: window.wld.user,
+          info: window.MiniKit.user,
           nonce: nonceRes.nonce,
           payload: finalPayload
         }

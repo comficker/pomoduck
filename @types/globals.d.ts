@@ -8,7 +8,7 @@ declare global {
     Telegram: any
     webviewClose: any
     IDKit: any,
-    wld: typeof MiniKit
+    MiniKit: typeof MiniKit
     telegram: typeof WebApp
     onTelegramAuth: any
   }
