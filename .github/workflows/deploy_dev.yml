@@ -26,6 +26,8 @@ jobs:
             cd /home/pomoduck/front_dev
             git stash
             git pull origin dev
+            rm -rf .output
+            rm -rf .nuxt
             pnpm install
             pnpm run build
             pm2 restart pomoduck_dev
