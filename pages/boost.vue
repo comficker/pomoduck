@@ -1,13 +1,4 @@
 <script setup lang="ts">
-import {formatFloat} from "~/lib/utils";
-import {toast} from "vue-sonner";
-
-const options = [
-  {name: "24h", d: 1, a: 8},
-  {name: "7 days", d: 7, a: Math.round(8 * 7 * 0.8), s: 20},
-  {name: "30 days", d: 30, a: Math.round(8 * 30 * 0.7), s: 30}
-]
-
 const tasks = [
   {name: "PomoDuck in telegram name", d: 1, a: 8, s: 1},
   {name: "PomoDuck in X name", d: 7, a: Math.round(8 * 7 * 0.8), s: 1},
@@ -16,9 +7,7 @@ const tasks = [
 ]
 
 const store = useGlobalStore()
-const router = useRouter()
 
-const selected = ref(0)
 const boostState = computed(() => {
   let current = store.info.boost_level || 1
   if (store.info.boost_end) {
@@ -40,7 +29,7 @@ const boostState = computed(() => {
 </script>
 
 <template>
-  <div class="w-full px-4 flex flex-col relative gap-8">
+  <div class="p-4 flex flex-col relative gap-8">
     <div class="text-xl space-y-6">
       <div class="space-y-6 text-center">
         <div class="flex justify-center">
