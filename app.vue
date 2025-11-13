@@ -56,6 +56,7 @@ onMounted(async () => {
     authStore.logs.push(`MiniKit user: ${JSON.stringify(window.MiniKit.user)}`)
   }
   authStore.logs.push(`App.vue MiniKit isInstalled: ${window.MiniKit.isInstalled()}`)
+  authStore.logs.push(`UA: ${navigator.userAgent}`);
   document.addEventListener("contextmenu", function (e) {
     if (cfg.public.env === 'production') e.preventDefault();
     e.stopPropagation()

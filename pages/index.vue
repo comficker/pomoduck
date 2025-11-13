@@ -70,7 +70,6 @@ const onMouseUp = () => {
 const retry = async () => {
   await authStore.authTelegram()
   await authStore.authWithWorldCoin()
-
   const isSuccess = await store.init()
   if (!isSuccess) {
     store.modalName = 'auth'
