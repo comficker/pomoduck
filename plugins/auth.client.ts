@@ -4,11 +4,12 @@ import '@worldcoin/idkit-standalone'
 import {useAuthStore} from "~/stores/auth.store";
 
 export default defineNuxtPlugin(async (nuxtApp) => {
-  window.telegram = WebApp
-  window.MiniKit = MiniKit
-  window.MiniKit.install()
   const store = useGlobalStore()
   const authStore = useAuthStore()
+  window.telegram = WebApp
+  window.MiniKit = MiniKit
+  const x = window.MiniKit.install()
+  authStore.logs.push(`auth.client: ${x}`)
   const router = useRouter()
   if (!store.loggedIn) {
     if (WebApp.isActive) {

@@ -51,6 +51,8 @@ const showLog = ref(false)
 onMounted(async () => {
   const {$setupTelegram} = useNuxtApp()
   $setupTelegram()
+  authStore.logs.push(`App.vue: ${!!window.MiniKit}`)
+  authStore.logs.push(`App.vue: ${window.MiniKit.isInstalled()}`)
   document.addEventListener("contextmenu", function (e) {
     if (cfg.public.env === 'production') e.preventDefault();
     e.stopPropagation()
@@ -136,12 +138,12 @@ watch(() => route.path, () => {
         </div>
       </div>
     </div>
-    <div class="md:px-4">
-      <div class="md:border-x has-star max-w-3xl mx-auto flex justify-between">
-        <div class="p-2 uppercase font-bold text-2xs flex items-center gap-1 text-gray-500">
+    <div class="md:px-4 uppercase font-bold text-2xs text-gray-500">
+      <div class="md:border-x has-star max-w-3xl mx-auto flex justify-center md:justify-between">
+        <div class="p-2 flex items-center gap-1">
           <span>Version 1.0.0</span>
         </div>
-        <div class="p-2 uppercase font-bold text-2xs flex items-center gap-1 text-gray-500">
+        <div class="p-2 hidden md:flex items-center gap-1">
           <span>Powered by</span>
           <a class="size-5" target="_blank"
              href="https://world.org/mini-app?app_id=app_3a93096ed6e4f35613c5387f47a4266d">
