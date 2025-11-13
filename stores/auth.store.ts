@@ -167,6 +167,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (route.query.ref) {
       refCode.value = route.query.ref + ''
     }
+    console.log(process.client);
     if (process.client) {
       await authTelegram()
       await authWithWorldCoin()

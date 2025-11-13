@@ -5,6 +5,7 @@ import '@worldcoin/idkit-standalone'
 export default defineNuxtPlugin((nuxtApp) => {
   window.telegram = WebApp
   window.MiniKit = MiniKit
+  MiniKit.install()
   const router = useRouter()
   return {
     provide: {
