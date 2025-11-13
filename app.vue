@@ -53,9 +53,9 @@ onMounted(async () => {
   $setupTelegram()
   authStore.logs.push(`App.vue MiniKit: ${!!window.MiniKit}`)
   if (window.MiniKit) {
-    authStore.logs.push(`MiniKit user: ${JSON.stringify(window.MiniKit.user)}`)
+    authStore.logs.push(`MiniKit user: ${JSON.stringify(window.MiniKit?.user)}`)
   }
-  authStore.logs.push(`App.vue MiniKit isInstalled: ${window.MiniKit.isInstalled()}`)
+  authStore.logs.push(`App.vue MiniKit isInstalled: ${window.MiniKit?.isInstalled()}`)
   authStore.logs.push(`UA: ${navigator.userAgent}`);
   document.addEventListener("contextmenu", function (e) {
     if (cfg.public.env === 'production') e.preventDefault();
