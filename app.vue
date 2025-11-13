@@ -30,14 +30,13 @@ useHead({
       src: "https://www.googletagmanager.com/gtag/js?id=G-DYC8GTSSMK", async: true
     },
     {
-      hid: "gtmHead",
       innerHTML: `
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-DYC8GTSSMK');
         `,
-    },
+    }
   ]
 })
 
@@ -51,14 +50,6 @@ const showLog = ref(false)
 onMounted(async () => {
   const {$setupTelegram} = useNuxtApp()
   $setupTelegram()
-  authStore.logs.push(`App.vue MiniKit: ${!!window.MiniKit}`)
-  if (window.MiniKit) {
-    authStore.logs.push(`MiniKit user: ${JSON.stringify(window.MiniKit?.user)}`)
-  }
-  authStore.logs.push(`App.vue MiniKit isInstalled: ${window.MiniKit?.isInstalled()}`)
-  authStore.logs.push(`UA: ${navigator.userAgent}`);
-
-  authStore.logs.push(`App.vue MiniKitBridge: ${window.MiniKitBridge}`)
   document.addEventListener("contextmenu", function (e) {
     if (cfg.public.env === 'production') e.preventDefault();
     e.stopPropagation()
@@ -182,7 +173,8 @@ watch(() => route.path, () => {
         v-if="cfg.public.env !== 'production'"
         class="label bg-white"
         @click="showLog = !showLog"
-    >Log</div>
+    >Log
+    </div>
     <div v-if="showLog" class="divide-y divide-dashed text-xs font-mono">
       <div class="py-1" v-for="log in authStore.logs">
         {{ JSON.stringify(log) }}

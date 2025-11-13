@@ -11,6 +11,7 @@ declare global {
     MiniKit: typeof MiniKit
     telegram: typeof WebApp
     onTelegramAuth: any
+    MiniKitBridge: any
   }
 }
 
@@ -19,6 +20,7 @@ declare module '#app' {
     $openLink(url: string): void,
     $sendHaptic(): void,
     $setupTelegram(): void
+    $logging(message: any): void
   }
 }
 
@@ -27,5 +29,6 @@ declare module 'vue' {
     $openLink(url: string): void,
     $sendHaptic(): void,
     $setupTelegram(): void
+    $logging(message: any): void
   }
 }
