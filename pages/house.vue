@@ -17,46 +17,31 @@ useHead({
   <div class="p-4 label">
     <h1>Duck house</h1>
   </div>
-  <div class="grid divide-x grid-cols-2 md:grid-cols-4">
-    <div class="">
-      <div class="pt-full relative">
-        <div class="absolute inset-4 center">
-          <NuxtIcon filled name="footprint" class="size-24"/>
-        </div>
+  <div class="p-4 space-y-2">
+    <div class="label">Inventory</div>
+    <div class="space-y-1">
+      <div class="flex gap-2 items-center">
+        <NuxtIcon filled name="footprint" class="size-4"/>
+        <div>Footprint:</div>
+        <div>{{store.info.footprint}}</div>
       </div>
-      <div class="p-3 pt-0 space-y-2 relative z-10">
-        <div class="flex justify-between label">
-          <div>Footprint</div>
-          <div>{{store.info.footprint}}</div>
-        </div>
-        <Button class="w-full" @click="coming">Purchase</Button>
-      </div>
-    </div>
-    <div class="md:border-r">
-      <div class="pt-full relative">
-        <div class="absolute inset-4 center">
-          <NuxtIcon filled name="eggs" class="size-24"/>
-        </div>
-      </div>
-      <div class="p-3 pt-0 space-y-2 relative z-10">
-        <div class="flex justify-between label">
-          <div>Egg</div>
-          <div>{{store.info.egg}}</div>
-        </div>
-        <Button class="w-full" @click="coming">Hatch</Button>
+      <div class="flex gap-2 items-center">
+        <NuxtIcon filled name="eggs" class="size-4"/>
+        <div>Eggs:</div>
+        <div>{{store.info.egg}}</div>
       </div>
     </div>
   </div>
-  <div class="grid grid-cols-3 md:grid-cols-4 divide-x divide-y">
+  <div class="grid grid-cols-3 md:grid-cols-4 divide-x divide-y md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
     <div
-        v-for='i in ["common","uncommon", "rare", "epic", "legendary", "mythical"]'
+        v-for='i in ["common","uncommon", "rare", "epic", "legendary", "mythical", "", ""]'
     >
       <div class="pt-full relative">
         <div class="absolute inset-4 center">
-          <NuxtIcon filled :name="`duck/${i}`" class="size-32"/>
+          <NuxtIcon v-if="i" filled :name="`duck/${i}`" class="size-32"/>
         </div>
       </div>
-      <div class="flex justify-between p-3 label">
+      <div v-if="i" class="flex justify-between p-3 label">
         <div>{{ i }}</div>
         <div>0</div>
       </div>

@@ -58,13 +58,13 @@ useHead({
     <div class="p-4 label">History</div>
     <div class="flex divide-x label">
       <div class="p-2 flex-1 px-4">Date</div>
-      <div class="p-2 w-40 md:px-4">Time</div>
-      <div class="w-24 p-2 px-4 text-right">Eggs</div>
+      <div class="w-32 md:w-40 p-2 md:px-4">Time</div>
+      <div class="w-20 md:w-24 p-2 px-4 text-right">Eggs</div>
     </div>
     <div class="flex divide-x text-xs md:text-base" v-for="key in Object.keys(data.history).reverse().slice(0, 30)">
       <div class="p-2 flex-1 px-4">🗓️ {{ key }}</div>
-      <div class="p-2 w-40 md:px-4">🕒 {{ timeLeftStr(data.history[key].duration) }}</div>
-      <div class="w-24 p-2 px-4 flex justify-end gap-1 items-center">
+      <div class="w-32 md:w-40 p-2 md:px-4">🕒 {{ timeLeftStr(data.history[key].duration) }}</div>
+      <div class="w-20 md:w-24 p-2 px-4 flex justify-end gap-1 items-center">
         <span>{{ formatFloat(data.history[key].point) }}</span>
         <NuxtIcon name="eggs" filled class="size-4"/>
       </div>
