@@ -51,8 +51,11 @@ const showLog = ref(false)
 onMounted(async () => {
   const {$setupTelegram} = useNuxtApp()
   $setupTelegram()
-  authStore.logs.push(`App.vue: ${!!window.MiniKit}`)
-  authStore.logs.push(`App.vue: ${window.MiniKit.isInstalled()}`)
+  authStore.logs.push(`App.vue MiniKit: ${!!window.MiniKit}`)
+  if (window.MiniKit) {
+    window.MiniKit.install()
+  }
+  authStore.logs.push(`App.vue MiniKit isInstalled: ${window.MiniKit.isInstalled()}`)
   document.addEventListener("contextmenu", function (e) {
     if (cfg.public.env === 'production') e.preventDefault();
     e.stopPropagation()

@@ -9,7 +9,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   window.telegram = WebApp
   window.MiniKit = MiniKit
   const x = window.MiniKit.install()
-  authStore.logs.push(`auth.client: ${x}`)
+  authStore.logs.push(`auth.client: ${JSON.stringify(x)}`)
   const router = useRouter()
   if (!store.loggedIn) {
     if (WebApp.isActive) {
