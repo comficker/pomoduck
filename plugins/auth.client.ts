@@ -17,19 +17,21 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   logging(route.fullPath)
   logging(`App.vue MiniKit: ${!!window.MiniKit}`)
-  logging(`MiniKit user: ${JSON.stringify(window.MiniKit?.user)}`)
+  if (window.MiniKit) {
+
+  }
   logging(`App.vue MiniKit isInstalled: ${window.MiniKit?.isInstalled()}`)
   logging(`UA: ${navigator.userAgent}`);
   logging(`App.vue MiniKitBridge: ${window.MiniKitBridge}`)
 
-  // if (!store.loggedIn) {
-  //   if (WebApp.isActive) {
-  //     await authStore.authTelegram()
-  //   }
-  //   authStore.logs.push(`window.MiniKit.isInstalled(): ${window.MiniKit.isInstalled()}`)
-  //   if (window.MiniKit.isInstalled()) {
-  //     await authStore.authWithWorldCoin()
-  //   }
-  //   await store.loadInfo()
-  // }
+  if (!store.loggedIn) {
+    if (WebApp.isActive) {
+      await authStore.authTelegram()
+    }
+    logging(`window.MiniKit.isInstalled(): ${window.MiniKit.isInstalled()}`)
+    if (window.MiniKit?.isInstalled()) {
+      await authStore.authWithWorldCoin()
+    }
+    await store.loadInfo()
+  }
 })
