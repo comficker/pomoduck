@@ -27,11 +27,11 @@ const onClick = (task: ITask) => {
 
 <template>
   <div class="w-full divide-x mx-auto grid grid-cols-3 content text-left text-sm overflow-hidden">
-    <div v-for="item in taskRes?.results" class="">
+    <div v-for="item in taskRes?.results.sort((a, b) => b.duration_est - a.duration_est)" class="">
       <div
           @click="onClick(item)"
           class="cursor-pointer flex justify-between items-end p-2 py-1 md:p-4"
-          :class="{'border-orange-500': store.info.doing?.id === item.id}"
+          :class="{'bg-gray-100 shadow-inner': store.info.doing?.id === item.id}"
       >
         <div class="space-y-1">
           <div class="text-xs md:text-sm uppercase">{{ item.tag === 'work' ? 'Focus' : item.name }}</div>
