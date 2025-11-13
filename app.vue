@@ -69,9 +69,9 @@ watch(() => route.path, () => {
   <div v-if="authStore.logs.length" class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
     <textarea v-for="log in authStore.logs" class="w-full" :value="JSON.stringify(log)"/>
   </div>
-  <div class="wrapper w-full flex flex-col relative z-0">
-    <div class="v-line">
-      <div class="h-line has-star max-w-3xl w-full mx-auto flex gap-4 p-4 py-2 justify-between items-center">
+  <div class="wrapper w-full flex flex-col relative z-0 divide-y border-t md:border-t-0">
+    <div class="md:px-4 md:border-b">
+      <div class="md:border-x has-star max-w-3xl w-full mx-auto flex gap-4 p-4 py-2 justify-between items-center">
         <div class="flex-1 flex gap-4 items-center">
           <div class="menu">
             <nuxt-link class="block" to="/">
@@ -128,15 +128,15 @@ watch(() => route.path, () => {
         </div>
       </div>
     </div>
-    <div class="v-line flex-1">
-      <div class="h-line has-star h-full max-w-3xl mx-auto relative">
-        <div class="absolute inset-0 overflow-auto no-scroll divide-y">
+    <div class="md:px-4 md:border-b flex-1">
+      <div class="md:border-x has-star h-full max-w-3xl mx-auto relative">
+        <div class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y">
           <nuxt-page/>
         </div>
       </div>
     </div>
-    <div class="v-line">
-      <div class="h-line has-star max-w-3xl mx-auto">
+    <div class="md:px-4 md:border-b">
+      <div class="md:border-x has-star max-w-3xl mx-auto">
         <div class="p-2 uppercase font-bold text-2xs hidden md:flex justify-end items-center gap-1 text-gray-500">
           <span>Powered by</span>
           <a class="size-5" target="_blank"

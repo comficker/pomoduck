@@ -280,18 +280,6 @@ a.router.router-link-exact-active {
     display: inline-flex;
 }
 
-.v-line {
-    @apply px-4;
-
-    border-bottom: 1px solid #EDEDED;
-}
-
-.v-line .h-line {
-    @apply border-x;
-
-    border-color: #EDEDED;
-}
-
 .has-star {
     @apply relative;
 }
