@@ -68,6 +68,10 @@ const onMouseUp = () => {
 }
 
 const retry = async () => {
+   authStore.logs.push(`App.vue MiniKit isInstalled: ${window.MiniKit?.isInstalled()}`)
+  authStore.logs.push(`UA: ${navigator.userAgent}`);
+
+  authStore.logs.push(`App.vue MiniKitBridge: ${window.MiniKitBridge}`)
   await authStore.authTelegram()
   await authStore.authWithWorldCoin()
   const isSuccess = await store.init()
