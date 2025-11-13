@@ -36,6 +36,11 @@ export const useAuthStore = defineStore('auth', () => {
   const logs = ref<any[]>([])
   const activeAuth = ref('local')
 
+  const logging = (message: any) => {
+    console.log(message);
+    logs.value.push(message)
+  }
+
   async function authTelegram(initData = null, connecting = false) {
     if (!initData && route.hash) {
       const h = decodeURIComponent(route.hash)
@@ -75,14 +80,11 @@ export const useAuthStore = defineStore('auth', () => {
       if (!window.MiniKit || !window.MiniKit.isInstalled()) {
         return;
       }
-      logs.value.push(`authWithWorldCoin: ${1}`)
       activeAuth.value = 'wld'
       cooking.value = true
       authToken.value = ""
       authTokenRefresh.value = ""
-      logs.value.push(`authWithWorldCoin: ${2}`)
       const nonceRes = await useNativeFetch<{ nonce: string }>('/auth-wld')
-      logs.value.push(`authWithWorldCoin: ${3} - ${nonceRes}`)
       if (!nonceRes) return;
       const {finalPayload} = await window.MiniKit.commandsAsync.walletAuth({
         nonce: nonceRes.nonce,
@@ -91,7 +93,6 @@ export const useAuthStore = defineStore('auth', () => {
         expirationTime: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
         notBefore: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
       })
-      logs.value.push(`authWithWorldCoin: ${4} - ${finalPayload}`)
       const response = await useNativeFetch<{ refresh: string, access: string }>('/auth-wld', {
         method: 'POST',
         body: {
@@ -103,14 +104,13 @@ export const useAuthStore = defineStore('auth', () => {
         console.log(e);
         return null
       })
-      logs.value.push(`authWithWorldCoin: ${5} - ${response}`)
       if (response) {
         authToken.value = response.access
         authTokenRefresh.value = response.refresh
       }
       cooking.value = false
     } catch (e) {
-      logs.value.push(e?.toString())
+      logging(e?.toString())
     }
   }
 
@@ -183,7 +183,8 @@ export const useAuthStore = defineStore('auth', () => {
     authTelegram,
     authWithWorldCoin,
     refreshToken,
-    authOAUTH
+    authOAUTH,
+    logging
   }
 })
 
