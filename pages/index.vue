@@ -3,6 +3,7 @@ import TaskSwitch from "~/components/TaskSwitch.vue";
 
 const {$sendHaptic} = useNuxtApp()
 const store = useGlobalStore()
+const authStore = useAuthStore()
 
 useHead({
   title: "Pomodoro Timer - PomoDuck Timer"
@@ -63,6 +64,14 @@ const onMouseUp = () => {
   }
   if (timeoutId.value) {
     clearTimeout(timeoutId.value)
+  }
+}
+
+const retry = async () => {
+  await authStore.init()
+  const isSuccess = await store.init()
+  if (!isSuccess) {
+    store.modalName = 'auth'
   }
 }
 
@@ -129,7 +138,7 @@ onMounted(() => {
           </div>
         </Button>
       </div>
-      <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="store.modalName = 'auth'">
+      <Button v-else class="w-2/3 rounded-2xl h-12 text-xl relative overflow-hidden" @click="retry">
         Start session
       </Button>
       <div class="my-4 flex flex-col items-center justify-center gap-2 text-xs font-bold uppercase">
