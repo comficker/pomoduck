@@ -90,7 +90,7 @@ const handleCLickToolTip = (day: string, val: boolean) => {
 </script>
 
 <template>
-  <div class="space-y-2 bg-white p-2">
+  <div class="space-y-2">
     <div class="label">Working activity</div>
     <div class="flex gap-2">
       <div class="w-4 flex flex-col text-xs justify-between num">

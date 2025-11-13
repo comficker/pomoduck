@@ -123,7 +123,7 @@ watch(() => form.value.unit, () => {
 
 <template>
   <div
-      class="task content p-2 rounded flex items-center gap-4 group"
+      class="task content rounded flex items-center gap-4 group"
       :class="{'!bg-yellow-50 border': updating, '!bg-yellow-50': status === TASK_STATUS.DOING}"
   >
     <div class="flex-1 flex gap-4 items-center">

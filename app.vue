@@ -69,74 +69,85 @@ watch(() => route.path, () => {
   <div v-if="authStore.logs.length" class="fixed top-0 inset-x-0 p-4 bg-black/20 z-10">
     <textarea v-for="log in authStore.logs" class="w-full" :value="JSON.stringify(log)"/>
   </div>
-  <div class="wrapper w-full flex flex-col relative z-0 md:gap-8">
-    <div class="max-w-4xl w-full mx-auto flex gap-4 p-4 py-2 justify-between items-center">
-      <div class="flex-1 flex gap-4 items-center">
+  <div class="wrapper w-full flex flex-col relative z-0">
+    <div class="v-line">
+      <div class="h-line has-star max-w-3xl w-full mx-auto flex gap-4 p-4 py-2 justify-between items-center">
+        <div class="flex-1 flex gap-4 items-center">
+          <div class="menu">
+            <nuxt-link class="block" to="/">
+              <NuxtIcon name="house" class="size-5"/>
+              <span class="hidden md:block">Home</span>
+            </nuxt-link>
+            <nuxt-link to="/shop">
+              <NuxtIcon name="storefront" class="size-5"/>
+              <span class="hidden md:block">Shop</span>
+            </nuxt-link>
+          </div>
+        </div>
         <div class="menu">
-          <nuxt-link class="block" to="/">
-            <NuxtIcon name="house" class="size-5"/>
-            <span class="hidden md:block">Home</span>
+          <nuxt-link to="/leaderboard">
+            <NuxtIcon name="leaderboard" class="size-5"/>
           </nuxt-link>
-          <nuxt-link to="/shop">
-            <NuxtIcon name="storefront" class="size-5"/>
-            <span class="hidden md:block">Shop</span>
+          <nuxt-link to="/achievement" class="">
+            <NuxtIcon name="medal" class="size-5"/>
           </nuxt-link>
+          <nuxt-link to="/task" class="">
+            <NuxtIcon name="task" class="size-5"/>
+          </nuxt-link>
+          <nuxt-link to="/report" class="">
+            <NuxtIcon name="rank" class="size-5"/>
+          </nuxt-link>
+          <DropdownMenu v-if="store.loggedIn">
+            <DropdownMenuTrigger as-child>
+              <div
+                  class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer">
+                <div class="hidden md:flex p-4 py-1 gap-1 items-center text-base">
+                  <NuxtIcon name="egg" class="size-4" filled/>
+                  <span>{{ formatFloat(store.info.egg, 0, 0) }}</span>
+                </div>
+                <div class="flex-1 p-1">
+                  <NuxtIcon name="chevron-down" class="size-5"/>
+                </div>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="bottom" align="end" class="text-base min-w-52">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator/>
+              <DropdownMenuItem v-if="false">Profile</DropdownMenuItem>
+              <DropdownMenuItem as-child>
+                <nuxt-link to="/house">House</nuxt-link>
+              </DropdownMenuItem>
+              <DropdownMenuItem as-child>
+                <nuxt-link to="/settings">Settings</nuxt-link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator/>
+              <DropdownMenuItem @click="store.logout()">Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button v-else @click="store.modalName = 'auth'">Login</Button>
         </div>
       </div>
-      <div class="menu">
-        <nuxt-link to="/leaderboard">
-          <NuxtIcon name="leaderboard" class="size-5"/>
-        </nuxt-link>
-        <nuxt-link to="/achievement" class="">
-          <NuxtIcon name="medal" class="size-5"/>
-        </nuxt-link>
-        <nuxt-link to="/task" class="">
-          <NuxtIcon name="task" class="size-5"/>
-        </nuxt-link>
-        <nuxt-link to="/report" class="">
-          <NuxtIcon name="rank" class="size-5"/>
-        </nuxt-link>
-        <DropdownMenu v-if="store.loggedIn">
-          <DropdownMenuTrigger as-child>
-            <div
-                class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer">
-              <div class="hidden md:flex p-4 py-1 gap-1 items-center text-base">
-                <NuxtIcon name="egg" class="size-4" filled/>
-                <span>{{ formatFloat(store.info.egg, 0, 0) }}</span>
-              </div>
-              <div class="flex-1 p-1">
-                <NuxtIcon name="chevron-down" class="size-5"/>
-              </div>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent side="bottom" align="end" class="text-base min-w-52">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator/>
-            <DropdownMenuItem v-if="false">Profile</DropdownMenuItem>
-            <DropdownMenuItem as-child>
-              <nuxt-link to="/house">House</nuxt-link>
-            </DropdownMenuItem>
-            <DropdownMenuItem as-child>
-              <nuxt-link to="/settings">Settings</nuxt-link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator/>
-            <DropdownMenuItem @click="store.logout()">Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <Button v-else @click="store.modalName = 'auth'">Login</Button>
+    </div>
+    <div class="v-line flex-1">
+      <div class="h-line has-star h-full max-w-3xl mx-auto relative">
+        <div class="absolute inset-0 overflow-auto no-scroll divide-y">
+          <nuxt-page/>
+        </div>
       </div>
     </div>
-    <div class="max-w-lg mx-auto flex-1 w-full relative overflow-y-auto no-scroll">
-      <nuxt-page/>
-    </div>
-    <div class="p-2 uppercase font-bold text-2xs hidden md:flex justify-center items-center gap-1 text-gray-500">
-      <span>Powered by</span>
-      <a class="size-5" target="_blank" href="https://world.org/mini-app?app_id=app_3a93096ed6e4f35613c5387f47a4266d">
-        <NuxtIcon name="wld" filled/>
-      </a>
-      <a class="size-5" target="_blank" href="https://t.me/Pomoduck_bot">
-        <NuxtIcon name="ton" filled/>
-      </a>
+    <div class="v-line">
+      <div class="h-line has-star max-w-3xl mx-auto">
+        <div class="p-2 uppercase font-bold text-2xs hidden md:flex justify-end items-center gap-1 text-gray-500">
+          <span>Powered by</span>
+          <a class="size-5" target="_blank"
+             href="https://world.org/mini-app?app_id=app_3a93096ed6e4f35613c5387f47a4266d">
+            <NuxtIcon name="wld" filled/>
+          </a>
+          <a class="size-5" target="_blank" href="https://t.me/Pomoduck_bot">
+            <NuxtIcon name="ton" filled/>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
   <div v-if="authStore.cooking" class="fixed bg-white inset-0 flex flex-col justify-center gap-6 items-center z-10">

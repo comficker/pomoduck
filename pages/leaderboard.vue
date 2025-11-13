@@ -33,7 +33,7 @@ useHead({
 </script>
 
 <template>
-  <div class="w-full px-4 flex flex-col relative gap-2">
+  <div class="border-b p-4 label has-star">
     <div class="flex gap-4 label">
       <div
           v-for="item in modes"
@@ -43,44 +43,44 @@ useHead({
         <span>{{ item }}</span>
       </div>
     </div>
-    <div v-if="pending" class="flex-1 divide-y divide-dashed">
-      <div v-for="i in 20" class="py-1 flex">
-        <div class="w-8">{{ i}}</div>
-        <div class="flex-1">
-          <div class="h-4 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
-        </div>
-        <div class="flex justify-end w-32">
-          <div class="h-4 bg-gray-200" :style="{width: `${getRandomInt(20, 40)}%`}"/>
-        </div>
+  </div>
+  <div v-if="pending" class="flex-1 divide-y">
+    <div v-for="i in 20" class="flex divide-x border-b">
+      <div class="p-2 w-10 text-center">{{ i}}</div>
+      <div class="p-2 flex-1">
+        <div class="h-4 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
+      </div>
+      <div class="p-2 flex justify-end w-32">
+        <div class="h-4 bg-gray-200" :style="{width: `${getRandomInt(20, 40)}%`}"/>
       </div>
     </div>
-    <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y divide-dashed text-sm">
-      <div v-for="(item, i) in mate.results" :key="item.id" class="py-1 font-semibold flex">
-        <div class="w-8">{{ i + 1}}</div>
-        <div class="flex-1">{{ shortAddress(item.username || `${item.first_name} ${item.last_name}`, 16) }}</div>
-        <div class="flex items-center gap-1 content">
-          <span>{{ timeLeftStr(item.total_focus) }}</span>
-        </div>
+  </div>
+  <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y">
+    <div v-for="(item, i) in mate.results" :key="item.id" class="divide-x font-semibold flex border-b">
+      <div class="p-2 w-10 text-center">{{ i + 1}}</div>
+      <div class="p-2 flex-1 has-star">{{ shortAddress(item.username || `${item.first_name} ${item.last_name}`, 16) }}</div>
+      <div class="p-2 w-32 flex items-center justify-end gap-1 content">
+        <span>{{ timeLeftStr(item.total_focus) }}</span>
       </div>
     </div>
-    <div v-if="!pending && mode === 'Friends'" class="bg-white rounded p-4 space-y-3 sticky bottom-0">
-      <div class="relative">
-        <div class="flex items-center gap-4">
-          <input
-              disabled :value="url" type="text"
-              class="text-sm !py-2 text-gray-600 flex-1 outline-none"
-              :class="{'blur-sm': !store.loggedIn}"
-          >
-          <Copy v-if="store.loggedIn" :value="url"/>
-        </div>
-        <div v-if="!store.loggedIn" class="absolute inset-0 flex items-center justify-center">
-          <div class="label underline cursor-pointer" @click="store.modalName = 'auth'">Login to get your link</div>
-        </div>
+  </div>
+  <div v-if="!pending && mode === 'Friends'" class="bg-white rounded p-4 space-y-3 sticky bottom-0">
+    <div class="relative">
+      <div class="flex items-center gap-4">
+        <input
+            disabled :value="url" type="text"
+            class="text-sm !py-2 text-gray-600 flex-1 outline-none"
+            :class="{'blur-sm': !store.loggedIn}"
+        >
+        <Copy v-if="store.loggedIn" :value="url"/>
       </div>
-      <div class="flex-1 flex items-center justify-center">
-        <Share :url="url" title="Focus to earn with me!"/>
+      <div v-if="!store.loggedIn" class="absolute inset-0 flex items-center justify-center">
+        <div class="label underline cursor-pointer" @click="store.modalName = 'auth'">Login to get your link</div>
       </div>
-      <div class="text-sm text-center">Earn 10% from your mates and 2% from their referrals</div>
     </div>
+    <div class="flex-1 flex items-center justify-center">
+      <Share :url="url" title="Focus to earn with me!"/>
+    </div>
+    <div class="text-sm text-center">Earn 10% from your mates and 2% from their referrals</div>
   </div>
 </template>

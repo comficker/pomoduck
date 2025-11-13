@@ -9,14 +9,22 @@ const {data, pending} = useAuthFetch<APIResponse<IShopItem>>('/items/')
 </script>
 
 <template>
-  <div class="px-4 space-y-2">
-    <div class="flex gap-4 label">
-      <div class="cursor-pointer text-black">Shop</div>
-    </div>
-    <div class="grid grid-cols-1 gap-2">
-      <template v-if="data && !pending">
-        <ShopItem v-for='item in data.results' :key="item.id" :item="item"/>
-      </template>
+  <div class="p-4 label has-star">
+    <h1 class="cursor-pointer text-black">Shop</h1>
+  </div>
+  <div class="grid md:grid-cols-2 md:divide-x divide-y" v-if="data && !pending">
+    <div v-for='item in data.results' :key="item.id" class="p-4 shop-item has-star">
+      <ShopItem :item="item"/>
     </div>
   </div>
 </template>
+
+<style>
+.shop-item:last-child {
+  @apply border-b;
+}
+
+.shop-item:nth-child(even) {
+  @apply border-r-0;
+}
+</style>

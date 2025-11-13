@@ -113,79 +113,79 @@ useHead({
 </script>
 
 <template>
-  <div class="w-full h-full px-4 flex flex-col relative gap-6">
-    <div class="space-y-3">
-      <div class="label">Settings</div>
-      <div v-if="form.meta" class="space-y-2">
+  <div class="p-4">
+    <h1 class="label">Settings</h1>
+  </div>
+  <div class="p-4 space-y-3">
+    <div v-if="form.meta" class="space-y-2">
+      <div class="flex justify-between">
+        <span class="font-semibold">Notify</span>
+        <Switch
+            :model-value="form.meta && form.meta.notify.in_app && form.meta.notify.extension && form.meta.notify.telegram"
+            @update:model-value="toggleNotifySwitch"
+        />
+      </div>
+      <div class="space-y-2 flex-1">
         <div class="flex justify-between">
-          <span class="font-semibold">Notify</span>
-          <Switch
-              :model-value="form.meta && form.meta.notify.in_app && form.meta.notify.extension && form.meta.notify.telegram"
-              @update:model-value="toggleNotifySwitch"
-          />
+          <div class="flex gap-1">
+            <NuxtIcon name="subdirectory" class="size-4"/>
+            <span class="font-semibold">In app</span>
+          </div>
+          <Switch v-model="form.meta.notify.in_app"/>
         </div>
-        <div class="space-y-2 flex-1">
-          <div class="flex justify-between">
-            <div class="flex gap-1">
-              <NuxtIcon name="subdirectory" class="size-4"/>
-              <span class="font-semibold">In app</span>
-            </div>
-            <Switch v-model="form.meta.notify.in_app"/>
+        <div class="flex justify-between">
+          <div class="flex gap-1">
+            <NuxtIcon name="subdirectory" class="size-4"/>
+            <span class="font-semibold">Telegram</span>
           </div>
-          <div class="flex justify-between">
-            <div class="flex gap-1">
-              <NuxtIcon name="subdirectory" class="size-4"/>
-              <span class="font-semibold">Telegram</span>
-            </div>
-            <Switch v-model="form.meta.notify.telegram"/>
-          </div>
-          <div class="flex justify-between">
-            <div class="flex gap-1">
-              <NuxtIcon name="subdirectory" class="size-4"/>
-              <span class="font-semibold">Extension</span>
-            </div>
-            <Switch v-model="form.meta.notify.extension"/>
-          </div>
+          <Switch v-model="form.meta.notify.telegram"/>
         </div>
-      </div>
-      <div v-if="form.meta" class="flex justify-between">
-        <span class="font-semibold">Sound</span>
-        <Switch v-model="form.meta.sound"/>
-      </div>
-      <div v-if="form.meta" class="flex justify-between">
-        <span class="font-semibold">Haptic Feedback</span>
-        <Switch v-model="form.meta.vibration"/>
+        <div class="flex justify-between">
+          <div class="flex gap-1">
+            <NuxtIcon name="subdirectory" class="size-4"/>
+            <span class="font-semibold">Extension</span>
+          </div>
+          <Switch v-model="form.meta.notify.extension"/>
+        </div>
       </div>
     </div>
-    <div class="space-y-3">
-      <div class="space-y-1">
-        <div class="label">Connected</div>
-        <p class="text-sm italic">You can login and synchronize via connected app</p>
+    <div v-if="form.meta" class="flex justify-between">
+      <span class="font-semibold">Sound</span>
+      <Switch v-model="form.meta.sound"/>
+    </div>
+    <div v-if="form.meta" class="flex justify-between">
+      <span class="font-semibold">Haptic Feedback</span>
+      <Switch v-model="form.meta.vibration"/>
+    </div>
+  </div>
+  <div class="p-4 space-y-3">
+    <div class="space-y-1">
+      <div class="label">Connect</div>
+      <p class="text-sm italic">You can login and synchronize via connected app</p>
+    </div>
+    <div class="space-y-2">
+      <div class="flex justify-between items-center">
+        <span class="font-semibold">Google</span>
+        <div v-if="data?.google_id">
+          {{ data.email || data.google_id }}
+        </div>
+        <Button v-else variant="outline" size="xs" @click="connectOauth('google')">Connect</Button>
       </div>
-      <div class="space-y-2">
-        <div class="flex justify-between items-center">
-          <span class="font-semibold">Google</span>
-          <div v-if="data?.google_id">
-            {{ data.email || data.google_id }}
-          </div>
-          <Button v-else variant="outline" size="xs" @click="connectOauth('google')">Connect</Button>
+      <div class="flex justify-between items-center">
+        <span class="font-semibold">Telegram</span>
+        <div v-if="data?.tg_id">
+          {{ data.telegram_username || data.tg_id }}
         </div>
-        <div class="flex justify-between items-center">
-          <span class="font-semibold">Telegram</span>
-          <div v-if="data?.tg_id">
-            {{ data.telegram_username || data.tg_id }}
-          </div>
-          <client-only v-else>
-            <TelegramLogin @done="handleTelegramConnected"/>
-          </client-only>
+        <client-only v-else>
+          <TelegramLogin @done="handleTelegramConnected"/>
+        </client-only>
+      </div>
+      <div class="flex justify-between items-center">
+        <span class="font-semibold">X</span>
+        <div v-if="data?.twitter_id">
+          {{ data.twitter_username || data.twitter_id }}
         </div>
-        <div class="flex justify-between items-center">
-          <span class="font-semibold">X</span>
-          <div v-if="data?.twitter_id">
-            {{ data.twitter_username || data.twitter_id }}
-          </div>
-          <Button v-else variant="outline" size="xs" @click="connectOauth('twitter')">Connect</Button>
-        </div>
+        <Button v-else variant="outline" size="xs" @click="connectOauth('twitter')">Connect</Button>
       </div>
     </div>
   </div>
