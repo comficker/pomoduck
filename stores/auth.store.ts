@@ -72,7 +72,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const authWithWorldCoin = async () => {
     try {
-      if (!window.wld || !window.wld.isInstalled()) {
+      if (!window.wld) {
         return;
       }
       activeAuth.value = 'wld'

@@ -11,6 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import useStatefulCookie from "~/composables/useStatefulCookie";
+import {useAuthStore} from "~/stores/auth.store";
 
 useHead({
   title: "PomoDuck Timer",
@@ -44,6 +46,7 @@ const route = useRoute()
 const store = useGlobalStore()
 const authStore = useAuthStore()
 const cfg = useRuntimeConfig()
+
 onMounted(async () => {
   const {$setupTelegram} = useNuxtApp()
   $setupTelegram()
@@ -63,6 +66,11 @@ watch(() => route.path, () => {
     }
   }
 })
+
+const retry = async () => {
+  await authStore.authWithWorldCoin()
+  await store.loadInfo()
+}
 </script>
 
 <template>
@@ -150,9 +158,10 @@ watch(() => route.path, () => {
       </div>
     </div>
   </div>
-  <div v-if="authStore.cooking" class="fixed bg-white inset-0 flex flex-col justify-center gap-6 items-center z-10">
-    <img class="size-16" src="/icon.png" alt="">
+  <div v-if="authStore.activeAuth === 'wld' && !store.loggedIn" class="fixed bg-white inset-0 flex flex-col justify-center gap-6 items-center z-10">
+    <NuxtIcon class="size-32" name="duck/mythical" filled/>
     <span class="text-center text-xl font-bold">Cooking...</span>
+    <Button class="px-10" @click="retry">Retry</Button>
   </div>
   <Dialog :open="!!store.modalName" @update:open="store.modalName = null">
     <DialogContent class="max-w-sm">
