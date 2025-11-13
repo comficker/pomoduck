@@ -35,7 +35,7 @@ useHead({
 </script>
 
 <template>
-  <div class="p-4 label has-star">
+  <div class="p-4 label">
     <h1>Achievements</h1>
   </div>
   <div class="text-xs divide-y border-b">

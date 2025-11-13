@@ -26,38 +26,21 @@ const onClick = (task: ITask) => {
 </script>
 
 <template>
-  <div class="max-w-sm mx-auto grid grid-cols-3 content text-left gap-2 text-sm">
-    <template v-if="canAction">
+  <div class="w-full divide-x mx-auto grid grid-cols-3 content text-left text-sm overflow-hidden">
+    <div v-for="item in taskRes?.results" class="">
       <div
-          v-for="item in taskRes?.results" @click="onClick(item)"
-          class="cursor-pointer border p-1 rounded flex justify-between items-end bg-white"
+          @click="onClick(item)"
+          class="cursor-pointer flex justify-between items-end p-2 py-1 md:p-4"
           :class="{'border-orange-500': store.info.doing?.id === item.id}"
       >
         <div class="space-y-1">
-          <div class="text-sm">{{ item.tag === 'work' ? 'Focus' : item.name }}</div>
+          <div class="text-xs md:text-sm uppercase">{{ item.tag === 'work' ? 'Focus' : item.name }}</div>
           <div class="flex">
             <NuxtIcon :name="item.tag" class="size-4 text-gray-300"/>
           </div>
         </div>
         <NuxtIcon v-for="i in item.reward_amount" :name="item.reward_type" filled class="size-3"/>
       </div>
-    </template>
-    <template v-else-if="store.info.doing">
-      <div class=""/>
-      <div class="cursor-pointer border p-1 rounded flex justify-between items-end border-transparent">
-        <div class="space-y-1">
-          <div class="text-sm">{{ store.info.doing.tag === 'work' ? 'Focus' : store.info.doing.name }}</div>
-          <div class="flex">
-            <NuxtIcon :name="store.info.doing.tag" class="size-4 text-gray-300"/>
-          </div>
-        </div>
-        <NuxtIcon
-            v-for="i in store.info.doing.reward_amount"
-            :name="store.info.doing.reward_type" filled
-            class="size-3"
-        />
-      </div>
-      <div class=""/>
-    </template>
+    </div>
   </div>
 </template>

@@ -113,8 +113,8 @@ useHead({
 </script>
 
 <template>
-  <div class="p-4">
-    <h1 class="label">Settings</h1>
+  <div class="p-4 label">
+    <h1>Settings</h1>
   </div>
   <div class="p-4 space-y-3">
     <div v-if="form.meta" class="space-y-2">

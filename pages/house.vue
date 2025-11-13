@@ -14,8 +14,8 @@ useHead({
 </script>
 
 <template>
-  <div class="p-4">
-    <div class="label">Duck house</div>
+  <div class="p-4 label">
+    <h1>Duck house</h1>
   </div>
   <div class="grid divide-x grid-cols-2 md:grid-cols-4">
     <div class="">

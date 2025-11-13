@@ -33,7 +33,7 @@ useHead({
 </script>
 
 <template>
-  <div v-if="data" class="border-b divide-x grid grid-cols-3 gap-2 md:gap-3 font-bold">
+  <div v-if="data" class="border-b divide-x grid grid-cols-3 font-bold">
     <div class="p-4">
       <div class="text-2xs uppercase">Day streak</div>
       <div class="text-5xl">{{ store.info.day_streak }}</div>

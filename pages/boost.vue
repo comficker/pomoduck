@@ -37,44 +37,6 @@ const boostState = computed(() => {
     end: null
   }
 })
-
-
-const boost = () => {
-  const s = options[selected.value]
-  if (!store.loggedIn) {
-    store.modalName = 'auth'
-    return
-  }
-  if (store.info.boost_balance < s.a) {
-    toast.error("Something went wrong!", {
-      description: "Balance is not enough!",
-      action: {
-        label: 'Get!',
-        onClick: () => router.push('/balance?type=Boost&action=purchase'),
-      }
-    })
-    return
-  }
-  useNativeFetch<{ "boost_balance": number, "boost_end": string }>('/boost', {
-    method: "POST",
-    body: {
-      days: s.d
-    }
-  }).then(r => {
-    store.updateBoost(r)
-    toast.error("Double Boost Activated!", {
-      description: "Focus and earn now!",
-      action: {
-        label: 'Go!',
-        onClick: () => router.push('/'),
-      }
-    })
-  }).catch(e => {
-    toast("Something went wrong!", {
-      description: "Boost error, try again!",
-    })
-  })
-}
 </script>
 
 <template>

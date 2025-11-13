@@ -91,11 +91,6 @@
     font-size: 10px;
 }
 
-.task:nth-child(odd),
-.app:nth-child(odd) {
-    background: #FFF;
-}
-
 a {
     cursor: pointer;
 }

@@ -33,16 +33,14 @@ useHead({
 </script>
 
 <template>
-  <div class="border-b p-4 label has-star">
-    <div class="flex gap-4 label">
-      <div
-          v-for="item in modes"
-          class="cursor-pointer" :class="{'text-black': item == mode}"
-          @click="mode=item"
-      >
-        <span>{{ item }}</span>
-      </div>
-    </div>
+  <div class="p-4 flex gap-4 label">
+    <h1
+        v-for="item in modes"
+        class="cursor-pointer" :class="{'text-black': item == mode}"
+        @click="mode=item"
+    >
+      <span>{{ item }}</span>
+    </h1>
   </div>
   <div v-if="pending" class="flex-1 divide-y">
     <div v-for="i in 20" class="flex divide-x border-b">
@@ -58,7 +56,7 @@ useHead({
   <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y">
     <div v-for="(item, i) in mate.results" :key="item.id" class="divide-x font-semibold flex border-b">
       <div class="p-2 w-10 text-center">{{ i + 1}}</div>
-      <div class="p-2 flex-1 has-star">{{ shortAddress(item.username || `${item.first_name} ${item.last_name}`, 16) }}</div>
+      <div class="p-2 flex-1">{{ shortAddress(item.username || `${item.first_name} ${item.last_name}`, 16) }}</div>
       <div class="p-2 w-32 flex items-center justify-end gap-1 content">
         <span>{{ timeLeftStr(item.total_focus) }}</span>
       </div>
