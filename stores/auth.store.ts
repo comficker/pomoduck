@@ -155,24 +155,10 @@ export const useAuthStore = defineStore('auth', () => {
     if (res) {
       authToken.value = res.access
       authTokenRefresh.value = res.refresh
-      await init()
     } else {
       toast("'Something went wrong!'", {
         description: 'Please recheck your input!',
       })
-    }
-  }
-
-  const init = async () => {
-    if (route.query.ref) {
-      refCode.value = route.query.ref + ''
-    }
-    console.log(process.client);
-    if (process.client) {
-      await authTelegram()
-      await authWithWorldCoin()
-    } else {
-      authOAUTH()
     }
   }
 
@@ -181,16 +167,18 @@ export const useAuthStore = defineStore('auth', () => {
     authTokenRefresh.value = ''
   }
 
+  refCode.value = route.query.ref + ''
+
   return {
     cooking,
     logs,
     activeAuth,
     authLocal,
-    init,
     logout,
     authTelegram,
     authWithWorldCoin,
-    refreshToken
+    refreshToken,
+    authOAUTH
   }
 })
 

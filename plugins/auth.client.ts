@@ -1,12 +1,24 @@
 import WebApp from "@twa-dev/sdk";
 import {MiniKit} from "@worldcoin/minikit-js";
 import '@worldcoin/idkit-standalone'
+import {useAuthStore} from "~/stores/auth.store";
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(async (nuxtApp) => {
   window.telegram = WebApp
   window.MiniKit = MiniKit
-  MiniKit.install()
+  window.MiniKit.install()
+  const store = useGlobalStore()
+  const authStore = useAuthStore()
   const router = useRouter()
+  if (!store.loggedIn) {
+    if (WebApp.isActive) {
+      await authStore.authTelegram()
+    }
+    if (window.MiniKit.isInstalled()) {
+      await authStore.authWithWorldCoin()
+    }
+    await store.loadInfo()
+  }
   return {
     provide: {
       openLink: (url: string) => {
