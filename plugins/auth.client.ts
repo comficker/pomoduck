@@ -7,6 +7,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const route = useRoute()
   const store = useGlobalStore()
   const authStore = useAuthStore()
+  authStore.logs.push(route.fullPath)
   window.telegram = WebApp
   window.MiniKit = MiniKit
   const router = useRouter()
