@@ -54,7 +54,7 @@ export const useGlobalStore = defineStore('global', () => {
   })
 
   const theme = computed(() => {
-    if (!info.value?.meta?.dark_mode?.is_auto) {
+    if (info.value?.meta?.dark_mode && !info.value.meta.dark_mode.is_auto) {
       if (info.value.meta.dark_mode.is_dark) return 'dark'
       else return 'light'
     }

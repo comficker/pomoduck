@@ -47,7 +47,6 @@ onMounted(async () => {
   });
   const media = window.matchMedia('(prefers-color-scheme: dark)')
   media.addEventListener('change', (e) => {
-    console.log("A");
     switchTheme()
   })
 })
