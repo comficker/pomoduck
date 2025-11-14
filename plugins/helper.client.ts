@@ -32,6 +32,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       setupTelegram: () => {
         if (WebApp.initData) {
           WebApp.expand()
+          const isDark = document.body.classList.contains("dark")
+          WebApp.setHeaderColor(isDark? "#000": '#FFF')
+          WebApp.setBackgroundColor(isDark? "#000": '#FFF')
           WebApp.BackButton.onClick(() => router.back());
           if (WebApp.enableClosingConfirmation) {
             WebApp.enableClosingConfirmation()

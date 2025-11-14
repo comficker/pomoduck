@@ -117,22 +117,22 @@ onMounted(() => {
         <Button
             :variant="store.isRunning ? 'secondary': 'default'" size="lg"
             class="btn-timer"
-            :class="{'animate-pulse': store.pending}"
+            :class="{'animate-pulse': store.status}"
             @click="runTimer"
             @mousedown="onMouseDown"
             @mouseup="onMouseUp"
             @touchstart="onMouseDown"
             @touchend="onMouseUp"
         >
-          <div v-if="store.isRunning" class="absolute bg-white inset-0 overflow-hidden">
+          <div v-if="store.isRunning" class="absolute bg-black/60 inset-0 overflow-hidden">
             <div class="h-full w-full flex flex-nowrap">
-              <div class="h-full bg-black/80 duration-200"
+              <div class="h-full bg-[#313131] duration-200"
                    :style="{width: `${holdStart ? holdPercent : store.percent}%`}"/>
               <div class="wave"/>
             </div>
           </div>
           <div class="flex gap-1 items-center relative z-10 text-yellow-400 uppercase text-base">
-            <span v-if="store.pending">...</span>
+            <span v-if="store.status">...</span>
             <template v-else-if="store.percent >= 100">
               <span>Claim</span>
             </template>

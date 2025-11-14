@@ -25,14 +25,22 @@ function getSystemTheme() {
   return media.matches ? 'dark' : 'light'
 }
 
-function switchTheme() {
-  let theme = store.theme
-  if (theme === 'system') {
-    theme = getSystemTheme()
+const theme = computed(() => {
+  const dark_mode = store.info?.meta?.dark_mode || {is_auto: true, is_dark: false}
+  if (!dark_mode.is_auto) {
+    return dark_mode.is_dark ? 'dark' : 'light'
+  } else {
+    if (process.client) {
+      return getSystemTheme()
+    }
+    return 'system'
   }
-  if (theme === 'dark') {
+})
+
+function switchTheme() {
+  if (theme.value === 'dark') {
     document.body.classList.add('dark')
-  } else if (theme === 'light') {
+  } else {
     document.body.classList.remove('dark')
   }
 }
@@ -51,7 +59,7 @@ onMounted(async () => {
   })
 })
 
-watch(() => store.theme, () => {
+watch(theme, () => {
   switchTheme()
 })
 
@@ -88,11 +96,14 @@ useHead({
         gtag('js', new Date());
         gtag('config', 'G-DYC8GTSSMK');
         `,
+    },
+    {
+      innerHTML: `
+        document.body?.classList.toggle('dark', '${theme.value}' === 'dark')
+      `,
+      tagPosition: 'head'
     }
-  ],
-  bodyAttrs: {
-    class: store.theme
-  }
+  ]
 })
 </script>
 
@@ -128,7 +139,8 @@ useHead({
           <DropdownMenu v-if="store.loggedIn">
             <DropdownMenuTrigger as-child>
               <div
-                  class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer">
+                class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer"
+              >
                 <div class="hidden md:flex p-2 py-1 gap-2 items-center text-base">
                   <NuxtIcon name="footprint" class="size-4" filled/>
                   <span>{{ formatFloat(store.info.footprint, 0, 0) }}</span>
@@ -170,11 +182,11 @@ useHead({
         </div>
         <div class="p-2 hidden md:flex items-center gap-1">
           <span>Powered by</span>
-          <a class="size-5" target="_blank"
+          <a class="size-4" target="_blank"
              href="https://world.org/mini-app?app_id=app_3a93096ed6e4f35613c5387f47a4266d">
-            <NuxtIcon name="wld" filled/>
+            <NuxtIcon name="wld"/>
           </a>
-          <a class="size-5" target="_blank" href="https://t.me/Pomoduck_bot">
+          <a class="size-4" target="_blank" href="https://t.me/Pomoduck_bot">
             <NuxtIcon name="ton" filled/>
           </a>
         </div>

@@ -46,7 +46,7 @@ useHead({
     <div v-for="i in 20" class="flex divide-x border-b">
       <div class="p-2 w-10 text-center">{{ i}}</div>
       <div class="p-2 flex-1">
-        <div class="h-4 bg-secondary animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
+        <div class="h-6 bg-secondary animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
       </div>
       <div class="p-2 flex justify-end w-32">
         <div class="h-4 bg-secondary" :style="{width: `${getRandomInt(20, 40)}%`}"/>

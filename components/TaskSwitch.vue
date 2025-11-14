@@ -31,12 +31,16 @@ const onClick = (task: ITask) => {
       <div
           @click="onClick(item)"
           class="cursor-pointer flex justify-between items-end p-2 py-1 md:p-4"
-          :class="{'opacity-20': store.info.doing?.id !== item.id, 'animate-pulse': store.info.doing?.id === item.id}"
+          :class="{
+            'opacity-20': !canAction && store.info.doing?.id !== item.id,
+            'animate-pulse': !canAction && store.info.doing?.id === item.id,
+            'text-yellow-500': canAction && store.info.doing?.id === item.id
+          }"
       >
         <div class="space-y-1">
           <div class="text-xs md:text-sm uppercase">{{ item.tag === 'work' ? 'Focus' : item.name }}</div>
           <div class="flex">
-            <NuxtIcon :name="item.tag" class="size-4 text-gray-300"/>
+            <NuxtIcon :name="item.tag" class="size-4 md:size-6"/>
           </div>
         </div>
         <NuxtIcon v-for="i in item.reward_amount" :name="item.reward_type" filled class="size-3"/>
