@@ -26,7 +26,7 @@ const onClick = (task: ITask) => {
 </script>
 
 <template>
-  <div class="w-full divide-x mx-auto grid grid-cols-3 content text-left text-sm overflow-hidden">
+  <div class="border md:border-x-0 md:rounded-none rounded-lg w-full divide-x mx-auto grid grid-cols-3 content text-left text-sm overflow-hidden">
     <div v-for="item in taskRes?.results.sort((a, b) => b.duration_est - a.duration_est)" class="">
       <div
           @click="onClick(item)"

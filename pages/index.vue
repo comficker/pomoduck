@@ -86,14 +86,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="timer" class="h-full flex flex-col justify-center gap-4 pb-16 divide-y">
-    <div class="flex-1 text-center flex items-center justify-center flex-col divide-y">
+  <div id="timer" class="h-full flex flex-col justify-center gap-4 pb-16">
+    <div class="flex-1 text-center flex items-center justify-center flex-col">
       <div class="w-full flex-1 flex flex-col items-center justify-center">
         <img class="mx-auto h-48" src="/art.svg" alt="">
         <div class="content text-7xl md:text-8xl font-bold flex gap-3 items-center text-left">
           <div class="grid grid-cols-2 gap-2">
-            <div v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
-                 :class="{'text-right': index == 0}">
+            <div
+              v-for="(i, index) in display2Digit(store.timer.mm)" class="w-12 md:w-20 p-1"
+             :class="{'text-right': index == 0}"
+            >
               <span>{{ i }}</span>
             </div>
           </div>
@@ -106,7 +108,9 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <TaskSwitch/>
+      <div class="w-full px-4 md:px-0">
+        <TaskSwitch/>
+      </div>
     </div>
     <div class="p-4 flex flex-col justify-center items-center">
       <div v-if="store.loggedIn" class="inline-flex w-3/4 md:w-1/2 mx-auto">
