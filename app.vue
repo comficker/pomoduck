@@ -38,11 +38,7 @@ const theme = computed(() => {
 })
 
 function switchTheme() {
-  if (theme.value === 'dark') {
-    document.body.classList.add('dark')
-  } else {
-    document.body.classList.remove('dark')
-  }
+  document.documentElement.classList.toggle('dark', theme.value === 'dark')
 }
 
 onMounted(async () => {
@@ -73,6 +69,8 @@ watch(() => route.path, () => {
   }
 })
 
+console.log(theme.value);
+
 useHead({
   title: "PomoDuck Timer",
   link: [
@@ -99,7 +97,7 @@ useHead({
     },
     {
       innerHTML: `
-        document.body?.classList.toggle('dark', '${theme.value}' === 'dark')
+      document.documentElement.classList.toggle('dark', '${theme.value}' === 'dark')
       `,
       tagPosition: 'head'
     }
