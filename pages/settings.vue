@@ -14,7 +14,11 @@ interface ISettings {
       extension: boolean,
     },
     vibration: boolean,
-    sound: boolean
+    sound: boolean,
+    dark_mode?: {
+      is_auto: boolean,
+      is_dark: boolean
+    }
   } | null,
   "tg_id": string | null,
   "google_id": string | null,
@@ -31,6 +35,10 @@ const DEFAULT = {
       in_app: true,
       telegram: true,
       extension: true
+    },
+    dark_mode: {
+      is_auto: true,
+      is_dark: false
     },
     vibration: true,
     sound: true
@@ -58,6 +66,9 @@ const init = () => {
     if (!form.value.meta) {
       form.value.meta = cloneDeep(DEFAULT.meta)
     }
+    if (!form.value.meta.dark_mode) {
+      form.value.meta.dark_mode = DEFAULT.meta.dark_mode
+    }
   }
 }
 
@@ -78,12 +89,14 @@ const push = debounce(() => {
   useNativeFetch('/settings', {
     method: 'POST',
     body: form.value,
+  }).then(() => {
+    store.info.meta = form.value.meta
   })
 }, 800)
 
 const handleTelegramConnected = async (user: any) => {
   const response = await authStore.authTelegram(user, true)
-  await store.loadInfo(false)
+  await store.loadInfo()
   if (response && response.merge) {
     store.modalData = {token: response.merge}
     store.modalName = 'merge'
@@ -117,6 +130,27 @@ useHead({
     <h1>Settings</h1>
   </div>
   <div class="p-4 space-y-3">
+    <div v-if="form.meta && form.meta.dark_mode" class="space-y-2">
+      <div class="flex justify-between">
+        <span class="font-semibold">Dark mode</span>
+      </div>
+      <div class="space-y-2 flex-1">
+        <div class="flex justify-between">
+          <div class="flex gap-1">
+            <NuxtIcon name="subdirectory" class="size-4"/>
+            <span class="font-semibold">Auto</span>
+          </div>
+          <Switch v-model="form.meta.dark_mode.is_auto"/>
+        </div>
+        <div v-if="!form.meta.dark_mode.is_auto" class="flex justify-between">
+          <div class="flex gap-1">
+            <NuxtIcon name="subdirectory" class="size-4"/>
+            <span class="font-semibold">Enable Dark Mode</span>
+          </div>
+          <Switch v-model="form.meta.dark_mode.is_dark"/>
+        </div>
+      </div>
+    </div>
     <div v-if="form.meta" class="space-y-2">
       <div class="flex justify-between">
         <span class="font-semibold">Notify</span>

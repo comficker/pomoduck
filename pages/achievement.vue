@@ -45,9 +45,9 @@ useHead({
           <div class="size-20 bg-gray-200"/>
         </div>
         <div class="flex-1 space-y-2 p-4">
-          <div class="h-4 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
-          <div class="h-3 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(20, 50)}%`}"/>
-          <div class="h-3 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(20, 50)}%`}"/>
+          <div class="h-4 bg-secondary animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
+          <div class="h-3 bg-secondary animate-pulse" :style="{width: `${getRandomInt(20, 50)}%`}"/>
+          <div class="h-3 bg-secondary animate-pulse" :style="{width: `${getRandomInt(20, 50)}%`}"/>
         </div>
       </div>
     </template>

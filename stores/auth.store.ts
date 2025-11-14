@@ -65,12 +65,14 @@ export const useAuthStore = defineStore('auth', () => {
         if (response) {
           authToken.value = response.access
           authTokenRefresh.value = response.refresh
+          return response
         }
       } catch (e) {
         logs.value.push(e?.toString())
         logs.value.push(initData)
       }
     }
+    return null
   }
 
   const authWithWorldCoin = async () => {

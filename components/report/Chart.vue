@@ -93,8 +93,8 @@ const handleCLickToolTip = (day: string, val: boolean) => {
   <div class="space-y-2">
     <div class="label">Working activity</div>
     <div class="flex gap-2">
-      <div class="w-4 flex flex-col text-xs justify-between num">
-        <div>_</div>
+      <div class="w-4 flex flex-col text-2xs justify-between num">
+        <div class="mb-2">_</div>
         <div>S</div>
         <div>M</div>
         <div>T</div>
@@ -105,7 +105,7 @@ const handleCLickToolTip = (day: string, val: boolean) => {
       </div>
       <div class="flex-1 grid grid-cols-4 gap-2">
         <div v-for="(chunk, i) in tables.parts" class="">
-          <div class="text-xs">{{ tables.months[i] }}</div>
+          <div class="text-xs mb-2">{{ tables.months[i] }}</div>
           <div class="grid grid-cols-4 gap-0.5">
             <div v-for="week in chunk" class="">
               <TooltipProvider v-for="day in week" :delayDuration="100">
@@ -117,7 +117,7 @@ const handleCLickToolTip = (day: string, val: boolean) => {
                       @mouseleave="handleCLickToolTip(day, false)"
                   >
                     <div
-                        class="absolute inset-0 bg-gray-100 rounded border border-gray-200/50 hover:border-gray-500 duration-200"
+                        class="absolute inset-0 bg-black/10 md:rounded border hover:border-gray-500 duration-200"
                         :class="{
                           'border-0': data[day],
                           'c0': data[day] && data[day].duration < cr[0],
@@ -129,7 +129,7 @@ const handleCLickToolTip = (day: string, val: boolean) => {
                     />
                   </TooltipTrigger>
                   <TooltipContent
-                      class="z-20 space-y-0.5 data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-grass11 select-none rounded-md bg-white px-[15px] py-[10px] text-sm leading-none shadow-sm border will-change-[transform,opacity]"
+                      class="z-20 text-black space-y-0.5 data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade text-grass11 select-none rounded-md bg-white px-[15px] py-[10px] text-sm leading-none shadow-sm border will-change-[transform,opacity]"
                   >
                     <p class="label">{{ day }}</p>
                     <template v-if="data[day]">

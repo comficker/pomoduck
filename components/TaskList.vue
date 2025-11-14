@@ -79,8 +79,8 @@ onMounted(() => {
     </div>
     <template v-if="pending">
       <div v-for="i in 5" class="task space-y-2 p-4">
-        <div class="h-4 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
-        <div class="h-4 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(20, 50)}%`}"/>
+        <div class="h-4 bg-secondary animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
+        <div class="h-4 bg-secondary animate-pulse" :style="{width: `${getRandomInt(20, 50)}%`}"/>
       </div>
     </template>
     <template v-else-if="taskRes">

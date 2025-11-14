@@ -13,6 +13,59 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {useAuthStore} from "~/stores/auth.store";
 
+const route = useRoute()
+const store = useGlobalStore()
+const authStore = useAuthStore()
+const cfg = useRuntimeConfig()
+
+const tabCount = ref(0)
+
+function getSystemTheme() {
+  const media = window.matchMedia('(prefers-color-scheme: dark)')
+  return media.matches ? 'dark' : 'light'
+}
+
+function switchTheme() {
+  let theme = store.theme
+  if (theme === 'system') {
+    theme = getSystemTheme()
+  }
+  if (theme === 'dark') {
+    document.body.classList.add('dark')
+  } else if (theme === 'light') {
+    document.body.classList.remove('dark')
+  }
+}
+
+onMounted(async () => {
+  const {$setupTelegram} = useNuxtApp()
+  $setupTelegram()
+  document.addEventListener("contextmenu", function (e) {
+    if (cfg.public.env === 'production') e.preventDefault();
+    e.stopPropagation()
+    return false;
+  });
+  const media = window.matchMedia('(prefers-color-scheme: dark)')
+  media.addEventListener('change', (e) => {
+    console.log("A");
+    switchTheme()
+  })
+})
+
+watch(() => store.theme, () => {
+  switchTheme()
+})
+
+watch(() => route.path, () => {
+  if (authStore.activeAuth === 'telegram') {
+    if (route.name !== 'index') {
+      window.telegram.BackButton.show();
+    } else {
+      window.telegram.BackButton.hide();
+    }
+  }
+})
+
 useHead({
   title: "PomoDuck Timer",
   link: [
@@ -37,33 +90,9 @@ useHead({
         gtag('config', 'G-DYC8GTSSMK');
         `,
     }
-  ]
-})
-
-const route = useRoute()
-const store = useGlobalStore()
-const authStore = useAuthStore()
-const cfg = useRuntimeConfig()
-
-const tabCount = ref(0)
-
-onMounted(async () => {
-  const {$setupTelegram} = useNuxtApp()
-  $setupTelegram()
-  document.addEventListener("contextmenu", function (e) {
-    if (cfg.public.env === 'production') e.preventDefault();
-    e.stopPropagation()
-    return false;
-  });
-})
-
-watch(() => route.path, () => {
-  if (authStore.activeAuth === 'telegram') {
-    if (route.name !== 'index') {
-      window.telegram.BackButton.show();
-    } else {
-      window.telegram.BackButton.hide();
-    }
+  ],
+  bodyAttrs: {
+    class: store.theme
   }
 })
 </script>

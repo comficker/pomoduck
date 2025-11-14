@@ -35,18 +35,18 @@ useHead({
 <template>
   <div v-if="data" class="border-b divide-x grid grid-cols-3 font-bold">
     <div class="p-4">
-      <div class="text-2xs uppercase">Day streak</div>
+      <div class="text-2xs text-secondary uppercase">Day streak</div>
       <div class="text-5xl">{{ store.info.day_streak }}</div>
     </div>
     <div class="p-4">
-      <div class="text-2xs uppercase">Focus time</div>
+      <div class="text-2xs text-secondary uppercase">Focus time</div>
       <div class="text-xl leading-none">
         <div>{{ reformatOverview.total.hours }}H</div>
         <div>{{ reformatOverview.total.minutes }}m</div>
       </div>
     </div>
     <div class="p-4">
-      <div class="text-2xs uppercase">per/day</div>
+      <div class="text-2xs text-secondary uppercase">per/day</div>
       <div class="text-xl leading-none">
         <div>{{ reformatOverview.avg.hours }}H</div>
         <div>{{ reformatOverview.avg.minutes }}m</div>
@@ -56,7 +56,7 @@ useHead({
   <ReportChart v-if="data" class="border-b p-4" :data="data.history"/>
   <div v-if="data" class="divide-y">
     <div class="p-4 label">History</div>
-    <div class="flex divide-x label">
+    <div class="flex divide-x label text-secondary">
       <div class="p-2 flex-1 px-4">Date</div>
       <div class="w-32 md:w-40 p-2 md:px-4">Time</div>
       <div class="w-20 md:w-24 p-2 px-4 text-right">Eggs</div>

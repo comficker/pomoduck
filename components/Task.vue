@@ -124,7 +124,7 @@ watch(() => form.value.unit, () => {
 <template>
   <div
       class="content flex items-center gap-4 group"
-      :class="{'!bg-yellow-50 border': updating, '!bg-yellow-50': status === TASK_STATUS.DOING}"
+      :class="{'border': updating, 'opacity-50': status === TASK_STATUS.DOING}"
   >
     <div class="flex-1 flex gap-4 items-center">
       <div class="flex-1 font-semibold space-y-1">

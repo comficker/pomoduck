@@ -31,7 +31,7 @@ const onClick = (task: ITask) => {
       <div
           @click="onClick(item)"
           class="cursor-pointer flex justify-between items-end p-2 py-1 md:p-4"
-          :class="{'bg-gray-100 shadow-inner': store.info.doing?.id === item.id}"
+          :class="{'opacity-20': store.info.doing?.id !== item.id, 'animate-pulse': store.info.doing?.id === item.id}"
       >
         <div class="space-y-1">
           <div class="text-xs md:text-sm uppercase">{{ item.tag === 'work' ? 'Focus' : item.name }}</div>

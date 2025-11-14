@@ -53,6 +53,14 @@ export const useGlobalStore = defineStore('global', () => {
     return info.value.doing?.account_task.find(x => !x.finished_at) || info.value.doing?.account_task[0]
   })
 
+  const theme = computed(() => {
+    if (!info.value?.meta?.dark_mode?.is_auto) {
+      if (info.value.meta.dark_mode.is_dark) return 'dark'
+      else return 'light'
+    }
+    return 'system'
+  })
+
   async function loadInfo() {
     if (authToken.value) {
       const response = await useNativeFetch<Info>(`/hi`, {}).catch(e => null)
@@ -209,7 +217,8 @@ export const useGlobalStore = defineStore('global', () => {
     init,
     computeTimer,
     initialed,
-    status
+    status,
+    theme
   }
 })
 

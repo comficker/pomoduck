@@ -33,10 +33,10 @@ useHead({
 </script>
 
 <template>
-  <div class="p-4 flex gap-4 label">
+  <div class="p-4 flex gap-4 label text-secondary">
     <h1
         v-for="item in modes"
-        class="cursor-pointer" :class="{'text-black': item == mode}"
+        class="cursor-pointer" :class="{'text-primary': item == mode}"
         @click="mode=item"
     >
       <span>{{ item }}</span>
@@ -46,14 +46,14 @@ useHead({
     <div v-for="i in 20" class="flex divide-x border-b">
       <div class="p-2 w-10 text-center">{{ i}}</div>
       <div class="p-2 flex-1">
-        <div class="h-4 bg-gray-200 animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
+        <div class="h-4 bg-secondary animate-pulse" :style="{width: `${getRandomInt(30, 70)}%`}"/>
       </div>
       <div class="p-2 flex justify-end w-32">
-        <div class="h-4 bg-gray-200" :style="{width: `${getRandomInt(20, 40)}%`}"/>
+        <div class="h-4 bg-secondary" :style="{width: `${getRandomInt(20, 40)}%`}"/>
       </div>
     </div>
   </div>
-  <div v-if="!pending && mate && mate.results.length" class="flex-1 divide-y">
+  <div v-if="!pending && mate && mate.results.length" class="flex-1 md:text-base text-sm divide-y">
     <div v-for="(item, i) in mate.results" :key="item.id" class="divide-x font-semibold flex border-b">
       <div class="p-2 w-10 text-center">{{ i + 1}}</div>
       <div class="p-2 flex-1">{{ shortAddress(item.username || `${item.first_name} ${item.last_name}`, 16) }}</div>
@@ -62,7 +62,7 @@ useHead({
       </div>
     </div>
   </div>
-  <div v-if="!pending && mode === 'Friends'" class="bg-white rounded p-4 space-y-3 sticky bottom-0">
+  <div v-if="!pending && mode === 'Friends'" class="p-4 space-y-3 sticky bottom-0">
     <div class="relative">
       <div class="flex items-center gap-4">
         <input
