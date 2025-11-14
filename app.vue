@@ -95,11 +95,14 @@ useHead({
     },
     {
       innerHTML: `
-      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      const theme = '${theme.value}' === 'system' ? (systemDark ? 'dark' : 'light') : '${theme.value}'
-      document.documentElement.classList.toggle('dark', theme === 'dark')
+        (function() {
+          const test = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = '${theme.value}' === 'system' ? (test ? 'dark' : 'light') : '${theme.value}';
+          document.documentElement.classList.toggle('dark', theme === 'dark');
+        })();
       `,
-      tagPosition: 'head'
+      tagPosition: 'head',
+      body: false
     }
   ]
 })
