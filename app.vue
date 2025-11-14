@@ -69,8 +69,6 @@ watch(() => route.path, () => {
   }
 })
 
-console.log(theme.value);
-
 useHead({
   title: "PomoDuck Timer",
   link: [
@@ -97,7 +95,9 @@ useHead({
     },
     {
       innerHTML: `
-      document.documentElement.classList.toggle('dark', '${theme.value}' === 'dark')
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      const theme = '${theme.value}' === 'system' ? (systemDark ? 'dark' : 'light') : '${theme.value}'
+      document.documentElement.classList.toggle('dark', theme === 'dark')
       `,
       tagPosition: 'head'
     }
