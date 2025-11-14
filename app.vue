@@ -198,7 +198,7 @@ useHead({
     <Toaster/>
   </ClientOnly>
   <div
-      v-if="cfg.public.env !== 'production' && tabCount > 5"
+      v-if="tabCount > 5"
       class="fixed duration-100 inset-0 p-4 bg-white z-10 overflow-auto border-t"
   >
     <div
