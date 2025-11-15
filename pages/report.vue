@@ -22,7 +22,7 @@ const reformatOverview = computed(() => {
   const total = Object.values(data.value || {}).reduce((sum, item) => sum + (item.work || 0), 0);
   return {
     total: timeLeftStr(total, true),
-    avg: timeLeftStr(total / 30, true)
+    avg: timeLeftStr(total / 90, true)
   }
 })
 

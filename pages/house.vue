@@ -14,7 +14,7 @@ useHead({
 </script>
 
 <template>
-  <div class="p-4 label">
+  <div class="px-4 py-2 md:py-4 label">
     <h1>Duck house</h1>
   </div>
   <div class="p-4 space-y-2">

@@ -18,6 +18,7 @@ export interface Account {
   last_name: string
   balance: number
   egg: number
+  footprint: number
   twitter_username: string
   total_focus: number
 }
