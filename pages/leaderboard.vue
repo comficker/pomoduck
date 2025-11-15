@@ -57,13 +57,13 @@ useHead({
     <div v-for="(item, i) in mate.results" :key="item.id" class="font-semibold flex items-center border-b">
       <div class="p-2 w-10 text-center">{{ i + 1}}</div>
       <div class="p-2 flex-1">{{ shortAddress(item.username || `${item.first_name} ${item.last_name}`, 16) }}</div>
-      <div class="p-2 w-1/2 text-xs grid grid-cols-3 gap-1">
-        <div>🕒 {{ timeLeftStr(item.total_focus, true).hours }}H</div>
-        <div class="flex gap-1 items-center justify-end">
+      <div class="p-2 w-1/2 grid grid-cols-3 gap-1">
+        <div>🕒 {{ timeLeftStr(item.total_focus, true).hours }}</div>
+        <div class="flex gap-0.5 items-center justify-end">
           <span>{{ formatFloat(item.egg) }}</span>
           <NuxtIcon name="egg" filled class="size-3"/>
         </div>
-        <div class="flex gap-1 items-center justify-end">
+        <div class="flex gap-0.5 items-center justify-end">
           <span>{{ formatFloat(item.footprint) }}</span>
           <NuxtIcon name="footprint" filled class="size-3"/>
         </div>
