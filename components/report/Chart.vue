@@ -5,11 +5,9 @@ import {timeLeftStr} from "~/lib/utils";
 const {data} = defineProps<{ data: { [key: string]: { egg: number, break: number, footprint: number, work: number } } }>()
 
 const tooltipToggle = ref<{ [key: string]: boolean }>({})
-
 const cr = computed(() => {
-  const values = Object.keys(data).map(key => data[key].work)
+  const values = Object.keys(data).map(key => data[key].work).filter(x => !!x)
   if (!values.length) return [];
-
   const max = Math.max(...values);
   const step = max / 5;
 
@@ -135,7 +133,7 @@ const handleCLickToolTip = (day: string, val: boolean) => {
                     <template v-if="data[day]">
                       <div class="flex gap-0.5">
                         <NuxtIcon name="subdirectory" class="size-3"/>
-                        <div>Focus time: <span class="font-bold">{{ timeLeftStr(data[day].duration) }}</span></div>
+                        <div>Focus time: <span class="font-bold">{{ timeLeftStr(data[day].work || 0) }}</span></div>
                       </div>
                       <div class="flex gap-0.5">
                         <NuxtIcon name="subdirectory" class="size-3"/>
