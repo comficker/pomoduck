@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import {TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger} from 'reka-ui'
-import {formatFloat, timeLeftStr} from "~/lib/utils";
+import {timeLeftStr} from "~/lib/utils";
 
-const {data} = defineProps<{ data: { [key: string]: { point: number, duration: number } } }>()
+const {data} = defineProps<{ data: { [key: string]: { egg: number, break: number, footprint: number, work: number } } }>()
 
 const tooltipToggle = ref<{ [key: string]: boolean }>({})
 
 const cr = computed(() => {
-  const values = Object.keys(data).map(key => data[key].duration)
+  const values = Object.keys(data).map(key => data[key].work)
   if (!values.length) return [];
 
   const max = Math.max(...values);
@@ -120,11 +120,11 @@ const handleCLickToolTip = (day: string, val: boolean) => {
                         class="absolute inset-0 bg-black/10 md:rounded border hover:border-gray-500 duration-200"
                         :class="{
                           'border-0': data[day],
-                          'c0': data[day] && data[day].duration < cr[0],
-                          'c1': data[day] && data[day].duration > cr[0],
-                          'c2': data[day] && data[day].duration > cr[1],
-                          'c3': data[day] && data[day].duration > cr[2],
-                          'c4': data[day] && data[day].duration > cr[3]
+                          'c0': data[day] && data[day].work < cr[0],
+                          'c1': data[day] && data[day].work > cr[0],
+                          'c2': data[day] && data[day].work > cr[1],
+                          'c3': data[day] && data[day].work > cr[2],
+                          'c4': data[day] && data[day].work > cr[3]
                         }"
                     />
                   </TooltipTrigger>
@@ -139,7 +139,15 @@ const handleCLickToolTip = (day: string, val: boolean) => {
                       </div>
                       <div class="flex gap-0.5">
                         <NuxtIcon name="subdirectory" class="size-3"/>
-                        <div>Earned: <span class="font-bold n">{{ data[day].point }}</span> 🥚
+                        <div class="flex items-center gap-1">
+                          <span>Footprint:</span>
+                          <span class="font-bold n">{{ data[day].footprint }}</span>
+                          <NuxtIcon name="footprint" class="size-4" filled/>
+                        </div>
+                        <div class="flex items-center gap-1">
+                          <span>Eggs:</span>
+                          <span class="font-bold n">{{ data[day].egg }}</span>
+                          <NuxtIcon name="egg" class="size-4" filled/>
                         </div>
                       </div>
                     </template>

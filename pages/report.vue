@@ -4,17 +4,25 @@ import {formatFloat, timeLeftStr} from "~/lib/utils";
 
 const store = useGlobalStore()
 const {data} = useAuthFetch<{
-  "history": { [key: string]: { point: number, duration: number } },
-  "total": number,
-  "avg": number
+  [key: string]: { egg: number, break: number, footprint: number, work: number }
 }>('/reports')
 
+function getDaysBetweenDates(d1: Date, d2: Date) {
+  const oneDay = 1000 * 60 * 60 * 24; // Milliseconds in a day
+  const diffInTime = d2.getTime() - d1.getTime(); // Difference in milliseconds
+  return Math.round(diffInTime / oneDay);
+}
+
 const reformatOverview = computed(() => {
-  if (data.value)
+  if (store.loggedIn && store.info) {
+    const now = new Date()
+    const joined = new Date(store.info.joined)
+    const d = getDaysBetweenDates(joined, now)
     return {
-      total: timeLeftStr(data.value.total, true),
-      avg: timeLeftStr(data.value.avg, true)
+      total: timeLeftStr(store.info.total_focus, true),
+      avg: timeLeftStr(store.info.total_focus / d, true)
     }
+  }
   return {
     total: {
       hours: 0,
@@ -33,7 +41,7 @@ useHead({
 </script>
 
 <template>
-  <div v-if="data" class="border-b divide-x grid grid-cols-3 font-bold">
+  <div v-if="store.loggedIn" class="border-b divide-x grid grid-cols-3 font-bold">
     <div class="p-4">
       <div class="text-2xs text-secondary uppercase">Day streak</div>
       <div class="text-5xl">{{ store.info.day_streak }}</div>
@@ -53,20 +61,26 @@ useHead({
       </div>
     </div>
   </div>
-  <ReportChart v-if="data" class="border-b p-4" :data="data.history"/>
+  <ReportChart v-if="data" class="border-b p-4" :data="data"/>
   <div v-if="data" class="divide-y">
-    <div class="p-4 label">History</div>
-    <div class="flex divide-x label text-secondary">
+    <div class="p-4 py-2 label">History</div>
+    <div class="grid grid-cols-3 divide-x label text-secondary">
       <div class="p-2 flex-1 px-4">Date</div>
-      <div class="w-32 md:w-40 p-2 md:px-4">Time</div>
-      <div class="w-20 md:w-24 p-2 px-4 text-right">Eggs</div>
+      <div class="p-2 md:px-4">Time</div>
+      <div class="p-2 px-4 text-right">Rewards</div>
     </div>
-    <div class="flex divide-x text-xs md:text-base" v-for="key in Object.keys(data.history).reverse().slice(0, 30)">
+    <div class="grid grid-cols-3 divide-x text-xs md:text-base" v-for="key in Object.keys(data).reverse().slice(0, 30)">
       <div class="p-2 flex-1 px-4">🗓️ {{ key }}</div>
-      <div class="w-32 md:w-40 p-2 md:px-4">🕒 {{ timeLeftStr(data.history[key].duration) }}</div>
-      <div class="w-20 md:w-24 p-2 px-4 flex justify-end gap-1 items-center">
-        <span>{{ formatFloat(data.history[key].point) }}</span>
-        <NuxtIcon name="eggs" filled class="size-4"/>
+      <div class="p-2 md:px-4">🕒 {{ timeLeftStr(data[key].work) }}</div>
+      <div class="p-2 px-4 grid grid-cols-2">
+        <div class="flex gap-1 items-center">
+          <NuxtIcon name="egg" filled class="size-3"/>
+          <span>{{ formatFloat(data[key].egg) }}</span>
+        </div>
+        <div class="flex gap-1 items-center">
+          <NuxtIcon name="footprint" filled class="size-3"/>
+          <span>{{ formatFloat(data[key].footprint) }}</span>
+        </div>
       </div>
     </div>
   </div>

@@ -28,13 +28,8 @@ export interface Info {
   username: string
   first_name: string
   last_name: string
-  checkin_day: number
-  checkin_last_time: string
   balance: number
   meta: any,
-  boost_level: number
-  boost_balance: number
-  boost_end: string | null
   doing?: ITask,
   inviter?: number
   is_staff: boolean
@@ -42,6 +37,9 @@ export interface Info {
   footprint: number
   egg: number
   egg_extra: number
+  total_focus: number
+  total_break: number
+  joined: string
 }
 
 export interface ITask {

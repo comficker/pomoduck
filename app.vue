@@ -19,26 +19,23 @@ const authStore = useAuthStore()
 const cfg = useRuntimeConfig()
 
 const tabCount = ref(0)
+const theme = computed(() => getTheme())
 
-function getSystemTheme() {
-  const media = window.matchMedia('(prefers-color-scheme: dark)')
-  return media.matches ? 'dark' : 'light'
-}
-
-const theme = computed(() => {
+function getTheme() {
   const dark_mode = store.info?.meta?.dark_mode || {is_auto: true, is_dark: false}
   if (!dark_mode.is_auto) {
     return dark_mode.is_dark ? 'dark' : 'light'
   } else {
     if (process.client) {
-      return getSystemTheme()
+      const media = window.matchMedia('(prefers-color-scheme: dark)')
+      return media.matches ? 'dark' : 'light'
     }
     return 'system'
   }
-})
+}
 
 function switchTheme() {
-  document.documentElement.classList.toggle('dark', theme.value === 'dark')
+  document.documentElement.classList.toggle('dark', getTheme() === 'dark')
 }
 
 onMounted(async () => {
@@ -97,12 +94,11 @@ useHead({
       innerHTML: `
         (function() {
           const test = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const theme = '${theme.value}' === 'system' ? (test ? 'dark' : 'light') : '${theme.value}';
+          const theme = '${theme}' === 'system' ? (test ? 'dark' : 'light') : '${theme}';
           document.documentElement.classList.toggle('dark', theme === 'dark');
         })();
       `,
-      tagPosition: 'head',
-      body: false
+      tagPosition: 'head'
     }
   ]
 })
@@ -140,7 +136,7 @@ useHead({
           <DropdownMenu v-if="store.loggedIn">
             <DropdownMenuTrigger as-child>
               <div
-                class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer"
+                  class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer"
               >
                 <div class="hidden md:flex p-2 py-1 gap-2 items-center text-base">
                   <NuxtIcon name="footprint" class="size-4" filled/>
@@ -215,7 +211,6 @@ useHead({
       class="fixed duration-100 inset-0 p-4 bg-white z-10 overflow-auto border-t"
   >
     <div
-        v-if="cfg.public.env !== 'production'"
         class="label bg-white cursor-pointer"
         @click="tabCount = 0"
     >Hide
