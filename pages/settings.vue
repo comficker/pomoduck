@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Switch} from "~/components/ui/switch";
-import {cloneDeep, debounce} from "~/lib/utils";
+import {cloneDeep, debounce, getRandomInt} from "~/lib/utils";
 import useStatefulCookie from "~/composables/useStatefulCookie";
 import TelegramLogin from "~/components/modal/TelegramLogin.vue";
 
@@ -130,69 +130,77 @@ useHead({
     <h1>Settings</h1>
   </div>
   <div class="p-4 space-y-3">
-    <div v-if="form.meta && form.meta.dark_mode" class="space-y-2">
-      <div class="flex justify-between">
-        <span class="font-semibold">Dark mode</span>
-      </div>
-      <div class="space-y-2 flex-1">
+    <template v-if="!pending">
+      <div v-if="form.meta && form.meta.dark_mode" class="space-y-2">
         <div class="flex justify-between">
-          <div class="flex gap-1">
-            <NuxtIcon name="subdirectory" class="size-4"/>
-            <span class="font-semibold">Auto</span>
-          </div>
-          <Switch v-model="form.meta.dark_mode.is_auto"/>
+          <span class="font-semibold">Dark mode</span>
         </div>
-        <div v-if="!form.meta.dark_mode.is_auto" class="flex justify-between">
-          <div class="flex gap-1">
-            <NuxtIcon name="subdirectory" class="size-4"/>
-            <span class="font-semibold">Enable Dark Mode</span>
+        <div class="space-y-2 flex-1">
+          <div class="flex justify-between">
+            <div class="flex gap-1">
+              <NuxtIcon name="subdirectory" class="size-4"/>
+              <span class="font-semibold">Auto</span>
+            </div>
+            <Switch v-model="form.meta.dark_mode.is_auto"/>
           </div>
-          <Switch v-model="form.meta.dark_mode.is_dark"/>
-        </div>
-      </div>
-    </div>
-    <div v-if="form.meta" class="space-y-2">
-      <div class="flex justify-between">
-        <span class="font-semibold">Notify</span>
-        <Switch
-            :model-value="form.meta && form.meta.notify.in_app && form.meta.notify.extension && form.meta.notify.telegram"
-            @update:model-value="toggleNotifySwitch"
-        />
-      </div>
-      <div class="space-y-2 flex-1">
-        <div class="flex justify-between">
-          <div class="flex gap-1">
-            <NuxtIcon name="subdirectory" class="size-4"/>
-            <span class="font-semibold">In app</span>
+          <div v-if="!form.meta.dark_mode.is_auto" class="flex justify-between">
+            <div class="flex gap-1">
+              <NuxtIcon name="subdirectory" class="size-4"/>
+              <span class="font-semibold">Enable Dark Mode</span>
+            </div>
+            <Switch v-model="form.meta.dark_mode.is_dark"/>
           </div>
-          <Switch v-model="form.meta.notify.in_app"/>
-        </div>
-        <div class="flex justify-between">
-          <div class="flex gap-1">
-            <NuxtIcon name="subdirectory" class="size-4"/>
-            <span class="font-semibold">Telegram</span>
-          </div>
-          <Switch v-model="form.meta.notify.telegram"/>
-        </div>
-        <div class="flex justify-between">
-          <div class="flex gap-1">
-            <NuxtIcon name="subdirectory" class="size-4"/>
-            <span class="font-semibold">Extension</span>
-          </div>
-          <Switch v-model="form.meta.notify.extension"/>
         </div>
       </div>
-    </div>
-    <div v-if="form.meta" class="flex justify-between">
-      <span class="font-semibold">Sound</span>
-      <Switch v-model="form.meta.sound"/>
-    </div>
-    <div v-if="form.meta" class="flex justify-between">
-      <span class="font-semibold">Haptic Feedback</span>
-      <Switch v-model="form.meta.vibration"/>
-    </div>
+      <div v-if="form.meta" class="space-y-2">
+        <div class="flex justify-between">
+          <span class="font-semibold">Notify</span>
+          <Switch
+              :model-value="form.meta && form.meta.notify.in_app && form.meta.notify.extension && form.meta.notify.telegram"
+              @update:model-value="toggleNotifySwitch"
+          />
+        </div>
+        <div class="space-y-2 flex-1">
+          <div class="flex justify-between">
+            <div class="flex gap-1">
+              <NuxtIcon name="subdirectory" class="size-4"/>
+              <span class="font-semibold">In app</span>
+            </div>
+            <Switch v-model="form.meta.notify.in_app"/>
+          </div>
+          <div class="flex justify-between">
+            <div class="flex gap-1">
+              <NuxtIcon name="subdirectory" class="size-4"/>
+              <span class="font-semibold">Telegram</span>
+            </div>
+            <Switch v-model="form.meta.notify.telegram"/>
+          </div>
+          <div class="flex justify-between">
+            <div class="flex gap-1">
+              <NuxtIcon name="subdirectory" class="size-4"/>
+              <span class="font-semibold">Extension</span>
+            </div>
+            <Switch v-model="form.meta.notify.extension"/>
+          </div>
+        </div>
+      </div>
+      <div v-if="form.meta" class="flex justify-between">
+        <span class="font-semibold">Sound</span>
+        <Switch v-model="form.meta.sound"/>
+      </div>
+      <div v-if="form.meta" class="flex justify-between">
+        <span class="font-semibold">Haptic Feedback</span>
+        <Switch v-model="form.meta.vibration"/>
+      </div>
+    </template>
+    <template v-else>
+      <div v-for="i in 8" class="flex justify-between">
+        <div class="h-6 bg-secondary animate-pulse" :style="{width: `${getRandomInt(10, 50)}%`}"/>
+        <div class="h-6 bg-secondary animate-pulse" :style="{width: `${getRandomInt(10, 20)}%`}"/>
+      </div>
+    </template>
   </div>
-  <div class="p-4 space-y-3">
+  <div v-if="!pending" class="p-4 space-y-3">
     <div class="space-y-1">
       <div class="label">Connect</div>
       <p class="text-sm italic">You can login and synchronize via connected app</p>
