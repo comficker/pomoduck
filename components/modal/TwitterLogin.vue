@@ -8,7 +8,7 @@ const connect = async () => {
 
 <template>
   <Button variant="outline" size="lg" class="w-full justify-start items-center gap-2 px-3 font-semibold" @click="connect">
-    <NuxtIcon filled name="x" class="size-5"/>
+    <NuxtIcon name="x" class="size-5"/>
     <span>Continue with X</span>
   </Button>
 </template>

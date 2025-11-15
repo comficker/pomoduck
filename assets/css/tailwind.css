@@ -84,6 +84,8 @@
     --border: rgba(39, 35, 35, 0.50);
     --primary: #FFF;
     --secondary: rgba(255, 255, 255, 0.30);
+    --primary-foreground: #000;
+    --input: rgba(39, 35, 35, 0.50);
 }
 
 @layer base {
