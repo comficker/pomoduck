@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {APIResponse, IShopItem} from "~/types";
-import {formatFloat} from "../lib/utils";
+import {formatFloat} from "~/lib/utils";
+import {toast} from "vue-sonner";
 
 const store = useGlobalStore()
 const page = ref(1)
@@ -30,26 +31,29 @@ const changePage = (isNext = true) => {
     }
   }
 }
+const hatch = () => {
+  toast("Coming soon")
+}
 useHead({
   title: "Duckhouse"
 })
 </script>
 
 <template>
-  <div class="px-4 py-2 md:py-4 label">
-    <h1>Duck house</h1>
-  </div>
-  <div class="p-4 space-y-2">
-    <div class="space-y-1 font-bold">
-      <div class="flex gap-2 items-center">
-        <NuxtIcon filled name="footprint" class="size-4"/>
-        <div>{{ formatFloat(store.info.footprint) }}</div>
-      </div>
-      <div class="flex gap-2 items-center">
-        <NuxtIcon filled name="eggs" class="size-4"/>
-        <div>{{ formatFloat(store.info.egg) }}</div>
-      </div>
+  <div class="px-4 py-2 md:py-4 label flex gap-3 items-center">
+    <h1 class="flex-1">Duck house</h1>
+    <div class="flex gap-2 items-center">
+      <NuxtIcon filled name="footprint" class="size-4"/>
+      <div>{{ formatFloat(store.info.footprint) }}</div>
     </div>
+    <div class="flex  gap-2 items-center">
+      <NuxtIcon filled name="eggs" class="size-4"/>
+      <div>{{ formatFloat(store.info.egg) }}</div>
+    </div>
+  </div>
+  <div class="p-4 py-16 gap-8 flex justify-center flex-col items-center">
+    <NuxtIcon name="egg-hatch" class="size-64 cursor-pointer" filled @click="hatch"/>
+    <div class="text-secondary">Tap to hatch</div>
   </div>
   <div class="flex gap-3 justify-between items-center px-4 label">
     <div>Inventory</div>
@@ -66,7 +70,7 @@ useHead({
     </div>
   </div>
   <div
-      class="grid grid-cols-3 md:grid-cols-4 divide-x divide-y md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
+      class="grid grid-cols-3 md:grid-cols-4 divide-x divide-y [&>div:nth-child(3n)]:border-r-0 md:[&>div:nth-child(3n)]:border-r-1 md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
     <div v-for='item in data?.results' class="divide-y">
       <div class="pt-full relative">
         <div class="absolute inset-4 center">

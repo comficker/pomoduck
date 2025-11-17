@@ -194,7 +194,7 @@ watch(activeTab, () => {
   </div>
   <div
       v-if="!pending"
-      class="label grid grid-cols-3 md:grid-cols-4 divide-x divide-y md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
+      class="label grid grid-cols-3 md:grid-cols-4 divide-x divide-y [&>div:nth-child(3n)]:border-r-0 md:[&>div:nth-child(3n)]:border-r-1 md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
     <div
         v-for="item in accountItems?.results" :key="item.id"
         class="cursor-pointer" :class="{'shadow-inner': selected.includes(item.id)}"
@@ -230,9 +230,9 @@ watch(activeTab, () => {
   <div v-else class="h-screen"></div>
   <div
       v-if="accountItems?.count || selected.length"
-      class="flex flex-col md:flex-row gap-3 justify-between sticky bottom-0 inset-x-0 p-2 bg-white border-t label"
+      class="flex flex-col md:flex-row justify-between sticky bottom-0 inset-x-0 bg-white border-t label"
   >
-    <div class="flex-1 flex items-center justify-between">
+    <div class="px-2 flex-1 flex items-center justify-between">
       <div class="flex gap-2 items-center">
         <div class="p-2 cursor-pointer" @click="changePage(false)">
           <nuxt-icon name="chevron-left" class="size-5"/>
@@ -247,7 +247,7 @@ watch(activeTab, () => {
         <span>{{ formatFloat(total > 0 ? total : actionData?.amount) }}</span>
       </div>
     </div>
-    <div class="grid gap-2" :class="{'grid-cols-3': activeTab === 2}">
+    <div class="p-2 border-t mb:border-t-0 grid gap-2" :class="{'grid-cols-3': activeTab === 2}">
       <template v-if="activeTab == 2">
         <Button
             variant="outline"
