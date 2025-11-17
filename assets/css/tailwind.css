@@ -79,9 +79,9 @@
 
 
 .dark {
-    --background: #000;
+    --background: #1d1d1d;
     --foreground: oklch(1 0 89.876);
-    --border: rgba(39, 35, 35, 0.50);
+    --border: #242424;
     --primary: #FFF;
     --secondary: rgba(255, 255, 255, 0.30);
     --primary-foreground: #000;
@@ -303,6 +303,6 @@ a.router.router-link-exact-active {
 }
 
 .stroke {
-    stroke-width: 10px;
+    stroke-width: 4px;
     stroke: var(--foreground, #FFF);
 }
