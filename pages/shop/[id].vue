@@ -230,7 +230,7 @@ watch(activeTab, () => {
   <div v-else class="h-screen"></div>
   <div
       v-if="accountItems?.count || selected.length"
-      class="flex flex-col md:flex-row justify-between sticky bottom-0 inset-x-0 bg-primary border-t label"
+      class="flex flex-col md:flex-row justify-between sticky bottom-0 inset-x-0 bg-background border-t label"
   >
     <div class="px-2 flex-1 flex items-center justify-between">
       <div class="flex gap-2 items-center">
