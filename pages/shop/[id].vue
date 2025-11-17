@@ -156,14 +156,14 @@ watch(activeTab, () => {
 </script>
 
 <template>
-  <div v-if="cloneItem" class="p-4 py-2 gap-2 grid grid-cols-2">
+  <div v-if="cloneItem" class="p-4 py-0 gap-2 grid grid-cols-2 divide-x">
     <div class="flex items-center gap-2">
       <div class="size-6">
         <NuxtIcon filled :name="`${cloneItem.label}/${cloneItem.id_string}`"/>
       </div>
       <div class="font-semibold capitalize">{{ cloneItem.name }}</div>
     </div>
-    <div class="grid md:grid-cols-2">
+    <div class="py-1 grid md:grid-cols-2">
       <div class="label flex gap-1 md:flex-col">
         <div class="text-secondary">Buy:</div>
         <div class="flex items-center gap-1">
