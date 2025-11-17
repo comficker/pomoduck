@@ -102,6 +102,11 @@ export const useAuthStore = defineStore('auth', () => {
         logging(e);
         return null
       })
+      logging(JSON.stringify({
+        info: window.MiniKit.user,
+        nonce: nonceRes.nonce,
+        payload: finalPayload
+      }))
       if (response) {
         authToken.value = response.access
         authTokenRefresh.value = response.refresh
