@@ -58,7 +58,7 @@ useHead({
         <div class="cursor-pointer p-2" @click="changePage(false)">
           <nuxt-icon name="chevron-left" class="size-5"/>
         </div>
-        <div class="size-4 text-center">{{ page }}</div>
+        <div class="size-4 w-16 text-center">{{ page }}/{{ data?.num_pages }}</div>
         <div class="cursor-pointer p-2" @click="changePage(true)">
           <nuxt-icon name="chevron-right" class="size-5"/>
         </div>
@@ -66,7 +66,7 @@ useHead({
     </div>
   </div>
   <div
-      class="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
+      class="grid grid-cols-3 md:grid-cols-4 divide-x divide-y md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
     <div v-for='item in data?.results' class="divide-y">
       <div class="pt-full relative">
         <div class="absolute inset-4 center">

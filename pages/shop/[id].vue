@@ -48,7 +48,7 @@ const q = computed(() => ({
 }))
 
 const {data: cloneItem} = useAuthFetch<IShopItem>(`/items/${route.params.id}/`)
-const {data: accountItems, refresh} = useAuthFetch<APIResponse<IAccountItem>>(`/account-items/`, {
+const {data: accountItems, refresh, pending} = useAuthFetch<APIResponse<IAccountItem>>(`/account-items/`, {
   query: q
 })
 
@@ -193,6 +193,7 @@ watch(activeTab, () => {
     </div>
   </div>
   <div
+      v-if="!pending"
       class="label grid grid-cols-3 md:grid-cols-4 divide-x divide-y md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
     <div
         v-for="item in accountItems?.results" :key="item.id"
@@ -226,19 +227,20 @@ watch(activeTab, () => {
       </div>
     </div>
   </div>
+  <div v-else class="h-screen"></div>
   <div
       v-if="accountItems?.count || selected.length"
       class="flex flex-col md:flex-row gap-3 justify-between sticky bottom-0 inset-x-0 p-2 bg-white border-t label"
   >
     <div class="flex-1 flex items-center justify-between">
       <div class="flex gap-2 items-center">
-        <Button variant="ghost" @click="changePage(false)">
+        <div class="p-2 cursor-pointer" @click="changePage(false)">
           <nuxt-icon name="chevron-left" class="size-5"/>
-        </Button>
-        <div class="size-4 text-center">{{ page }}</div>
-        <Button variant="ghost" @click="changePage(true)">
+        </div>
+        <div class="size-4 w-16 text-center">{{ page }}/{{ accountItems?.num_pages }}</div>
+        <div class="p-2 cursor-pointer" @click="changePage(true)">
           <nuxt-icon name="chevron-right" class="size-5"/>
-        </Button>
+        </div>
       </div>
       <div v-if="activeTab < 2" class="flex items-center gap-1">
         <NuxtIcon name="footprint" filled class="size-3"/>
