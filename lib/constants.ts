@@ -3,3 +3,7 @@ export enum TASK_STATUS {
 }
 
 export const BASE_MINING_SPEED = 8.33333333e-5
+
+export enum ACCOUNT_STATUS {
+    BURNED, ACTIVE, FOR_RENT, FOR_SALE, EQUIPPED
+}

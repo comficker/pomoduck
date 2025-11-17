@@ -89,7 +89,7 @@ onMounted(() => {
   <div id="timer" class="h-full flex flex-col justify-center gap-4 pb-16">
     <div class="flex-1 text-center flex items-center justify-center flex-col">
       <div class="w-full flex-1 flex flex-col items-center justify-center">
-        <nuxt-icon class="mx-auto size-48" name="duck/base" filled/>
+        <nuxt-icon class="mx-auto size-48" name="skin/base" filled/>
         <div class="content text-7xl md:text-8xl font-bold flex gap-3 items-center text-left">
           <div class="grid grid-cols-2 gap-2">
             <div

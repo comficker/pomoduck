@@ -112,22 +112,27 @@ export interface IShopItem {
   name: string
   price: number
   base_rent_fee: number
-  for_sale_count: number,
-  for_rent_count: number,
+  for_sale_count: number
+  for_rent_count: number
   current_status: {
-    can_buy: boolean,
-    can_sell: boolean,
-    can_rent: boolean,
-    can_equip: boolean,
+    can_buy: boolean
+    can_sell: boolean
+    can_rent: boolean
+    can_equip: boolean
     own: number
     rent: string | null
+    is_equipped: boolean
+    has_active: boolean
   }
 }
 
 export interface IAccountItem {
   'id': number
+  'uid': string
   'status': number
   'rent_expired': string | null
   'account': number
   'renter': number
+  'sell_price': number
+  'rent_fee': number
 }

@@ -8,9 +8,9 @@ const {item} = defineProps<{
 </script>
 
 <template>
-  <div class="flex items-center gap-4">
+  <NuxtLink :to="`/shop/${item.id_string}`" class="flex items-center gap-4">
     <div class="size-16">
-      <NuxtIcon filled :name="`item/${item.id_string}`"/>
+      <img :alt="item.name" :src="`/${item.label}/${item.id_string}.svg`"/>
     </div>
     <div class="flex-1 space-y-1">
       <div class="flex justify-between">
@@ -44,5 +44,5 @@ const {item} = defineProps<{
         </div>
       </div>
     </div>
-  </div>
+  </NuxtLink>
 </template>

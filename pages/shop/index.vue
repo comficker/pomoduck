@@ -5,7 +5,12 @@ useHead({
   title: "Shop"
 })
 
-const {data, pending} = useAuthFetch<APIResponse<IShopItem>>('/items/')
+const {data, pending} = useAuthFetch<APIResponse<IShopItem>>('/items/', {
+  query: {
+    label: "accessory"
+  },
+  key: "shop"
+})
 </script>
 
 <template>
