@@ -85,7 +85,7 @@ useHead({
       innerHTML: `
         (function() {
           const test = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const theme = '${theme}' === 'system' ? (test ? 'dark' : 'light') : '${theme}';
+          const theme = '${theme.value}' === 'system' ? (test ? 'dark' : 'light') : '${theme.value}';
           document.documentElement.classList.toggle('dark', theme === 'dark');
         })();
       `,
@@ -98,7 +98,7 @@ useHead({
 <template>
   <div class="wrapper w-full flex flex-col relative z-0 divide-y">
     <Header class="hidden md:block"/>
-    <div class="md:px-4 flex-1">
+    <div class="md:px-4 flex-1" :class="{'border-t': authStore.activeAuth !== 'local'}">
       <div class="md:border-x has-star h-full max-w-3xl mx-auto relative">
         <div class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y">
           <nuxt-page/>

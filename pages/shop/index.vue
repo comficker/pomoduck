@@ -14,7 +14,7 @@ const {data, pending} = useAuthFetch<APIResponse<IShopItem>>('/items/', {
 </script>
 
 <template>
-  <div class="px-4 py-2 md:py-4 label">
+  <div class="p-4 label">
     <h1 class="cursor-pointer text-primary">Shop</h1>
   </div>
   <div class="grid md:grid-cols-2 md:divide-x divide-y" v-if="data && !pending">
