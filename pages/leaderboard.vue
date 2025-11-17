@@ -33,7 +33,7 @@ useHead({
 </script>
 
 <template>
-  <div class="px-4 py-2 md:py-4 flex gap-4 label text-secondary">
+  <div class="p-4 flex gap-4 label text-secondary">
     <h1
         v-for="item in modes"
         class="cursor-pointer" :class="{'text-primary': item == mode}"

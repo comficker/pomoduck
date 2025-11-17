@@ -20,7 +20,7 @@ useHead({
 </script>
 
 <template>
-  <div class="px-4 py-2 md:py-4 label flex gap-4 items-center">
+  <div class="p-4 label flex gap-4 items-center">
     <h1 class="flex-1">Duck house</h1>
     <div class="flex gap-2 items-center">
       <NuxtIcon filled name="footprint" class="size-4"/>
@@ -46,14 +46,9 @@ useHead({
           <span v-else>Equip</span>
         </div>
       </div>
-      <div class="flex justify-between py-1 p-3 label">
+      <nuxt-link :to="`/shop/${item.id_string}`" class="flex justify-between py-1 p-2 label">
         <div class="text-2xs md:text-xs">{{ item.name }}: {{ item.current_status.own + (item.current_status.rent ? 1 : 0) }}</div>
-        <div class="flex gap-1">
-          <nuxt-link :to="`/shop/${item.id_string}`">
-            <NuxtIcon name="storefront" class="size-4"/>
-          </nuxt-link>
-        </div>
-      </div>
+      </nuxt-link>
     </div>
   </div>
 </template>

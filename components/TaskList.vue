@@ -50,7 +50,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="px-4 py-2 md:py-4 label">
+  <div class="p-4 label">
     <h1>Tasks</h1>
   </div>
   <div v-if="store.loggedIn" class="p-4 flex label justify-between">
