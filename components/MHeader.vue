@@ -31,13 +31,11 @@ const items = [
         <DropdownMenuSeparator/>
         <DropdownMenuItem as-child>
           <nuxt-link to="/achievement" class="">
-            <NuxtIcon name="medal" class="size-5"/>
             <span>Achievement</span>
           </nuxt-link>
         </DropdownMenuItem>
         <DropdownMenuItem as-child>
           <nuxt-link to="/leaderboard">
-            <NuxtIcon name="leaderboard" class="size-5"/>
             <span>Leaderboard</span>
           </nuxt-link>
         </DropdownMenuItem>

@@ -98,9 +98,9 @@ useHead({
 </script>
 
 <template>
-  <div class="wrapper w-full flex flex-col relative z-0 divide-y">
+  <div class="wrapper w-full flex flex-col relative z-0 divide-y" :class="{'border-t': authStore.activeAuth !== 'local'}">
     <PHeader class="hidden md:block"/>
-    <div class="md:px-4 flex-1" :class="{'border-t': authStore.activeAuth !== 'local'}">
+    <div class="md:px-4 flex-1">
       <div class="md:border-x has-star h-full max-w-3xl mx-auto relative">
         <div class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y">
           <nuxt-page/>
