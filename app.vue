@@ -4,6 +4,7 @@ import Auth from "~/components/modal/Auth.vue";
 import MergeAccount from "~/components/modal/MergeAccount.vue";
 import {useAuthStore} from "~/stores/auth.store";
 import PHeader from "~/components/PHeader.vue";
+import MHeader from "~/components/MHeader.vue";
 
 const route = useRoute()
 const store = useGlobalStore()
@@ -106,7 +107,7 @@ useHead({
         </div>
       </div>
     </div>
-    <PHeader class="md:hidden"/>
+    <MHeader class="md:hidden!"/>
     <div class="md:px-4 uppercase font-bold text-2xs text-gray-500">
       <div class="md:border-x has-star max-w-3xl mx-auto flex justify-center md:justify-between">
         <div class="p-2 flex items-center gap-1" @click="tabCount++">

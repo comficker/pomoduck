@@ -171,7 +171,7 @@ input {
 }
 
 .label {
-    @apply text-sm uppercase font-bold;
+    @apply uppercase font-bold;
 }
 
 .menu {

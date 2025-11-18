@@ -163,7 +163,7 @@ watch(activeTab, () => {
       </div>
       <div class="font-semibold capitalize">{{ cloneItem.name }}</div>
     </div>
-    <div class="py-1 grid md:grid-cols-2">
+    <div class="py-1 grid md:grid-cols-2 text-xs">
       <div class="label flex gap-1 md:flex-col">
         <div class="text-secondary">Buy:</div>
         <div class="flex items-center gap-1">
@@ -181,15 +181,13 @@ watch(activeTab, () => {
       </div>
     </div>
   </div>
-  <div class="grid grid-cols-3 text-secondary label text-center divide-x">
+  <div class="grid grid-cols-3 text-secondary label text-center divide-x text-xs">
     <div
         v-for="(item, i) in tabs" class="p-2 px-4 flex justify-between gap-2 cursor-pointer "
         :class="{'text-primary': activeTab === i}"
         @click="activeTab = i"
     >
       <div>{{ item.title }}</div>
-      <div v-if="i === 2">{{ item.amount + (isRenting ? 1 : 0) }}</div>
-      <div v-else>{{ item.amount }}/{{ cloneItem?.max_supply }}</div>
     </div>
   </div>
   <div
@@ -212,13 +210,13 @@ watch(activeTab, () => {
           <div v-else>{{ item.renter && item.renter === store.info.id ? 'Renting' : '' }}</div>
         </div>
       </div>
-      <div class="flex justify-between border-t p-2">
+      <div class="flex justify-between border-t p-2 text-xs">
         <div class="">
-          <div class="text-secondary">ID</div>
+          <div class="text-2xs text-secondary">ID</div>
           <div>{{ item.uid }}</div>
         </div>
         <div class="text-right">
-          <div class="text-secondary">Price</div>
+          <div class="text-2xs text-secondary">Price</div>
           <div class="flex items-center justify-end gap-1">
             <NuxtIcon name="footprint" filled class="size-3"/>
             <span>{{ formatFloat(activeTab === 1 ? item.rent_fee : item.sell_price) }}</span>

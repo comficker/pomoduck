@@ -53,7 +53,7 @@ onMounted(() => {
   <div class="p-4 label">
     <h1>Tasks</h1>
   </div>
-  <div v-if="store.loggedIn" class="p-4 flex label justify-between">
+  <div v-if="store.loggedIn" class="p-4 flex label text-xs justify-between">
     <div class="flex gap-2">
       <div
           v-for="item in ['Public', 'Your']"
@@ -85,7 +85,7 @@ onMounted(() => {
     </template>
     <template v-else-if="taskRes">
       <Task
-          class="p-4"
+          class="p-4 py-3"
           v-for="(item, i) in taskRes.results"
           :key="`${store.refreshTask}_${item.id}`"
           :task="item"
