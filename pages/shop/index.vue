@@ -24,7 +24,7 @@ const {data, pending} = useAuthFetch<APIResponse<IShopItem>>('/items/', {
       <div>{{ formatFloat(store.info.footprint) }}</div>
     </div>
     <Button as-child>
-      <nuxt-link to="/shop/deposit" class="uppercase text-xs">Deposit</nuxt-link>
+      <nuxt-link to="/shop/purchase" class="uppercase text-xs px-6">Buy</nuxt-link>
     </Button>
   </div>
   <div class="grid md:grid-cols-2 md:divide-x divide-y" v-if="data && !pending">
