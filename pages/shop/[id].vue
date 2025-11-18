@@ -235,7 +235,7 @@ watch(activeTab, () => {
         <div class="p-2 cursor-pointer" @click="changePage(false)">
           <nuxt-icon name="chevron-left" class="size-5"/>
         </div>
-        <div class="size-4 w-16 text-center">{{ page }}/{{ accountItems?.num_pages }}</div>
+        <div class="w-16 text-xs text-center">{{ page }}/{{ accountItems?.num_pages }}</div>
         <div class="p-2 cursor-pointer" @click="changePage(true)">
           <nuxt-icon name="chevron-right" class="size-5"/>
         </div>

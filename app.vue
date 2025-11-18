@@ -102,7 +102,10 @@ useHead({
     <PHeader class="hidden md:block"/>
     <div class="md:px-4 flex-1">
       <div class="md:border-x has-star h-full max-w-3xl mx-auto relative">
-        <div class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y border-t md:border-t-0">
+        <div
+            class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y"
+            :class="{'border-t': authStore.activeAuth === 'telegram' && route.name !== 'index'}"
+        >
           <nuxt-page/>
         </div>
         <div
