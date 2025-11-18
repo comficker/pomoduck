@@ -40,7 +40,7 @@ useHead({
         </div>
         <div
             v-if="item.current_status.has_active"
-            class="absolute top-0 right-0 bg-white border-b border-l rounded-bl-lg pb-1 px-3 leading-none label"
+            class="absolute top-0 right-0 bg-white border-b border-l rounded-bl-lg pb-1 px-3 leading-none label text-xs"
         >
           <span v-if="item.current_status.is_equipped">Equipped</span>
           <span v-else>Equip</span>

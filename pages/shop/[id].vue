@@ -230,8 +230,8 @@ watch(activeTab, () => {
       v-if="accountItems?.count || selected.length"
       class="flex flex-col md:flex-row justify-between sticky bottom-0 inset-x-0 bg-background border-t label"
   >
-    <div class="px-2 flex-1 flex items-center justify-between">
-      <div class="flex gap-2 items-center">
+    <div class="px-2 flex-1 flex items-center">
+      <div class="flex-1 flex gap-2 items-center">
         <div class="p-2 cursor-pointer" @click="changePage(false)">
           <nuxt-icon name="chevron-left" class="size-5"/>
         </div>
@@ -244,6 +244,7 @@ watch(activeTab, () => {
         <NuxtIcon name="footprint" filled class="size-3"/>
         <span>{{ formatFloat(total > 0 ? total : actionData?.amount) }}</span>
       </div>
+      <div class="underline ml-3">Deposit</div>
     </div>
     <div class="p-2 border-t mb:border-t-0 grid gap-2" :class="{'grid-cols-3': activeTab === 2}">
       <template v-if="activeTab == 2">
@@ -261,7 +262,7 @@ watch(activeTab, () => {
         </Button>
       </template>
       <Button
-          class="px-8 label"
+          class="px-8 label min-w-32"
           @click="sendAct(activeTab == 2 ? {status: ACCOUNT_STATUS.FOR_SALE}: {})"
       >{{ actionData?.title }}
       </Button>

@@ -6,7 +6,7 @@ import {getRandomInt} from "~/lib/utils";
 const store = useGlobalStore()
 
 const status = ref(TASK_STATUS.ACTIVE)
-const taskFilter = ref<string>('Public')
+const taskFilter = ref<string>('Your')
 
 const query = computed(() => {
   return {

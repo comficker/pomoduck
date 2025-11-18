@@ -27,8 +27,11 @@ const items = [
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end" class="text-base min-w-52">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel class="label text-xs">Menu</DropdownMenuLabel>
         <DropdownMenuSeparator/>
+        <DropdownMenuItem as-child>
+          <nuxt-link to="/house">Duck House</nuxt-link>
+        </DropdownMenuItem>
         <DropdownMenuItem as-child>
           <nuxt-link to="/achievement" class="">
             <span>Achievement</span>
@@ -38,9 +41,6 @@ const items = [
           <nuxt-link to="/leaderboard">
             <span>Leaderboard</span>
           </nuxt-link>
-        </DropdownMenuItem>
-        <DropdownMenuItem as-child>
-          <nuxt-link to="/house">House</nuxt-link>
         </DropdownMenuItem>
         <DropdownMenuItem as-child>
           <nuxt-link to="/settings">Settings</nuxt-link>
