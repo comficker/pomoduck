@@ -20,7 +20,7 @@ useHead({
 </script>
 
 <template>
-  <div class="p-4 label flex gap-4 items-center">
+  <div class="p-4 py-3 label flex gap-4 items-center">
     <h1 class="flex-1">Duck house</h1>
     <div class="flex gap-2 items-center">
       <NuxtIcon filled name="footprint" class="size-4"/>
@@ -30,11 +30,14 @@ useHead({
       <NuxtIcon filled name="eggs" class="size-4"/>
       <div>{{ formatFloat(store.info.egg) }}</div>
     </div>
+    <Button as-child size="sm">
+      <nuxt-link to="/lab">Hatching</nuxt-link>
+    </Button>
   </div>
   <div
       class="grid grid-cols-3 md:grid-cols-4 divide-x divide-y [&>div:nth-child(3n)]:border-r-0 md:[&>div:nth-child(3n)]:border-r-1 md:[&>div:nth-child(4n)]:border-r-0 [&>div:last-child]:border-b [&>div:last-child]:border-r">
     <div v-for='item in data?.results' class="divide-y">
-      <div class="pt-full relative">
+      <div class="pt-full relative" :class="{'grayscale': !item.current_status.has_active}">
         <div class="absolute inset-4 center">
           <img :alt="item.name" :src="`/${item.label}/${item.id_string}.svg`" class="size-32"/>
         </div>

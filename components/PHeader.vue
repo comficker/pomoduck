@@ -1,7 +1,7 @@
 <script setup lang="ts">
-
 import {formatFloat} from "~/lib/utils";
 
+const route = useRoute()
 const store = useGlobalStore()
 </script>
 
@@ -14,7 +14,7 @@ const store = useGlobalStore()
             <NuxtIcon name="house" class="size-5"/>
             <span class="hidden md:block">Home</span>
           </nuxt-link>
-          <nuxt-link to="/shop">
+          <nuxt-link to="/shop" :class="{'router-link-active': route.path.split('/')[1] == 'shop'}">
             <NuxtIcon name="storefront" class="size-5"/>
             <span class="hidden md:block">Shop</span>
           </nuxt-link>
