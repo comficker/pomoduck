@@ -53,14 +53,14 @@ useHead({
     </div>
   </div>
   <ReportChart v-if="data" class="border-b p-4" :data="data"/>
-  <div v-if="data" class="divide-y">
+  <div v-if="data" class="divide-y border-b">
     <div class="p-4 py-2 label">History</div>
-    <div class="grid grid-cols-3 divide-x label text-secondary">
+    <div class="grid grid-cols-3 divide-x label text-xs text-secondary">
       <div class="p-2 py-1 flex-1 px-4">Date</div>
       <div class="p-2 py-1 md:px-4">Time</div>
       <div class="p-2 py-1 px-4 text-right">Rewards</div>
     </div>
-    <div class="grid grid-cols-3 divide-x text-sm md:text-base font-semibold" v-for="key in dates">
+    <div class="grid grid-cols-3 divide-x text-xs md:text-base" v-for="key in dates">
       <div class="p-2 py-1 flex-1 px-4">🗓️ {{ key.substring(5, key.length) }}</div>
       <div class="p-2 py-1 md:px-4">🕒 {{ timeLeftStr(data[key]?.work || 0) }}</div>
       <div class="p-2 py-1 px-4 grid grid-cols-2">
