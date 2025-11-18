@@ -98,11 +98,11 @@ useHead({
 </script>
 
 <template>
-  <div class="wrapper w-full flex flex-col relative z-0 divide-y border-t md:border-t-0">
+  <div class="wrapper w-full flex flex-col relative z-0 divide-y">
     <PHeader class="hidden md:block"/>
     <div class="md:px-4 flex-1">
       <div class="md:border-x has-star h-full max-w-3xl mx-auto relative">
-        <div class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y">
+        <div class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y border-t md:border-t-0">
           <nuxt-page/>
         </div>
         <div
