@@ -2,20 +2,40 @@
 const {$sendHaptic} = useNuxtApp()
 
 const tapping = ref(false)
+const vibrating = ref(false)
 const tabLevel = ref(0)
 const tap = () => {
+  if (tapping.value) return;
+  const audio = document.getElementById("audio");
+  audio.play();
   tabLevel.value += 1
   $sendHaptic()
   tapping.value = true
+  vibrating.value = true
   setTimeout(() => {
     tapping.value = false
-  }, 500)
+  }, 800)
+  setTimeout(() => {
+    vibrating.value = false
+  }, 400)
+  if (tabLevel.value == 5) {
+    tabLevel.value = 0
+  }
 }
+
+useHead({
+  title: "DuckLab",
+  link: [
+    {
+      rel: "preload", href: "/sound.wav", as: "audio"
+    }
+  ]
+})
 </script>
 
 <template>
   <div class="h-full flex justify-center items-center flex-1">
-    <div id="egg" :class="[{'tapped': tapping, 'step-end': tabLevel > 3 }, `step-${tabLevel}`]" class="w-full"
+    <div id="egg" :class="[{'tapped': vibrating, 'step-end': tabLevel > 3 }, `step-${tabLevel}`]" class="w-full"
          @click="tap">
       <svg viewBox="0 0 1280 1280" version="1.1" xmlns="http://www.w3.org/2000/svg"
            xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -140,6 +160,7 @@ const tap = () => {
       </svg>
     </div>
   </div>
+  <audio id="audio" src="/sound.wav"/>
 </template>
 
 <style scoped>
@@ -194,23 +215,23 @@ const tap = () => {
 
 
 #tl, #tr, #bl, #br {
-  transition-duration: 2000ms;
+  transition-duration: 1500ms;
 }
 
 .step-end #tl {
-  transform: translate(-100%, -100%);
+  transform: translate(-100%, -100%) rotate(250deg);
 }
 
 .step-end #tr {
-  transform: translate(200%, -100%);
+  transform: translate(200%, -100%) rotate(-250deg);
 }
 
 .step-end #br {
-  transform: translate(200%, 200%);
+  transform: translate(200%, 200%) rotate(95deg);
 }
 
 .step-end #bl {
-  transform: translate(-100%, 200%);
+  transform: translate(-100%, 200%) rotate(500deg);
 }
 
 .broking_1,
