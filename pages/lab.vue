@@ -218,6 +218,26 @@ useHead({
   transition-duration: 1500ms;
 }
 
+#bl {
+  transform: translate(294px, 489px)
+}
+
+#tl {
+  transform: translate(353px, 261px);
+}
+
+#tr {
+  transform:translate(558px, 302px);
+}
+
+#br {
+  transform: translate(437px, 601px)
+}
+
+.step-end #bl {
+  transform: translate(-100%, 200%) rotate(500deg);
+}
+
 .step-end #tl {
   transform: translate(-100%, -100%) rotate(250deg);
 }
