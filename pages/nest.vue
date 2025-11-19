@@ -51,9 +51,13 @@ useHead({
     </div>
     <div class="">
       <div class="absolute -bottom-4 -inset-x-[20%] md:-bottom-[30%] md:-inset-x-[35%]">
-        <img src="/nest/ground.svg" alt="">
+        <img class="mx-auto" src="/nest/ground.svg" alt="">
       </div>
-      <div class="absolute top-4 right-4">
+      <div class="absolute top-4 right-4 flex gap-3">
+        <div class="flex text-black font-bold gap-2 items-center bg-white py-1 px-4 rounded-xl shadow">
+          <NuxtIcon filled name="footprint" class="size-4"/>
+          <div>{{ formatFloat(store.info.footprint) }}</div>
+        </div>
         <div class="flex text-black font-bold gap-2 items-center bg-white py-1 px-4 rounded-xl shadow">
           <NuxtIcon filled name="eggs" class="size-4"/>
           <div>{{ formatFloat(store.info.egg) }}</div>
@@ -211,7 +215,7 @@ useHead({
       class="z-10 absolute p-4 bottom-0 md:bottom-16 gap-3 inset-x-0 grid md:grid-cols-3 md:text-lg"
       :class="{'grid-cols-2': !isOpened}"
     >
-      <div class="space-y-4">
+      <div>
         <template v-if="!isOpened">
           <div class="inline-flex py-2.5 px-4 gap-2 rounded-full bg-white text-black items-center">
             <NuxtIcon name="minus" class="size-6 cursor-pointer"/>
@@ -219,17 +223,14 @@ useHead({
             <div class="text-lg w-12 text-center font-bold">1</div>
             <NuxtIcon name="plus" class="size-6 cursor-pointer"/>
           </div>
-          <div class="uppercase text-xs">Eggs want to knock</div>
         </template>
       </div>
-      <div class="space-y-4">
+      <div>
         <template v-if="!isOpened">
-          <div class="knock duration-100" :class="{knocking: tapping}" @click="tap">
-            Knock [{{tabLevel}}/4]
-          </div>
-          <div class="flex items-center gap-2 justify-center uppercase text-xs">
-            <NuxtIcon name="footprint" class="size-4"/>
-            <span>01 / knock</span>
+          <div class="knock flex items-center gap-1 duration-100" :class="{knocking: tapping}" @click="tap">
+            <span>Knock</span>
+            <NuxtIcon name="footprint" filled class="size-4"/>
+            <span>[{{tabLevel}}/4]</span>
           </div>
         </template>
         <div v-else class="receive" @click="tabLevel = 0">Receive</div>
