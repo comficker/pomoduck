@@ -26,12 +26,12 @@ useHead({
       <NuxtIcon filled name="footprint" class="size-4"/>
       <div>{{ formatFloat(store.info.footprint) }}</div>
     </div>
-    <div class="flex  gap-2 items-center">
+    <div class="flex gap-2 items-center">
       <NuxtIcon filled name="eggs" class="size-4"/>
       <div>{{ formatFloat(store.info.egg) }}</div>
     </div>
     <Button as-child size="sm">
-      <nuxt-link to="/lab">Hatching</nuxt-link>
+      <nuxt-link to="/nest">Open</nuxt-link>
     </Button>
   </div>
   <div

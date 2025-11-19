@@ -10,7 +10,8 @@ useHead({
 
 const {data, pending} = useAuthFetch<APIResponse<IShopItem>>('/items/', {
   query: {
-    label: "accessory"
+    label: "accessory",
+    page_size: 20
   },
   key: "shop"
 })
