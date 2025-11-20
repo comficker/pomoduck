@@ -89,12 +89,12 @@ onMounted(() => {
 <template>
   <div id="timer" class="h-full flex flex-col justify-center gap-4 ">
     <div class="flex-1 text-center center flex-col relative">
-      <div class="absolute top-4 right-4 flex gap-3 text-sm">
-        <div class="center text-black font-bold gap-2 py-1 px-2 rounded-lg shadow">
+      <div class="absolute top-4 right-4 flex gap-3 text-sm text-primary">
+        <div class="center font-bold gap-2 py-1 px-2 rounded-lg shadow bg-background">
           <NuxtIcon filled name="footprint" class="size-4"/>
           <div>{{ formatFloat(store.info.footprint) }}</div>
         </div>
-        <div class="center text-black font-bold gap-2 py-1 px-2 rounded-lg shadow">
+        <div class="center font-bold gap-2 py-1 px-2 rounded-lg shadow bg-background">
           <NuxtIcon filled name="eggs" class="size-4"/>
           <div>{{ formatFloat(store.info.egg) }}</div>
         </div>

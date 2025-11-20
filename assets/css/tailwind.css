@@ -80,7 +80,7 @@
 
 .dark {
     --background: #1d1d1d;
-    --foreground: oklch(1 0 89.876);
+    --foreground: rgba(255, 255, 255, 0.8);
     --border: #242424;
     --primary: #FFF;
     --secondary: rgba(255, 255, 255, 0.30);
