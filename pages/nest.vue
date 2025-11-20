@@ -7,6 +7,7 @@ const store = useGlobalStore()
 const tapping = ref(false)
 const vibrating = ref(false)
 const tabLevel = ref(0)
+const amount = ref(1)
 
 const isOpened = computed(() => {
   // return true
@@ -19,18 +20,29 @@ const tap = () => {
   // @ts-ignore
   audio.play();
   tabLevel.value += 1
-  $sendHaptic()
   tapping.value = true
-  vibrating.value = true
   setTimeout(() => {
     tapping.value = false
   }, 200)
-  setTimeout(() => {
-    vibrating.value = false
-  }, 400)
   if (tabLevel.value == 6) {
     tabLevel.value = 0
   }
+}
+
+const shake = () => {
+  $sendHaptic()
+  vibrating.value = true
+  setTimeout(() => {
+    vibrating.value = false
+  }, 400)
+}
+
+const changeAmount = (n: number) => {
+  const test = amount.value + n
+  if (test < 1 || test > store.info.egg || test * 5 > store.info.footprint) {
+    return
+  }
+  amount.value = test
 }
 
 useHead({
@@ -44,7 +56,7 @@ useHead({
 </script>
 
 <template>
-  <div id="nest" class="h-full relative flex-1 overflow-hidden text-white content">
+  <div id="nest" class="h-full relative flex-1 overflow-hidden text-white content" @click="shake()">
     <div class="absolute -inset-[25%] md:-inset-[15%] center">
       <div class="pt-full w-full relative">
         <div id="bg" class="absolute inset-0"/>
@@ -64,7 +76,7 @@ useHead({
           <div>{{ formatFloat(store.info.egg) }}</div>
         </div>
       </div>
-      <div class="z-10 absolute inset-0 flex justify-center items-center" @click="tap">
+      <div class="z-10 absolute inset-0 flex justify-center items-center">
         <template v-if="!isOpened">
           <div class="-z-10 absolute bottom-[25%] md:bottom-[30%]">
             <img class="mx-auto w-[90%]" src="/nest/ground-2.svg" alt="">
@@ -207,39 +219,41 @@ useHead({
     <div v-if="isOpened" id="result" class="z-20 absolute inset-0 center" style="background: #ffbf2c">
       <div class="pt-full relative my-auto w-full">
         <div class="animate-scale absolute inset-0 rounded-full" style="background: #ffb027;--scale: 100%;"/>
-        <div class="animate-scale absolute inset-0 rounded-full scale-75"
-             style="background: #ffbf2c;--scale: 75%;"/>
-        <div class="animate-scale absolute inset-0 rounded-full scale-55"
-             style="background: #ffb027;--scale: 50%;"/>
+        <div
+            class="animate-scale absolute inset-0 rounded-full scale-75"
+            style="background: #ffbf2c;--scale: 75%;"
+        />
+        <div
+            class="animate-scale absolute inset-0 rounded-full scale-55"
+            style="background: #ffb027;--scale: 50%;"
+        />
         <div class="absolute inset-0 flex items-center justify-center">
           <NuxtIcon id="duck-born" name="skin/base" class="size-48 md:size-64" filled/>
         </div>
       </div>
     </div>
     <div
-        class="z-20 absolute p-4 bottom-0 md:bottom-16 gap-3 inset-x-0 grid md:grid-cols-3 md:text-lg"
-        :class="{'grid-cols-2': !isOpened}"
+        class="z-20 absolute p-4 bottom-0 md:bottom-16 gap-3 inset-x-0 flex md:grid md:grid-cols-3 md:text-lg"
+        :class="{'grid-cols-2': !isOpened, 'center': isOpened}"
     >
-      <div>
-        <template v-if="!isOpened">
-          <div class="inline-flex! center py-2.5 px-4 gap-2 rounded-full bg-white text-black">
-            <NuxtIcon name="minus" class="size-6 cursor-pointer"/>
-            <div class="center gap-0.5 w-12">
-              <nuxt-icon name="egg" filled class="size-4"/>
-              <div class="text-lg text-center font-bold">1</div>
-            </div>
-            <NuxtIcon name="plus" class="size-6 cursor-pointer"/>
+      <div v-if="!isOpened">
+        <div class="inline-flex! center py-2.5 px-4 gap-2 rounded-full bg-white text-black">
+          <NuxtIcon name="minus" class="size-6 cursor-pointer" @click="changeAmount(-1)"/>
+          <div class="center gap-0.5 w-8">
+            <nuxt-icon name="egg" filled class="size-4"/>
+            <div class="text-lg text-center font-bold">{{ amount }}</div>
           </div>
-        </template>
+          <NuxtIcon name="plus" class="size-6 cursor-pointer" @click="changeAmount(1)"/>
+        </div>
       </div>
-      <div>
+      <div class="flex-1 center">
         <template v-if="!isOpened">
           <div class="knock center gap-1 duration-100" :class="{knocking: tapping}" @click="tap">
-            <span class="text-[#E69B36]">Knock</span>
+            <span class="text-[#E69B36]">Crack</span>
             <NuxtIcon v-for="i in 5" name="footprint" :filled="i <= tabLevel" class="size-4"/>
           </div>
         </template>
-        <div v-else class="w-1/2 mx-auto receive" @click="tabLevel = 0">Receive</div>
+        <div v-else class="w-1/2 receive" @click="tabLevel = 0">Receive</div>
       </div>
     </div>
   </div>
@@ -248,7 +262,7 @@ useHead({
 
 <style scoped>
 .knock {
-  padding: 12px 16px;
+  padding: 12px 24px;
   box-shadow: 0 8px 0 0 #000000;
   background-color: #4A4A4A;
   border-radius: 50px;
