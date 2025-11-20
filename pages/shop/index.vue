@@ -29,7 +29,7 @@ const {data, pending} = useAuthFetch<APIResponse<IShopItem>>('/items/', {
     </Button>
   </div>
   <div class="grid md:grid-cols-2 md:divide-x divide-y" v-if="data && !pending">
-    <div v-for='item in data.results' :key="item.id" class="p-4 shop-item">
+    <div v-for='item in data.results' :key="item.id" class="p-4 py-3 shop-item">
       <ShopItem :item="item"/>
     </div>
   </div>

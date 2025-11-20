@@ -10,6 +10,7 @@ const route = useRoute()
 const store = useGlobalStore()
 const authStore = useAuthStore()
 const cfg = useRuntimeConfig()
+const {$setupTelegram} = useNuxtApp()
 
 const tabCount = ref(0)
 const theme = computed(() => getTheme())
@@ -33,7 +34,6 @@ function switchTheme() {
 }
 
 onMounted(async () => {
-  const {$setupTelegram} = useNuxtApp()
   $setupTelegram()
   document.addEventListener("contextmenu", function (e) {
     if (cfg.public.env === 'production') e.preventDefault();
