@@ -29,6 +29,7 @@ function getTheme() {
 
 function switchTheme() {
   document.documentElement.classList.toggle('dark', getTheme() === 'dark')
+  $setupTelegram()
 }
 
 onMounted(async () => {

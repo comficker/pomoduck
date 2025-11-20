@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import {formatFloat} from "~/lib/utils";
-
 const route = useRoute()
 const store = useGlobalStore()
 </script>
@@ -33,7 +31,7 @@ const store = useGlobalStore()
         <nuxt-link to="/report" class="">
           <NuxtIcon name="rank" class="size-5"/>
         </nuxt-link>
-        <DropdownMenu v-if="store.loggedIn">
+        <DropdownMenu>
           <DropdownMenuTrigger as-child>
             <div
                 class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer"
@@ -47,20 +45,21 @@ const store = useGlobalStore()
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="bottom" align="end" class="text-base min-w-52">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator/>
-            <DropdownMenuItem v-if="false">Profile</DropdownMenuItem>
-            <DropdownMenuItem as-child>
-              <nuxt-link to="/house">House</nuxt-link>
-            </DropdownMenuItem>
-            <DropdownMenuItem as-child>
-              <nuxt-link to="/settings">Settings</nuxt-link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator/>
-            <DropdownMenuItem @click="store.logout()">Logout</DropdownMenuItem>
+            <DropdownMenuItem v-if="!store.loggedIn"  @click="store.modalName = 'auth'">Login</DropdownMenuItem>
+            <template v-else>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator/>
+              <DropdownMenuItem as-child>
+                <nuxt-link to="/house">House</nuxt-link>
+              </DropdownMenuItem>
+              <DropdownMenuItem as-child>
+                <nuxt-link to="/settings">Settings</nuxt-link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator/>
+              <DropdownMenuItem @click="store.logout()">Logout</DropdownMenuItem>
+            </template>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button v-else @click="store.modalName = 'auth'">Login</Button>
       </div>
     </div>
   </div>

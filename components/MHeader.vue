@@ -19,7 +19,7 @@ const items = [
       <NuxtIcon :name="item.i" class="size-6"/>
       <span>{{ item.n }}</span>
     </nuxt-link>
-    <DropdownMenu v-if="store.loggedIn">
+    <DropdownMenu>
       <DropdownMenuTrigger as-child>
         <div class="item">
           <NuxtIcon name="chevron-double-up" class="size-6"/>
@@ -30,9 +30,6 @@ const items = [
         <DropdownMenuLabel class="label text-xs">Menu</DropdownMenuLabel>
         <DropdownMenuSeparator/>
         <DropdownMenuItem as-child>
-          <nuxt-link to="/house">Duck House</nuxt-link>
-        </DropdownMenuItem>
-        <DropdownMenuItem as-child>
           <nuxt-link to="/achievement" class="">
             <span>Achievement</span>
           </nuxt-link>
@@ -42,14 +39,20 @@ const items = [
             <span>Leaderboard</span>
           </nuxt-link>
         </DropdownMenuItem>
-        <DropdownMenuItem as-child>
-          <nuxt-link to="/settings">Settings</nuxt-link>
-        </DropdownMenuItem>
         <DropdownMenuSeparator/>
-        <DropdownMenuItem @click="store.logout()">Logout</DropdownMenuItem>
+        <template v-if="store.loggedIn">
+          <DropdownMenuItem as-child>
+            <nuxt-link to="/house">Duck House</nuxt-link>
+          </DropdownMenuItem>
+          <DropdownMenuItem as-child>
+            <nuxt-link to="/settings">Settings</nuxt-link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator/>
+          <DropdownMenuItem @click="store.logout()">Logout</DropdownMenuItem>
+        </template>
+        <DropdownMenuItem v-else @click="store.modalName = 'auth'">Login</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-    <Button v-else @click="store.modalName = 'auth'">Login</Button>
   </div>
 </template>
 
