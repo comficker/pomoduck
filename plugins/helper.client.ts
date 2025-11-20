@@ -20,8 +20,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         }
       },
       sendHaptic: () => {
-        if (WebApp) {
-          WebApp.HapticFeedback.impactOccurred('medium')
+        if (window.telegram && window.telegram.initData) {
+          window.telegram.HapticFeedback.impactOccurred('medium')
         } else if (window.MiniKit.isInstalled()) {
           MiniKit.commands.sendHapticFeedback({
             hapticsType: 'impact',
