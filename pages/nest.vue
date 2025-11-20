@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {formatFloat, getRandomInt} from "~/lib/utils";
+import {formatFloat} from "~/lib/utils";
 
 const {$sendHaptic} = useNuxtApp()
 const store = useGlobalStore()
@@ -46,6 +46,7 @@ const playSound = () => {
 const tap = async () => {
   if (tapping.value || tabLevel.value === 5) return;
   tapping.value = true
+  playSound()
   const result = await useNativeFetch<{
     "id": number
     "current_knock": string
@@ -57,16 +58,14 @@ const tap = async () => {
     }
   }).catch(() => null)
   if (result) {
-    playSound()
     tabLevel.value = result.current_knock
     const fp = amount.value
     store.info.footprint -= fp
     if (tabLevel.value === 5) {
       store.info.egg -= fp
-
       result.results.forEach(key => {
         let k = key;
-        if (k !== 'empty') {
+        if (!['empty', 'footprint'].includes(k)) {
           if (k !== 'footprint') {
             k = `skin/${k}`
           }
@@ -102,6 +101,7 @@ useHead({
 watch(() => data.value, () => {
   if (data.value) {
     tabLevel.value = data.value.current_knock || 0
+    amount.value = data.value.eggs || 1
   } else {
     tabLevel.value = 0
   }
@@ -113,6 +113,8 @@ const reset = () => {
   tabLevel.value = 0
   results.value = {}
 }
+
+const rotates = [0, -15, 15, -30, 30, -45, 45, -60, 60]
 </script>
 
 <template>
@@ -289,11 +291,15 @@ const reset = () => {
         />
         <div id="duck-born">
           <div
-              v-for="key in Object.keys(results)"
+              v-for="(key, i) in Object.keys(results)"
               class="absolute inset-0 flex items-center justify-center"
-              :style="{transform: `rotate(${getRandomInt(0, 360)}deg)`}"
           >
-            <div>
+            <div
+                :style="{
+                  transformOrigin: 'bottom center',
+                  transform: `rotate(${rotates[i]}deg)`,
+                }"
+            >
               <NuxtIcon
                   :name="key"
                   class="size-48 md:size-64"
@@ -317,12 +323,12 @@ const reset = () => {
     >
       <div v-if="!isOpened">
         <div class="inline-flex! center py-2.5 px-4 gap-2 rounded-full bg-white text-black">
-          <NuxtIcon name="minus" class="size-6 cursor-pointer" @click="changeAmount(-1)"/>
+          <NuxtIcon name="minus" class="size-6 cursor-pointer" :class="{'opacity-30': tabLevel > 0}" @click="changeAmount(-1)"/>
           <div class="center gap-0.5 w-8">
             <nuxt-icon name="egg" filled class="size-4"/>
             <div class="text-lg text-center font-bold">{{ amount }}</div>
           </div>
-          <NuxtIcon name="plus" class="size-6 cursor-pointer" @click="changeAmount(1)"/>
+          <NuxtIcon name="plus" class="size-6 cursor-pointer" :class="{'opacity-30': tabLevel > 0}" @click="changeAmount(1)"/>
         </div>
       </div>
       <div class="flex-1 center">
