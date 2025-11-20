@@ -306,3 +306,7 @@ a.router.router-link-exact-active {
     stroke-width: 4px;
     stroke: var(--foreground, #FFF);
 }
+
+.center {
+    @apply flex items-center justify-center;
+}

@@ -9,7 +9,8 @@ const vibrating = ref(false)
 const tabLevel = ref(0)
 
 const isOpened = computed(() => {
-  return tabLevel.value > 3
+  // return true
+  return tabLevel.value === 5
 })
 
 const tap = () => {
@@ -27,7 +28,7 @@ const tap = () => {
   setTimeout(() => {
     vibrating.value = false
   }, 400)
-  if (tabLevel.value == 5) {
+  if (tabLevel.value == 6) {
     tabLevel.value = 0
   }
 }
@@ -44,33 +45,38 @@ useHead({
 
 <template>
   <div id="nest" class="h-full relative flex-1 overflow-hidden text-white content">
-    <div class="absolute -inset-[15%] md:inset-0 -top-[15%]">
-      <div class="pt-full relative">
-        <div id="bg" class="absolute inset-0"></div>
+    <div class="absolute -inset-[25%] md:-inset-[15%] center">
+      <div class="pt-full w-full relative">
+        <div id="bg" class="absolute inset-0"/>
       </div>
     </div>
-    <div class="">
+    <div>
       <div class="absolute -bottom-4 -inset-x-[20%] md:-bottom-[30%] md:-inset-x-[35%]">
         <img class="mx-auto" src="/nest/ground.svg" alt="">
       </div>
       <div class="absolute top-4 right-4 flex gap-3">
-        <div class="flex text-black font-bold gap-2 items-center bg-white py-1 px-4 rounded-xl shadow">
+        <div class="center text-black font-bold gap-2 bg-white py-1 px-4 rounded-xl shadow">
           <NuxtIcon filled name="footprint" class="size-4"/>
           <div>{{ formatFloat(store.info.footprint) }}</div>
         </div>
-        <div class="flex text-black font-bold gap-2 items-center bg-white py-1 px-4 rounded-xl shadow">
+        <div class="center text-black font-bold gap-2 bg-white py-1 px-4 rounded-xl shadow">
           <NuxtIcon filled name="eggs" class="size-4"/>
           <div>{{ formatFloat(store.info.egg) }}</div>
         </div>
       </div>
       <div class="z-10 absolute inset-0 flex justify-center items-center" @click="tap">
-        <div class="-z-10 absolute bottom-[25%] md:bottom-[30%]">
-          <img class="mx-auto w-[90%]" src="/nest/ground-2.svg" alt="">
-        </div>
+        <template v-if="!isOpened">
+          <div class="-z-10 absolute bottom-[25%] md:bottom-[30%]">
+            <img class="mx-auto w-[90%]" src="/nest/ground-2.svg" alt="">
+          </div>
+          <div class="z-20 absolute bottom-[25%] md:bottom-[30%]">
+            <img class="mx-auto w-[90%]" src="/nest/dust.svg" alt="">
+          </div>
+        </template>
         <div
             id="egg"
-            :class="[{'tapped': vibrating, 'step-end': tabLevel > 3 }, `step-${tabLevel}`]"
-            class="w-full xl:w-2/3 md:w-1/2"
+            :class="[{'tapped': vibrating }, `step-${tabLevel}`]"
+            class="relative z-10 w-full xl:w-2/3 md:w-1/2"
         >
           <svg viewBox="0 0 1280 1280" version="1.1" xmlns="http://www.w3.org/2000/svg"
                xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -126,7 +132,8 @@ useHead({
                 <g id="egg_wrap" mask="url(#mask-5)">
                   <g transform="translate(-26.9665, 21.4965)">
                     <use xlink:href="#egg_ref"/>
-                    <g class="cracks" transform="translate(40.6818, 50.297)" stroke-linecap="round" stroke-linejoin="round"
+                    <g class="cracks" transform="translate(40.6818, 50.297)" stroke-linecap="round"
+                       stroke-linejoin="round"
                        stroke="#000000" stroke-width="12.07">
                       <polyline
                           points="0 169.562138 127.105439 286.132366 191.952951 275.402252 310.198654 345.854548 382.683042 345.854548 401.75725 403.744468 449.436776 386.571496 525.541787 417.588231"></polyline>
@@ -162,7 +169,8 @@ useHead({
                 <g id="egg_wrap" mask="url(#mask-9)">
                   <g transform="translate(-110.7187, -324.8431)">
                     <use xlink:href="#egg_ref"/>
-                    <g class="cracks" transform="translate(40.6767, 50.4001)" stroke-linecap="round" stroke-linejoin="round"
+                    <g class="cracks" transform="translate(40.6767, 50.4001)" stroke-linecap="round"
+                       stroke-linejoin="round"
                        stroke="#000000" stroke-width="12.07">
                       <polyline
                           points="2.84217094e-14 169.909831 127.089599 286.719089 191.929029 275.966974 310.159997 346.563734 382.635352 346.563734 401.707183 404.57236 449.380766 387.364174 525.476293 418.444509"></polyline>
@@ -194,46 +202,44 @@ useHead({
             </g>
           </svg>
         </div>
-        <div class="absolute bottom-[25%] md:bottom-[30%]">
-          <img class="mx-auto w-[90%]" src="/nest/dust.svg" alt="">
-        </div>
       </div>
     </div>
-    <div v-if="isOpened" class="delay-300 duration-300 animate-in fade-out">
-      <div class="z-10 absolute inset-0 flex items-center" style="background: #ffbf2c">
-        <div class="pt-full relative my-auto w-full">
-          <div class="animate-scale absolute inset-0 rounded-full" style="background: #ffb027;--scale: 100%;"/>
-          <div class="animate-scale absolute inset-0 rounded-full scale-75" style="background: #ffbf2c;--scale: 75%;"/>
-          <div class="animate-scale absolute inset-0 rounded-full scale-55" style="background: #ffb027;--scale: 50%;"/>
-          <div class="absolute inset-0 flex items-center justify-center">
-            <NuxtIcon name="skin/base" class="size-48 md:size-64" filled/>
-          </div>
+    <div v-if="isOpened" id="result" class="z-20 absolute inset-0 center" style="background: #ffbf2c">
+      <div class="pt-full relative my-auto w-full">
+        <div class="animate-scale absolute inset-0 rounded-full" style="background: #ffb027;--scale: 100%;"/>
+        <div class="animate-scale absolute inset-0 rounded-full scale-75"
+             style="background: #ffbf2c;--scale: 75%;"/>
+        <div class="animate-scale absolute inset-0 rounded-full scale-55"
+             style="background: #ffb027;--scale: 50%;"/>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <NuxtIcon id="duck-born" name="skin/base" class="size-48 md:size-64" filled/>
         </div>
       </div>
     </div>
     <div
-      class="z-10 absolute p-4 bottom-0 md:bottom-16 gap-3 inset-x-0 grid md:grid-cols-3 md:text-lg"
-      :class="{'grid-cols-2': !isOpened}"
+        class="z-20 absolute p-4 bottom-0 md:bottom-16 gap-3 inset-x-0 grid md:grid-cols-3 md:text-lg"
+        :class="{'grid-cols-2': !isOpened}"
     >
       <div>
         <template v-if="!isOpened">
-          <div class="inline-flex py-2.5 px-4 gap-2 rounded-full bg-white text-black items-center">
+          <div class="inline-flex! center py-2.5 px-4 gap-2 rounded-full bg-white text-black">
             <NuxtIcon name="minus" class="size-6 cursor-pointer"/>
-            <nuxt-icon name="egg" filled class="size-4"/>
-            <div class="text-lg w-12 text-center font-bold">1</div>
+            <div class="center gap-0.5 w-12">
+              <nuxt-icon name="egg" filled class="size-4"/>
+              <div class="text-lg text-center font-bold">1</div>
+            </div>
             <NuxtIcon name="plus" class="size-6 cursor-pointer"/>
           </div>
         </template>
       </div>
       <div>
         <template v-if="!isOpened">
-          <div class="knock flex items-center gap-1 duration-100" :class="{knocking: tapping}" @click="tap">
-            <span>Knock</span>
-            <NuxtIcon name="footprint" filled class="size-4"/>
-            <span>[{{tabLevel}}/4]</span>
+          <div class="knock center gap-1 duration-100" :class="{knocking: tapping}" @click="tap">
+            <span class="text-[#E69B36]">Knock</span>
+            <NuxtIcon v-for="i in 5" name="footprint" :filled="i <= tabLevel" class="size-4"/>
           </div>
         </template>
-        <div v-else class="receive" @click="tabLevel = 0">Receive</div>
+        <div v-else class="w-1/2 mx-auto receive" @click="tabLevel = 0">Receive</div>
       </div>
     </div>
   </div>
@@ -244,7 +250,7 @@ useHead({
 .knock {
   padding: 12px 16px;
   box-shadow: 0 8px 0 0 #000000;
-  background-color:#4A4A4A;
+  background-color: #4A4A4A;
   border-radius: 50px;
   text-transform: uppercase;
   text-align: center;
@@ -335,10 +341,12 @@ useHead({
   opacity: 0;
 }
 
-.step-end .cracks {
-  opacity: 100;
+.step-4 .cracks,
+.step-5 .cracks {
+  opacity: 1;
 }
 
+/* Start animation. */
 @keyframes bl_move_intro {
   0% {
     transform: translate(282px, 493px) rotate(1deg);
@@ -368,14 +376,6 @@ useHead({
     transform: translate(-100%, 100%) rotate(500deg);
     opacity: 0;
   }
-}
-
-#bl {
-  transform: translate(296px, 486px);
-}
-
-.step-end #bl {
-  animation: bl_move_intro 300ms infinite, bl_move 1s forwards 800ms;
 }
 
 @keyframes tl_move_intro {
@@ -409,14 +409,6 @@ useHead({
   }
 }
 
-#tl {
-  transform: translate(353px, 261px) rotate(0deg);
-}
-
-.step-end #tl {
-  animation: tl_move_intro 300ms infinite, tl_move 1s forwards 800ms;
-}
-
 @keyframes tr_move_intro {
   0% {
     transform: translate(561px, 293px) rotate(1deg);
@@ -446,14 +438,6 @@ useHead({
     transform: translate(100%, -100%) rotate(-250deg);
     opacity: 0;
   }
-}
-
-#tr {
-  transform: translate(558px, 302px);
-}
-
-.step-end #tr {
-  animation: tr_move_intro 300ms infinite, tr_move 1s forwards 800ms;
 }
 
 @keyframes br_move_intro {
@@ -487,13 +471,54 @@ useHead({
   }
 }
 
+#bl {
+  transform: translate(296px, 486px);
+}
+
+#tl {
+  transform: translate(353px, 261px) rotate(0deg);
+}
+
+#tr {
+  transform: translate(558px, 302px);
+}
+
 #br {
   transform: translate(437px, 601px);
 }
 
-.step-end #br {
+.step-4 #bl {
+}
+
+.step-4 #tl {
+
+}
+
+.step-4 #tr {
+
+}
+
+.step-4 #br {
+  transform: translate(452px, 623px) rotate(1deg);
+}
+
+.step-5 #bl {
+  animation: bl_move_intro 300ms infinite, bl_move 1s forwards 800ms;
+}
+
+.step-5 #tl {
+  animation: tl_move_intro 300ms infinite, tl_move 1s forwards 800ms;
+}
+
+.step-5 #tr {
+  animation: tr_move_intro 300ms infinite, tr_move 1s forwards 800ms;
+}
+
+.step-5 #br {
   animation: br_move_intro 300ms infinite, br_move 1s forwards 800ms;
 }
+
+/* End animation. */
 
 .broking_1,
 .broking_2,
@@ -527,5 +552,26 @@ useHead({
 
 .animate-scale {
   animation: scale 400ms forwards;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#result {
+  opacity: 0;
+  z-index: 11;
+  animation: fade 2000ms forwards 800ms;
+}
+
+.receive,
+#duck-born {
+  opacity: 0;
+  animation: fade 400ms forwards 1000ms;
 }
 </style>
