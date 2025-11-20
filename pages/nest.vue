@@ -312,7 +312,7 @@ const rotates = [0, -15, 15, -30, 30, -45, 45, -60, 60]
               v-if="Object.keys(results).length == 0"
               class="absolute inset-0 flex items-center justify-center"
           >
-            <div class="uppercase text-3xl nothing">Nothing</div>
+            <div class="uppercase text-3xl nothing font-extrabold">Nothing</div>
           </div>
         </div>
       </div>
