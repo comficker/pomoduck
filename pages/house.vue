@@ -21,7 +21,7 @@ useHead({
 
 <template>
   <div class="p-4 py-3 label flex gap-4 items-center">
-    <h1 class="flex-1">Duck house</h1>
+    <h1 class="flex-1">House</h1>
     <div class="flex gap-2 items-center">
       <NuxtIcon filled name="footprint" class="size-4"/>
       <div>{{ formatFloat(store.info.footprint) }}</div>
@@ -42,11 +42,10 @@ useHead({
           <img :alt="item.name" :src="`/${item.label}/${item.id_string}.svg`" class="size-32"/>
         </div>
         <div
-            v-if="item.current_status.has_active"
+            v-if="item.current_status.is_equipped"
             class="absolute top-0 right-0 bg-white border-b border-l rounded-bl-lg pb-1 px-3 leading-none label text-xs"
         >
-          <span v-if="item.current_status.is_equipped">Equipped</span>
-          <span v-else>Equip</span>
+          <span>Equipped</span>
         </div>
       </div>
       <nuxt-link :to="`/shop/${item.id_string}`" class="flex justify-between py-1 p-2 label">

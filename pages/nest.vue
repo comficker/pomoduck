@@ -1,33 +1,32 @@
 <script setup lang="ts">
-import {formatFloat} from "~/lib/utils";
+import {formatFloat, getRandomInt} from "~/lib/utils";
 
 const {$sendHaptic} = useNuxtApp()
 const store = useGlobalStore()
 
+const version = ref(0)
+
+const {data} = useAuthFetch<null | {
+  "id": number,
+  "current_knock": string,
+  "eggs": number
+}>('/knock', {
+  server: false,
+  key: "GET",
+  query: {
+    v: version
+  }
+})
+
 const tapping = ref(false)
 const vibrating = ref(false)
-const tabLevel = ref(0)
-const amount = ref(1)
-
+const tabLevel = ref(data.value?.current_knock || 0)
+const amount = ref(data.value?.eggs || 1)
+const results = ref<Record<string, number>>({})
 const isOpened = computed(() => {
   // return true
   return tabLevel.value === 5
 })
-
-const tap = () => {
-  if (tapping.value) return;
-  const audio = document.getElementById("audio");
-  // @ts-ignore
-  audio.play();
-  tabLevel.value += 1
-  tapping.value = true
-  setTimeout(() => {
-    tapping.value = false
-  }, 200)
-  if (tabLevel.value == 6) {
-    tabLevel.value = 0
-  }
-}
 
 const shake = () => {
   $sendHaptic()
@@ -37,7 +36,52 @@ const shake = () => {
   }, 400)
 }
 
+const playSound = () => {
+  const audio = document.getElementById("audio");
+  // @ts-ignore
+  const clone = audio.cloneNode()
+  clone.play();
+}
+
+const tap = async () => {
+  if (tapping.value) return;
+  tapping.value = true
+  const result = await useNativeFetch<{
+    "id": number
+    "current_knock": string
+    "results": string[],
+  }>('/knock', {
+    method: 'POST',
+    body: {
+      eggs: amount.value
+    }
+  }).catch(() => null)
+  if (result) {
+    playSound()
+    tabLevel.value = result.current_knock
+    const fp = data.value?.eggs | 1
+    store.info.footprint -= fp
+    if (tabLevel.value === 5) {
+      store.info.egg -= fp
+      result.results.forEach(key => {
+        let k = key;
+        if (k !== 'empty') {
+          if (k !== 'footprint') {
+            k = `skin/${k}`
+          }
+          if (!results.value[k]) results.value[k] = 0;
+          results.value[k] += 1
+        }
+      })
+    }
+  }
+  setTimeout(() => {
+    tapping.value = false
+  }, 200)
+}
+
 const changeAmount = (n: number) => {
+  if (tabLevel.value > 0) return;
   const test = amount.value + n
   if (test < 1 || test > store.info.egg || test * 5 > store.info.footprint) {
     return
@@ -53,6 +97,21 @@ useHead({
     }
   ]
 })
+
+watch(() => data.value, () => {
+  if (data.value) {
+    tabLevel.value = data.value.current_knock || 0
+  } else {
+    tabLevel.value = 0
+  }
+}, {
+  deep: true,
+})
+
+const reset = () => {
+  tabLevel.value = 0
+  results.value = {}
+}
 </script>
 
 <template>
@@ -227,8 +286,22 @@ useHead({
             class="animate-scale absolute inset-0 rounded-full scale-55"
             style="background: #ffb027;--scale: 50%;"
         />
-        <div class="absolute inset-0 flex items-center justify-center">
-          <NuxtIcon id="duck-born" name="skin/base" class="size-48 md:size-64" filled/>
+        <div id="duck-born">
+          <div
+              v-for="key in Object.keys(results)"
+              class="absolute inset-0 flex items-center justify-center"
+              :style="{transform: `rotate(${getRandomInt(0, 360)}deg)`}"
+          >
+            <div>
+              <NuxtIcon :name="key" class="size-48 md:size-64" :class="{'size-10!': key=== 'footprint'}" filled/>
+            </div>
+          </div>
+          <div
+              v-if="Object.keys(results).length == 0"
+              class="absolute inset-0 flex items-center justify-center"
+          >
+            <div class="uppercase text-3xl nothing">Nothing</div>
+          </div>
         </div>
       </div>
     </div>
@@ -253,7 +326,7 @@ useHead({
             <NuxtIcon v-for="i in 5" name="footprint" :filled="i <= tabLevel" class="size-4"/>
           </div>
         </template>
-        <div v-else class="w-1/2 receive" @click="tabLevel = 0">Receive</div>
+        <div v-else class="w-1/2 receive" @click="reset()">Receive</div>
       </div>
     </div>
   </div>
@@ -587,5 +660,9 @@ useHead({
 #duck-born {
   opacity: 0;
   animation: fade 400ms forwards 1000ms;
+}
+
+.nothing {
+  text-shadow: 1px 2px #000;
 }
 </style>
