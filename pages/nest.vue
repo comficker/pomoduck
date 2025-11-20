@@ -44,7 +44,7 @@ const playSound = () => {
 }
 
 const tap = async () => {
-  if (tapping.value) return;
+  if (tapping.value || tabLevel.value === 5) return;
   tapping.value = true
   const result = await useNativeFetch<{
     "id": number
@@ -59,10 +59,11 @@ const tap = async () => {
   if (result) {
     playSound()
     tabLevel.value = result.current_knock
-    const fp = data.value?.eggs | 1
+    const fp = amount.value
     store.info.footprint -= fp
     if (tabLevel.value === 5) {
       store.info.egg -= fp
+
       result.results.forEach(key => {
         let k = key;
         if (k !== 'empty') {
@@ -293,7 +294,12 @@ const reset = () => {
               :style="{transform: `rotate(${getRandomInt(0, 360)}deg)`}"
           >
             <div>
-              <NuxtIcon :name="key" class="size-48 md:size-64" :class="{'size-10!': key=== 'footprint'}" filled/>
+              <NuxtIcon
+                  :name="key"
+                  class="size-48 md:size-64"
+                  :class="{'size-10!': key=== 'footprint'}"
+                  :filled="key !== 'footprint'"
+              />
             </div>
           </div>
           <div
