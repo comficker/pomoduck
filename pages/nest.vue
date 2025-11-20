@@ -44,7 +44,7 @@ const playSound = () => {
 }
 
 const tap = async () => {
-  if (tapping.value || tabLevel.value === 5) return;
+  if (tapping.value || tabLevel.value === 5 || amount.value > store.info.footprint) return;
   tapping.value = true
   playSound()
   const result = await useNativeFetch<{
