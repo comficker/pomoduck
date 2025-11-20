@@ -38,9 +38,8 @@ const store = useGlobalStore()
             <div
                 class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer"
             >
-              <div class="hidden w-24 md:flex p-2 py-1 gap-2 items-center justify-center text-base">
-                <NuxtIcon name="footprint" class="size-4" filled/>
-                <span>{{ formatFloat(store.info.footprint, 0, 0) }}</span>
+              <div class="p-2 py-1">
+                Menu
               </div>
               <div class="flex-1 p-1">
                 <NuxtIcon name="chevron-down" class="size-5"/>

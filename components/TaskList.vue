@@ -56,7 +56,7 @@ onMounted(() => {
   <div v-if="store.loggedIn" class="p-4 flex label text-xs justify-between">
     <div class="flex gap-2">
       <div
-          v-for="item in ['Public', 'Your']"
+          v-for="item in ['Your', 'Public']"
           class="cursor-pointer"
           :class="{'text-blue-500': taskFilter === item}"
           @click="taskFilter = item"

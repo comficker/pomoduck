@@ -182,7 +182,7 @@ watch(activeTab, () => {
     <div class="ml-auto py-2 flex gap-2">
       <span v-if="activeTab < 2">Available:</span>
       <span v-else>Total:</span>
-      <span class="text-black">{{tabs[activeTab].amount}}</span>
+      <span class="text-primary">{{tabs[activeTab].amount}}</span>
     </div>
   </div>
   <div

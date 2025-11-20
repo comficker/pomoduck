@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import TaskSwitch from "~/components/TaskSwitch.vue";
+import {formatFloat} from "~/lib/utils";
 
 const {$sendHaptic} = useNuxtApp()
 const store = useGlobalStore()
@@ -86,8 +87,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="timer" class="h-full flex flex-col justify-center gap-4 pb-16">
-    <div class="flex-1 text-center flex items-center justify-center flex-col">
+  <div id="timer" class="h-full flex flex-col justify-center gap-4 ">
+    <div class="flex-1 text-center center flex-col relative">
+      <div class="absolute top-4 right-4 flex gap-3 text-sm">
+        <div class="center text-black font-bold gap-2 py-1 px-2 rounded-lg shadow">
+          <NuxtIcon filled name="footprint" class="size-4"/>
+          <div>{{ formatFloat(store.info.footprint) }}</div>
+        </div>
+        <div class="center text-black font-bold gap-2 py-1 px-2 rounded-lg shadow">
+          <NuxtIcon filled name="eggs" class="size-4"/>
+          <div>{{ formatFloat(store.info.egg) }}</div>
+        </div>
+      </div>
       <div class="w-full flex-1 flex flex-col items-center justify-center">
         <nuxt-icon class="mx-auto size-48" name="skin/base" filled/>
         <div class="content text-7xl md:text-8xl font-bold flex gap-3 items-center text-left">
