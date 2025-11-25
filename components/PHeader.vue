@@ -34,11 +34,9 @@ const store = useGlobalStore()
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
             <div
-                class="flex divide-x divide-gray-100 items-center justify-center bg-white text-yellow-500 shadow rounded-lg cursor-pointer"
+                class="flex divide-x items-center justify-center text-yellow-500 shadow rounded-lg cursor-pointer"
             >
-              <div class="p-2 py-1">
-                Menu
-              </div>
+              <div class="p-2 py-1">Menu</div>
               <div class="flex-1 p-1">
                 <NuxtIcon name="chevron-down" class="size-5"/>
               </div>

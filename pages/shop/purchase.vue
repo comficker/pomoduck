@@ -27,7 +27,7 @@ const pay = async (id: number) => {
     <h1 class="cursor-pointer text-primary flex-1">Duckshop</h1>
     <NuxtIcon name="info" class="size-8"/>
   </div>
-  <div class="p-4 content text-black">
+  <div class="p-4 text-black">
     <div
         v-if="starterPack"
         class="border-8 bg-[#F7E5BB] border-[#EBBA48] flex md:flex-row md:items-end gap-6 p-4 flex-col-reverse"
@@ -75,7 +75,7 @@ const pay = async (id: number) => {
       </div>
     </div>
   </div>
-  <div class="p-4">
+  <div class="p-4 text-black">
     <div class="text-center flex center label text-xs">
       <div class="bg-white px-3 -mt-8 text-gray-400">Footprint pack</div>
     </div>
