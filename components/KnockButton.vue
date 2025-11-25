@@ -4,8 +4,8 @@
 
 <template>
   <NuxtLink to="/nest" class="block relative">
-    <div class="knock-button size-16 md:size-20"></div>
-    <div class="absolute -left-1 md:-left-3 -top-6 md:-top-10">
+    <div class="knock-button size-12 md:size-16"></div>
+    <div class="absolute -left-3 md:-left-6 -top-10 md:-top-12">
       <div id="egg" class="size-16 md:size-24">
         <svg viewBox="0 0 1280 1280" version="1.1" xmlns="http://www.w3.org/2000/svg"
              xmlns:xlink="http://www.w3.org/1999/xlink">

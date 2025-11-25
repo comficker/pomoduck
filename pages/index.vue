@@ -109,7 +109,7 @@ onMounted(() => {
         <div class="absolute inset-0 md:-top-24">
           <div class="pt-full relative">
             <div id="bg" class="absolute inset-0"/>
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white"/>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent dark:to-black to-white"/>
           </div>
         </div>
         <div class="h-full relative z-10 py-8 flex flex-col items-center justify-center">
@@ -224,10 +224,11 @@ onMounted(() => {
   </div>
 </template>
 
-<style>
-#nest,
+<style scoped>
 #bg {
-  background-color: #e5e5e5;
+  background-color: #DEDEDE;
+  --first: #ededed;
+  --second: #eeeeee;
 }
 
 #bg:before,
@@ -239,11 +240,21 @@ onMounted(() => {
 
 #bg:before {
   inset: 5%;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0) 0%, #ededed 100%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0) 0%, var(--first) 100%);
 }
 
 #bg:after {
   inset: 25%;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0) 0%, #eeeeee 100%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0) 0%, var(--second) 100%);
+}
+
+.dark #bg {
+  background-color: rgba(29, 29, 29, 0.11);
+  --first: #1D1D1DFF;
+  --second: #1D1D1DFF;
+}
+
+.dark .dark\:to-black {
+  --tw-gradient-to: var(--background);
 }
 </style>
