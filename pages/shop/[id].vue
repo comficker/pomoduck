@@ -156,19 +156,12 @@ watch(activeTab, () => {
 </script>
 
 <template>
-  <div v-if="cloneItem" class="p-4 py-0 gap-2 flex justify-between">
+  <div v-if="cloneItem" class="p-4 py-2 gap-2 flex justify-between">
     <div class="flex items-center gap-2">
       <div class="size-6">
         <NuxtIcon filled :name="`${cloneItem.label}/${cloneItem.id_string}`"/>
       </div>
       <div class="font-semibold text-lg">{{ cloneItem.name }}</div>
-    </div>
-    <div class="flex items-center gap-1 py-3 label text-secondary">
-      <span>+</span>
-      <NuxtIcon name="egg" filled class="size-3"/>
-      <span>1</span>
-      <span>/</span>
-      <span>session</span>
     </div>
   </div>
   <div class="flex text-secondary label text-sm px-4 gap-3">
@@ -240,7 +233,7 @@ watch(activeTab, () => {
         <span>{{ formatFloat(total > 0 ? total : actionData?.amount) }}</span>
       </div>
       <div class="underline ml-3">
-        <nuxt-link to="/shop/deposit">Deposit</nuxt-link>
+        <nuxt-link to="/shop/purchase">Purchase</nuxt-link>
       </div>
     </div>
     <div class="p-2 border-t mb:border-t-0 grid gap-2" :class="{'grid-cols-3': activeTab === 2}">

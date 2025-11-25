@@ -8,7 +8,7 @@ const version = ref(0)
 
 const {data} = useAuthFetch<null | {
   "id": number,
-  "current_knock": string,
+  "current_knock": number,
   "eggs": number
 }>('/knock', {
   server: false,
@@ -266,7 +266,7 @@ const rotates = [0, -15, 15, -30, 30, -45, 45, -60, 60]
                     stroke-linejoin="round"
                     points="0 169.892965 127.089599 286.702223 191.929029 275.950108 310.159996 346.546868 382.635352 346.546868 401.707182 404.555494 449.380767 387.347308 525.476293 418.427643"></polyline>
                 <polygon
-                    class="broking_3" fill="#000000" fill-rule="nonzero"
+                    class="broking_4" fill="#000000" fill-rule="nonzero"
                     points="191.20979 277.006119 220.482833 363.551052 273.610649 376.379191 291.411823 395.471396 337.179423 381.04724 330.826142 350.074906 309.632555 350.074906"></polygon>
                 <polyline
                     class="broking_3" stroke="#000000" stroke-width="12.07" stroke-linecap="round"
@@ -621,7 +621,8 @@ const rotates = [0, -15, 15, -30, 30, -45, 45, -60, 60]
 
 .broking_1,
 .broking_2,
-.broking_3 {
+.broking_3,
+.broking_4 {
   opacity: 0;
 }
 
@@ -637,6 +638,13 @@ const rotates = [0, -15, 15, -30, 30, -45, 45, -60, 60]
 .step-3 .broking_1,
 .step-3 .broking_2,
 .step-3 .broking_3 {
+  opacity: 1;
+}
+
+.step-4 .broking_1,
+.step-4 .broking_2,
+.step-4 .broking_3,
+.step-4 .broking_4 {
   opacity: 1;
 }
 
