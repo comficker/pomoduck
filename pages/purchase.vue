@@ -62,6 +62,12 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
               return null
             })
       }
+      else {
+        toast.error("Coming soon!", {
+          description: "Please try again!",
+        })
+        return false
+      }
       if (payloadData) {
         $logging(JSON.stringify(payloadData))
         const result = await pay(id, payloadData)
