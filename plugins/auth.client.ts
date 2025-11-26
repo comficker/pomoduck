@@ -18,7 +18,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     await store.loadInfo()
     store.status = null
   }
-  if (window.MiniKit?.isInstalled()) {
+  if (window.MiniKit?.user) {
     authStore.activeAuth = 'wld'
   } else if (window.telegram?.initData) {
     authStore.activeAuth = 'telegram'

@@ -37,6 +37,7 @@ const pay = (id: number, payload: any) => {
     if (e.data.accepts) {
       const paymentData: IPaymentData = e.data.accepts
       let payloadData;
+      $logging(JSON.stringify(paymentData))
       if (paymentData.network === "wld") {
         if (!window.MiniKit || !window.MiniKit.isInstalled()) {
           return
