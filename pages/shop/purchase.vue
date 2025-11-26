@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import {formatFloat} from "~/lib/utils";
 import type {APIResponse, IShopItem} from "~/types";
+import {type PayCommandInput, Tokens, tokenToDecimals} from "@worldcoin/minikit-js";
+
+const {$logging} = useNuxtApp()
 
 const {data} = useAuthFetch<APIResponse<IShopItem>>('/items/', {
   query: {
@@ -15,10 +18,29 @@ const starterPack = computed(() => {
 })
 
 const pay = async (id: number) => {
-  const response = await useNativeFetch(`/items/${id}/pay`, {
-    method: "POST",
-  })
-  console.log(response);
+  // const response = await useNativeFetch<any>(`/items/${id}/pay`, {
+  //   method: "POST",
+  // })
+  // if (!response) return;
+  const payload: PayCommandInput = {
+    reference: "test",
+    to: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+    tokens: [
+      {
+        symbol: Tokens.USDC,
+        token_amount: tokenToDecimals(3, Tokens.USDC).toString(),
+      },
+    ],
+    description: 'Test example payment for minikit',
+  }
+
+  if (window.MiniKit || !window.MiniKit.isInstalled()) {
+    return
+  }
+
+  const {finalPayload} = await window.MiniKit.commandsAsync.pay(payload)
+  console.log($logging(JSON.stringify(payload)));
+  console.log($logging(JSON.stringify(finalPayload)));
 }
 </script>
 
@@ -26,6 +48,9 @@ const pay = async (id: number) => {
   <div class="p-4 py-3 gap-4 label flex items-center">
     <h1 class="cursor-pointer text-primary flex-1">Duckshop</h1>
     <NuxtIcon name="info" class="size-8"/>
+    <Button @click="pay(1)">
+      Test
+    </Button>
   </div>
   <div class="p-4 text-black">
     <div
