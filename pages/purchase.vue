@@ -27,20 +27,22 @@ const method = computed(() => {
       return 'base'
   }
 })
-const pay = (id: number, payload: any = undefined) => {
-  useNativeFetch<any>(`/items/${id}/pay`, {
+const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
+  return await useNativeFetch<any>(`/items/${id}/pay`, {
     method: "POST",
     body: {
       method: method.value,
       payload
     }
-  }).catch(async e => {
+  }).then(() => {
+    return true
+  }).catch(async (e) => {
     if (e.data.accepts) {
       const paymentData: IPaymentData = e.data.accepts
       let payloadData;
       $logging(JSON.stringify(paymentData))
       if (paymentData.network === "wld") {
-        if (!window.MiniKit || !window.MiniKit.isInstalled()) return;
+        if (!window.MiniKit || !window.MiniKit.isInstalled()) return false;
         const payload: PayCommandInput = {
           reference: paymentData.tx_id,
           to: paymentData.payTo,
@@ -62,19 +64,19 @@ const pay = (id: number, payload: any = undefined) => {
       }
       if (payloadData) {
         $logging(JSON.stringify(payloadData))
-        return pay(id, payloadData)
+        const result = await pay(id, payloadData)
+        if (result)
+          toast("Your payment is in processing!", {
+            description: "Please wait few seconds!"
+          })
+        else
+          toast.error("Your payment was failed!", {
+            description: "Please try again!",
+          })
+        return result
       }
-    } else {
-      toast.error("Your payment was failed!", {
-        description: "Please try again!",
-      })
     }
     return false
-  }).then(() => {
-    toast("Your payment is in processing!", {
-      description: "Please wait few seconds!"
-    })
-    return true
   })
 }
 </script>
@@ -86,8 +88,8 @@ const pay = (id: number, payload: any = undefined) => {
   </div>
   <div class="p-4 text-black">
     <div
-      v-if="starterPack"
-      class="border-8 bg-[#F7E5BB] border-[#EBBA48] flex md:flex-row md:items-end gap-4 md:gap-8 py-6 p-4 flex-col-reverse"
+        v-if="starterPack"
+        class="border-8 bg-[#F7E5BB] border-[#EBBA48] flex md:flex-row md:items-end gap-4 md:gap-8 py-6 p-4 flex-col-reverse"
     >
       <div class="md:w-1/3">
         <div class="relative mx-auto">
@@ -138,8 +140,8 @@ const pay = (id: number, payload: any = undefined) => {
     </div>
     <div class="grid gap-3">
       <div
-        v-for="item in data.results.filter(x => x.id_string != 'starter-pack')"
-        class="item cursor-pointer bg-gradient-to-t from-[#F9F9F9] to-[#DEDEDE]"
+          v-for="item in data.results.filter(x => x.id_string != 'starter-pack')"
+          class="item cursor-pointer bg-gradient-to-t from-[#F9F9F9] to-[#DEDEDE]"
       >
         <div class="flex items-center relative z-10 p-4 md:py-0 gap-3">
           <div class="md:w-1/3">
