@@ -96,7 +96,7 @@
     body {
         @apply bg-background text-foreground duration-100;
 
-        font-family: "Stolzl", monospace;
+        font-family: "Stolzl", serif;
         font-optical-sizing: auto;
         font-weight: 400;
         font-style: normal;
@@ -302,6 +302,7 @@ a.router.router-link-exact-active {
     @apply flex items-center justify-center;
 }
 
-[data-sonner-toast][data-styled='true'] [data-title] {
-   font-size: 14px;
+[data-sonner-toast][data-styled='true'] {
+    font-size: 14px;
+    font-family: "Stolzl", serif;
 }

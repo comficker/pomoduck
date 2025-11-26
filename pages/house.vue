@@ -8,7 +8,7 @@ const page = ref(1)
 const query = computed(() => ({
   page_size: 20,
   page: page.value,
-  labels: "skin,accessory"
+  labels: "skin,accessory,box"
 }))
 
 const {data} = useAuthFetch<APIResponse<IShopItem>>('/items/', {

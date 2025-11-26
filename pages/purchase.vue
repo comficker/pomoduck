@@ -2,6 +2,7 @@
 import {formatFloat} from "~/lib/utils";
 import type {APIResponse, IPaymentData, IShopItem} from "~/types";
 import {type PayCommandInput, Tokens, tokenToDecimals} from "@worldcoin/minikit-js";
+import {toast} from "vue-sonner";
 
 const {$logging} = useNuxtApp()
 const authStore = useAuthStore()
@@ -39,9 +40,7 @@ const pay = (id: number, payload: any = undefined) => {
       let payloadData;
       $logging(JSON.stringify(paymentData))
       if (paymentData.network === "wld") {
-        if (!window.MiniKit || !window.MiniKit.isInstalled()) {
-          return
-        }
+        if (!window.MiniKit || !window.MiniKit.isInstalled()) return;
         const payload: PayCommandInput = {
           reference: paymentData.tx_id,
           to: paymentData.payTo,
@@ -65,9 +64,18 @@ const pay = (id: number, payload: any = undefined) => {
         $logging(JSON.stringify(payloadData))
         return pay(id, payloadData)
       }
+    } else {
+      toast.error("Your payment was failed!", {
+        description: "Please try again!",
+      })
     }
     return false
-  }).then(() => true)
+  }).then(() => {
+    toast("Your payment is in processing!", {
+      description: "Please wait few seconds!"
+    })
+    return true
+  })
 }
 </script>
 
@@ -75,25 +83,22 @@ const pay = (id: number, payload: any = undefined) => {
   <div class="p-4 py-3 gap-4 label flex items-center">
     <h1 class="cursor-pointer text-primary flex-1">Duckshop</h1>
     <NuxtIcon name="info" class="size-8"/>
-    <Button @click="pay(1)">
-      Test
-    </Button>
   </div>
   <div class="p-4 text-black">
     <div
         v-if="starterPack"
-        class="border-8 bg-[#F7E5BB] border-[#EBBA48] flex md:flex-row md:items-end gap-6 p-4 flex-col-reverse"
+        class="border-8 bg-[#F7E5BB] border-[#EBBA48] flex md:flex-row md:items-end gap-4 md:gap-8 py-6 p-4 flex-col-reverse"
     >
-      <div class="flex-1">
+      <div class="md:w-1/3">
         <div class="relative mx-auto">
           <div class="absolute -top-4 -left-4">
-            <img class="size-16" src="/shop/best.svg" alt="">
+            <img class="size-10 md:size-16" src="/shop/best.svg" alt="">
           </div>
           <img class="w-1/3 md:w-2/3 -mb-4" src="/shop/chest.png" alt="">
         </div>
       </div>
-      <div class="flex-1 md:w-1/2">
-        <div class="text-2xl uppercase font-bold">Starter pack</div>
+      <div class="md:w-1/2">
+        <div class="text-2xl font-bold">{{ starterPack.name }}</div>
         <div class="text-[#505050] text-sm">
           Get {{ starterPack.meta.exchange_footprint }} footprint &
           {{ starterPack.meta.exchange_item }} random item
@@ -115,7 +120,7 @@ const pay = (id: number, payload: any = undefined) => {
           </div>
         </div>
       </div>
-      <div class="md:w-28 flex md:flex-col text-white text-center md:py-4 md:gap-2 gap-4 text-sm">
+      <div class="md:w-32 flex md:flex-col text-white text-center md:py-4 md:gap-2 gap-4 text-sm">
         <div class="flex gap-2 items-center h-6 bg-black rounded-full">
           <NuxtIcon name="clock" class="-ml-2 size-7" filled/>
           <span class="pr-3">2d 34h</span>
@@ -144,7 +149,7 @@ const pay = (id: number, payload: any = undefined) => {
             <div class="flex items-center gap-4">
               <div class="md:text-2xl content font-bold">{{ item.name }} Pack</div>
             </div>
-            <div class="num text-3xl md:text-5xl">{{ formatFloat(item.meta?.exchange_footprint || 0) }}</div>
+            <div class="num text-2xl md:text-5xl">{{ formatFloat(item.meta?.exchange_footprint || 0) }}</div>
           </div>
           <div class="md:w-1/3 center gap-2 content">
             <div class="btn center gap-1" @click="pay(item.id)">
