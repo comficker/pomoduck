@@ -41,7 +41,7 @@
         </svg>
       </div>
     </div>
-    <div class="absolute bottom-0 -inset-x-1 bg-[#F6C201] leading-none py-1 rounded shadow text-xs uppercase">
+    <div class="absolute bottom-0 -inset-x-1 bg-[#F6C201] leading-none py-1 rounded shadow text-2xs uppercase">
       <div>KNock</div>
       <div>Eggs</div>
     </div>

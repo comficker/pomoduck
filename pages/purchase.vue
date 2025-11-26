@@ -25,7 +25,7 @@ const pay = async (id: number) => {
   try {
     const payload: PayCommandInput = {
       reference: "test",
-      to: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+      to: '0x1b63e8aef3e0a690f33415154333f5f75a40818c',
       tokens: [
         {
           symbol: Tokens.USDC,

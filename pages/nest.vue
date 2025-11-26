@@ -24,7 +24,6 @@ const tabLevel = ref(data.value?.current_knock || 0)
 const amount = ref(data.value?.eggs || 1)
 const results = ref<Record<string, number>>({})
 const isOpened = computed(() => {
-  // return true
   return tabLevel.value === 5
 })
 
@@ -38,8 +37,8 @@ const shake = () => {
 
 const playSound = () => {
   const audio = document.getElementById("audio");
+  const clone = audio?.cloneNode()
   // @ts-ignore
-  const clone = audio.cloneNode()
   clone.play();
 }
 
@@ -49,7 +48,7 @@ const tap = async () => {
   playSound()
   const result = await useNativeFetch<{
     "id": number
-    "current_knock": string
+    "current_knock": number
     "results": string[],
   }>('/knock', {
     method: 'POST',
@@ -93,7 +92,7 @@ useHead({
   title: "DuckLab",
   link: [
     {
-      rel: "preload", href: "/sound.wav", as: "audio"
+      rel: "preload", href: "/sound.wav"
     }
   ]
 })
