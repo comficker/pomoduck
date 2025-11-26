@@ -22,25 +22,31 @@ const pay = async (id: number) => {
   //   method: "POST",
   // })
   // if (!response) return;
-  const payload: PayCommandInput = {
-    reference: "test",
-    to: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
-    tokens: [
-      {
-        symbol: Tokens.USDC,
-        token_amount: tokenToDecimals(3, Tokens.USDC).toString(),
-      },
-    ],
-    description: 'Test example payment for minikit',
-  }
+  try {
+    const payload: PayCommandInput = {
+      reference: "test",
+      to: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+      tokens: [
+        {
+          symbol: Tokens.USDC,
+          token_amount: tokenToDecimals(1, Tokens.USDC).toString(),
+        },
+      ],
+      description: 'Test example payment for minikit',
+    }
 
-  if (window.MiniKit || !window.MiniKit.isInstalled()) {
-    return
-  }
+    $logging(JSON.stringify(payload))
 
-  const {finalPayload} = await window.MiniKit.commandsAsync.pay(payload)
-  console.log($logging(JSON.stringify(payload)));
-  console.log($logging(JSON.stringify(finalPayload)));
+    if (window.MiniKit || !window.MiniKit.isInstalled()) {
+      return
+    }
+
+    const {finalPayload} = await window.MiniKit.commandsAsync.pay(payload)
+    $logging(JSON.stringify(payload))
+    $logging(JSON.stringify(finalPayload))
+  } catch (error) {
+    $logging(JSON.stringify(error))
+  }
 }
 </script>
 

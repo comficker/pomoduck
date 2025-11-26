@@ -233,7 +233,7 @@ watch(activeTab, () => {
         <span>{{ formatFloat(total > 0 ? total : actionData?.amount) }}</span>
       </div>
       <div class="underline ml-3">
-        <nuxt-link to="/shop/purchase">Purchase</nuxt-link>
+        <nuxt-link to="/purchase">Purchase</nuxt-link>
       </div>
     </div>
     <div class="p-2 border-t mb:border-t-0 grid gap-2" :class="{'grid-cols-3': activeTab === 2}">
