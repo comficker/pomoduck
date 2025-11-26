@@ -29,7 +29,7 @@ const pay = async (id: number) => {
       tokens: [
         {
           symbol: Tokens.USDC,
-          token_amount: tokenToDecimals(1, Tokens.USDC).toString(),
+          token_amount: tokenToDecimals(0.11, Tokens.USDC).toString(),
         },
       ],
       description: 'Test example payment for minikit',
@@ -37,7 +37,7 @@ const pay = async (id: number) => {
 
     $logging(JSON.stringify(payload))
 
-    if (window.MiniKit || !window.MiniKit.isInstalled()) {
+    if (!window.MiniKit || !window.MiniKit.isInstalled()) {
       return
     }
 
