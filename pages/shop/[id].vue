@@ -156,40 +156,26 @@ watch(activeTab, () => {
 </script>
 
 <template>
-  <div v-if="cloneItem" class="p-4 py-0 gap-2 grid grid-cols-2 divide-x">
+  <div v-if="cloneItem" class="p-4 py-2 gap-2 flex justify-between">
     <div class="flex items-center gap-2">
       <div class="size-6">
         <NuxtIcon filled :name="`${cloneItem.label}/${cloneItem.id_string}`"/>
       </div>
-      <div class="font-semibold capitalize">{{ cloneItem.name }}</div>
-    </div>
-    <div class="py-1 grid md:grid-cols-2">
-      <div class="label flex gap-1 md:flex-col">
-        <div class="text-secondary">Buy:</div>
-        <div class="flex items-center gap-1">
-          <NuxtIcon name="footprint" filled class="size-3"/>
-          <span>{{ formatFloat(cloneItem.price) }}</span>
-        </div>
-      </div>
-      <div class="label flex gap-1 md:flex-col">
-        <div class="text-secondary">Rent:</div>
-        <div class="flex items-center gap-1">
-          <NuxtIcon name="footprint" filled class="size-3"/>
-          <span>{{ formatFloat(cloneItem.base_rent_fee) }}</span>
-          <span>per day</span>
-        </div>
-      </div>
+      <div class="font-semibold text-lg">{{ cloneItem.name }}</div>
     </div>
   </div>
-  <div class="grid grid-cols-3 text-secondary label text-center divide-x">
+  <div class="flex text-secondary label text-sm px-4 gap-3">
     <div
-        v-for="(item, i) in tabs" class="p-2 px-4 flex justify-between gap-2 cursor-pointer "
+        v-for="(item, i) in tabs" class="py-2 flex justify-between gap-2 cursor-pointer "
         :class="{'text-primary': activeTab === i}"
         @click="activeTab = i"
     >
       <div>{{ item.title }}</div>
-      <div v-if="i === 2">{{ item.amount + (isRenting ? 1 : 0) }}</div>
-      <div v-else>{{ item.amount }}/{{ cloneItem?.max_supply }}</div>
+    </div>
+    <div class="ml-auto py-2 flex gap-2">
+      <span v-if="activeTab < 2">Available:</span>
+      <span v-else>Total:</span>
+      <span class="text-primary">{{tabs[activeTab].amount}}</span>
     </div>
   </div>
   <div
@@ -207,18 +193,18 @@ watch(activeTab, () => {
         <div v-if="selected.includes(item.id)" class="absolute top-2 left-2 text-green-500">
           <NuxtIcon name="check" class="size-4"/>
         </div>
-        <div v-if="activeTab === 2" class="absolute top-1 right-2 text-green-500">
+        <div v-if="activeTab === 2" class="absolute top-1 right-2 text-xs text-green-500">
           <div v-if="STATUS_NAMES[item.status]" class="label">{{ STATUS_NAMES[item.status] }}</div>
           <div v-else>{{ item.renter && item.renter === store.info.id ? 'Renting' : '' }}</div>
         </div>
       </div>
-      <div class="flex justify-between border-t p-2">
+      <div class="flex justify-between border-t p-2 text-xs">
         <div class="">
-          <div class="text-secondary">ID</div>
+          <div class="text-2xs text-secondary">ID</div>
           <div>{{ item.uid }}</div>
         </div>
         <div class="text-right">
-          <div class="text-secondary">Price</div>
+          <div class="text-2xs text-secondary">Price</div>
           <div class="flex items-center justify-end gap-1">
             <NuxtIcon name="footprint" filled class="size-3"/>
             <span>{{ formatFloat(activeTab === 1 ? item.rent_fee : item.sell_price) }}</span>
@@ -232,12 +218,12 @@ watch(activeTab, () => {
       v-if="accountItems?.count || selected.length"
       class="flex flex-col md:flex-row justify-between sticky bottom-0 inset-x-0 bg-background border-t label"
   >
-    <div class="px-2 flex-1 flex items-center justify-between">
-      <div class="flex gap-2 items-center">
+    <div class="px-2 flex-1 flex items-center text-xs">
+      <div class="flex-1 flex gap-2 items-center">
         <div class="p-2 cursor-pointer" @click="changePage(false)">
           <nuxt-icon name="chevron-left" class="size-5"/>
         </div>
-        <div class="size-4 w-16 text-center">{{ page }}/{{ accountItems?.num_pages }}</div>
+        <div class="w-16 text-center">{{ page }}/{{ accountItems?.num_pages }}</div>
         <div class="p-2 cursor-pointer" @click="changePage(true)">
           <nuxt-icon name="chevron-right" class="size-5"/>
         </div>
@@ -245,6 +231,9 @@ watch(activeTab, () => {
       <div v-if="activeTab < 2" class="flex items-center gap-1">
         <NuxtIcon name="footprint" filled class="size-3"/>
         <span>{{ formatFloat(total > 0 ? total : actionData?.amount) }}</span>
+      </div>
+      <div class="underline ml-3">
+        <nuxt-link to="/shop/purchase">Purchase</nuxt-link>
       </div>
     </div>
     <div class="p-2 border-t mb:border-t-0 grid gap-2" :class="{'grid-cols-3': activeTab === 2}">
@@ -263,7 +252,7 @@ watch(activeTab, () => {
         </Button>
       </template>
       <Button
-          class="px-8 label"
+          class="px-8 label md:min-w-32"
           @click="sendAct(activeTab == 2 ? {status: ACCOUNT_STATUS.FOR_SALE}: {})"
       >{{ actionData?.title }}
       </Button>

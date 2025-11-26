@@ -3,11 +3,14 @@ import {Toaster} from '@/components/ui/sonner'
 import Auth from "~/components/modal/Auth.vue";
 import MergeAccount from "~/components/modal/MergeAccount.vue";
 import {useAuthStore} from "~/stores/auth.store";
+import PHeader from "~/components/PHeader.vue";
+import MHeader from "~/components/MHeader.vue";
 
 const route = useRoute()
 const store = useGlobalStore()
 const authStore = useAuthStore()
 const cfg = useRuntimeConfig()
+const {$setupTelegram} = useNuxtApp()
 
 const tabCount = ref(0)
 const theme = computed(() => getTheme())
@@ -27,10 +30,10 @@ function getTheme() {
 
 function switchTheme() {
   document.documentElement.classList.toggle('dark', getTheme() === 'dark')
+  $setupTelegram()
 }
 
 onMounted(async () => {
-  const {$setupTelegram} = useNuxtApp()
   $setupTelegram()
   document.addEventListener("contextmenu", function (e) {
     if (cfg.public.env === 'production') e.preventDefault();
@@ -97,15 +100,33 @@ useHead({
 
 <template>
   <div class="wrapper w-full flex flex-col relative z-0 divide-y">
-    <Header class="hidden md:block"/>
-    <div class="md:px-4 flex-1" :class="{'border-t': authStore.activeAuth !== 'local'}">
+    <PHeader class="hidden md:block"/>
+    <div class="md:px-4 flex-1">
       <div class="md:border-x has-star h-full max-w-3xl mx-auto relative">
-        <div class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y">
+        <div
+          class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y"
+          :class="{'border-t': authStore.activeAuth === 'telegram' && route.name !== 'index'}"
+        >
           <nuxt-page/>
+        </div>
+        <div
+            v-if="tabCount > 5"
+            class="absolute duration-100 inset-0 p-4 bg-white z-10 overflow-auto border-t"
+        >
+          <div
+              class="label bg-white cursor-pointer"
+              @click="tabCount = 0"
+          >Hide
+          </div>
+          <div class="divide-y divide-dashed text-xs font-mono">
+            <div class="py-1" v-for="log in authStore.logs">
+              {{ JSON.stringify(log) }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <Header class="md:hidden"/>
+    <MHeader class="md:hidden!"/>
     <div class="md:px-4 uppercase font-bold text-2xs text-gray-500">
       <div class="md:border-x has-star max-w-3xl mx-auto flex justify-center md:justify-between">
         <div class="p-2 flex items-center gap-1" @click="tabCount++">
@@ -140,19 +161,4 @@ useHead({
   <ClientOnly>
     <Toaster/>
   </ClientOnly>
-  <div
-      v-if="tabCount > 5"
-      class="fixed duration-100 inset-0 p-4 bg-white z-10 overflow-auto border-t"
-  >
-    <div
-        class="label bg-white cursor-pointer"
-        @click="tabCount = 0"
-    >Hide
-    </div>
-    <div class="divide-y divide-dashed text-xs font-mono">
-      <div class="py-1" v-for="log in authStore.logs">
-        {{ JSON.stringify(log) }}
-      </div>
-    </div>
-  </div>
 </template>

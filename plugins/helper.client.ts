@@ -20,8 +20,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         }
       },
       sendHaptic: () => {
-        if (WebApp) {
-          WebApp.HapticFeedback.impactOccurred('medium')
+        if (window.telegram && window.telegram.initData) {
+          window.telegram.HapticFeedback.impactOccurred('medium')
         } else if (window.MiniKit.isInstalled()) {
           MiniKit.commands.sendHapticFeedback({
             hapticsType: 'impact',
@@ -32,7 +32,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       setupTelegram: () => {
         if (WebApp.initData) {
           WebApp.expand()
-          const isDark = document.body.classList.contains("dark")
+          const isDark = document.documentElement.classList.contains("dark")
           WebApp.setHeaderColor(isDark? "#000": '#FFF')
           WebApp.setBackgroundColor(isDark? "#000": '#FFF')
           WebApp.BackButton.onClick(() => router.back());

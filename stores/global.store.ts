@@ -6,18 +6,14 @@ import {calculateTimeDistance, formatFloat, timeSinceObject} from "~/lib/utils";
 import {toast} from 'vue-sonner'
 
 const DEFAULT_INFO: Info = {
+  joined: "", total_break: 0, total_focus: 0,
   id: 0,
   tg_id: 0,
   username: "Anonymous",
   first_name: "",
   last_name: "",
   balance: 0,
-  checkin_day: 0,
-  checkin_last_time: "",
   meta: {},
-  boost_level: 0,
-  boost_balance: 0,
-  boost_end: null,
   is_staff: false,
   day_streak: 0,
   egg: 0,
@@ -111,11 +107,6 @@ export const useGlobalStore = defineStore('global', () => {
     return ua.includes('iphone') || ua.includes('ipad');
   }
 
-  function updateBoost(args: { boost_balance: number, boost_end: string }) {
-    info.value.boost_balance = args.boost_balance
-    info.value.boost_end = args.boost_end
-  }
-
   async function work(task_id: number | undefined = undefined) {
     if (!loggedIn.value) {
       modalName.value = 'auth'
@@ -201,7 +192,6 @@ export const useGlobalStore = defineStore('global', () => {
     refreshTask,
     loggedIn,
     loadInfo,
-    updateBoost,
     work,
     modalName,
     modalData,

@@ -6,7 +6,7 @@ import {getRandomInt} from "~/lib/utils";
 const store = useGlobalStore()
 
 const status = ref(TASK_STATUS.ACTIVE)
-const taskFilter = ref<string>('Public')
+const taskFilter = ref<string>(store.loggedIn ? 'Your': 'Public')
 
 const query = computed(() => {
   return {
@@ -53,10 +53,10 @@ onMounted(() => {
   <div class="p-4 label">
     <h1>Tasks</h1>
   </div>
-  <div v-if="store.loggedIn" class="p-4 flex label justify-between">
+  <div v-if="store.loggedIn" class="p-4 flex label text-xs justify-between">
     <div class="flex gap-2">
       <div
-          v-for="item in ['Public', 'Your']"
+          v-for="item in ['Your', 'Public']"
           class="cursor-pointer"
           :class="{'text-blue-500': taskFilter === item}"
           @click="taskFilter = item"
@@ -85,7 +85,7 @@ onMounted(() => {
     </template>
     <template v-else-if="taskRes">
       <Task
-          class="p-4"
+          class="p-4 py-3"
           v-for="(item, i) in taskRes.results"
           :key="`${store.refreshTask}_${item.id}`"
           :task="item"

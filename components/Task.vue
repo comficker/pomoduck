@@ -137,7 +137,7 @@ watch(() => form.value.unit, () => {
           <textarea class="w-full" v-model="form.description" placeholder="Note"/>
         </template>
         <div
-            v-else class="font-semibold cursor-pointer"
+            v-else class="font-semibold text-lg cursor-pointer"
             @click="updating = !!task.creator"
         >{{ form.name || "Untitled" }}
         </div>
@@ -146,13 +146,13 @@ watch(() => form.value.unit, () => {
               v-if="task.type === 'default' && updating && task.status != TASK_STATUS.COMPLETED"
               class="flex items-center gap-0.5"
           >
-            <span>Pomodoro: {{ form.unit }}</span>
-            <nuxt-icon name="minus-box" class="cursor-pointer size-4" @click="form.unit--"/>
-            <nuxt-icon name="plus-box" class="cursor-pointer size-4" @click="form.unit++"/>
+            <span>Unit: {{ form.unit }}</span>
+            <nuxt-icon name="minus-box" class="cursor-pointer size-6" @click="form.unit--"/>
+            <nuxt-icon name="plus-box" class="cursor-pointer size-6" @click="form.unit++"/>
           </div>
           <span v-else>{{ form.unit }} x</span>
           <div class="flex gap-0.5 items-center">
-            <NuxtIcon v-for="i in task.reward_amount" :name="task.reward_type" filled class="size-3"/>
+            <NuxtIcon v-for="i in task.reward_amount" :name="task.reward_type" filled class="size-4"/>
           </div>
           <div v-if="updating" class="flex text-xs gap-4 ml-auto">
             <Button variant="link" size="xs" @click="updating = false">Cancel</Button>

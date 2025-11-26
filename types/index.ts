@@ -124,6 +124,7 @@ export interface IShopItem {
     is_equipped: boolean
     has_active: boolean
   }
+  meta: any
 }
 
 export interface IAccountItem {

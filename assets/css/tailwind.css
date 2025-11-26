@@ -79,9 +79,9 @@
 
 
 .dark {
-    --background: #000;
-    --foreground: oklch(1 0 89.876);
-    --border: rgba(39, 35, 35, 0.50);
+    --background: #1d1d1d;
+    --foreground: rgba(255, 255, 255, 0.8);
+    --border: #242424;
     --primary: #FFF;
     --secondary: rgba(255, 255, 255, 0.30);
     --primary-foreground: #000;
@@ -96,7 +96,7 @@
     body {
         @apply bg-background text-foreground duration-100;
 
-        font-family: "Stolzl Display", monospace;
+        font-family: "Stolzl", monospace;
         font-optical-sizing: auto;
         font-weight: 400;
         font-style: normal;
@@ -171,7 +171,7 @@ input {
 }
 
 .label {
-    @apply text-sm uppercase font-bold;
+    @apply uppercase font-bold;
 }
 
 .menu {
@@ -257,15 +257,6 @@ a.router.router-link-exact-active {
     user-select: none; /* Standard syntax */
 }
 
-[data-title] {
-    font-size: 16px;
-    font-family: "Stolzl Display", monospace;
-}
-
-.content {
-    font-family: "Lexend", serif;
-}
-
 .center {
     @apply flex items-center justify-center;
 }
@@ -303,6 +294,10 @@ a.router.router-link-exact-active {
 }
 
 .stroke {
-    stroke-width: 10px;
+    stroke-width: 4px;
     stroke: var(--foreground, #FFF);
+}
+
+.center {
+    @apply flex items-center justify-center;
 }
