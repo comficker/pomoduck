@@ -137,3 +137,13 @@ export interface IAccountItem {
   'sell_price': number
   'rent_fee': number
 }
+
+export interface IPaymentData {
+  "tx_id": string,
+  "network": string,
+  "payTo": string,
+  "asset": "USDC",
+  "resource": string,
+  "amount": number
+  "description": string,
+}

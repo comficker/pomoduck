@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {formatFloat} from "~/lib/utils";
-import type {APIResponse, IShopItem} from "~/types";
+import type {APIResponse, IPaymentData, IShopItem} from "~/types";
 import {type PayCommandInput, Tokens, tokenToDecimals} from "@worldcoin/minikit-js";
 
 const {$logging} = useNuxtApp()
-
+const authStore = useAuthStore()
 const {data} = useAuthFetch<APIResponse<IShopItem>>('/items/', {
   query: {
     label: "shop",
@@ -16,37 +16,54 @@ const {data} = useAuthFetch<APIResponse<IShopItem>>('/items/', {
 const starterPack = computed(() => {
   return data.value?.results.filter(x => x.id_string === 'starter-pack')[0] || null
 })
-
-const pay = async (id: number) => {
-  // const response = await useNativeFetch<any>(`/items/${id}/pay`, {
-  //   method: "POST",
-  // })
-  // if (!response) return;
-  try {
-    const payload: PayCommandInput = {
-      reference: "test",
-      to: '0x1b63e8aef3e0a690f33415154333f5f75a40818c',
-      tokens: [
-        {
-          symbol: Tokens.USDC,
-          token_amount: tokenToDecimals(0.11, Tokens.USDC).toString(),
-        },
-      ],
-      description: 'Test example payment for minikit',
-    }
-
-    $logging(JSON.stringify(payload))
-
-    if (!window.MiniKit || !window.MiniKit.isInstalled()) {
-      return
-    }
-
-    const {finalPayload} = await window.MiniKit.commandsAsync.pay(payload)
-    $logging(JSON.stringify(payload))
-    $logging(JSON.stringify(finalPayload))
-  } catch (error) {
-    $logging(JSON.stringify(error))
+const method = computed(() => {
+  switch (authStore.activeAuth) {
+    case 'telegram':
+      return 'ton'
+    case 'wld':
+      return 'wld'
+    default:
+      return 'base'
   }
+})
+const pay = (id: number, payload: any) => {
+  useNativeFetch<any>(`/items/${id}/pay`, {
+    method: "POST",
+    body: {
+      method: method.value,
+      payload
+    }
+  }).catch(async e => {
+    if (e.data.accepts) {
+      const paymentData: IPaymentData = e.data.accepts
+      let payloadData;
+      if (paymentData.network === "wld") {
+        if (!window.MiniKit || !window.MiniKit.isInstalled()) {
+          return
+        }
+        const payload: PayCommandInput = {
+          reference: paymentData.tx_id,
+          to: paymentData.payTo,
+          tokens: [
+            {
+              symbol: Tokens[<"USDC">paymentData.asset.toUpperCase()],
+              token_amount: tokenToDecimals(paymentData.amount, Tokens.USDC).toString(),
+            },
+          ],
+          description: paymentData.description,
+        }
+        $logging(JSON.stringify(payload))
+        payloadData = await window.MiniKit.commandsAsync.pay(payload)
+            .then(({finalPayload}) => finalPayload)
+            .catch(() => null)
+      }
+      if (payloadData) {
+        $logging(JSON.stringify(payloadData))
+        return pay(id, payloadData)
+      }
+    }
+    return false
+  }).then(() => true)
 }
 </script>
 
@@ -114,7 +131,6 @@ const pay = async (id: number) => {
       <div
           v-for="item in data?.results.filter(x => x.id_string != 'starter-pack')"
           class="item cursor-pointer bg-gradient-to-t from-[#F9F9F9] to-[#DEDEDE]"
-          @click="pay(item.id)"
       >
         <div class="flex items-center relative z-10 p-4 md:py-0 gap-3">
           <div class="md:w-1/3">
