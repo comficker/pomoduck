@@ -26,7 +26,7 @@ const method = computed(() => {
       return 'base'
   }
 })
-const pay = (id: number, payload: any) => {
+const pay = (id: number, payload: any = undefined) => {
   useNativeFetch<any>(`/items/${id}/pay`, {
     method: "POST",
     body: {
@@ -56,7 +56,10 @@ const pay = (id: number, payload: any) => {
         $logging(JSON.stringify(payload))
         payloadData = await window.MiniKit.commandsAsync.pay(payload)
             .then(({finalPayload}) => finalPayload)
-            .catch(() => null)
+            .catch((e) => {
+              $logging(e)
+              return null
+            })
       }
       if (payloadData) {
         $logging(JSON.stringify(payloadData))

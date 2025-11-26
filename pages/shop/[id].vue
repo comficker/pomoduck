@@ -6,6 +6,7 @@ import {ACCOUNT_STATUS} from "~/lib/constants";
 
 const store = useGlobalStore()
 const route = useRoute()
+const router = useRouter()
 
 const STATUS_NAMES: any = {
   [ACCOUNT_STATUS.FOR_SALE]: "Selling",
@@ -132,8 +133,11 @@ const sendAct = async (add_data: any = {}) => {
       ...add_data
     }
   }).catch((e) => {
-    toast.error("Something went wrong!", {
-      description: e.data.code,
+    toast.error(e.data.code, {
+      action: {
+        label: 'Purchase',
+        onClick: () => router.push('/purchase'),
+      },
     })
     return null
   })

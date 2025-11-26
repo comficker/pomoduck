@@ -301,3 +301,7 @@ a.router.router-link-exact-active {
 .center {
     @apply flex items-center justify-center;
 }
+
+[data-sonner-toast][data-styled='true'] [data-title] {
+   font-size: 14px;
+}
