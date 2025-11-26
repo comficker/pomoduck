@@ -86,15 +86,15 @@ const pay = (id: number, payload: any = undefined) => {
   </div>
   <div class="p-4 text-black">
     <div
-        v-if="starterPack"
-        class="border-8 bg-[#F7E5BB] border-[#EBBA48] flex md:flex-row md:items-end gap-4 md:gap-8 py-6 p-4 flex-col-reverse"
+      v-if="starterPack"
+      class="border-8 bg-[#F7E5BB] border-[#EBBA48] flex md:flex-row md:items-end gap-4 md:gap-8 py-6 p-4 flex-col-reverse"
     >
       <div class="md:w-1/3">
         <div class="relative mx-auto">
           <div class="absolute -top-4 -left-4">
             <img class="size-10 md:size-16" src="/shop/best.svg" alt="">
           </div>
-          <img class="w-1/3 md:w-2/3 -mb-4" src="/shop/chest.png" alt="">
+          <img class="w-1/3 md:w-2/3 -mb-6" src="/shop/chest.png" alt="">
         </div>
       </div>
       <div class="md:w-1/2">
@@ -104,11 +104,11 @@ const pay = (id: number, payload: any = undefined) => {
           {{ starterPack.meta.exchange_item }} random item
         </div>
         <div class="mt-2 flex">
-          <div class="size-12 center border-2 border-[#EBBA48] bg-white flex-col">
+          <div class="size-10 center border-2 border-[#EBBA48] bg-white flex-col">
             <NuxtIcon name="hat" class="size-4" filled/>
             <div class="text-xs">{{ starterPack.meta.exchange_item }}</div>
           </div>
-          <div class="size-12 center border-2 border-[#EBBA48] bg-white flex-col ml-2 mr-4">
+          <div class="size-10 center border-2 border-[#EBBA48] bg-white flex-col ml-2 mr-4">
             <NuxtIcon name="footprint" class="size-4" filled/>
             <div class="text-xs">{{ starterPack.meta.exchange_footprint }}</div>
           </div>
@@ -132,14 +132,14 @@ const pay = (id: number, payload: any = undefined) => {
       </div>
     </div>
   </div>
-  <div class="p-4 text-black">
+  <div v-if="data" class="p-4 text-black">
     <div class="text-center flex center label text-xs">
       <div class="bg-white px-3 -mt-8 text-gray-400">Footprint pack</div>
     </div>
     <div class="grid gap-3">
       <div
-          v-for="item in data?.results.filter(x => x.id_string != 'starter-pack')"
-          class="item cursor-pointer bg-gradient-to-t from-[#F9F9F9] to-[#DEDEDE]"
+        v-for="item in data.results.filter(x => x.id_string != 'starter-pack')"
+        class="item cursor-pointer bg-gradient-to-t from-[#F9F9F9] to-[#DEDEDE]"
       >
         <div class="flex items-center relative z-10 p-4 md:py-0 gap-3">
           <div class="md:w-1/3">
