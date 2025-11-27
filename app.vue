@@ -10,7 +10,7 @@ const route = useRoute()
 const store = useGlobalStore()
 const authStore = useAuthStore()
 const cfg = useRuntimeConfig()
-const {$setupTelegram} = useNuxtApp()
+const {$setupTelegram, $authClient} = useNuxtApp()
 
 const tabCount = ref(0)
 const theme = computed(() => getTheme())
@@ -35,6 +35,7 @@ function switchTheme() {
 
 onMounted(async () => {
   $setupTelegram()
+  $authClient()
   document.addEventListener("contextmenu", function (e) {
     if (cfg.public.env === 'production') e.preventDefault();
     e.stopPropagation()
@@ -117,7 +118,7 @@ useHead({
     <div class="md:px-4 flex-1">
       <div class="md:border-x has-star h-full max-w-3xl mx-auto relative">
         <div
-          class="absolute inset-0 overflow-x-hidden overflow-auto no-scroll divide-y"
+          class="absolute z-0 inset-0 overflow-x-hidden overflow-auto no-scroll divide-y"
           :class="{'border-t': authStore.activeAuth === 'telegram' && route.name !== 'index'}"
         >
           <nuxt-page/>
@@ -158,11 +159,13 @@ useHead({
       </div>
     </div>
   </div>
-  <div v-if="store.status === 'cooking'" class="fixed inset-0 bg-white flex flex-col items-center justify-center gap-4">
-    <img class="size-64" src="/cooking.svg" alt="">
-    <div class="text-3xl font-bold">Cooooooking...</div>
-    <div class="label">Wait few seconds, quack!</div>
-  </div>
+  <client-only>
+    <div v-if="store.status === 'cooking'" class="fixed z-10 inset-0 bg-white flex flex-col items-center justify-center gap-4">
+      <img class="size-64" src="/cooking.svg" alt="">
+      <div class="text-3xl font-bold">Cooooooking...</div>
+      <div class="label">Wait few seconds, quack!</div>
+    </div>
+  </client-only>
   <Dialog :open="!!store.modalName" @update:open="store.modalName = null">
     <DialogContent class="max-w-sm">
       <client-only>

@@ -178,6 +178,10 @@ export const useGlobalStore = defineStore('global', () => {
     authTokenRefresh.value = ''
   }
 
+  function setStatus(val: string | null) {
+    status.value = val
+  }
+
   return {
     logout,
     isRunning,
@@ -199,7 +203,8 @@ export const useGlobalStore = defineStore('global', () => {
     init,
     computeTimer,
     initialed,
-    status
+    status,
+    setStatus
   }
 })
 
