@@ -28,6 +28,7 @@ export default defineNuxtConfig({
         public: {
             env: process.env.NUXT_PUBLIC_ENV || "production",
             api: process.env.NUXT_PUBLIC_API || 'https://welcome.pomoduck.com/v2',
+            worldAppId: process.env.NUXT_PUBLIC_WORLD_APP_ID || 'app_3a93096ed6e4f35613c5387f47a4266d',
             appURL: "https://www.pomoduck.com",
             botName: 'Pomoduck_bot',
             chain: "mainnet",

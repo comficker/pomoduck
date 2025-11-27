@@ -100,9 +100,9 @@ useHead({
     {
       type: "module",
       innerHTML: `
-        import { MiniKit } from "https://cdn.jsdelivr.net/npm/@worldcoin/minikit-js/+esm";
+        import { MiniKit } from "https://cdn.jsdelivr.net/npm/@worldcoin/minikit-js@1.9.8/+esm";
+        MiniKit.install("${cfg.public.worldAppId}")
         window.MiniKit = MiniKit;
-        window.MiniKit.install()
       `,
       tagPosition: 'head',
       async: true
