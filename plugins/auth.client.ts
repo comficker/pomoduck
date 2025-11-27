@@ -8,14 +8,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     if (window.Telegram?.WebApp.initData) {
       await authStore.authTelegram()
     }
-    if (window.MiniKit?.user) {
+    if (window.MiniKit?.isInstalled()) {
       await authStore.authWithWorldCoin()
     }
     await store.loadInfo()
     store.status = null
   }
 
-  if (window.MiniKit?.user) {
+  if (window.MiniKit?.isInstalled()) {
     authStore.activeAuth = 'wld'
   } else if (window.Telegram?.WebApp.initData) {
     authStore.activeAuth = 'telegram'
