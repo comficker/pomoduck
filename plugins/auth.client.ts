@@ -3,9 +3,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const authStore = useAuthStore()
   window.MiniKit.install()
   if (!store.loggedIn) {
-    authStore.logging(window.MiniKit?.user)
+    authStore.logging(JSON.stringify(window.MiniKit?.user || {}))
     store.status = 'cooking'
-    if (window.Telegram?.WebApp.isActive) {
+    if (window.Telegram?.WebApp.initData) {
       await authStore.authTelegram()
     }
     if (window.MiniKit?.user) {
