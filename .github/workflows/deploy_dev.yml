@@ -28,6 +28,7 @@ jobs:
             git pull origin dev
             rm -rf .output
             rm -rf .nuxt
+            pm2 stop pomoduck_dev
             pnpm install
             pnpm run build
             pm2 restart pomoduck_dev
