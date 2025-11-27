@@ -17,10 +17,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         }
       },
       sendHaptic: () => {
-        if (window.Telegram && window.Telegram.WebApp.initData) {
-          window.Telegram.WebApp.HapticFeedback.impactOccurred('medium')
-        } else if (window.MiniKit.isInstalled()) {
-          window.MiniKit.commands.sendHapticFeedback({
+        if (authStore.activeAuth === 'telegram') {
+          window.Telegram?.WebApp.HapticFeedback.impactOccurred('medium')
+        } else if (authStore.activeAuth === 'wld') {
+          window.MiniKit?.commands.sendHapticFeedback({
             hapticsType: 'impact',
             style: 'light',
           })

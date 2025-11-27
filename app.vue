@@ -102,8 +102,10 @@ useHead({
       innerHTML: `
         import { MiniKit } from "https://cdn.jsdelivr.net/npm/@worldcoin/minikit-js/+esm";
         window.MiniKit = MiniKit;
+        window.MiniKit.install()
       `,
-      tagPosition: 'head'
+      tagPosition: 'head',
+      async: true
     }
   ]
 })

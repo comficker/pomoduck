@@ -1,7 +1,6 @@
 export default defineNuxtPlugin(async (nuxtApp) => {
   const store = useGlobalStore()
   const authStore = useAuthStore()
-  window.MiniKit.install()
   if (!store.loggedIn) {
     authStore.logging(JSON.stringify(window.MiniKit?.user || {}))
     store.status = 'cooking'

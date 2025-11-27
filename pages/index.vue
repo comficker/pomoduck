@@ -71,7 +71,12 @@ const onMouseUp = () => {
 
 const retry = async () => {
   await authStore.authTelegram()
-  await authStore.authWithWorldCoin()
+  if (window.MiniKit) {
+    const result = window.MiniKit?.install()
+    authStore.logging(JSON.stringify(result))
+    if (window.MiniKit?.isInstalled())
+      await authStore.authWithWorldCoin()
+  }
   const isSuccess = await store.init()
   if (!isSuccess) {
     store.modalName = 'auth'
