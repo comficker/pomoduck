@@ -77,7 +77,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const authWithWorldCoin = async () => {
     try {
-      if (!window.MiniKit || !window.MiniKit.isInstalled()) {
+      if (!window.MiniKit.user) {
         return;
       }
       activeAuth.value = 'wld'
