@@ -1,6 +1,3 @@
-import WebApp from "@twa-dev/sdk";
-import {MiniKit} from "@worldcoin/minikit-js";
-import '@worldcoin/idkit-standalone'
 import {useAuthStore} from "~/stores/auth.store";
 
 export default defineNuxtPlugin(async (nuxtApp) => {
@@ -9,38 +6,38 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   return {
     provide: {
       openLink: (url: string) => {
-        if (WebApp.isActive) {
+        if (window.Telegram.WebApp.isActive) {
           if (url.includes("t.me")) {
-            WebApp.openTelegramLink(url)
+            window.Telegram.WebApp.openTelegramLink(url)
           } else {
-            WebApp.openLink(url)
+            window.Telegram.WebApp.openLink(url)
           }
         } else {
           window.open(url, "_blank")
         }
       },
       sendHaptic: () => {
-        if (window.telegram && window.telegram.initData) {
-          window.telegram.HapticFeedback.impactOccurred('medium')
+        if (window.Telegram && window.Telegram.WebApp.initData) {
+          window.Telegram.WebApp.HapticFeedback.impactOccurred('medium')
         } else if (window.MiniKit.isInstalled()) {
-          MiniKit.commands.sendHapticFeedback({
+          window.MiniKit.commands.sendHapticFeedback({
             hapticsType: 'impact',
             style: 'light',
           })
         }
       },
       setupTelegram: () => {
-        if (WebApp.initData) {
-          WebApp.expand()
+        if (window.Telegram.WebApp.initData) {
+          window.Telegram.WebApp.expand()
           const isDark = document.documentElement.classList.contains("dark")
-          WebApp.setHeaderColor(isDark? "#000": '#FFF')
-          WebApp.setBackgroundColor(isDark? "#000": '#FFF')
-          WebApp.BackButton.onClick(() => router.back());
-          if (WebApp.enableClosingConfirmation) {
-            WebApp.enableClosingConfirmation()
+          window.Telegram.WebApp.setHeaderColor(isDark? "#000": '#FFF')
+          window.Telegram.WebApp.setBackgroundColor(isDark? "#000": '#FFF')
+          window.Telegram.WebApp.BackButton.onClick(() => router.back());
+          if (window.Telegram.WebApp.enableClosingConfirmation) {
+            window.Telegram.WebApp.enableClosingConfirmation()
           }
-          if (['ios', 'android'].includes(WebApp.platform)) {
-            WebApp.requestFullscreen()
+          if (['ios', 'android'].includes(window.Telegram.WebApp.platform)) {
+            window.Telegram.WebApp.requestFullscreen()
             document.body.style.setProperty("--head-top-extra", "100px")
           }
         }

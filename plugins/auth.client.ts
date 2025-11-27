@@ -1,15 +1,10 @@
-import WebApp from "@twa-dev/sdk";
-import {MiniKit} from "@worldcoin/minikit-js";
-
 export default defineNuxtPlugin(async (nuxtApp) => {
   const store = useGlobalStore()
   const authStore = useAuthStore()
-  window.telegram = WebApp
-  MiniKit.install()
-  window.MiniKit = MiniKit
+  window.MiniKit.install()
   if (!store.loggedIn) {
     store.status = 'cooking'
-    if (WebApp.isActive) {
+    if (window.Telegram.WebApp.isActive) {
       await authStore.authTelegram()
     }
     if (window.MiniKit?.isInstalled()) {

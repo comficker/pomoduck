@@ -1,5 +1,3 @@
-import {MiniKit} from '@worldcoin/minikit-js'
-import WebApp from "@twa-dev/sdk";
 export {};
 
 declare global {
@@ -8,8 +6,8 @@ declare global {
     Telegram: any
     webviewClose: any
     IDKit: any,
-    MiniKit: typeof MiniKit
-    telegram: typeof WebApp
+    MiniKit: any
+    telegram: any
     onTelegramAuth: any
     MiniKitBridge: any
   }

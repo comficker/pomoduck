@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {formatFloat} from "~/lib/utils";
 import type {APIResponse, IPaymentData, IShopItem} from "~/types";
-import {type PayCommandInput, Tokens, tokenToDecimals} from "@worldcoin/minikit-js";
 import {toast} from "vue-sonner";
 
 const {$logging} = useNuxtApp()
@@ -43,21 +42,21 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
       $logging(JSON.stringify(paymentData))
       if (paymentData.network === "wld") {
         if (!window.MiniKit || !window.MiniKit.isInstalled()) return false;
-        const payload: PayCommandInput = {
+        const payload = {
           reference: paymentData.tx_id,
           to: paymentData.payTo,
           tokens: [
             {
-              symbol: Tokens[<"USDC">paymentData.asset.toUpperCase()],
-              token_amount: tokenToDecimals(paymentData.amount, Tokens.USDC).toString(),
-            },
+              symbol: "USDCE",
+              token_amount: (paymentData.amount * 10 ** 6).toString(),
+            }
           ],
           description: paymentData.description,
         }
         $logging(JSON.stringify(payload))
         payloadData = await window.MiniKit.commandsAsync.pay(payload)
-            .then(({finalPayload}) => finalPayload)
-            .catch((e) => {
+            .then(({finalPayload}: any) => finalPayload)
+            .catch((e: any) => {
               $logging(e)
               return null
             })
@@ -69,17 +68,15 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
         return false
       }
       if (payloadData) {
+        toast("Your payment is in processing!", {
+          description: "Please wait few seconds!"
+        })
         $logging(JSON.stringify(payloadData))
-        const result = await pay(id, payloadData)
-        if (result)
-          toast("Your payment is in processing!", {
-            description: "Please wait few seconds!"
-          })
-        else
-          toast.error("Your payment was failed!", {
-            description: "Please try again!",
-          })
-        return result
+        return await pay(id, payloadData)
+      } else {
+        toast.error("Your payment was failed!", {
+          description: "Please try again!",
+        })
       }
     }
     return false
@@ -142,7 +139,7 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
   </div>
   <div v-if="data" class="p-4 text-black">
     <div class="text-center flex center label text-xs">
-      <div class="bg-white px-3 -mt-8 text-gray-400">Footprint pack</div>
+      <div class="bg-background px-3 -mt-8 text-gray-400">Footprint pack</div>
     </div>
     <div class="grid gap-3">
       <div

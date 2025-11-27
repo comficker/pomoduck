@@ -74,6 +74,9 @@ useHead({
   ],
   script: [
     {
+      src: "https://telegram.org/js/telegram-web-app.js?59"
+    },
+    {
       src: "https://www.googletagmanager.com/gtag/js?id=G-DYC8GTSSMK", async: true
     },
     {
@@ -91,6 +94,14 @@ useHead({
           const theme = '${theme.value}' === 'system' ? (test ? 'dark' : 'light') : '${theme.value}';
           document.documentElement.classList.toggle('dark', theme === 'dark');
         })();
+      `,
+      tagPosition: 'head'
+    },
+    {
+      type: "module",
+      innerHTML: `
+        import { MiniKit } from "https://cdn.jsdelivr.net/npm/@worldcoin/minikit-js/+esm";
+        window.MiniKit = MiniKit;
       `,
       tagPosition: 'head'
     }

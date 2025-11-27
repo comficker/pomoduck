@@ -10,14 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@lottiefiles/vue-lottie-player": "^1.1.0",
     "@nuxt/types": "^2.18.1",
     "@pinia/nuxt": "0.11.1",
     "@tailwindcss/vite": "^4.1.13",
-    "@twa-dev/sdk": "^8.0.2",
     "@vueuse/core": "^13.9.0",
-    "@worldcoin/idkit-standalone": "^2.2.4",
-    "@worldcoin/minikit-js": "^1.9.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.543.0",
