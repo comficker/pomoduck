@@ -87,6 +87,8 @@ export const useAuthStore = defineStore('auth', () => {
         requestId: "0",
         expirationTime: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
         notBefore: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
+      }).catch((e: any) => {
+        logs.value.push(e?.toString())
       })
       const response = await useNativeFetch<{ refresh: string, access: string }>('/auth-wld', {
         method: 'POST',
