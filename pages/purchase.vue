@@ -2,9 +2,11 @@
 import {formatFloat, toNano} from "~/lib/utils";
 import type {APIResponse, IPaymentData, IShopItem} from "~/types";
 import {toast} from "vue-sonner";
+import {beginCell, Cell} from "@ton/ton";
 
 const {$logging} = useNuxtApp()
 const authStore = useAuthStore()
+const {data: prices} = useAuthFetch<{ [key: string]: number }>('/prices')
 const {data} = useAuthFetch<APIResponse<IShopItem>>('/items/', {
   query: {
     label: "shop",
@@ -22,8 +24,22 @@ const method = computed(() => {
       return 'ton'
     case 'wld':
       return 'wld'
+    case 'base':
+      return 'base'
     default:
       return 'ton'
+  }
+})
+const pricingQuote = computed(() => {
+  let ticker = 'usdc';
+  let rate = 1;
+  if (method.value === 'ton') {
+    ticker = 'ton'
+    rate = prices.value?.ton || 1
+  }
+  return {
+    ticker,
+    rate
   }
 })
 
@@ -32,6 +48,51 @@ const connectTon = async () => {
     manifestUrl: 'https://tonconnect-sdk-demo-dapp.vercel.app/tonconnect-manifest.json',
     buttonRootId: 'ton-connect'
   });
+}
+
+const payWithWld = async (paymentData: IPaymentData) => {
+  if (!window.MiniKit || !window.MiniKit.isInstalled()) return null;
+  const payload = {
+    reference: paymentData.reference,
+    to: paymentData.payTo,
+    tokens: [
+      {
+        symbol: paymentData.asset,
+        token_amount: (paymentData.amount * 10 ** 6).toString(),
+      }
+    ],
+    description: paymentData.description,
+  }
+  $logging(JSON.stringify(payload))
+  return await window.MiniKit.commandsAsync.pay(payload)
+      .then(({finalPayload}: any) => finalPayload)
+      .catch((e: any) => {
+        $logging(e)
+        return null
+      })
+}
+
+const payWithTon = async (paymentData: IPaymentData) => {
+  const body = beginCell()
+      .storeUint(0, 32)                 // indicates text comment follows
+      .storeStringTail(paymentData.reference)   // write our text comment
+      .endCell();
+  const result = await window.tonConnectUI.sendTransaction({
+    validUntil: Math.floor(Date.now() / 1000) + 300,
+    messages: [{
+      address: paymentData.payTo,
+      amount: toNano(paymentData.amount).toString(),
+      payload: body.toBoc().toString("base64")
+    }]
+  }).catch((err: any) => null)
+  if (result?.boc) {
+    const cell = Cell.fromBase64(result?.boc)
+    const buffer = cell.hash();
+    return {
+      tx: buffer.toString('hex')
+    }
+  }
+  return null
 }
 
 const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
@@ -53,44 +114,9 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
       let payloadData;
       $logging(JSON.stringify(paymentData))
       if (paymentData.network === "wld") {
-        if (!window.MiniKit || !window.MiniKit.isInstalled()) return false;
-        const payload = {
-          reference: paymentData.reference,
-          to: paymentData.payTo,
-          tokens: [
-            {
-              symbol: paymentData.asset,
-              token_amount: (paymentData.amount * 10 ** 6).toString(),
-            }
-          ],
-          description: paymentData.description,
-        }
-        $logging(JSON.stringify(payload))
-        payloadData = await window.MiniKit.commandsAsync.pay(payload)
-            .then(({finalPayload}: any) => finalPayload)
-            .catch((e: any) => {
-              $logging(e)
-              return null
-            })
+        payloadData = await payWithWld(paymentData)
       } else if (paymentData.network === 'ton') {
-        console.log({
-          address: paymentData.payTo,
-          amount: toNano(paymentData.amount).toString(),
-          payload: paymentData.reference
-        })
-        await window.tonConnectUI.sendTransaction({
-          validUntil: Math.floor(Date.now() / 1000) + 300,
-          messages: [{
-            address: paymentData.payTo,
-            amount: toNano(paymentData.amount).toString(),
-            payload: paymentData.reference
-          }]
-        });
-      } else {
-        toast.error("Coming soon!", {
-          description: "Please try again!",
-        })
-        return false
+        payloadData = await payWithTon(paymentData)
       }
       if (payloadData) {
         toast("Your payment is in processing!", {
@@ -122,7 +148,7 @@ useHead({
 </script>
 
 <template>
-  <div class="p-4 py-1 gap-4 label flex items-center">
+  <div class="p-4 py-1 gap-4 label flex items-center h-[53px]">
     <h1 class="cursor-pointer text-primary flex-1">Duckshop</h1>
     <div id="ton-connect"/>
     <NuxtIcon name="info" class="size-8"/>
@@ -157,7 +183,8 @@ useHead({
           </div>
           <div class="flex-1">
             <div class="btn center gap-1" @click="pay(starterPack.id)">
-              <div class="font-bold text-lg">${{ starterPack.price }}</div>
+              <NuxtIcon :name="pricingQuote.ticker" class="size-4" filled/>
+              <div class="font-bold text-lg">{{ formatFloat(starterPack.price / pricingQuote.rate) }}</div>
               <div class="text-sm line-through text-gray-500">-40%</div>
             </div>
           </div>
@@ -196,7 +223,8 @@ useHead({
           </div>
           <div class="md:w-1/3 center gap-2 content">
             <div class="btn center gap-1" @click="pay(item.id)">
-              <div class="font-bold text-lg">${{ item.price }}</div>
+              <NuxtIcon :name="pricingQuote.ticker" class="size-5" filled/>
+              <div class="font-bold text-lg">{{ formatFloat(item.price / pricingQuote.rate) }}</div>
             </div>
           </div>
         </div>
