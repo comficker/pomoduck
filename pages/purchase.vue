@@ -135,7 +135,13 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
 }
 
 onMounted(() => {
-  connectTon()
+  if (authStore.activeAuth === 'ton')
+    connectTon()
+})
+
+watch(() => authStore.activeAuth, () => {
+  if (authStore.activeAuth === 'ton')
+    connectTon()
 })
 
 useHead({
