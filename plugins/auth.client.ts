@@ -9,22 +9,22 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   return {
     provide: {
       authClient: async () => {
-        if (!store.loggedIn) {
+        const isWLD = window.MiniKit?.isInstalled()
+        const isTG = !!window.Telegram?.WebApp.initData
+        if (!store.loggedIn && (isTG || isWLD)) {
           store.setStatus('cooking')
-          if (window.Telegram?.WebApp.initData) {
+          if (isTG) {
             await authStore.authTelegram()
           }
-          await sleep(3000)
-          if (window.MiniKit?.isInstalled()) {
+          if (isWLD) {
             await authStore.authWithWorldCoin()
           }
           await store.loadInfo()
           store.setStatus(null)
         }
-
-        if (window.MiniKit?.isInstalled()) {
+        if (isWLD) {
           authStore.activeAuth = 'wld'
-        } else if (window.Telegram?.WebApp.initData) {
+        } else if (isTG) {
           authStore.activeAuth = 'telegram'
         }
       }

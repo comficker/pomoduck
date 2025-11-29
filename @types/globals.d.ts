@@ -10,6 +10,8 @@ declare global {
     telegram: any
     onTelegramAuth: any
     MiniKitBridge: any
+    TON_CONNECT_UI: any
+    tonConnectUI: any
   }
 }
 

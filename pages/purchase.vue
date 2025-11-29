@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {formatFloat} from "~/lib/utils";
+import {formatFloat, toNano} from "~/lib/utils";
 import type {APIResponse, IPaymentData, IShopItem} from "~/types";
 import {toast} from "vue-sonner";
 
@@ -23,10 +23,22 @@ const method = computed(() => {
     case 'wld':
       return 'wld'
     default:
-      return 'base'
+      return 'ton'
   }
 })
+
+const connectTon = async () => {
+  window.tonConnectUI = new window.TON_CONNECT_UI.TonConnectUI({
+    manifestUrl: 'https://tonconnect-sdk-demo-dapp.vercel.app/tonconnect-manifest.json',
+    buttonRootId: 'ton-connect'
+  });
+}
+
 const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
+  if (method.value === 'base') {
+    toast("Coming Soon!")
+    return false
+  }
   return await useNativeFetch<any>(`/items/${id}/pay`, {
     method: "POST",
     body: {
@@ -43,11 +55,11 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
       if (paymentData.network === "wld") {
         if (!window.MiniKit || !window.MiniKit.isInstalled()) return false;
         const payload = {
-          reference: paymentData.tx_id,
+          reference: paymentData.reference,
           to: paymentData.payTo,
           tokens: [
             {
-              symbol: "USDCE",
+              symbol: paymentData.asset,
               token_amount: (paymentData.amount * 10 ** 6).toString(),
             }
           ],
@@ -60,8 +72,21 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
               $logging(e)
               return null
             })
-      }
-      else {
+      } else if (paymentData.network === 'ton') {
+        console.log({
+          address: paymentData.payTo,
+          amount: toNano(paymentData.amount).toString(),
+          payload: paymentData.reference
+        })
+        await window.tonConnectUI.sendTransaction({
+          validUntil: Math.floor(Date.now() / 1000) + 300,
+          messages: [{
+            address: paymentData.payTo,
+            amount: toNano(paymentData.amount).toString(),
+            payload: paymentData.reference
+          }]
+        });
+      } else {
         toast.error("Coming soon!", {
           description: "Please try again!",
         })
@@ -82,11 +107,24 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
     return false
   })
 }
+
+onMounted(() => {
+  connectTon()
+})
+
+useHead({
+  script: [
+    {
+      src: "https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"
+    }
+  ]
+})
 </script>
 
 <template>
-  <div class="p-4 py-3 gap-4 label flex items-center">
+  <div class="p-4 py-1 gap-4 label flex items-center">
     <h1 class="cursor-pointer text-primary flex-1">Duckshop</h1>
+    <div id="ton-connect"/>
     <NuxtIcon name="info" class="size-8"/>
   </div>
   <div class="p-4 text-black">
@@ -120,7 +158,7 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
           <div class="flex-1">
             <div class="btn center gap-1" @click="pay(starterPack.id)">
               <div class="font-bold text-lg">${{ starterPack.price }}</div>
-              <div class="text-sm line-through text-gray-500">$32</div>
+              <div class="text-sm line-through text-gray-500">-40%</div>
             </div>
           </div>
         </div>

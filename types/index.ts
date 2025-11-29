@@ -139,11 +139,12 @@ export interface IAccountItem {
 }
 
 export interface IPaymentData {
-  "tx_id": string,
-  "network": string,
-  "payTo": string,
-  "asset": "USDC",
-  "resource": string,
+  "reference": string
+  "tx_id": string
+  "network": string
+  "payTo": string
+  "asset": "USDC"
+  "resource": string
   "amount": number
-  "description": string,
+  "description": string
 }
