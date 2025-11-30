@@ -54,9 +54,9 @@ watch(theme, () => {
 watch(() => route.path, () => {
   if (authStore.activeAuth === 'telegram') {
     if (route.name !== 'index') {
-      window.telegram.BackButton.show();
+      window.Telegram.WebApp.BackButton.show();
     } else {
-      window.telegram.BackButton.hide();
+      window.Telegram.WebApp.BackButton.hide();
     }
   }
 })

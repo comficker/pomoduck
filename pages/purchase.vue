@@ -44,10 +44,11 @@ const pricingQuote = computed(() => {
 })
 
 const connectTon = async () => {
-  window.tonConnectUI = new window.TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: 'https://tonconnect-sdk-demo-dapp.vercel.app/tonconnect-manifest.json',
-    buttonRootId: 'ton-connect'
-  });
+  if (!window.tonConnectUI)
+    window.tonConnectUI = new window.TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: 'https://tonconnect-sdk-demo-dapp.vercel.app/tonconnect-manifest.json',
+      buttonRootId: 'ton-connect'
+    });
 }
 
 const payWithWld = async (paymentData: IPaymentData) => {
@@ -135,12 +136,12 @@ const pay = async (id: number, payload: any = undefined): Promise<boolean> => {
 }
 
 onMounted(() => {
-  if (authStore.activeAuth === 'ton')
+  if (authStore.activeAuth === 'telegram')
     connectTon()
 })
 
 watch(() => authStore.activeAuth, () => {
-  if (authStore.activeAuth === 'ton')
+  if (authStore.activeAuth === 'telegram')
     connectTon()
 })
 
